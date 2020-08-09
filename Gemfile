@@ -25,7 +25,7 @@ gem "jbuilder", "~> 2.5"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-gem "bcrypt", "~> 3.1.7"
+gem "bcrypt"
 gem "jquery-rails"
 
 # Use ActiveStorage variant
@@ -44,7 +44,15 @@ group :development, :test do
   gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'capybara', '~> 2.13'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_bot_rails'
 end
+
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
@@ -57,8 +65,6 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "capybara", ">= 2.15"
-  gem "selenium-webdriver"
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem "chromedriver-helper"
 end

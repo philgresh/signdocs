@@ -1,0 +1,29 @@
+<% method = "POST" %> 
+<% header_text = "Sign In" %>
+<% button_text = "Sign In!" %> 
+<% url = "session" %> 
+
+<% if type=='user_create' %> 
+    <% header_text = "Sign Up" %>
+    <% button_text = "Sign Up!" %> 
+    <% url = "api_users" %> 
+<% end %>
+
+<h1><%= header_text %></h1>
+<form action="<%= url %>" method="post">
+  <input
+    type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>"
+  />
+  <label for="username">Email</label>
+  <input
+    type="email"
+    name="user[username]"
+    id="username"
+    value="<%= @user && @user.email ? @user.email : ''  %>"
+  />
+  <label for="username">Password</label>
+  <input type="password" name="user[password]" id="password" />
+  <button type="submit"><%= button_text %></button>
+</form>
