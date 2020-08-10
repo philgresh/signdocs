@@ -1,0 +1,129 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+:root {
+  --default-font-family: 'Roboto';
+  --header-font-family: 'Titillium Web';
+  --monospace-font-family: 'Roboto Mono';
+  --main-blue: #005cb9;
+  --call-to-action-blue: #006ff9;
+  --bright-blue: #0bc6ff;
+  --teal: #277cb2;
+  --dark-blue: #000028;
+  --powder-blue: #e1f4f8;
+  --lime-green: #d6fb00;
+  --green: #00ee00;
+  --success-green: #007831;
+  --pink: #ff3bdd;
+  --yellow: #f6b610;
+  --yellow-hover: #1951b8;
+  --light-gray: #bebfc0;
+  --background-white: #fcfcfc;
+  --off-black: #1e1e1e;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--header-font-family), Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+
+body {
+  font-family: var(--default-font-family), Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background-color: var(--background-white);
+  color: var(--off-black);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--monospace-font-family), monospace;
+}
+
+button {
+  border: 0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  cursor: pointer;
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  align-content: baseline;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--background-white);
+}
+
+nav li {
+  list-style: none;
+  height: 100%;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  height: 64px;
+}
+
+.nav-links button {
+  padding: 10px;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  background: transparent;
+
+  &:hover {
+    background-color: rgba(240, 240, 240, 0.61);
+    border-bottom: 2px solid lightgray;
+  }
+}
+
+.flex-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}

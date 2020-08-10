@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import store from './store/store';
 import { Provider } from 'react-redux';
-import Root from './components/Root';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 // import { receiveGreenTea, receiveTea, fetchAllTeas, createTea } from './actions/tea_actions';
 // import * as TeaAPIUtil from './utils/tea_api_utils';
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <Root />
+        <App />
       </Provider>
     </React.StrictMode>,
     document.getElementById('root')
