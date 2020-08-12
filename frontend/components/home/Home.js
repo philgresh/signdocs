@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Home extends Component {
   render() {
     return (
-      <div style={{ width: '25%' }}>
+      <main style={{ width: '25%' }}>
         This is the home component
         <div>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi amet,
@@ -89,7 +89,7 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 }

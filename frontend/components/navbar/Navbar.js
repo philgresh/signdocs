@@ -42,7 +42,7 @@ const Navbar = (props) => {
         <ul className="nav-links">
           {navBarLinksLeft.map(({ to, title }) => (
             <li key={to}>
-              <NavLink to={to} component={NavLinkButton}>
+              <NavLink to={to}>
                 {title}
               </NavLink>
             </li>
@@ -53,7 +53,7 @@ const Navbar = (props) => {
         <ul className="nav-links">
           {navBarLinksRight.map(({ to, title, className }) => (
             <li key={to}>
-              <NavLink to={to} className={className} component={NavLinkButton}>
+              <NavLink to={to} className={className}>
                 {title}
               </NavLink>
             </li>
@@ -63,16 +63,6 @@ const Navbar = (props) => {
     </nav>
   );
 };
-
-const NavLinkButton = React.forwardRef(({ children, ...rest }, ref) => (
-  <button
-  type="button"
-  className={`btn-navlink ${rest.className ? rest.className : ''}`}
-  {...rest}
-  >
-    <a ref={ref}>{children}</a>
-  </button>
-));
 
 Navbar.propTypes = {};
 

@@ -1,0 +1,2 @@
+module Api::DocumentsHelper
+end

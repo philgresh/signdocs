@@ -76,22 +76,72 @@ button {
   }
 }
 
+header {
+  position: sticky;
+  -webkit-position: sticky;
+  width: 100%;
+  height: 80px;
+
+  top: -16px; /* negative top allows for 16 pixels of movement before sticking */
+  z-index: 1;
+
+  // box-shadow: 0px 2px 4px #2225;
+  /* fix weird flickering issue in chrome: https://stackoverflow.com/a/22224884/286685 */
+  -webkit-backface-visibility: hidden;
+}
+
+/* PSEUDO ELEMENTS to create drop-shadow */
+header::before,
+header::after {
+  content: '';
+  display: block;
+  height: 16px;
+  /* make pseudo elements sticky as well */
+  position: sticky;
+  -webkit-position: sticky;
+}
+
+/* SHADOW */
+header::before {
+  top: 48px; /* shadow is at bottom of element, so at 48 + 16 = 64px */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* COVER */
+header::after {
+  /* linear gradient from background color to transparent acts as
+     a transition effect so the shadow appears gradually */
+  background: linear-gradient(
+    white 10%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.4) 70%,
+    transparent
+  );
+  top: 0;
+  /* cover should fall over shadow */
+  z-index: 2;
+}
+
 nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 20px;
   padding: 0 20px;
   align-content: baseline;
-  position: fixed;
-  top: 0;
-  width: 100%;
+  height: 64px;
+  position: sticky;
+  -webkit-position: sticky;
+  top: 0px;
+  /* compensate for shadow with negative margin */
+  margin-top: -16px;
+  /* content should fall over shadow and cover */
+  z-index: 3;
   background: var(--background-white);
 }
 
-nav li {
-  list-style: none;
-  height: 100%;
+main {
+  width: 80%;
+  margin: auto;
 }
 
 .nav-links {
@@ -99,31 +149,44 @@ nav li {
   flex-direction: row;
   justify-content: flex-start;
   align-items: baseline;
-  height: 64px;
-}
-
-.nav-links button {
-  padding: 10px;
   height: 100%;
-  border: 0;
-  border-radius: 0;
   margin: 0;
-  background: transparent;
 
-  &:hover {
-    background-color: rgba(240, 240, 240, 0.61);
-    border-bottom: 2px solid lightgray;
+  & li {
+    list-style: none;
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  & a {
+    display: block;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+    background: transparent;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: rgba(240, 240, 240, 0.61);
+      border-bottom: 2px solid lightgray;
+    }
   }
 }
 
 .flex-left {
   display: flex;
   justify-content: flex-start;
-  align-items: baseline;
+  align-items: center;
 }
 
 .flex-right {
   display: flex;
   justify-content: flex-end;
-  align-items: baseline;
+  align-items: center;
 }
