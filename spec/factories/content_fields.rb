@@ -4,12 +4,12 @@
 #
 #  id               :bigint           not null, primary key
 #  bbox             :json             not null
-#  contentable_type :string           not null
+#  contentable_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  assignee_id      :integer          not null
-#  contentable_id   :integer          not null
-#  document_id      :integer          not null
+#  assignee_id      :uuid             not null
+#  contentable_id   :bigint
+#  document_id      :uuid             not null
 #
 # Indexes
 #

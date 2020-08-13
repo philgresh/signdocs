@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_11_174759) do
+ActiveRecord::Schema.define(version: 2020_08_13_053259) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -37,10 +38,10 @@ ActiveRecord::Schema.define(version: 2020_08_11_174759) do
   end
 
   create_table "content_fields", force: :cascade do |t|
-    t.integer "document_id", null: false
-    t.integer "contentable_id", null: false
-    t.string "contentable_type", null: false
-    t.integer "assignee_id", null: false
+    t.uuid "document_id", null: false
+    t.uuid "assignee_id", null: false
+    t.string "contentable_type"
+    t.bigint "contentable_id"
     t.json "bbox", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,17 +50,30 @@ ActiveRecord::Schema.define(version: 2020_08_11_174759) do
     t.index ["document_id"], name: "index_content_fields_on_document_id"
   end
 
-  create_table "documents", force: :cascade do |t|
-    t.integer "owner_id", null: false
-    t.integer "editor_ids", array: true
+  create_table "document_changes", force: :cascade do |t|
+    t.string "change_operation", null: false
+    t.string "changeable_type"
+    t.bigint "changeable_id"
+    t.uuid "user_id", null: false
+    t.json "changes", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["changeable_type", "changeable_id"], name: "index_document_changes_on_changeable_type_and_changeable_id"
+  end
+
+  create_table "documents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "owner_id", null: false
+    t.uuid "editor_ids", array: true
+    t.string "title", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_documents_on_owner_id"
   end
 
   create_table "sentinel_blocks", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "type", null: false
+    t.uuid "user_id", null: false
+    t.string "block_type", null: false
     t.string "placeholder", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,7 +81,7 @@ ActiveRecord::Schema.define(version: 2020_08_11_174759) do
   end
 
   create_table "signature_blocks", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.uuid "user_id", null: false
     t.string "body", null: false
     t.json "styling"
     t.string "pub_key"
@@ -77,7 +91,7 @@ ActiveRecord::Schema.define(version: 2020_08_11_174759) do
   end
 
   create_table "text_blocks", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.uuid "user_id", null: false
     t.string "type", null: false
     t.text "body", null: false
     t.json "styling"
@@ -86,7 +100,7 @@ ActiveRecord::Schema.define(version: 2020_08_11_174759) do
     t.index ["user_id"], name: "index_text_blocks_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "first_name", null: false

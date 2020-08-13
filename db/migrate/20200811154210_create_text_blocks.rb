@@ -3,7 +3,7 @@
 class CreateTextBlocks < ActiveRecord::Migration[5.2]
   def change
     create_table :text_blocks do |t|
-      t.integer :user_id, null: false
+      t.uuid :user_id, null: false
       t.string :type, null: false
       t.text :body, null: false
       t.json :styling

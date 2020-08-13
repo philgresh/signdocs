@@ -8,7 +8,7 @@
 #  type       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  user_id    :integer          not null
+#  user_id    :uuid             not null
 #
 # Indexes
 #
@@ -16,6 +16,6 @@
 #
 class TextBlock < ApplicationRecord
   validates_presence_of :body, :type, :user_id
-  has_many :content_fields, as: :contentable
+  has_one :content_fields, as: :contentable
 
 end

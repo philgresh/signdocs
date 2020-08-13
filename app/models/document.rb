@@ -2,11 +2,13 @@
 #
 # Table name: documents
 #
-#  id         :bigint           not null, primary key
-#  editor_ids :integer          is an Array
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  owner_id   :integer          not null
+#  id          :uuid             not null, primary key
+#  description :text
+#  editor_ids  :uuid             is an Array
+#  title       :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  owner_id    :uuid             not null
 #
 # Indexes
 #
@@ -23,12 +25,12 @@ class Document < ApplicationRecord
   validates :file,
             attached: true,
             content_type: {
-              in: ACCEPTABLE_TYPES, 
+              in: ACCEPTABLE_TYPES,
               message: "is not an acceptable type",
             },
-            size: { 
-              less_than: 20.megabytes, 
-              message: "is not given between size" 
+            size: {
+              less_than: 20.megabytes,
+              message: "is not given between size",
             }
 
   # validates :editor_ids, presence: true
@@ -37,6 +39,12 @@ class Document < ApplicationRecord
   has_one_attached :file
 
   # ActiveRecord associations
+  has_many :content_fields,
+           class_name: :ContentField,
+           dependent: :destroy
+  has_many :editors,
+           class_name: :User,
+           foreign_key: :editor_ids
   belongs_to :owner,
              class_name: :User,
              foreign_key: :owner_id
@@ -50,7 +58,6 @@ class Document < ApplicationRecord
       nil
     end
   end
-
 
   def gen_presigned_url(expires_in = 900)
     blob.service_url(expires_in: expires_in)

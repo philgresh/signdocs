@@ -4,7 +4,7 @@
 #
 # Table name: users
 #
-#  id              :bigint           not null, primary key
+#  id              :uuid             not null, primary key
 #  email           :string           not null
 #  first_name      :string           not null
 #  last_name       :string           not null
@@ -32,16 +32,19 @@ class User < ApplicationRecord
   # ActiveRecord associations
   has_one  :signature,
            class_name: :SignatureBlock
-  has_many :documents, foreign_key: :owner_id
-  has_many :comments
-  has_many :text_blocks
-  has_many :sentinel_blocks
+  has_many :documents, 
+           foreign_key: :owner_id, 
+           dependent: :destroy
+  has_many :text_blocks, 
+           dependent: :destroy
+  has_many :sentinel_blocks, 
+           dependent: :destroy
   has_many :content_fields,
            foreign_key: :assignee_id
 
   def self.find_by_credentials(email, password)
     @user = User.find_by(email: email)
-    @user if @user&.is_password?(password)
+    @user if @user.is_password?(password)
   end
 
   def password=(pw)

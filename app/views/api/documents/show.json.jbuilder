@@ -1,4 +1,4 @@
+json.key_format! camelize: :lower
 json.set! @document.id do
-    json.extract! @document
-    json.image_url url_for(@document.file)
+    json.partial! 'shared/document', document: @document
 end

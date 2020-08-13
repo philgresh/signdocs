@@ -32,6 +32,7 @@
   --yellow-hover: #1951b8;
   --light-gray: #bebfc0;
   --background-white: #fcfcfc;
+  --background-white-rgb: 252, 252, 252;
   --off-black: #1e1e1e;
 }
 
@@ -88,6 +89,7 @@ header {
   // box-shadow: 0px 2px 4px #2225;
   /* fix weird flickering issue in chrome: https://stackoverflow.com/a/22224884/286685 */
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* PSEUDO ELEMENTS to create drop-shadow */
@@ -112,9 +114,9 @@ header::after {
   /* linear gradient from background color to transparent acts as
      a transition effect so the shadow appears gradually */
   background: linear-gradient(
-    white 10%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0.4) 70%,
+    var(--background-white) 10%,
+    rgba(var(--background-white-rgb), 0.8) 50%,
+    rgba(var(--background-white-rgb), 0.4) 70%,
     transparent
   );
   top: 0;

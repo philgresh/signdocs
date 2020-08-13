@@ -6,12 +6,12 @@
 #
 #  id               :bigint           not null, primary key
 #  bbox             :json             not null
-#  contentable_type :string           not null
+#  contentable_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  assignee_id      :integer          not null
-#  contentable_id   :integer          not null
-#  document_id      :integer          not null
+#  assignee_id      :uuid             not null
+#  contentable_id   :bigint
+#  document_id      :uuid             not null
 #
 # Indexes
 #
@@ -22,5 +22,8 @@
 class ContentField < ApplicationRecord
   validates_presence_of :contentable_id, :contentable_type, :assignee_id, :bbox
   belongs_to :contentable, polymorphic: true
-  has_one_attached :document
+  belongs_to :document
+  belongs_to :assignee,
+             class_name: :User
+             
 end

@@ -3,11 +3,11 @@
 # Table name: sentinel_blocks
 #
 #  id          :bigint           not null, primary key
+#  block_type  :string           not null
 #  placeholder :string           not null
-#  type        :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  user_id     :integer          not null
+#  user_id     :uuid             not null
 #
 # Indexes
 #
@@ -15,6 +15,6 @@
 #
 class SentinelBlock < ApplicationRecord
   validates_presence_of :placeholder, :type, :user_id
-  has_many :content_fields, as: :contentable
+  has_one :content_field, as: :contentable
   belongs_to :user
 end

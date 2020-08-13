@@ -1,18 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './navbar';
 import Home from './home';
+import SignupContainer from '../components/signup/SignupContainer';
+import {AuthRoute, ProtectedRoute} from '../utils/routeUtils';
 
-const App = (props) => {
+const App = () => {
   return (
     <Router>
       <header>
         <Navbar />
       </header>
       <Switch>
-        <Route path="/signin"></Route>
-        <Route path="/user"></Route>
+      <AuthRoute path="/signup" component={SignupContainer} />
+        <ProtectedRoute path="/user"></ProtectedRoute>
         <Route path="/">
           <Home />
         </Route>
@@ -20,7 +21,5 @@ const App = (props) => {
     </Router>
   );
 };
-
-App.propTypes = {};
 
 export default App;

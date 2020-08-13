@@ -1,12 +1,12 @@
 class CreateDocuments < ActiveRecord::Migration[5.2]
   def change
-    create_table :documents do |t|
-      t.integer :file_id, null: false
-      t.integer :owner_id, null: false
-      t.integer :editor_ids, array: true, using: 'gin'
+    create_table :documents, id: :uuid  do |t|
+      t.uuid    :owner_id, null: false
+      t.uuid    :editor_ids, array: true, using: 'gin'
+      t.string  :title, null: false
+      t.text    :description
       t.timestamps
     end
-    add_index :documents, :file_id, unique: true
     add_index :documents, :owner_id
   end
 end

@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './store/store';
+import configureStore from './store/store';
 import { Provider } from 'react-redux';
 import App from './components/App';
+import { entitiesInitialState } from './reducers/entities';
+import { sessionInitialState } from './reducers/session';
 import * as serviceWorker from './serviceWorker';
-// import { receiveGreenTea, receiveTea, fetchAllTeas, createTea } from './actions/tea_actions';
-// import * as TeaAPIUtil from './utils/tea_api_utils';
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  // FOR TESTING
-  window.store = store;
-  // FOR TESTING
+  const rootEl = document.getElementById('root');
+  let preloadedState = undefined;
+  if (window.currentUser) {
+    preloadedState = setPreloadedState(window.currentUser);
+    window.currentUser = undefined;
+  }
+  const store = configureStore(preloadedState);
 
   ReactDOM.render(
     <React.StrictMode>
@@ -19,11 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
         <App />
       </Provider>
     </React.StrictMode>,
-    document.getElementById('root')
+    rootEl
   );
 
+  // TODO
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://bit.ly/CRA-PWA
   serviceWorker.unregister();
 });
+
+function setPreloadedState(currentUser) {
+  return {
+    session: {
+      ...sessionInitialState,
+      currentUser: currentUser.id,
+    },
+    entities: {
+      ...entitiesInitialState,
+      users: {
+        [currentUser.id]: currentUser,
+      },
+    },
+  };
+}
+

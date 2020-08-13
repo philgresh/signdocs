@@ -34,7 +34,25 @@ const navBarLinksRight = [
   },
 ];
 
-const Navbar = (props) => {
+const Navbar = ({ currentUser, signoutUser }) => {
+  const signedIn = currentUser && (
+    <div>
+      <p>Hello, {currentUser.username}</p>
+      <button onClick={signoutUser}>Sign Out</button>
+    </div>
+  );
+
+  const signedOut = (
+    <div>
+      <Link className="btn" to="/signup">
+        Sign Up
+      </Link>
+      <Link className="btn" to="/login">
+        Log In
+      </Link>
+    </div>
+  );
+
   return (
     <nav>
       <div className="flex-left">
@@ -42,9 +60,7 @@ const Navbar = (props) => {
         <ul className="nav-links">
           {navBarLinksLeft.map(({ to, title }) => (
             <li key={to}>
-              <NavLink to={to}>
-                {title}
-              </NavLink>
+              <NavLink to={to}>{title}</NavLink>
             </li>
           ))}
         </ul>

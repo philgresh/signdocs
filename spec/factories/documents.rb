@@ -2,11 +2,13 @@
 #
 # Table name: documents
 #
-#  id         :bigint           not null, primary key
-#  editor_ids :integer          is an Array
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  owner_id   :integer          not null
+#  id          :uuid             not null, primary key
+#  description :text
+#  editor_ids  :uuid             is an Array
+#  title       :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  owner_id    :uuid             not null
 #
 # Indexes
 #
