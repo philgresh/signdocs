@@ -28,7 +28,7 @@ const sessionReducer = (state = nullUser, { type, payload }) => {
 
   switch (type) {
     case RECEIVE_CURRENT_USER: {
-      return { id: payload.id };
+      return { id: payload.user.id };
     }
     case SIGNOUT_CURRENT_USER: {
       return nullUser;

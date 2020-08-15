@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
 import App from './components/App';
-import { entitiesInitialState } from './reducers/entitiesReducer';
 import { createNewUser, signinUser, signoutUser } from './actions/session';
 import * as serviceWorker from './serviceWorker';
 
@@ -13,7 +12,6 @@ function setPreloadedState(currentUser) {
       id: currentUser.id,
     },
     entities: {
-      ...entitiesInitialState,
       users: {
         [currentUser.id]: currentUser,
       },

@@ -1,6 +1,14 @@
 class Api::DocumentsController < ApplicationController
+  def index
+    # TODO: Filter based on authorization
+    @documents = Document.all
+    @editors = User.joins(:documents).where(documents: {id: @documents})
+  end
+
   def show
     @document = Document.find(params[:id])
+    @editors = User.where(id: @document.editor_ids)
+
     render :show
   end
 

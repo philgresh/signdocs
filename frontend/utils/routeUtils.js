@@ -40,7 +40,8 @@ const Protected = (
 );
 
 Auth.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
+    .isRequired,
   path: PropTypes.string.isRequired,
   signedIn: PropTypes.bool.isRequired,
   exact: PropTypes.bool,
@@ -50,12 +51,14 @@ Auth.defaultProps = {
   exact: false,
 };
 
-Protected.propTypes = {
-  component: PropTypes.element.isRequired,
-  path: PropTypes.string.isRequired,
-  signedIn: PropTypes.bool.isRequired,
-  exact: PropTypes.bool,
-};
+Protected.propTypes = Auth.propTypes;
+// Protected.propTypes = {
+//   component: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
+//     .isRequired,
+//   path: PropTypes.string.isRequired,
+//   signedIn: PropTypes.bool.isRequired,
+//   exact: PropTypes.bool,
+// };
 
 Protected.defaultProps = {
   exact: false,
