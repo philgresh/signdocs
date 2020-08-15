@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNewUser", function() { return createNewUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signinUser", function() { return signinUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signoutUser", function() { return signoutUser; });
-/* harmony import */ var _utils_session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/session */ "./frontend/utils/session.js");
+/* harmony import */ var _utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/sessionUtils */ "./frontend/utils/sessionUtils.js");
 
 var RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 var SIGNOUT_CURRENT_USER = 'SIGNOUT_CURRENT_USER';
@@ -109,7 +109,7 @@ var RECEIVE_ERRORS = 'RECEIVE_ERRORS'; // Action creators
 
 var receiveCurrentUser = function receiveCurrentUser(user) {
   return {
-    user: user,
+    payload: user,
     type: RECEIVE_CURRENT_USER
   };
 };
@@ -122,7 +122,7 @@ var signoutCurrentUser = function signoutCurrentUser() {
 
 var receiveErrors = function receiveErrors(errors) {
   return {
-    errors: errors,
+    payload: errors,
     type: RECEIVE_ERRORS
   };
 }; // Thunk action creators
@@ -130,7 +130,7 @@ var receiveErrors = function receiveErrors(errors) {
 
 var createNewUser = function createNewUser(formUser) {
   return function (dispatch) {
-    return Object(_utils_session__WEBPACK_IMPORTED_MODULE_0__["postUser"])(formUser).then(function (user) {
+    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postUser"])(formUser).then(function (user) {
       dispatch(receiveCurrentUser(user));
     })["catch"](function (err) {
       return dispatch(receiveErrors(err));
@@ -139,7 +139,8 @@ var createNewUser = function createNewUser(formUser) {
 };
 var signinUser = function signinUser(formUser) {
   return function (dispatch) {
-    return Object(_utils_session__WEBPACK_IMPORTED_MODULE_0__["postSession"])(formUser).then(function (user) {
+    debugger;
+    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postSession"])(formUser).then(function (user) {
       return dispatch(receiveCurrentUser(user));
     })["catch"](function (err) {
       return dispatch(receiveErrors(err));
@@ -148,7 +149,7 @@ var signinUser = function signinUser(formUser) {
 };
 var signoutUser = function signoutUser() {
   return function (dispatch) {
-    return Object(_utils_session__WEBPACK_IMPORTED_MODULE_0__["deleteSession"])().then(function () {
+    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["deleteSession"])().then(function () {
       return dispatch(signoutCurrentUser());
     })["catch"](function (err) {
       return dispatch(receiveErrors(err));
@@ -172,8 +173,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _navbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navbar */ "./frontend/components/navbar/index.js");
 /* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./home */ "./frontend/components/home/index.js");
-/* harmony import */ var _components_signup_SignupContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/signup/SignupContainer */ "./frontend/components/signup/SignupContainer.js");
-/* harmony import */ var _utils_routeUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/routeUtils */ "./frontend/utils/routeUtils.js");
+/* harmony import */ var _session_SigninFormContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session/SigninFormContainer */ "./frontend/components/session/SigninFormContainer.js");
+/* harmony import */ var _session_SignupFormContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./session/SignupFormContainer */ "./frontend/components/session/SignupFormContainer.js");
+/* harmony import */ var _utils_routeUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/routeUtils */ "./frontend/utils/routeUtils.js");
+
 
 
 
@@ -182,11 +185,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_routeUtils__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_routeUtils__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+    path: "/signin",
+    component: _session_SigninFormContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_routeUtils__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
     path: "/signup",
-    component: _components_signup_SignupContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_routeUtils__WEBPACK_IMPORTED_MODULE_5__["ProtectedRoute"], {
-    path: "/user"
+    component: _session_SignupFormContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_routeUtils__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
+    path: "/user",
+    component: _session_SigninFormContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
@@ -307,21 +314,21 @@ var navBarLinksLeft = [{
   title: 'Pricing'
 }];
 var navBarLinksRight = [{
-  to: '/sales',
-  title: 'Contact Sales',
-  className: 'btn-text'
-}, {
   to: '/signin',
   title: 'Sign In',
+  className: 'btn-text'
+}, {
+  to: '/signup',
+  title: 'Sign Up',
   className: 'btn-contained'
 }];
 
 var Navbar = function Navbar(_ref) {
   var currentUser = _ref.currentUser,
       signoutUser = _ref.signoutUser;
-  var signedIn = currentUser && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Hello, ", currentUser.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  var signedIn = currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Hello, ", currentUser.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: signoutUser
-  }, "Sign Out"));
+  }, "Sign Out")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   var signedOut = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     className: "btn",
     to: "/signup"
@@ -355,7 +362,7 @@ var Navbar = function Navbar(_ref) {
       to: to,
       className: className
     }, title));
-  }))));
+  }), signedIn)));
 };
 
 Navbar.propTypes = {};
@@ -378,10 +385,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./frontend/components/signup/Signup.jsx":
-/*!***********************************************!*\
-  !*** ./frontend/components/signup/Signup.jsx ***!
-  \***********************************************/
+/***/ "./frontend/components/session/SessionForm.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/session/SessionForm.jsx ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -389,6 +396,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -403,53 +412,54 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var Signup = function Signup(_ref) {
-  var currentUser = _ref.currentUser,
-      createNewUser = _ref.createNewUser,
+
+var SessionForm = function SessionForm(_ref) {
+  var errors = _ref.errors,
+      formType = _ref.formType,
+      processForm = _ref.processForm,
       history = _ref.history;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
       _useState2 = _slicedToArray(_useState, 2),
       email = _useState2[0],
-      setEmail = _useState2[1];
+      setUsername = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      username = _useState4[0],
-      setUsername = _useState4[1];
+      password = _useState4[0],
+      setPassword = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      password = _useState6[0],
-      setPassword = _useState6[1];
+      submitting = _useState6[0],
+      setSubmitting = _useState6[1];
 
-  var handleClick = function handleClick(e) {
+  var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    createNewUser({
+    setSubmitting(true);
+    processForm({
       email: email,
-      password: password,
-      username: username
+      password: password
     }).then(function () {
-      return history.push('/chirps');
+      history.push('/');
+    }).fail(function () {
+      setPassword('');
+      setSubmitting(false);
     });
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "username"
+  var buttonText = formType === 'login' ? 'Log in!' : 'Sign up!';
+  var headerText = formType === 'login' ? 'Log in' : 'Sign up';
+  var errorsString = errors.join('. ');
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, headerText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "email"
   }, "Username"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "username",
+    type: "email",
+    id: "email",
+    value: email,
     onChange: function onChange(e) {
       return setUsername(e.target.value);
-    },
-    value: username
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "email"
-  }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "email",
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    },
-    value: email
+    }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "password"
   }, "Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -460,105 +470,98 @@ var Signup = function Signup(_ref) {
     onChange: function onChange(e) {
       return setPassword(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "errors",
+    style: {
+      color: 'darkred'
+    }
+  }, errorsString), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
-    onClick: handleClick
-  }, "Sign Up!"));
+    onClick: handleSubmit,
+    disabled: submitting
+  }, buttonText));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Signup);
+SessionForm.propTypes = {};
+/* harmony default export */ __webpack_exports__["default"] = (SessionForm);
 
 /***/ }),
 
-/***/ "./frontend/components/signup/SignupContainer.js":
-/*!*******************************************************!*\
-  !*** ./frontend/components/signup/SignupContainer.js ***!
-  \*******************************************************/
+/***/ "./frontend/components/session/SigninFormContainer.js":
+/*!************************************************************!*\
+  !*** ./frontend/components/session/SigninFormContainer.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
-/* harmony import */ var _Signup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Signup */ "./frontend/components/signup/Signup.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _SessionForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SessionForm */ "./frontend/components/session/SessionForm.jsx");
+/* harmony import */ var _reducers_errorsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/errorsReducer */ "./frontend/reducers/errorsReducer.js");
+/* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
 
 
 
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    errors: Object(_reducers_errorsReducer__WEBPACK_IMPORTED_MODULE_3__["getErrors"])(state),
+    formType: 'login'
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    createNewUser: function createNewUser(formUser) {
-      return dispatch(Object(_actions_session__WEBPACK_IMPORTED_MODULE_1__["createNewUser"])(formUser));
+    processForm: function processForm(formUser) {
+      return dispatch(Object(_actions_session__WEBPACK_IMPORTED_MODULE_4__["signinUser"])(formUser));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(null, mapDispatchToProps)(_Signup__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_SessionForm__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
-/***/ "./frontend/features/counterSlice.js":
-/*!*******************************************!*\
-  !*** ./frontend/features/counterSlice.js ***!
-  \*******************************************/
-/*! exports provided: counterSlice, increment, decrement, incrementByAmount, incrementAsync, selectCount, default */
+/***/ "./frontend/components/session/SignupFormContainer.js":
+/*!************************************************************!*\
+  !*** ./frontend/components/session/SignupFormContainer.js ***!
+  \************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "counterSlice", function() { return counterSlice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "increment", function() { return increment; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decrement", function() { return decrement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "incrementByAmount", function() { return incrementByAmount; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "incrementAsync", function() { return incrementAsync; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectCount", function() { return selectCount; });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-var counterSlice = Object(_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__["createSlice"])({
-  name: 'counter',
-  initialState: {
-    value: 0
-  },
-  reducers: {
-    increment: function increment(state) {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
-    },
-    decrement: function decrement(state) {
-      state.value -= 1;
-    },
-    incrementByAmount: function incrementByAmount(state, action) {
-      state.value += action.payload;
-    }
-  }
-});
-var _counterSlice$actions = counterSlice.actions,
-    increment = _counterSlice$actions.increment,
-    decrement = _counterSlice$actions.decrement,
-    incrementByAmount = _counterSlice$actions.incrementByAmount; // The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _SessionForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SessionForm */ "./frontend/components/session/SessionForm.jsx");
+/* harmony import */ var _reducers_errorsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/errorsReducer */ "./frontend/reducers/errorsReducer.js");
+/* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
 
 
-var incrementAsync = function incrementAsync(amount) {
-  return function (dispatch) {
-    setTimeout(function () {
-      dispatch(incrementByAmount(amount));
-    }, 1000);
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    errors: Object(_reducers_errorsReducer__WEBPACK_IMPORTED_MODULE_3__["getErrors"])(state),
+    formType: 'signup'
   };
-}; // The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-
-var selectCount = function selectCount(state) {
-  return state.counter.value;
 };
-/* harmony default export */ __webpack_exports__["default"] = (counterSlice);
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    processForm: function processForm(formUser) {
+      return dispatch(Object(_actions_session__WEBPACK_IMPORTED_MODULE_4__["createNewUser"])(formUser));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_SessionForm__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -578,8 +581,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/App */ "./frontend/components/App.js");
-/* harmony import */ var _reducers_entities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./reducers/entities */ "./frontend/reducers/entities.js");
-/* harmony import */ var _reducers_session__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./reducers/session */ "./frontend/reducers/session.js");
+/* harmony import */ var _reducers_entitiesReducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./reducers/entitiesReducer */ "./frontend/reducers/entitiesReducer.js");
+/* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/session */ "./frontend/actions/session.js");
 /* harmony import */ var _serviceWorker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./serviceWorker */ "./frontend/serviceWorker.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -604,7 +607,14 @@ document.addEventListener('DOMContentLoaded', function () {
     window.currentUser = undefined;
   }
 
-  var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
+  var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState); // TESTING
+
+  window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.createNewUser = _actions_session__WEBPACK_IMPORTED_MODULE_6__["createNewUser"];
+  window.signinUser = _actions_session__WEBPACK_IMPORTED_MODULE_6__["signinUser"];
+  window.signoutUser = _actions_session__WEBPACK_IMPORTED_MODULE_6__["signoutUser"]; // TESTING
+
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.StrictMode, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_4__["default"], null))), rootEl); // TODO
@@ -617,10 +627,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function setPreloadedState(currentUser) {
   return {
-    session: _objectSpread(_objectSpread({}, _reducers_session__WEBPACK_IMPORTED_MODULE_6__["sessionInitialState"]), {}, {
+    session: {
       currentUser: currentUser.id
-    }),
-    entities: _objectSpread(_objectSpread({}, _reducers_entities__WEBPACK_IMPORTED_MODULE_5__["entitiesInitialState"]), {}, {
+    },
+    entities: _objectSpread(_objectSpread({}, _reducers_entitiesReducer__WEBPACK_IMPORTED_MODULE_5__["entitiesInitialState"]), {}, {
       users: _defineProperty({}, currentUser.id, currentUser)
     })
   };
@@ -628,10 +638,10 @@ function setPreloadedState(currentUser) {
 
 /***/ }),
 
-/***/ "./frontend/reducers/entities.js":
-/*!***************************************!*\
-  !*** ./frontend/reducers/entities.js ***!
-  \***************************************/
+/***/ "./frontend/reducers/entitiesReducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/entitiesReducer.js ***!
+  \**********************************************/
 /*! exports provided: entitiesInitialState, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -649,7 +659,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var entitiesInitialState = {
   users: {},
   contentFields: {},
-  documentChanges: {},
   documents: {},
   sentinelBlocks: {},
   signatureBlocks: {},
@@ -658,14 +667,18 @@ var entitiesInitialState = {
 
 var entitiesReducer = function entitiesReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : entitiesInitialState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      payload = _ref.payload;
+
   Object.freeze(state);
 
-  switch (action.type) {
+  switch (type) {
     case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
-          users: _objectSpread(_objectSpread({}, state.users), {}, _defineProperty({}, action.user.id, action.user))
+          users: _objectSpread(_objectSpread({}, state.users), {}, _defineProperty({}, payload.id, payload))
         });
       }
 
@@ -678,25 +691,116 @@ var entitiesReducer = function entitiesReducer() {
 
 /***/ }),
 
-/***/ "./frontend/reducers/session.js":
-/*!**************************************!*\
-  !*** ./frontend/reducers/session.js ***!
-  \**************************************/
-/*! exports provided: sessionInitialState, getCurrentUser, signedIn, default */
+/***/ "./frontend/reducers/errorsReducer.js":
+/*!********************************************!*\
+  !*** ./frontend/reducers/errorsReducer.js ***!
+  \********************************************/
+/*! exports provided: getErrors, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getErrors", function() { return getErrors; });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _sessionReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sessionReducer */ "./frontend/reducers/sessionReducer.js");
+
+
+var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+  session: _sessionReducer__WEBPACK_IMPORTED_MODULE_1__["sessionErrorsReducer"]
+}); // Selectors
+
+var getErrors = function getErrors(state) {
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'session';
+  return state.errors[type] || [];
+};
+/* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/rootReducer.js":
+/*!******************************************!*\
+  !*** ./frontend/reducers/rootReducer.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _entitiesReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entitiesReducer */ "./frontend/reducers/entitiesReducer.js");
+/* harmony import */ var _sessionReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sessionReducer */ "./frontend/reducers/sessionReducer.js");
+/* harmony import */ var _errorsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./errorsReducer */ "./frontend/reducers/errorsReducer.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+  entities: _entitiesReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  session: _sessionReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  errors: _errorsReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+}));
+
+/***/ }),
+
+/***/ "./frontend/reducers/sessionReducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/sessionReducer.js ***!
+  \*********************************************/
+/*! exports provided: sessionInitialState, sessionErrorsReducer, getCurrentUser, signedIn, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sessionInitialState", function() { return sessionInitialState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sessionErrorsReducer", function() { return sessionErrorsReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentUser", function() { return getCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signedIn", function() { return signedIn; });
 /* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session */ "./frontend/actions/session.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 var sessionInitialState = {
   currentUser: null
 };
+var sessionErrorsInitialState = [];
+var sessionErrorsReducer = function sessionErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : sessionErrorsInitialState;
 
-var sessionReducer = function sessionReducer() {
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      payload = _ref.payload;
+
+  Object.freeze(state);
+
+  switch (type) {
+    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ERRORS"]:
+      return _toConsumableArray(payload.responseJSON);
+
+    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      return sessionErrorsInitialState;
+
+    default:
+      return state;
+  }
+}; // Selectors
+
+var getCurrentUser = function getCurrentUser(state) {
+  return state.session.currentUser;
+};
+var signedIn = function signedIn(state) {
+  return !!state.session.currentUser;
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : sessionInitialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
@@ -705,7 +809,7 @@ var sessionReducer = function sessionReducer() {
     case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       {
         return Object.assign({}, {
-          currentUser: action.user
+          currentUser: action.payload
         });
       }
 
@@ -717,16 +821,7 @@ var sessionReducer = function sessionReducer() {
     default:
       return state;
   }
-}; // Selectors
-
-
-var getCurrentUser = function getCurrentUser(state) {
-  return state.session.currentUser;
-};
-var signedIn = function signedIn(state) {
-  return !!state.session.currentUser;
-};
-/* harmony default export */ __webpack_exports__["default"] = (sessionReducer);
+});
 
 /***/ }),
 
@@ -840,25 +935,19 @@ function unregister() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-/* harmony import */ var _features_counterSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../features/counterSlice */ "./frontend/features/counterSlice.js");
-/* harmony import */ var _reducers_session__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/session */ "./frontend/reducers/session.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux_devtools_extension_developmentOnly__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-devtools-extension/developmentOnly */ "./node_modules/redux-devtools-extension/developmentOnly.js");
+/* harmony import */ var redux_devtools_extension_developmentOnly__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension_developmentOnly__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+/* harmony import */ var _reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/rootReducer */ "./frontend/reducers/rootReducer.js");
+// import { configureStore } from '@reduxjs/toolkit';
 
 
 
-var actions = _features_counterSlice__WEBPACK_IMPORTED_MODULE_1__["default"].actions,
-    reducer = _features_counterSlice__WEBPACK_IMPORTED_MODULE_1__["default"].reducer; // const { increment, decrement } = actions
 
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__["configureStore"])({
-    preloadedState: preloadedState,
-    reducer: {
-      counter: reducer,
-      session: _reducers_session__WEBPACK_IMPORTED_MODULE_2__["default"]
-    },
-    devTools: "development" !== 'production'
-  });
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux_devtools_extension_developmentOnly__WEBPACK_IMPORTED_MODULE_1__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"])));
 });
 
 /***/ }),
@@ -878,17 +967,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _reducers_session__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/session */ "./frontend/reducers/session.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
-
-
+ // import { signedIn } from '../reducers/session';
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    signedIn: Object(_reducers_session__WEBPACK_IMPORTED_MODULE_3__["signedIn"])(state)
+    signedIn: !!state.session.currentUser // signedIn: signedIn(state),
+
   };
 };
 
@@ -898,9 +986,11 @@ var PROTECTED_REDIRECT_PATH = '/signup';
 var Auth = function Auth(_ref) {
   var Component = _ref.component,
       path = _ref.path,
-      signedIn = _ref.signedIn;
+      signedIn = _ref.signedIn,
+      exact = _ref.exact;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: path,
+    exact: exact,
     render: function render(props) {
       return signedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
         to: AUTH_REDIRECT_PATH
@@ -912,7 +1002,8 @@ var Auth = function Auth(_ref) {
 var Protected = function Protected(_ref2) {
   var Component = _ref2.component,
       path = _ref2.path,
-      signedIn = _ref2.signedIn;
+      signedIn = _ref2.signedIn,
+      exact = _ref2.exact;
 
   for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     rest[_key - 1] = arguments[_key];
@@ -920,6 +1011,7 @@ var Protected = function Protected(_ref2) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: path,
+    exact: exact,
     render: function render(props) {
       return signedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], _extends({
         to: PROTECTED_REDIRECT_PATH
@@ -933,10 +1025,10 @@ var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withR
 
 /***/ }),
 
-/***/ "./frontend/utils/session.js":
-/*!***********************************!*\
-  !*** ./frontend/utils/session.js ***!
-  \***********************************/
+/***/ "./frontend/utils/sessionUtils.js":
+/*!****************************************!*\
+  !*** ./frontend/utils/sessionUtils.js ***!
+  \****************************************/
 /*! exports provided: postUser, postSession, deleteSession */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1044,1746 +1136,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
   return target;
 }
-
-/***/ }),
-
-/***/ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js ***!
-  \*****************************************************************/
-/*! exports provided: createNextState, current, __DO_NOT_USE__ActionTypes, applyMiddleware, bindActionCreators, combineReducers, compose, createStore, createSelector, MiddlewareArray, configureStore, createAction, createAsyncThunk, createEntityAdapter, createImmutableStateInvariantMiddleware, createReducer, createSerializableStateInvariantMiddleware, createSlice, findNonSerializableValue, getDefaultMiddleware, getType, isImmutableDefault, isPlain, nanoid, unwrapResult */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MiddlewareArray", function() { return MiddlewareArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "configureStore", function() { return configureStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createAction", function() { return createAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createAsyncThunk", function() { return createAsyncThunk; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createEntityAdapter", function() { return createEntityAdapter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createImmutableStateInvariantMiddleware", function() { return createImmutableStateInvariantMiddleware; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createReducer", function() { return createReducer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSerializableStateInvariantMiddleware", function() { return createSerializableStateInvariantMiddleware; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSlice", function() { return createSlice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findNonSerializableValue", function() { return findNonSerializableValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultMiddleware", function() { return getDefaultMiddleware; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getType", function() { return getType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isImmutableDefault", function() { return isImmutableDefault; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlain", function() { return isPlain; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nanoid", function() { return nanoid; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwrapResult", function() { return unwrapResult; });
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.esm.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createNextState", function() { return immer__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "current", function() { return immer__WEBPACK_IMPORTED_MODULE_0__["current"]; });
-
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "__DO_NOT_USE__ActionTypes", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["__DO_NOT_USE__ActionTypes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["combineReducers"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["compose"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return redux__WEBPACK_IMPORTED_MODULE_1__["createStore"]; });
-
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSelector", function() { return reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"]; });
-
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-
-
-
-
-
-
-
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _construct(Parent, args, Class) {
-  if (isNativeReflectConstruct()) {
-    _construct = Reflect.construct;
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null];
-      a.push.apply(a, args);
-      var Constructor = Function.bind.apply(Parent, a);
-      var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
-      return instance;
-    };
-  }
-
-  return _construct.apply(null, arguments);
-}
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class;
-
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-
-      _cache.set(Class, Wrapper);
-    }
-
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    return _setPrototypeOf(Wrapper, Class);
-  };
-
-  return _wrapNativeSuper(Class);
-}
-
-/**
- * @public
- */
-
-var composeWithDevTools = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : function () {
-  if (arguments.length === 0) return undefined;
-  if (typeof arguments[0] === 'object') return redux__WEBPACK_IMPORTED_MODULE_1__["compose"];
-  return redux__WEBPACK_IMPORTED_MODULE_1__["compose"].apply(null, arguments);
-};
-
-/**
- * Returns true if the passed value is "plain" object, i.e. an object whose
- * protoype is the root `Object.prototype`. This includes objects created
- * using object literals, but not for instance for class instances.
- *
- * @param {any} value The value to inspect.
- * @returns {boolean} True if the argument appears to be a plain object.
- */
-function isPlainObject(value) {
-  if (typeof value !== 'object' || value === null) return false;
-  var proto = value;
-
-  while (Object.getPrototypeOf(proto) !== null) {
-    proto = Object.getPrototypeOf(proto);
-  }
-
-  return Object.getPrototypeOf(value) === proto;
-}
-
-function getTimeMeasureUtils(maxDelay, fnName) {
-  var elapsed = 0;
-  return {
-    measureTime: function measureTime(fn) {
-      var started = Date.now();
-
-      try {
-        return fn();
-      } finally {
-        var finished = Date.now();
-        elapsed += finished - started;
-      }
-    },
-    warnIfExceeded: function warnIfExceeded() {
-      if (elapsed > maxDelay) {
-        console.warn(fnName + " took " + elapsed + "ms, which is more than the warning threshold of " + maxDelay + "ms. \nIf your state or actions are very large, you may want to disable the middleware as it might cause too much of a slowdown in development mode. See https://redux-toolkit.js.org/api/getDefaultMiddleware for instructions.\nIt is disabled in production builds, so you don't need to worry about that.");
-      }
-    }
-  };
-}
-/**
- * @public
- */
-
-var MiddlewareArray =
-/*#__PURE__*/
-function (_Array) {
-  _inheritsLoose(MiddlewareArray, _Array);
-
-  function MiddlewareArray() {
-    return _Array.apply(this, arguments) || this;
-  }
-
-  var _proto = MiddlewareArray.prototype;
-
-  _proto.concat = function concat() {
-    var _Array$prototype$conc;
-
-    for (var _len = arguments.length, arr = new Array(_len), _key = 0; _key < _len; _key++) {
-      arr[_key] = arguments[_key];
-    }
-
-    return _construct(MiddlewareArray, (_Array$prototype$conc = _Array.prototype.concat).call.apply(_Array$prototype$conc, [this].concat(arr)));
-  };
-
-  _proto.prepend = function prepend() {
-    for (var _len2 = arguments.length, arr = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      arr[_key2] = arguments[_key2];
-    }
-
-    if (arr.length === 1 && Array.isArray(arr[0])) {
-      return _construct(MiddlewareArray, arr[0].concat(this));
-    }
-
-    return _construct(MiddlewareArray, arr.concat(this));
-  };
-
-  return MiddlewareArray;
-}(
-/*#__PURE__*/
-_wrapNativeSuper(Array));
-
-var isProduction = "development" === 'production';
-var prefix = 'Invariant failed'; // Throw an error if the condition fails
-// Strip out error messages for production
-// > Not providing an inline default argument for message as the result is smaller
-
-function invariant(condition, message) {
-  if (condition) {
-    return;
-  } // Condition not passed
-  // In production we strip the message but still throw
-
-
-  if (isProduction) {
-    throw new Error(prefix);
-  } // When not in production we allow the message to pass through
-  // *This block will be removed in production builds*
-
-
-  throw new Error(prefix + ": " + (message || ''));
-}
-
-function stringify(obj, serializer, indent, decycler) {
-  return JSON.stringify(obj, getSerialize(serializer, decycler), indent);
-}
-
-function getSerialize(serializer, decycler) {
-  var stack = [],
-      keys = [];
-  if (!decycler) decycler = function decycler(_, value) {
-    if (stack[0] === value) return '[Circular ~]';
-    return '[Circular ~.' + keys.slice(0, stack.indexOf(value)).join('.') + ']';
-  };
-  return function (key, value) {
-    if (stack.length > 0) {
-      var thisPos = stack.indexOf(this);
-      ~thisPos ? stack.splice(thisPos + 1) : stack.push(this);
-      ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key);
-      if (~stack.indexOf(value)) value = decycler.call(this, key, value);
-    } else stack.push(value);
-
-    return serializer == null ? value : serializer.call(this, key, value);
-  };
-}
-/**
- * The default `isImmutable` function.
- *
- * @public
- */
-
-
-function isImmutableDefault(value) {
-  return typeof value !== 'object' || value === null || typeof value === 'undefined';
-}
-function trackForMutations(isImmutable, ignorePaths, obj) {
-  var trackedProperties = trackProperties(isImmutable, ignorePaths, obj);
-  return {
-    detectMutations: function detectMutations() {
-      return _detectMutations(isImmutable, ignorePaths, trackedProperties, obj);
-    }
-  };
-}
-
-function trackProperties(isImmutable, ignorePaths, obj, path) {
-  if (ignorePaths === void 0) {
-    ignorePaths = [];
-  }
-
-  if (path === void 0) {
-    path = [];
-  }
-
-  var tracked = {
-    value: obj
-  };
-
-  if (!isImmutable(obj)) {
-    tracked.children = {};
-
-    for (var key in obj) {
-      var childPath = path.concat(key);
-
-      if (ignorePaths.length && ignorePaths.indexOf(childPath.join('.')) !== -1) {
-        continue;
-      }
-
-      tracked.children[key] = trackProperties(isImmutable, ignorePaths, obj[key], childPath);
-    }
-  }
-
-  return tracked;
-}
-
-function _detectMutations(isImmutable, ignorePaths, trackedProperty, obj, sameParentRef, path) {
-  if (ignorePaths === void 0) {
-    ignorePaths = [];
-  }
-
-  if (sameParentRef === void 0) {
-    sameParentRef = false;
-  }
-
-  if (path === void 0) {
-    path = [];
-  }
-
-  var prevObj = trackedProperty ? trackedProperty.value : undefined;
-  var sameRef = prevObj === obj;
-
-  if (sameParentRef && !sameRef && !Number.isNaN(obj)) {
-    return {
-      wasMutated: true,
-      path: path
-    };
-  }
-
-  if (isImmutable(prevObj) || isImmutable(obj)) {
-    return {
-      wasMutated: false
-    };
-  } // Gather all keys from prev (tracked) and after objs
-
-
-  var keysToDetect = {};
-  Object.keys(trackedProperty.children).forEach(function (key) {
-    keysToDetect[key] = true;
-  });
-  Object.keys(obj).forEach(function (key) {
-    keysToDetect[key] = true;
-  });
-  var keys = Object.keys(keysToDetect);
-
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    var childPath = path.concat(key);
-
-    if (ignorePaths.length && ignorePaths.indexOf(childPath.join('.')) !== -1) {
-      continue;
-    }
-
-    var result = _detectMutations(isImmutable, ignorePaths, trackedProperty.children[key], obj[key], sameRef, childPath);
-
-    if (result.wasMutated) {
-      return result;
-    }
-  }
-
-  return {
-    wasMutated: false
-  };
-}
-/**
- * Creates a middleware that checks whether any state was mutated in between
- * dispatches or during a dispatch. If any mutations are detected, an error is
- * thrown.
- *
- * @param options Middleware options.
- *
- * @public
- */
-
-
-function createImmutableStateInvariantMiddleware(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  if (false) {}
-
-  var _options = options,
-      _options$isImmutable = _options.isImmutable,
-      isImmutable = _options$isImmutable === void 0 ? isImmutableDefault : _options$isImmutable,
-      ignoredPaths = _options.ignoredPaths,
-      _options$warnAfter = _options.warnAfter,
-      warnAfter = _options$warnAfter === void 0 ? 32 : _options$warnAfter,
-      ignore = _options.ignore; // Alias ignore->ignoredPaths, but prefer ignoredPaths if present
-
-  ignoredPaths = ignoredPaths || ignore;
-  var track = trackForMutations.bind(null, isImmutable, ignoredPaths);
-  return function (_ref) {
-    var getState = _ref.getState;
-    var state = getState();
-    var tracker = track(state);
-    var result;
-    return function (next) {
-      return function (action) {
-        var measureUtils = getTimeMeasureUtils(warnAfter, 'ImmutableStateInvariantMiddleware');
-        measureUtils.measureTime(function () {
-          state = getState();
-          result = tracker.detectMutations(); // Track before potentially not meeting the invariant
-
-          tracker = track(state);
-          !!result.wasMutated ?  true ? invariant(false, "A state mutation was detected between dispatches, in the path '" + (result.path || []).join('.') + "'.  This may cause incorrect behavior. (https://redux.js.org/troubleshooting#never-mutate-reducer-arguments)") : undefined : void 0;
-        });
-        var dispatchedAction = next(action);
-        measureUtils.measureTime(function () {
-          state = getState();
-          result = tracker.detectMutations(); // Track before potentially not meeting the invariant
-
-          tracker = track(state);
-          result.wasMutated && (!!result.wasMutated ?  true ? invariant(false, "A state mutation was detected inside a dispatch, in the path: " + (result.path || []).join('.') + ". Take a look at the reducer(s) handling the action " + stringify(action) + ". (https://redux.js.org/troubleshooting#never-mutate-reducer-arguments)") : undefined : void 0);
-        });
-        measureUtils.warnIfExceeded();
-        return dispatchedAction;
-      };
-    };
-  };
-}
-
-/**
- * Returns true if the passed value is "plain", i.e. a value that is either
- * directly JSON-serializable (boolean, number, string, array, plain object)
- * or `undefined`.
- *
- * @param val The value to check.
- *
- * @public
- */
-
-function isPlain(val) {
-  return typeof val === 'undefined' || val === null || typeof val === 'string' || typeof val === 'boolean' || typeof val === 'number' || Array.isArray(val) || isPlainObject(val);
-}
-/**
- * @public
- */
-
-function findNonSerializableValue(value, path, isSerializable, getEntries, ignoredPaths) {
-  if (path === void 0) {
-    path = [];
-  }
-
-  if (isSerializable === void 0) {
-    isSerializable = isPlain;
-  }
-
-  if (ignoredPaths === void 0) {
-    ignoredPaths = [];
-  }
-
-  var foundNestedSerializable;
-
-  if (!isSerializable(value)) {
-    return {
-      keyPath: path.join('.') || '<root>',
-      value: value
-    };
-  }
-
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  var entries = getEntries != null ? getEntries(value) : Object.entries(value);
-  var hasIgnoredPaths = ignoredPaths.length > 0;
-
-  for (var _iterator = entries, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-    var _ref;
-
-    if (_isArray) {
-      if (_i >= _iterator.length) break;
-      _ref = _iterator[_i++];
-    } else {
-      _i = _iterator.next();
-      if (_i.done) break;
-      _ref = _i.value;
-    }
-
-    var _ref2 = _ref,
-        property = _ref2[0],
-        nestedValue = _ref2[1];
-    var nestedPath = path.concat(property);
-
-    if (hasIgnoredPaths && ignoredPaths.indexOf(nestedPath.join('.')) >= 0) {
-      continue;
-    }
-
-    if (!isSerializable(nestedValue)) {
-      return {
-        keyPath: nestedPath.join('.'),
-        value: nestedValue
-      };
-    }
-
-    if (typeof nestedValue === 'object') {
-      foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths);
-
-      if (foundNestedSerializable) {
-        return foundNestedSerializable;
-      }
-    }
-  }
-
-  return false;
-}
-/**
- * Creates a middleware that, after every state change, checks if the new
- * state is serializable. If a non-serializable value is found within the
- * state, an error is printed to the console.
- *
- * @param options Middleware options.
- *
- * @public
- */
-
-function createSerializableStateInvariantMiddleware(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  if (false) {}
-
-  var _options = options,
-      _options$isSerializab = _options.isSerializable,
-      isSerializable = _options$isSerializab === void 0 ? isPlain : _options$isSerializab,
-      getEntries = _options.getEntries,
-      _options$ignoredActio = _options.ignoredActions,
-      ignoredActions = _options$ignoredActio === void 0 ? [] : _options$ignoredActio,
-      _options$ignoredActio2 = _options.ignoredActionPaths,
-      ignoredActionPaths = _options$ignoredActio2 === void 0 ? ['meta.arg'] : _options$ignoredActio2,
-      _options$ignoredPaths = _options.ignoredPaths,
-      ignoredPaths = _options$ignoredPaths === void 0 ? [] : _options$ignoredPaths,
-      _options$warnAfter = _options.warnAfter,
-      warnAfter = _options$warnAfter === void 0 ? 32 : _options$warnAfter;
-  return function (storeAPI) {
-    return function (next) {
-      return function (action) {
-        if (ignoredActions.length && ignoredActions.indexOf(action.type) !== -1) {
-          return next(action);
-        }
-
-        var measureUtils = getTimeMeasureUtils(warnAfter, 'SerializableStateInvariantMiddleware');
-        measureUtils.measureTime(function () {
-          var foundActionNonSerializableValue = findNonSerializableValue(action, [], isSerializable, getEntries, ignoredActionPaths);
-
-          if (foundActionNonSerializableValue) {
-            var keyPath = foundActionNonSerializableValue.keyPath,
-                value = foundActionNonSerializableValue.value;
-            console.error("A non-serializable value was detected in an action, in the path: `" + keyPath + "`. Value:", value, '\nTake a look at the logic that dispatched this action: ', action, '\n(See https://redux.js.org/faq/actions#why-should-type-be-a-string-or-at-least-serializable-why-should-my-action-types-be-constants)', '\n(To allow non-serializable values see: https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data)');
-          }
-        });
-        var result = next(action);
-        measureUtils.measureTime(function () {
-          var state = storeAPI.getState();
-          var foundStateNonSerializableValue = findNonSerializableValue(state, [], isSerializable, getEntries, ignoredPaths);
-
-          if (foundStateNonSerializableValue) {
-            var keyPath = foundStateNonSerializableValue.keyPath,
-                value = foundStateNonSerializableValue.value;
-            console.error("A non-serializable value was detected in the state, in the path: `" + keyPath + "`. Value:", value, "\nTake a look at the reducer(s) handling this action type: " + action.type + ".\n(See https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state)");
-          }
-        });
-        measureUtils.warnIfExceeded();
-        return result;
-      };
-    };
-  };
-}
-
-function isBoolean(x) {
-  return typeof x === 'boolean';
-}
-
-function curryGetDefaultMiddleware() {
-  return function curriedGetDefaultMiddleware(options) {
-    return getDefaultMiddleware(options);
-  };
-}
-/**
- * Returns any array containing the default middleware installed by
- * `configureStore()`. Useful if you want to configure your store with a custom
- * `middleware` array but still keep the default set.
- *
- * @return The default middleware used by `configureStore()`.
- *
- * @public
- */
-
-function getDefaultMiddleware(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _options = options,
-      _options$thunk = _options.thunk,
-      thunk = _options$thunk === void 0 ? true : _options$thunk,
-      _options$immutableChe = _options.immutableCheck,
-      immutableCheck = _options$immutableChe === void 0 ? true : _options$immutableChe,
-      _options$serializable = _options.serializableCheck,
-      serializableCheck = _options$serializable === void 0 ? true : _options$serializable;
-  var middlewareArray = new MiddlewareArray();
-
-  if (thunk) {
-    if (isBoolean(thunk)) {
-      middlewareArray.push(redux_thunk__WEBPACK_IMPORTED_MODULE_3__["default"]);
-    } else {
-      middlewareArray.push(redux_thunk__WEBPACK_IMPORTED_MODULE_3__["default"].withExtraArgument(thunk.extraArgument));
-    }
-  }
-
-  if (true) {
-    if (immutableCheck) {
-      /* PROD_START_REMOVE_UMD */
-      var immutableOptions = {};
-
-      if (!isBoolean(immutableCheck)) {
-        immutableOptions = immutableCheck;
-      }
-
-      middlewareArray.unshift(createImmutableStateInvariantMiddleware(immutableOptions));
-      /* PROD_STOP_REMOVE_UMD */
-    }
-
-    if (serializableCheck) {
-      var serializableOptions = {};
-
-      if (!isBoolean(serializableCheck)) {
-        serializableOptions = serializableCheck;
-      }
-
-      middlewareArray.push(createSerializableStateInvariantMiddleware(serializableOptions));
-    }
-  }
-
-  return middlewareArray;
-}
-
-var IS_PRODUCTION = "development" === 'production';
-/**
- * A friendly abstraction over the standard Redux `createStore()` function.
- *
- * @param config The store configuration.
- * @returns A configured Redux store.
- *
- * @public
- */
-
-function configureStore(options) {
-  var curriedGetDefaultMiddleware = curryGetDefaultMiddleware();
-
-  var _ref = options || {},
-      _ref$reducer = _ref.reducer,
-      reducer = _ref$reducer === void 0 ? undefined : _ref$reducer,
-      _ref$middleware = _ref.middleware,
-      middleware = _ref$middleware === void 0 ? curriedGetDefaultMiddleware() : _ref$middleware,
-      _ref$devTools = _ref.devTools,
-      devTools = _ref$devTools === void 0 ? true : _ref$devTools,
-      _ref$preloadedState = _ref.preloadedState,
-      preloadedState = _ref$preloadedState === void 0 ? undefined : _ref$preloadedState,
-      _ref$enhancers = _ref.enhancers,
-      enhancers = _ref$enhancers === void 0 ? undefined : _ref$enhancers;
-
-  var rootReducer;
-
-  if (typeof reducer === 'function') {
-    rootReducer = reducer;
-  } else if (isPlainObject(reducer)) {
-    rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_1__["combineReducers"])(reducer);
-  } else {
-    throw new Error('"reducer" is a required argument, and must be a function or an object of functions that can be passed to combineReducers');
-  }
-
-  var middlewareEnhancer = redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"].apply(void 0, typeof middleware === 'function' ? middleware(curriedGetDefaultMiddleware) : middleware);
-  var finalCompose = redux__WEBPACK_IMPORTED_MODULE_1__["compose"];
-
-  if (devTools) {
-    finalCompose = composeWithDevTools(_extends({
-      // Enable capture of stack traces for dispatched Redux actions
-      trace: !IS_PRODUCTION
-    }, typeof devTools === 'object' && devTools));
-  }
-
-  var storeEnhancers = [middlewareEnhancer];
-
-  if (Array.isArray(enhancers)) {
-    storeEnhancers = [middlewareEnhancer].concat(enhancers);
-  } else if (typeof enhancers === 'function') {
-    storeEnhancers = enhancers(storeEnhancers);
-  }
-
-  var composedEnhancer = finalCompose.apply(void 0, storeEnhancers);
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["createStore"])(rootReducer, preloadedState, composedEnhancer);
-}
-
-function createAction(type, prepareAction) {
-  function actionCreator() {
-    if (prepareAction) {
-      var prepared = prepareAction.apply(void 0, arguments);
-
-      if (!prepared) {
-        throw new Error('prepareAction did not return an object');
-      }
-
-      return _extends({
-        type: type,
-        payload: prepared.payload
-      }, 'meta' in prepared && {
-        meta: prepared.meta
-      }, {}, 'error' in prepared && {
-        error: prepared.error
-      });
-    }
-
-    return {
-      type: type,
-      payload: arguments.length <= 0 ? undefined : arguments[0]
-    };
-  }
-
-  actionCreator.toString = function () {
-    return "" + type;
-  };
-
-  actionCreator.type = type;
-
-  actionCreator.match = function (action) {
-    return action.type === type;
-  };
-
-  return actionCreator;
-}
-function isFSA(action) {
-  return isPlainObject(action) && typeof action.type === 'string' && Object.keys(action).every(isValidKey);
-}
-
-function isValidKey(key) {
-  return ['type', 'payload', 'error', 'meta'].indexOf(key) > -1;
-}
-/**
- * Returns the action type of the actions created by the passed
- * `createAction()`-generated action creator (arbitrary action creators
- * are not supported).
- *
- * @param action The action creator whose action type to get.
- * @returns The action type used by the action creator.
- *
- * @public
- */
-
-
-function getType(actionCreator) {
-  return "" + actionCreator;
-}
-
-function executeReducerBuilderCallback(builderCallback) {
-  var actionsMap = {};
-  var actionMatchers = [];
-  var defaultCaseReducer;
-  var builder = {
-    addCase: function addCase(typeOrActionCreator, reducer) {
-      if (true) {
-        /*
-         to keep the definition by the user in line with actual behavior,
-         we enforce `addCase` to always be called before calling `addMatcher`
-         as matching cases take precedence over matchers
-         */
-        if (actionMatchers.length > 0) {
-          throw new Error('`builder.addCase` should only be called before calling `builder.addMatcher`');
-        }
-
-        if (defaultCaseReducer) {
-          throw new Error('`builder.addCase` should only be called before calling `builder.addDefaultCase`');
-        }
-      }
-
-      var type = typeof typeOrActionCreator === 'string' ? typeOrActionCreator : typeOrActionCreator.type;
-
-      if (type in actionsMap) {
-        throw new Error('addCase cannot be called with two reducers for the same action type');
-      }
-
-      actionsMap[type] = reducer;
-      return builder;
-    },
-    addMatcher: function addMatcher(matcher, reducer) {
-      if (true) {
-        if (defaultCaseReducer) {
-          throw new Error('`builder.addMatcher` should only be called before calling `builder.addDefaultCase`');
-        }
-      }
-
-      actionMatchers.push({
-        matcher: matcher,
-        reducer: reducer
-      });
-      return builder;
-    },
-    addDefaultCase: function addDefaultCase(reducer) {
-      if (true) {
-        if (defaultCaseReducer) {
-          throw new Error('`builder.addDefaultCase` can only be called once');
-        }
-      }
-
-      defaultCaseReducer = reducer;
-      return builder;
-    }
-  };
-  builderCallback(builder);
-  return [actionsMap, actionMatchers, defaultCaseReducer];
-}
-
-function createReducer(initialState, mapOrBuilderCallback, actionMatchers, defaultCaseReducer) {
-  if (actionMatchers === void 0) {
-    actionMatchers = [];
-  }
-
-  var _ref = typeof mapOrBuilderCallback === 'function' ? executeReducerBuilderCallback(mapOrBuilderCallback) : [mapOrBuilderCallback, actionMatchers, defaultCaseReducer],
-      actionsMap = _ref[0],
-      finalActionMatchers = _ref[1],
-      finalDefaultCaseReducer = _ref[2];
-
-  return function (state, action) {
-    if (state === void 0) {
-      state = initialState;
-    }
-
-    var caseReducers = [actionsMap[action.type]].concat(finalActionMatchers.filter(function (_ref2) {
-      var matcher = _ref2.matcher;
-      return matcher(action);
-    }).map(function (_ref3) {
-      var reducer = _ref3.reducer;
-      return reducer;
-    }));
-
-    if (caseReducers.filter(function (cr) {
-      return !!cr;
-    }).length === 0) {
-      caseReducers = [finalDefaultCaseReducer];
-    }
-
-    return caseReducers.reduce(function (previousState, caseReducer) {
-      if (caseReducer) {
-        if (Object(immer__WEBPACK_IMPORTED_MODULE_0__["isDraft"])(previousState)) {
-          // If it's already a draft, we must already be inside a `createNextState` call,
-          // likely because this is being wrapped in `createReducer`, `createSlice`, or nested
-          // inside an existing draft. It's safe to just pass the draft to the mutator.
-          var draft = previousState; // We can assume this is already a draft
-
-          var result = caseReducer(draft, action);
-
-          if (typeof result === 'undefined') {
-            return previousState;
-          }
-
-          return result;
-        } else if (!Object(immer__WEBPACK_IMPORTED_MODULE_0__["isDraftable"])(previousState)) {
-          // If state is not draftable (ex: a primitive, such as 0), we want to directly
-          // return the caseReducer func and not wrap it with produce.
-          var _result = caseReducer(previousState, action);
-
-          if (typeof _result === 'undefined') {
-            throw Error('A case reducer on a non-draftable value must not return undefined');
-          }
-
-          return _result;
-        } else {
-          // @ts-ignore createNextState() produces an Immutable<Draft<S>> rather
-          // than an Immutable<S>, and TypeScript cannot find out how to reconcile
-          // these two types.
-          return Object(immer__WEBPACK_IMPORTED_MODULE_0__["default"])(previousState, function (draft) {
-            return caseReducer(draft, action);
-          });
-        }
-      }
-
-      return previousState;
-    }, state);
-  };
-}
-
-function getType$1(slice, actionKey) {
-  return slice + "/" + actionKey;
-}
-/**
- * A function that accepts an initial state, an object full of reducer
- * functions, and a "slice name", and automatically generates
- * action creators and action types that correspond to the
- * reducers and state.
- *
- * The `reducer` argument is passed to `createReducer()`.
- *
- * @public
- */
-
-
-function createSlice(options) {
-  var name = options.name,
-      initialState = options.initialState;
-
-  if (!name) {
-    throw new Error('`name` is a required option for createSlice');
-  }
-
-  var reducers = options.reducers || {};
-
-  var _ref = typeof options.extraReducers === 'undefined' ? [] : typeof options.extraReducers === 'function' ? executeReducerBuilderCallback(options.extraReducers) : [options.extraReducers],
-      _ref$ = _ref[0],
-      extraReducers = _ref$ === void 0 ? {} : _ref$,
-      _ref$2 = _ref[1],
-      actionMatchers = _ref$2 === void 0 ? [] : _ref$2,
-      _ref$3 = _ref[2],
-      defaultCaseReducer = _ref$3 === void 0 ? undefined : _ref$3;
-
-  var reducerNames = Object.keys(reducers);
-  var sliceCaseReducersByName = {};
-  var sliceCaseReducersByType = {};
-  var actionCreators = {};
-  reducerNames.forEach(function (reducerName) {
-    var maybeReducerWithPrepare = reducers[reducerName];
-    var type = getType$1(name, reducerName);
-    var caseReducer;
-    var prepareCallback;
-
-    if ('reducer' in maybeReducerWithPrepare) {
-      caseReducer = maybeReducerWithPrepare.reducer;
-      prepareCallback = maybeReducerWithPrepare.prepare;
-    } else {
-      caseReducer = maybeReducerWithPrepare;
-    }
-
-    sliceCaseReducersByName[reducerName] = caseReducer;
-    sliceCaseReducersByType[type] = caseReducer;
-    actionCreators[reducerName] = prepareCallback ? createAction(type, prepareCallback) : createAction(type);
-  });
-
-  var finalCaseReducers = _extends({}, extraReducers, {}, sliceCaseReducersByType);
-
-  var reducer = createReducer(initialState, finalCaseReducers, actionMatchers, defaultCaseReducer);
-  return {
-    name: name,
-    reducer: reducer,
-    actions: actionCreators,
-    caseReducers: sliceCaseReducersByName
-  };
-}
-
-function getInitialEntityState() {
-  return {
-    ids: [],
-    entities: {}
-  };
-}
-function createInitialStateFactory() {
-  function getInitialState(additionalState) {
-    if (additionalState === void 0) {
-      additionalState = {};
-    }
-
-    return Object.assign(getInitialEntityState(), additionalState);
-  }
-
-  return {
-    getInitialState: getInitialState
-  };
-}
-
-function createSelectorsFactory() {
-  function getSelectors(selectState) {
-    var selectIds = function selectIds(state) {
-      return state.ids;
-    };
-
-    var selectEntities = function selectEntities(state) {
-      return state.entities;
-    };
-
-    var selectAll = Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectIds, selectEntities, function (ids, entities) {
-      return ids.map(function (id) {
-        return entities[id];
-      });
-    });
-
-    var selectId = function selectId(_, id) {
-      return id;
-    };
-
-    var selectById = function selectById(entities, id) {
-      return entities[id];
-    };
-
-    var selectTotal = Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectIds, function (ids) {
-      return ids.length;
-    });
-
-    if (!selectState) {
-      return {
-        selectIds: selectIds,
-        selectEntities: selectEntities,
-        selectAll: selectAll,
-        selectTotal: selectTotal,
-        selectById: Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectEntities, selectId, selectById)
-      };
-    }
-
-    var selectGlobalizedEntities = Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectState, selectEntities);
-    return {
-      selectIds: Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectState, selectIds),
-      selectEntities: selectGlobalizedEntities,
-      selectAll: Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectState, selectAll),
-      selectTotal: Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectState, selectTotal),
-      selectById: Object(reselect__WEBPACK_IMPORTED_MODULE_2__["createSelector"])(selectGlobalizedEntities, selectId, selectById)
-    };
-  }
-
-  return {
-    getSelectors: getSelectors
-  };
-}
-
-function createSingleArgumentStateOperator(mutator) {
-  var operator = createStateOperator(function (_, state) {
-    return mutator(state);
-  });
-  return function operation(state) {
-    return operator(state, undefined);
-  };
-}
-function createStateOperator(mutator) {
-  return function operation(state, arg) {
-    function isPayloadActionArgument(arg) {
-      return isFSA(arg);
-    }
-
-    var runMutator = function runMutator(draft) {
-      if (isPayloadActionArgument(arg)) {
-        mutator(arg.payload, draft);
-      } else {
-        mutator(arg, draft);
-      }
-    };
-
-    if (Object(immer__WEBPACK_IMPORTED_MODULE_0__["isDraft"])(state)) {
-      // we must already be inside a `createNextState` call, likely because
-      // this is being wrapped in `createReducer` or `createSlice`.
-      // It's safe to just pass the draft to the mutator.
-      runMutator(state); // since it's a draft, we'll just return it
-
-      return state;
-    } else {
-      // @ts-ignore createNextState() produces an Immutable<Draft<S>> rather
-      // than an Immutable<S>, and TypeScript cannot find out how to reconcile
-      // these two types.
-      return Object(immer__WEBPACK_IMPORTED_MODULE_0__["default"])(state, runMutator);
-    }
-  };
-}
-
-function selectIdValue(entity, selectId) {
-  var key = selectId(entity);
-
-  if ( true && key === undefined) {
-    console.warn('The entity passed to the `selectId` implementation returned undefined.', 'You should probably provide your own `selectId` implementation.', 'The entity that was passed:', entity, 'The `selectId` implementation:', selectId.toString());
-  }
-
-  return key;
-}
-
-function createUnsortedStateAdapter(selectId) {
-  function addOneMutably(entity, state) {
-    var key = selectIdValue(entity, selectId);
-
-    if (key in state.entities) {
-      return;
-    }
-
-    state.ids.push(key);
-    state.entities[key] = entity;
-  }
-
-  function addManyMutably(entities, state) {
-    if (!Array.isArray(entities)) {
-      entities = Object.values(entities);
-    }
-
-    for (var _iterator = entities, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-      var _ref;
-
-      if (_isArray) {
-        if (_i >= _iterator.length) break;
-        _ref = _iterator[_i++];
-      } else {
-        _i = _iterator.next();
-        if (_i.done) break;
-        _ref = _i.value;
-      }
-
-      var entity = _ref;
-      addOneMutably(entity, state);
-    }
-  }
-
-  function setAllMutably(entities, state) {
-    if (!Array.isArray(entities)) {
-      entities = Object.values(entities);
-    }
-
-    state.ids = [];
-    state.entities = {};
-    addManyMutably(entities, state);
-  }
-
-  function removeOneMutably(key, state) {
-    return removeManyMutably([key], state);
-  }
-
-  function removeManyMutably(keys, state) {
-    var didMutate = false;
-    keys.forEach(function (key) {
-      if (key in state.entities) {
-        delete state.entities[key];
-        didMutate = true;
-      }
-    });
-
-    if (didMutate) {
-      state.ids = state.ids.filter(function (id) {
-        return id in state.entities;
-      });
-    }
-  }
-
-  function removeAllMutably(state) {
-    Object.assign(state, {
-      ids: [],
-      entities: {}
-    });
-  }
-
-  function takeNewKey(keys, update, state) {
-    var original = state.entities[update.id];
-    var updated = Object.assign({}, original, update.changes);
-    var newKey = selectIdValue(updated, selectId);
-    var hasNewKey = newKey !== update.id;
-
-    if (hasNewKey) {
-      keys[update.id] = newKey;
-      delete state.entities[update.id];
-    }
-
-    state.entities[newKey] = updated;
-    return hasNewKey;
-  }
-
-  function updateOneMutably(update, state) {
-    return updateManyMutably([update], state);
-  }
-
-  function updateManyMutably(updates, state) {
-    var newKeys = {};
-    var updatesPerEntity = {};
-    updates.forEach(function (update) {
-      // Only apply updates to entities that currently exist
-      if (update.id in state.entities) {
-        // If there are multiple updates to one entity, merge them together
-        updatesPerEntity[update.id] = {
-          id: update.id,
-          // Spreads ignore falsy values, so this works even if there isn't
-          // an existing update already at this key
-          changes: _extends({}, updatesPerEntity[update.id] ? updatesPerEntity[update.id].changes : null, {}, update.changes)
-        };
-      }
-    });
-    updates = Object.values(updatesPerEntity);
-    var didMutateEntities = updates.length > 0;
-
-    if (didMutateEntities) {
-      var didMutateIds = updates.filter(function (update) {
-        return takeNewKey(newKeys, update, state);
-      }).length > 0;
-
-      if (didMutateIds) {
-        state.ids = state.ids.map(function (id) {
-          return newKeys[id] || id;
-        });
-      }
-    }
-  }
-
-  function upsertOneMutably(entity, state) {
-    return upsertManyMutably([entity], state);
-  }
-
-  function upsertManyMutably(entities, state) {
-    if (!Array.isArray(entities)) {
-      entities = Object.values(entities);
-    }
-
-    var added = [];
-    var updated = [];
-
-    for (var _iterator2 = entities, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-      var _ref2;
-
-      if (_isArray2) {
-        if (_i2 >= _iterator2.length) break;
-        _ref2 = _iterator2[_i2++];
-      } else {
-        _i2 = _iterator2.next();
-        if (_i2.done) break;
-        _ref2 = _i2.value;
-      }
-
-      var entity = _ref2;
-      var id = selectIdValue(entity, selectId);
-
-      if (id in state.entities) {
-        updated.push({
-          id: id,
-          changes: entity
-        });
-      } else {
-        added.push(entity);
-      }
-    }
-
-    updateManyMutably(updated, state);
-    addManyMutably(added, state);
-  }
-
-  return {
-    removeAll: createSingleArgumentStateOperator(removeAllMutably),
-    addOne: createStateOperator(addOneMutably),
-    addMany: createStateOperator(addManyMutably),
-    setAll: createStateOperator(setAllMutably),
-    updateOne: createStateOperator(updateOneMutably),
-    updateMany: createStateOperator(updateManyMutably),
-    upsertOne: createStateOperator(upsertOneMutably),
-    upsertMany: createStateOperator(upsertManyMutably),
-    removeOne: createStateOperator(removeOneMutably),
-    removeMany: createStateOperator(removeManyMutably)
-  };
-}
-
-function createSortedStateAdapter(selectId, sort) {
-  var _createUnsortedStateA = createUnsortedStateAdapter(selectId),
-      removeOne = _createUnsortedStateA.removeOne,
-      removeMany = _createUnsortedStateA.removeMany,
-      removeAll = _createUnsortedStateA.removeAll;
-
-  function addOneMutably(entity, state) {
-    return addManyMutably([entity], state);
-  }
-
-  function addManyMutably(newModels, state) {
-    if (!Array.isArray(newModels)) {
-      newModels = Object.values(newModels);
-    }
-
-    var models = newModels.filter(function (model) {
-      return !(selectIdValue(model, selectId) in state.entities);
-    });
-
-    if (models.length !== 0) {
-      merge(models, state);
-    }
-  }
-
-  function setAllMutably(models, state) {
-    if (!Array.isArray(models)) {
-      models = Object.values(models);
-    }
-
-    state.entities = {};
-    state.ids = [];
-    addManyMutably(models, state);
-  }
-
-  function updateOneMutably(update, state) {
-    return updateManyMutably([update], state);
-  }
-
-  function takeUpdatedModel(models, update, state) {
-    if (!(update.id in state.entities)) {
-      return false;
-    }
-
-    var original = state.entities[update.id];
-    var updated = Object.assign({}, original, update.changes);
-    var newKey = selectIdValue(updated, selectId);
-    delete state.entities[update.id];
-    models.push(updated);
-    return newKey !== update.id;
-  }
-
-  function updateManyMutably(updates, state) {
-    var models = [];
-    updates.forEach(function (update) {
-      return takeUpdatedModel(models, update, state);
-    });
-
-    if (models.length !== 0) {
-      merge(models, state);
-    }
-  }
-
-  function upsertOneMutably(entity, state) {
-    return upsertManyMutably([entity], state);
-  }
-
-  function upsertManyMutably(entities, state) {
-    if (!Array.isArray(entities)) {
-      entities = Object.values(entities);
-    }
-
-    var added = [];
-    var updated = [];
-
-    for (var _iterator = entities, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-      var _ref;
-
-      if (_isArray) {
-        if (_i >= _iterator.length) break;
-        _ref = _iterator[_i++];
-      } else {
-        _i = _iterator.next();
-        if (_i.done) break;
-        _ref = _i.value;
-      }
-
-      var entity = _ref;
-      var id = selectIdValue(entity, selectId);
-
-      if (id in state.entities) {
-        updated.push({
-          id: id,
-          changes: entity
-        });
-      } else {
-        added.push(entity);
-      }
-    }
-
-    updateManyMutably(updated, state);
-    addManyMutably(added, state);
-  }
-
-  function areArraysEqual(a, b) {
-    if (a.length !== b.length) {
-      return false;
-    }
-
-    for (var i = 0; i < a.length && i < b.length; i++) {
-      if (a[i] === b[i]) {
-        continue;
-      }
-
-      return false;
-    }
-
-    return true;
-  }
-
-  function merge(models, state) {
-    models.sort(sort); // Insert/overwrite all new/updated
-
-    models.forEach(function (model) {
-      state.entities[selectId(model)] = model;
-    });
-    var allEntities = Object.values(state.entities);
-    allEntities.sort(sort);
-    var newSortedIds = allEntities.map(selectId);
-    var ids = state.ids;
-
-    if (!areArraysEqual(ids, newSortedIds)) {
-      state.ids = newSortedIds;
-    }
-  }
-
-  return {
-    removeOne: removeOne,
-    removeMany: removeMany,
-    removeAll: removeAll,
-    addOne: createStateOperator(addOneMutably),
-    updateOne: createStateOperator(updateOneMutably),
-    upsertOne: createStateOperator(upsertOneMutably),
-    setAll: createStateOperator(setAllMutably),
-    addMany: createStateOperator(addManyMutably),
-    updateMany: createStateOperator(updateManyMutably),
-    upsertMany: createStateOperator(upsertManyMutably)
-  };
-}
-
-/**
- *
- * @param options
- *
- * @public
- */
-
-function createEntityAdapter(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _sortComparer$selectI = _extends({
-    sortComparer: false,
-    selectId: function selectId(instance) {
-      return instance.id;
-    }
-  }, options),
-      selectId = _sortComparer$selectI.selectId,
-      sortComparer = _sortComparer$selectI.sortComparer;
-
-  var stateFactory = createInitialStateFactory();
-  var selectorsFactory = createSelectorsFactory();
-  var stateAdapter = sortComparer ? createSortedStateAdapter(selectId, sortComparer) : createUnsortedStateAdapter(selectId);
-  return _extends({
-    selectId: selectId,
-    sortComparer: sortComparer
-  }, stateFactory, {}, selectorsFactory, {}, stateAdapter);
-}
-
-// A type of promise-like that resolves synchronously and supports only one observer
-
-const _iteratorSymbol = /*#__PURE__*/ typeof Symbol !== "undefined" ? (Symbol.iterator || (Symbol.iterator = Symbol("Symbol.iterator"))) : "@@iterator";
-
-const _asyncIteratorSymbol = /*#__PURE__*/ typeof Symbol !== "undefined" ? (Symbol.asyncIterator || (Symbol.asyncIterator = Symbol("Symbol.asyncIterator"))) : "@@asyncIterator";
-
-// Asynchronously call a function and send errors to recovery continuation
-function _catch(body, recover) {
-	try {
-		var result = body();
-	} catch(e) {
-		return recover(e);
-	}
-	if (result && result.then) {
-		return result.then(void 0, recover);
-	}
-	return result;
-}
-
-// Borrowed from https://github.com/ai/nanoid/blob/3.0.2/non-secure/index.js
-// This alphabet uses `A-Za-z0-9_-` symbols. A genetic algorithm helped
-// optimize the gzip compression for this alphabet.
-var urlAlphabet = 'ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW';
-/**
- *
- * @public
- */
-
-var nanoid = function nanoid(size) {
-  if (size === void 0) {
-    size = 21;
-  }
-
-  var id = ''; // A compact alternative for `for (var i = 0; i < step; i++)`.
-
-  var i = size;
-
-  while (i--) {
-    // `| 0` is more compact and faster than `Math.floor()`.
-    id += urlAlphabet[Math.random() * 64 | 0];
-  }
-
-  return id;
-};
-
-var commonProperties = ['name', 'message', 'stack', 'code'];
-
-var RejectWithValue = function RejectWithValue(value) {
-  this.value = value;
-}; // Reworked from https://github.com/sindresorhus/serialize-error
-
-
-var miniSerializeError = function miniSerializeError(value) {
-  if (typeof value === 'object' && value !== null) {
-    var simpleError = {};
-
-    for (var _iterator = commonProperties, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-      var _ref;
-
-      if (_isArray) {
-        if (_i >= _iterator.length) break;
-        _ref = _iterator[_i++];
-      } else {
-        _i = _iterator.next();
-        if (_i.done) break;
-        _ref = _i.value;
-      }
-
-      var property = _ref;
-
-      if (typeof value[property] === 'string') {
-        simpleError[property] = value[property];
-      }
-    }
-
-    return simpleError;
-  }
-
-  return {
-    message: String(value)
-  };
-};
-/**
- *
- * @param typePrefix
- * @param payloadCreator
- * @param options
- *
- * @public
- */
-
-function createAsyncThunk(typePrefix, payloadCreator, options) {
-  var fulfilled = createAction(typePrefix + '/fulfilled', function (result, requestId, arg) {
-    return {
-      payload: result,
-      meta: {
-        arg: arg,
-        requestId: requestId
-      }
-    };
-  });
-  var pending = createAction(typePrefix + '/pending', function (requestId, arg) {
-    return {
-      payload: undefined,
-      meta: {
-        arg: arg,
-        requestId: requestId
-      }
-    };
-  });
-  var rejected = createAction(typePrefix + '/rejected', function (error, requestId, arg, payload) {
-    var aborted = !!error && error.name === 'AbortError';
-    var condition = !!error && error.name === 'ConditionError';
-    return {
-      payload: payload,
-      error: miniSerializeError(error || 'Rejected'),
-      meta: {
-        arg: arg,
-        requestId: requestId,
-        aborted: aborted,
-        condition: condition
-      }
-    };
-  });
-  var displayedWarning = false;
-  var AC = typeof AbortController !== 'undefined' ? AbortController :
-  /*#__PURE__*/
-  function () {
-    function _class() {
-      this.signal = {
-        aborted: false,
-        addEventListener: function addEventListener() {},
-        dispatchEvent: function dispatchEvent() {
-          return false;
-        },
-        onabort: function onabort() {},
-        removeEventListener: function removeEventListener() {}
-      };
-    }
-
-    var _proto = _class.prototype;
-
-    _proto.abort = function abort() {
-      if (true) {
-        if (!displayedWarning) {
-          displayedWarning = true;
-          console.info("This platform does not implement AbortController. \nIf you want to use the AbortController to react to `abort` events, please consider importing a polyfill like 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'.");
-        }
-      }
-    };
-
-    return _class;
-  }();
-
-  function actionCreator(arg) {
-    return function (dispatch, getState, extra) {
-      var requestId = nanoid();
-      var abortController = new AC();
-      var abortReason;
-      var abortedPromise = new Promise(function (_, reject) {
-        return abortController.signal.addEventListener('abort', function () {
-          return reject({
-            name: 'AbortError',
-            message: abortReason || 'Aborted'
-          });
-        });
-      });
-      var started = false;
-
-      function abort(reason) {
-        if (started) {
-          abortReason = reason;
-          abortController.abort();
-        }
-      }
-
-      var promise = function () {
-        try {
-          var _temp3 = function _temp3(_result) {
-            if (_exit2) return _result;
-            // We dispatch the result action _after_ the catch, to avoid having any errors
-            // here get swallowed by the try/catch block,
-            // per https://twitter.com/dan_abramov/status/770914221638942720
-            // and https://redux-toolkit.js.org/tutorials/advanced-tutorial#async-error-handling-logic-in-thunks
-            var skipDispatch = options && !options.dispatchConditionRejection && rejected.match(finalAction) && finalAction.meta.condition;
-
-            if (!skipDispatch) {
-              dispatch(finalAction);
-            }
-
-            return finalAction;
-          };
-
-          var _exit2 = false;
-          var finalAction;
-
-          var _temp4 = _catch(function () {
-            if (options && options.condition && options.condition(arg, {
-              getState: getState,
-              extra: extra
-            }) === false) {
-              // eslint-disable-next-line no-throw-literal
-              throw {
-                name: 'ConditionError',
-                message: 'Aborted due to condition callback returning false.'
-              };
-            }
-
-            started = true;
-            dispatch(pending(requestId, arg));
-            return Promise.resolve(Promise.race([abortedPromise, Promise.resolve(payloadCreator(arg, {
-              dispatch: dispatch,
-              getState: getState,
-              extra: extra,
-              requestId: requestId,
-              signal: abortController.signal,
-              rejectWithValue: function rejectWithValue(value) {
-                return new RejectWithValue(value);
-              }
-            })).then(function (result) {
-              if (result instanceof RejectWithValue) {
-                return rejected(null, requestId, arg, result.value);
-              }
-
-              return fulfilled(result, requestId, arg);
-            })])).then(function (_Promise$race) {
-              finalAction = _Promise$race;
-            });
-          }, function (err) {
-            finalAction = rejected(err, requestId, arg);
-          });
-
-          return Promise.resolve(_temp4 && _temp4.then ? _temp4.then(_temp3) : _temp3(_temp4));
-        } catch (e) {
-          return Promise.reject(e);
-        }
-      }();
-
-      return Object.assign(promise, {
-        abort: abort
-      });
-    };
-  }
-
-  return Object.assign(actionCreator, {
-    pending: pending,
-    rejected: rejected,
-    fulfilled: fulfilled,
-    typePrefix: typePrefix
-  });
-}
-/**
- * @public
- */
-
-function unwrapResult(returned) {
-  if ('error' in returned) {
-    throw returned.error;
-  }
-
-  return returned.payload;
-}
-
-// we assume RTK will be used with React Native and other Proxy-less
-// environments.  In addition, that's how Immer 4 behaved, and since
-// we want to ship this in an RTK minor, we should keep the same behavior.
-
-Object(immer__WEBPACK_IMPORTED_MODULE_0__["enableES5"])();
-
-
-//# sourceMappingURL=redux-toolkit.esm.js.map
-
 
 /***/ }),
 
@@ -3842,41 +2194,6 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 }
 
 module.exports = hoistNonReactStatics;
-
-
-/***/ }),
-
-/***/ "./node_modules/immer/dist/immer.esm.js":
-/*!**********************************************!*\
-  !*** ./node_modules/immer/dist/immer.esm.js ***!
-  \**********************************************/
-/*! exports provided: default, Immer, applyPatches, castDraft, castImmutable, createDraft, current, enableAllPlugins, enableES5, enableMapSet, enablePatches, finishDraft, immerable, isDraft, isDraftable, nothing, original, produce, produceWithPatches, setAutoFreeze, setUseProxies */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Immer", function() { return on; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyPatches", function() { return vn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "castDraft", function() { return K; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "castImmutable", function() { return $; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDraft", function() { return pn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "current", function() { return D; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableAllPlugins", function() { return J; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableES5", function() { return T; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableMapSet", function() { return C; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enablePatches", function() { return F; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "finishDraft", function() { return ln; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "immerable", function() { return L; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDraft", function() { return t; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDraftable", function() { return r; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return H; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "original", function() { return e; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "produce", function() { return an; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "produceWithPatches", function() { return fn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAutoFreeze", function() { return cn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUseProxies", function() { return sn; });
-function n(n){for(var t=arguments.length,r=Array(t>1?t-1:0),e=1;e<t;e++)r[e-1]=arguments[e];if(true){var i=Y[n],o=i?"function"==typeof i?i.apply(null,r):i:"unknown error nr: "+n;throw Error("[Immer] "+o)}throw Error("[Immer] minified error nr: "+n+(r.length?" "+r.join(","):"")+". Find the full error at: https://bit.ly/3cXEKWf")}function t(n){return!!n&&!!n[Q]}function r(n){return!!n&&(function(n){if(!n||"object"!=typeof n)return!1;var t=Object.getPrototypeOf(n);return!t||t===Object.prototype}(n)||Array.isArray(n)||!!n[L]||!!n.constructor[L]||s(n)||v(n))}function e(r){return t(r)||n(23,r),r[Q].t}function i(n,t,r){void 0===r&&(r=!1),0===o(n)?(r?Object.keys:Z)(n).forEach((function(e){r&&"symbol"==typeof e||t(e,n[e],n)})):n.forEach((function(r,e){return t(e,r,n)}))}function o(n){var t=n[Q];return t?t.i>3?t.i-4:t.i:Array.isArray(n)?1:s(n)?2:v(n)?3:0}function u(n,t){return 2===o(n)?n.has(t):Object.prototype.hasOwnProperty.call(n,t)}function a(n,t){return 2===o(n)?n.get(t):n[t]}function f(n,t,r){var e=o(n);2===e?n.set(t,r):3===e?(n.delete(t),n.add(r)):n[t]=r}function c(n,t){return n===t?0!==n||1/n==1/t:n!=n&&t!=t}function s(n){return X&&n instanceof Map}function v(n){return q&&n instanceof Set}function p(n){return n.o||n.t}function l(n){if(Array.isArray(n))return n.slice();var t=nn(n);delete t[Q];for(var r=Z(t),e=0;e<r.length;e++){var i=r[e],o=t[i];!1===o.writable&&(o.writable=!0,o.configurable=!0),(o.get||o.set)&&(t[i]={configurable:!0,writable:!0,enumerable:o.enumerable,value:n[i]})}return Object.create(Object.getPrototypeOf(n),t)}function d(n,e){b(n)||t(n)||!r(n)||(o(n)>1&&(n.set=n.add=n.clear=n.delete=h),Object.freeze(n),e&&i(n,(function(n,t){return d(t,!0)}),!0))}function h(){n(2)}function b(n){return null==n||"object"!=typeof n||Object.isFrozen(n)}function y(t){var r=tn[t];return r||n( true?18:undefined,t),r}function m(n,t){tn[n]=t}function _(){return false||U||n(0),U}function j(n,t){t&&(y("Patches"),n.u=[],n.s=[],n.v=t)}function g(n){O(n),n.p.forEach(S),n.p=null}function O(n){n===U&&(U=n.l)}function w(n){return U={p:[],l:U,h:n,m:!0,_:0}}function S(n){var t=n[Q];0===t.i||1===t.i?t.j():t.g=!0}function P(t,e){e._=e.p.length;var i=e.p[0],o=void 0!==t&&t!==i;return e.h.O||y("ES5").S(e,t,o),o?(i[Q].P&&(g(e),n(4)),r(t)&&(t=M(e,t),e.l||x(e,t)),e.u&&y("Patches").M(i[Q],t,e.u,e.s)):t=M(e,i,[]),g(e),e.u&&e.v(e.u,e.s),t!==H?t:void 0}function M(n,t,r){if(b(t))return t;var e=t[Q];if(!e)return i(t,(function(i,o){return A(n,e,t,i,o,r)}),!0),t;if(e.A!==n)return t;if(!e.P)return x(n,e.t,!0),e.t;if(!e.I){e.I=!0,e.A._--;var o=4===e.i||5===e.i?e.o=l(e.k):e.o;i(3===e.i?new Set(o):o,(function(t,i){return A(n,e,o,t,i,r)})),x(n,o,!1),r&&n.u&&y("Patches").R(e,r,n.u,n.s)}return e.o}function A(e,i,o,a,c,s){if( true&&c===o&&n(5),t(c)){var v=M(e,c,s&&i&&3!==i.i&&!u(i.D,a)?s.concat(a):void 0);if(f(o,a,v),!t(v))return;e.m=!1}if(r(c)&&!b(c)){if(!e.h.N&&e._<1)return;M(e,c),i&&i.A.l||x(e,c)}}function x(n,t,r){void 0===r&&(r=!1),n.h.N&&n.m&&d(t,r)}function z(n,t){var r=n[Q];return(r?p(r):n)[t]}function I(n,t){if(t in n)for(var r=Object.getPrototypeOf(n);r;){var e=Object.getOwnPropertyDescriptor(r,t);if(e)return e;r=Object.getPrototypeOf(r)}}function E(n){n.P||(n.P=!0,n.l&&E(n.l))}function k(n){n.o||(n.o=l(n.t))}function R(n,t,r){var e=s(t)?y("MapSet").T(t,r):v(t)?y("MapSet").F(t,r):n.O?function(n,t){var r=Array.isArray(n),e={i:r?1:0,A:t?t.A:_(),P:!1,I:!1,D:{},l:t,t:n,k:null,o:null,j:null,C:!1},i=e,o=rn;r&&(i=[e],o=en);var u=Proxy.revocable(i,o),a=u.revoke,f=u.proxy;return e.k=f,e.j=a,f}(t,r):y("ES5").J(t,r);return(r?r.A:_()).p.push(e),e}function D(e){return t(e)||n(22,e),function n(t){if(!r(t))return t;var e,u=t[Q],c=o(t);if(u){if(!u.P&&(u.i<4||!y("ES5").K(u)))return u.t;u.I=!0,e=N(t,c),u.I=!1}else e=N(t,c);return i(e,(function(t,r){u&&a(u.t,t)===r||f(e,t,n(r))})),3===c?new Set(e):e}(e)}function N(n,t){switch(t){case 2:return new Map(n);case 3:return Array.from(n)}return l(n)}function T(){function r(n,t){var r=s[n];return r?r.enumerable=t:s[n]=r={configurable:!0,enumerable:t,get:function(){var t=this[Q];return true&&f(t),rn.get(t,n)},set:function(t){var r=this[Q]; true&&f(r),rn.set(r,n,t)}},r}function e(n){for(var t=n.length-1;t>=0;t--){var r=n[t][Q];if(!r.P)switch(r.i){case 5:a(r)&&E(r);break;case 4:o(r)&&E(r)}}}function o(n){for(var t=n.t,r=n.k,e=Z(r),i=e.length-1;i>=0;i--){var o=e[i];if(o!==Q){var a=t[o];if(void 0===a&&!u(t,o))return!0;var f=r[o],s=f&&f[Q];if(s?s.t!==a:!c(f,a))return!0}}var v=!!t[Q];return e.length!==Z(t).length+(v?0:1)}function a(n){var t=n.k;if(t.length!==n.t.length)return!0;var r=Object.getOwnPropertyDescriptor(t,t.length-1);return!(!r||r.get)}function f(t){t.g&&n(3,JSON.stringify(p(t)))}var s={};m("ES5",{J:function(n,t){var e=Array.isArray(n),i=function(n,t){if(n){for(var e=Array(t.length),i=0;i<t.length;i++)Object.defineProperty(e,""+i,r(i,!0));return e}var o=nn(t);delete o[Q];for(var u=Z(o),a=0;a<u.length;a++){var f=u[a];o[f]=r(f,n||!!o[f].enumerable)}return Object.create(Object.getPrototypeOf(t),o)}(e,n),o={i:e?5:4,A:t?t.A:_(),P:!1,I:!1,D:{},l:t,t:n,k:i,o:null,g:!1,C:!1};return Object.defineProperty(i,Q,{value:o,writable:!0}),i},S:function(n,r,o){o?t(r)&&r[Q].A===n&&e(n.p):(n.u&&function n(t){if(t&&"object"==typeof t){var r=t[Q];if(r){var e=r.t,o=r.k,f=r.D,c=r.i;if(4===c)i(o,(function(t){t!==Q&&(void 0!==e[t]||u(e,t)?f[t]||n(o[t]):(f[t]=!0,E(r)))})),i(e,(function(n){void 0!==o[n]||u(o,n)||(f[n]=!1,E(r))}));else if(5===c){if(a(r)&&(E(r),f.length=!0),o.length<e.length)for(var s=o.length;s<e.length;s++)f[s]=!1;else for(var v=e.length;v<o.length;v++)f[v]=!0;for(var p=Math.min(o.length,e.length),l=0;l<p;l++)void 0===f[l]&&n(o[l])}}}}(n.p[0]),e(n.p))},K:function(n){return 4===n.i?o(n):a(n)}})}function F(){function r(n){if(!n||"object"!=typeof n)return n;if(Array.isArray(n))return n.map(r);if(s(n))return new Map(Array.from(n.entries()).map((function(n){return[n[0],r(n[1])]})));if(v(n))return new Set(Array.from(n).map(r));var t=Object.create(Object.getPrototypeOf(n));for(var e in n)t[e]=r(n[e]);return t}function e(n){return t(n)?r(n):n}var f="add";m("Patches",{$:function(t,e){return e.forEach((function(e){for(var i=e.path,u=e.op,c=t,s=0;s<i.length-1;s++)"object"!=typeof(c=a(c,i[s]))&&n(15,i.join("/"));var v=o(c),p=r(e.value),l=i[i.length-1];switch(u){case"replace":switch(v){case 2:return c.set(l,p);case 3:n(16);default:return c[l]=p}case f:switch(v){case 1:return c.splice(l,0,p);case 2:return c.set(l,p);case 3:return c.add(p);default:return c[l]=p}case"remove":switch(v){case 1:return c.splice(l,1);case 2:return c.delete(l);case 3:return c.delete(e.value);default:return delete c[l]}default:n(17,u)}})),t},R:function(n,t,r,o){switch(n.i){case 0:case 4:case 2:return function(n,t,r,o){var c=n.t,s=n.o;i(n.D,(function(n,i){var v=a(c,n),p=a(s,n),l=i?u(c,n)?"replace":f:"remove";if(v!==p||"replace"!==l){var d=t.concat(n);r.push("remove"===l?{op:l,path:d}:{op:l,path:d,value:p}),o.push(l===f?{op:"remove",path:d}:"remove"===l?{op:f,path:d,value:e(v)}:{op:"replace",path:d,value:e(v)})}}))}(n,t,r,o);case 5:case 1:return function(n,t,r,i){var o=n.t,u=n.D,a=n.o;if(a.length<o.length){var c=[a,o];o=c[0],a=c[1];var s=[i,r];r=s[0],i=s[1]}for(var v=0;v<o.length;v++)if(u[v]&&a[v]!==o[v]){var p=t.concat([v]);r.push({op:"replace",path:p,value:e(a[v])}),i.push({op:"replace",path:p,value:e(o[v])})}for(var l=o.length;l<a.length;l++){var d=t.concat([l]);r.push({op:f,path:d,value:e(a[l])})}o.length<a.length&&i.push({op:"replace",path:t.concat(["length"]),value:o.length})}(n,t,r,o);case 3:return function(n,t,r,e){var i=n.t,o=n.o,u=0;i.forEach((function(n){if(!o.has(n)){var i=t.concat([u]);r.push({op:"remove",path:i,value:n}),e.unshift({op:f,path:i,value:n})}u++})),u=0,o.forEach((function(n){if(!i.has(n)){var o=t.concat([u]);r.push({op:f,path:o,value:n}),e.unshift({op:"remove",path:o,value:n})}u++}))}(n,t,r,o)}},M:function(n,t,r,e){r.push({op:"replace",path:[],value:t}),e.push({op:"replace",path:[],value:n.t})}})}function C(){function t(n,t){function r(){this.constructor=n}u(n,t),n.prototype=(r.prototype=t.prototype,new r)}function e(n){n.o||(n.D=new Map,n.o=new Map(n.t))}function i(n){n.o||(n.o=new Set,n.t.forEach((function(t){if(r(t)){var e=R(n.A.h,t,n);n.p.set(t,e),n.o.add(e)}else n.o.add(t)})))}function o(t){t.g&&n(3,JSON.stringify(p(t)))}var u=function(n,t){return(u=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(n,t){n.__proto__=t}||function(n,t){for(var r in t)t.hasOwnProperty(r)&&(n[r]=t[r])})(n,t)},a=function(){function n(n,t){return this[Q]={i:2,l:t,A:t?t.A:_(),P:!1,I:!1,o:void 0,D:void 0,t:n,k:this,C:!1,g:!1},this}t(n,Map);var i=n.prototype;return Object.defineProperty(i,"size",{get:function(){return p(this[Q]).size}}),i.has=function(n){return p(this[Q]).has(n)},i.set=function(n,t){var r=this[Q];return o(r),p(r).has(n)&&p(r).get(n)===t||(e(r),E(r),r.D.set(n,!0),r.o.set(n,t),r.D.set(n,!0)),this},i.delete=function(n){if(!this.has(n))return!1;var t=this[Q];return o(t),e(t),E(t),t.D.set(n,!1),t.o.delete(n),!0},i.clear=function(){var n=this[Q];return o(n),e(n),E(n),n.D=new Map,n.o.clear()},i.forEach=function(n,t){var r=this;p(this[Q]).forEach((function(e,i){n.call(t,r.get(i),i,r)}))},i.get=function(n){var t=this[Q];o(t);var i=p(t).get(n);if(t.I||!r(i))return i;if(i!==t.t.get(n))return i;var u=R(t.A.h,i,t);return e(t),t.o.set(n,u),u},i.keys=function(){return p(this[Q]).keys()},i.values=function(){var n,t=this,r=this.keys();return(n={})[V]=function(){return t.values()},n.next=function(){var n=r.next();return n.done?n:{done:!1,value:t.get(n.value)}},n},i.entries=function(){var n,t=this,r=this.keys();return(n={})[V]=function(){return t.entries()},n.next=function(){var n=r.next();if(n.done)return n;var e=t.get(n.value);return{done:!1,value:[n.value,e]}},n},i[V]=function(){return this.entries()},n}(),f=function(){function n(n,t){return this[Q]={i:3,l:t,A:t?t.A:_(),P:!1,I:!1,o:void 0,t:n,k:this,p:new Map,g:!1,C:!1},this}t(n,Set);var r=n.prototype;return Object.defineProperty(r,"size",{get:function(){return p(this[Q]).size}}),r.has=function(n){var t=this[Q];return o(t),t.o?!!t.o.has(n)||!(!t.p.has(n)||!t.o.has(t.p.get(n))):t.t.has(n)},r.add=function(n){var t=this[Q];return o(t),this.has(n)||(i(t),E(t),t.o.add(n)),this},r.delete=function(n){if(!this.has(n))return!1;var t=this[Q];return o(t),i(t),E(t),t.o.delete(n)||!!t.p.has(n)&&t.o.delete(t.p.get(n))},r.clear=function(){var n=this[Q];return o(n),i(n),E(n),n.o.clear()},r.values=function(){var n=this[Q];return o(n),i(n),n.o.values()},r.entries=function(){var n=this[Q];return o(n),i(n),n.o.entries()},r.keys=function(){return this.values()},r[V]=function(){return this.values()},r.forEach=function(n,t){for(var r=this.values(),e=r.next();!e.done;)n.call(t,e.value,e.value,this),e=r.next()},n}();m("MapSet",{T:function(n,t){return new a(n,t)},F:function(n,t){return new f(n,t)}})}function J(){T(),C(),F()}function K(n){return n}function $(n){return n}var G,U,W="undefined"!=typeof Symbol&&"symbol"==typeof Symbol("x"),X="undefined"!=typeof Map,q="undefined"!=typeof Set,B="undefined"!=typeof Proxy&&void 0!==Proxy.revocable&&"undefined"!=typeof Reflect,H=W?Symbol.for("immer-nothing"):((G={})["immer-nothing"]=!0,G),L=W?Symbol.for("immer-draftable"):"__$immer_draftable",Q=W?Symbol.for("immer-state"):"__$immer_state",V="undefined"!=typeof Symbol&&Symbol.iterator||"@@iterator",Y={0:"Illegal state",1:"Immer drafts cannot have computed properties",2:"This object has been frozen and should not be mutated",3:function(n){return"Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? "+n},4:"An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",5:"Immer forbids circular references",6:"The first or second argument to `produce` must be a function",7:"The third argument to `produce` must be a function or undefined",8:"First argument to `createDraft` must be a plain object, an array, or an immerable object",9:"First argument to `finishDraft` must be a draft returned by `createDraft`",10:"The given draft is already finalized",11:"Object.defineProperty() cannot be used on an Immer draft",12:"Object.setPrototypeOf() cannot be used on an Immer draft",13:"Immer only supports deleting array indices",14:"Immer only supports setting array indices and the 'length' property",15:function(n){return"Cannot apply patch, path doesn't resolve: "+n},16:'Sets cannot have "replace" patches.',17:function(n){return"Unsupported patch operation: "+n},18:function(n){return"The plugin for '"+n+"' has not been loaded into Immer. To enable the plugin, import and call `enable"+n+"()` when initializing your application."},19:"plugin not loaded",20:"Cannot use proxies if Proxy, Proxy.revocable or Reflect are not available",21:function(n){return"produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '"+n+"'"},22:function(n){return"'current' expects a draft, got: "+n},23:function(n){return"'original' expects a draft, got: "+n}},Z="undefined"!=typeof Reflect&&Reflect.ownKeys?Reflect.ownKeys:void 0!==Object.getOwnPropertySymbols?function(n){return Object.getOwnPropertyNames(n).concat(Object.getOwnPropertySymbols(n))}:Object.getOwnPropertyNames,nn=Object.getOwnPropertyDescriptors||function(n){var t={};return Z(n).forEach((function(r){t[r]=Object.getOwnPropertyDescriptor(n,r)})),t},tn={},rn={get:function(n,t){if(t===Q)return n;var e=p(n);if(!u(e,t))return function(n,t,r){var e,i=I(t,r);return i?"value"in i?i.value:null===(e=i.get)||void 0===e?void 0:e.call(n.k):void 0}(n,e,t);var i=e[t];return n.I||!r(i)?i:i===z(n.t,t)?(k(n),n.o[t]=R(n.A.h,i,n)):i},has:function(n,t){return t in p(n)},ownKeys:function(n){return Reflect.ownKeys(p(n))},set:function(n,t,r){var e=I(p(n),t);if(null==e?void 0:e.set)return e.set.call(n.k,r),!0;if(n.D[t]=!0,!n.P){if(c(r,z(p(n),t))&&(void 0!==r||u(n.t,t)))return!0;k(n),E(n)}return n.o[t]=r,!0},deleteProperty:function(n,t){return void 0!==z(n.t,t)||t in n.t?(n.D[t]=!1,k(n),E(n)):delete n.D[t],n.o&&delete n.o[t],!0},getOwnPropertyDescriptor:function(n,t){var r=p(n),e=Reflect.getOwnPropertyDescriptor(r,t);return e?{writable:!0,configurable:1!==n.i||"length"!==t,enumerable:e.enumerable,value:r[t]}:e},defineProperty:function(){n(11)},getPrototypeOf:function(n){return Object.getPrototypeOf(n.t)},setPrototypeOf:function(){n(12)}},en={};i(rn,(function(n,t){en[n]=function(){return arguments[0]=arguments[0][0],t.apply(this,arguments)}})),en.deleteProperty=function(t,r){return true&&isNaN(parseInt(r))&&n(13),rn.deleteProperty.call(this,t[0],r)},en.set=function(t,r,e){return true&&"length"!==r&&isNaN(parseInt(r))&&n(14),rn.set.call(this,t[0],r,e,t[0])};var on=function(){function e(n){this.O=B,this.N="production"!=="development","boolean"==typeof(null==n?void 0:n.useProxies)&&this.setUseProxies(n.useProxies),"boolean"==typeof(null==n?void 0:n.autoFreeze)&&this.setAutoFreeze(n.autoFreeze),this.produce=this.produce.bind(this),this.produceWithPatches=this.produceWithPatches.bind(this)}var i=e.prototype;return i.produce=function(t,e,i){if("function"==typeof t&&"function"!=typeof e){var o=e;e=t;var u=this;return function(n){var t=this;void 0===n&&(n=o);for(var r=arguments.length,i=Array(r>1?r-1:0),a=1;a<r;a++)i[a-1]=arguments[a];return u.produce(n,(function(n){var r;return(r=e).call.apply(r,[t,n].concat(i))}))}}var a;if("function"!=typeof e&&n(6),void 0!==i&&"function"!=typeof i&&n(7),r(t)){var f=w(this),c=R(this,t,void 0),s=!0;try{a=e(c),s=!1}finally{s?g(f):O(f)}return"undefined"!=typeof Promise&&a instanceof Promise?a.then((function(n){return j(f,i),P(n,f)}),(function(n){throw g(f),n})):(j(f,i),P(a,f))}if(!t||"object"!=typeof t){if((a=e(t))===H)return;return void 0===a&&(a=t),this.N&&d(a,!0),a}n(21,t)},i.produceWithPatches=function(n,t){var r,e,i=this;return"function"==typeof n?function(t){for(var r=arguments.length,e=Array(r>1?r-1:0),o=1;o<r;o++)e[o-1]=arguments[o];return i.produceWithPatches(t,(function(t){return n.apply(void 0,[t].concat(e))}))}:[this.produce(n,t,(function(n,t){r=n,e=t})),r,e]},i.createDraft=function(e){r(e)||n(8),t(e)&&(e=D(e));var i=w(this),o=R(this,e,void 0);return o[Q].C=!0,O(i),o},i.finishDraft=function(t,r){var e=t&&t[Q]; true&&(e&&e.C||n(9),e.I&&n(10));var i=e.A;return j(i,r),P(void 0,i)},i.setAutoFreeze=function(n){this.N=n},i.setUseProxies=function(t){t&&!B&&n(20),this.O=t},i.applyPatches=function(n,r){var e;for(e=r.length-1;e>=0;e--){var i=r[e];if(0===i.path.length&&"replace"===i.op){n=i.value;break}}var o=y("Patches").$;return t(n)?o(n,r):this.produce(n,(function(n){return o(n,r.slice(e+1))}))},e}(),un=new on,an=un.produce,fn=un.produceWithPatches.bind(un),cn=un.setAutoFreeze.bind(un),sn=un.setUseProxies.bind(un),vn=un.applyPatches.bind(un),pn=un.createDraft.bind(un),ln=un.finishDraft.bind(un);/* harmony default export */ __webpack_exports__["default"] = (an);
-//# sourceMappingURL=immer.esm.js.map
 
 
 /***/ }),
@@ -35461,6 +33778,40 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/redux-devtools-extension/developmentOnly.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/redux-devtools-extension/developmentOnly.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compose = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js").compose;
+
+exports.__esModule = true;
+exports.composeWithDevTools = (
+   true && typeof window !== 'undefined' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+    function() {
+      if (arguments.length === 0) return undefined;
+      if (typeof arguments[0] === 'object') return compose;
+      return compose.apply(null, arguments);
+    }
+);
+
+exports.devToolsEnhancer = (
+   true && typeof window !== 'undefined' &&
+  window.__REDUX_DEVTOOLS_EXTENSION__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION__ :
+    function() { return function(noop) { return noop; } }
+);
+
+
+/***/ }),
+
 /***/ "./node_modules/redux-thunk/es/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/redux-thunk/es/index.js ***!
@@ -36173,142 +34524,6 @@ if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed
 
 
 
-
-/***/ }),
-
-/***/ "./node_modules/reselect/es/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/reselect/es/index.js ***!
-  \*******************************************/
-/*! exports provided: defaultMemoize, createSelectorCreator, createSelector, createStructuredSelector */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMemoize", function() { return defaultMemoize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelectorCreator", function() { return createSelectorCreator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelector", function() { return createSelector; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStructuredSelector", function() { return createStructuredSelector; });
-function defaultEqualityCheck(a, b) {
-  return a === b;
-}
-
-function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
-  if (prev === null || next === null || prev.length !== next.length) {
-    return false;
-  }
-
-  // Do this in a for loop (and not a `forEach` or an `every`) so we can determine equality as fast as possible.
-  var length = prev.length;
-  for (var i = 0; i < length; i++) {
-    if (!equalityCheck(prev[i], next[i])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function defaultMemoize(func) {
-  var equalityCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultEqualityCheck;
-
-  var lastArgs = null;
-  var lastResult = null;
-  // we reference arguments instead of spreading them for performance reasons
-  return function () {
-    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
-      // apply arguments instead of spreading for performance.
-      lastResult = func.apply(null, arguments);
-    }
-
-    lastArgs = arguments;
-    return lastResult;
-  };
-}
-
-function getDependencies(funcs) {
-  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
-
-  if (!dependencies.every(function (dep) {
-    return typeof dep === 'function';
-  })) {
-    var dependencyTypes = dependencies.map(function (dep) {
-      return typeof dep;
-    }).join(', ');
-    throw new Error('Selector creators expect all input-selectors to be functions, ' + ('instead received the following types: [' + dependencyTypes + ']'));
-  }
-
-  return dependencies;
-}
-
-function createSelectorCreator(memoize) {
-  for (var _len = arguments.length, memoizeOptions = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    memoizeOptions[_key - 1] = arguments[_key];
-  }
-
-  return function () {
-    for (var _len2 = arguments.length, funcs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      funcs[_key2] = arguments[_key2];
-    }
-
-    var recomputations = 0;
-    var resultFunc = funcs.pop();
-    var dependencies = getDependencies(funcs);
-
-    var memoizedResultFunc = memoize.apply(undefined, [function () {
-      recomputations++;
-      // apply arguments instead of spreading for performance.
-      return resultFunc.apply(null, arguments);
-    }].concat(memoizeOptions));
-
-    // If a selector is called with the exact same arguments we don't need to traverse our dependencies again.
-    var selector = memoize(function () {
-      var params = [];
-      var length = dependencies.length;
-
-      for (var i = 0; i < length; i++) {
-        // apply arguments instead of spreading and mutate a local list of params for performance.
-        params.push(dependencies[i].apply(null, arguments));
-      }
-
-      // apply arguments instead of spreading for performance.
-      return memoizedResultFunc.apply(null, params);
-    });
-
-    selector.resultFunc = resultFunc;
-    selector.dependencies = dependencies;
-    selector.recomputations = function () {
-      return recomputations;
-    };
-    selector.resetRecomputations = function () {
-      return recomputations = 0;
-    };
-    return selector;
-  };
-}
-
-var createSelector = createSelectorCreator(defaultMemoize);
-
-function createStructuredSelector(selectors) {
-  var selectorCreator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createSelector;
-
-  if (typeof selectors !== 'object') {
-    throw new Error('createStructuredSelector expects first argument to be an object ' + ('where each property is a selector, instead received a ' + typeof selectors));
-  }
-  var objectKeys = Object.keys(selectors);
-  return selectorCreator(objectKeys.map(function (key) {
-    return selectors[key];
-  }), function () {
-    for (var _len3 = arguments.length, values = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      values[_key3] = arguments[_key3];
-    }
-
-    return values.reduce(function (composition, value, index) {
-      composition[objectKeys[index]] = value;
-      return composition;
-    }, {});
-  });
-}
 
 /***/ }),
 

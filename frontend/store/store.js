@@ -1,16 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterSlice from '../features/counterSlice';
-import sessionReducer from '../reducers/session';
-const { actions, reducer } = counterSlice;
+// import { configureStore } from '@reduxjs/toolkit';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import thunk from 'redux-thunk';
 
-// const { increment, decrement } = actions
+import rootReducer from '../reducers/rootReducer';
 
-
-export default (preloadedState={}) => configureStore({
-  preloadedState,
-  reducer: {
-    counter: reducer,
-    session: sessionReducer,
-  },
-  devTools: process.env.NODE_ENV !== 'production',
-});
+export default (preloadedState = {}) =>
+  createStore(
+    rootReducer,
+    preloadedState,
+    composeWithDevTools(applyMiddleware(thunk))
+  );

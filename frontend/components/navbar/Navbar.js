@@ -23,24 +23,24 @@ const navBarLinksLeft = [
 
 const navBarLinksRight = [
   {
-    to: '/sales',
-    title: 'Contact Sales',
+    to: '/signin',
+    title: 'Sign In',
     className: 'btn-text',
   },
   {
-    to: '/signin',
-    title: 'Sign In',
+    to: '/signup',
+    title: 'Sign Up',
     className: 'btn-contained',
   },
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const signedIn = currentUser && (
+  const signedIn = currentUser ? (
     <div>
       <p>Hello, {currentUser.username}</p>
       <button onClick={signoutUser}>Sign Out</button>
     </div>
-  );
+  ) : <div></div>
 
   const signedOut = (
     <div>
@@ -74,6 +74,7 @@ const Navbar = ({ currentUser, signoutUser }) => {
               </NavLink>
             </li>
           ))}
+          {signedIn}
         </ul>
       </div>
     </nav>

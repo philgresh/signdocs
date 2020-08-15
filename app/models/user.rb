@@ -30,14 +30,15 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   # ActiveRecord associations
-  has_one  :signature,
-           class_name: :SignatureBlock
-  has_many :documents, 
-           foreign_key: :owner_id, 
+  has_one :signature,
+          class_name: :SignatureBlock
+  has_many :document_editors
+  has_many :documents,
+           through: :document_editors,
+           source: :document
+  has_many :text_blocks,
            dependent: :destroy
-  has_many :text_blocks, 
-           dependent: :destroy
-  has_many :sentinel_blocks, 
+  has_many :sentinel_blocks,
            dependent: :destroy
   has_many :content_fields,
            foreign_key: :assignee_id

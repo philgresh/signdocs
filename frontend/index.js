@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 import configureStore from './store/store';
 import { Provider } from 'react-redux';
 import App from './components/App';
-import { entitiesInitialState } from './reducers/entities';
-import { sessionInitialState } from './reducers/session';
+import { entitiesInitialState } from './reducers/entitiesReducer';
+import {
+  createNewUser,
+  signinUser,
+  signoutUser,
+} from './actions/session';
 import * as serviceWorker from './serviceWorker';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.currentUser = undefined;
   }
   const store = configureStore(preloadedState);
+
+  // TESTING
+  window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.createNewUser = createNewUser;
+  window.signinUser = signinUser;
+  window.signoutUser = signoutUser;
+  // TESTING
 
   ReactDOM.render(
     <React.StrictMode>
@@ -35,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setPreloadedState(currentUser) {
   return {
     session: {
-      ...sessionInitialState,
       currentUser: currentUser.id,
     },
     entities: {
@@ -46,4 +57,3 @@ function setPreloadedState(currentUser) {
     },
   };
 }
-

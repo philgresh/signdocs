@@ -1,4 +1,4 @@
-import { postUser, postSession, deleteSession } from '../utils/session';
+import { postUser, postSession, deleteSession } from '../utils/sessionUtils';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const SIGNOUT_CURRENT_USER = 'SIGNOUT_CURRENT_USER';
@@ -6,7 +6,7 @@ export const RECEIVE_ERRORS = 'RECEIVE_ERRORS';
 
 // Action creators
 const receiveCurrentUser = (user) => ({
-  user,
+  payload: user,
   type: RECEIVE_CURRENT_USER,
 });
 
@@ -15,7 +15,7 @@ const signoutCurrentUser = () => ({
 });
 
 const receiveErrors = (errors) => ({
-  errors,
+  payload: errors,
   type: RECEIVE_ERRORS,
 });
 
@@ -27,10 +27,12 @@ export const createNewUser = (formUser) => (dispatch) =>
     })
     .catch((err) => dispatch(receiveErrors(err)));
 
-export const signinUser = (formUser) => (dispatch) =>
-  postSession(formUser)
+export const signinUser = (formUser) => (dispatch) => {
+  debugger;
+  return postSession(formUser)
     .then((user) => dispatch(receiveCurrentUser(user)))
     .catch((err) => dispatch(receiveErrors(err)));
+};
 
 export const signoutUser = () => (dispatch) =>
   deleteSession()

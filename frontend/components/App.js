@@ -1,24 +1,26 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './navbar';
 import Home from './home';
-import SignupContainer from '../components/signup/SignupContainer';
-import {AuthRoute, ProtectedRoute} from '../utils/routeUtils';
+import SigninContainer from './session/SigninFormContainer';
+import SignupContainer from './session/SignupFormContainer';
+import { AuthRoute, ProtectedRoute } from '../utils/routeUtils';
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter>
       <header>
         <Navbar />
       </header>
       <Switch>
-      <AuthRoute path="/signup" component={SignupContainer} />
-        <ProtectedRoute path="/user"></ProtectedRoute>
+        <AuthRoute path="/signin" component={SigninContainer} />
+        <AuthRoute path="/signup" component={SignupContainer} />
+        <ProtectedRoute path="/user" component={SigninContainer} />
         <Route path="/">
           <Home />
         </Route>
       </Switch>
-    </Router>
+    </HashRouter>
   );
 };
 

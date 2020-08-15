@@ -15,13 +15,15 @@ SIGNATURE_STYLE_FONT_FAMILIES = [
 COLORS = %w[darkred darkgreen darkgray].freeze
 SENTINEL_BLOCK_TYPES = [
   "SIGNATURE",
-  "TEXT"
+  "TEXT",
 ]
 
 def destroy_all(klass)
   names = klass.name.underscore.pluralize
-  puts "Destroying all #{names}..."
-  klass.destroy_all
+  if klass.count > 0
+    puts "Destroying all #{names}..."
+    klass.destroy_all
+  end
 
   puts "Creating #{names}..."
 end
@@ -42,7 +44,7 @@ def create_new_users
       last_name: Faker::Name.last_name,
     )
   end
-  
+
   print_results(User)
 
   users
@@ -68,24 +70,28 @@ def create_new_signature_blocks(users)
   print_results(SignatureBlock)
 end
 
-def create_new_documents(users)
+def create_new_documents()
   destroy_all(Document)
 
   docs = (0...NUM_DOCUMENTS).map do |i|
-    doc = Document.new(
-      owner_id: users.sample.id,
+    doc = Document.create(
       title: Faker::Book.title,
       description: Faker::Quotes::Shakespeare.hamlet_quote,
     )
 
+    users = User.all.sample(2)
+    doc.editors << users[0]
+    doc.editors << users[1] if (rand(0..2) ==1)
+    # doc.document_editors.find_by(user_id: user.id).is_owner = true
+    doc.owner=(users[0])
+
     doc.file.attach io: File.open("/Users/phil/Downloads/signdocs_sample_pdfs/sample#{i}.pdf"),
                     filename: "sample#{i}.pdf",
                     content_type: "application/pdf"
-    doc.save!
   end
 
   print_results(Document)
-  
+
   puts "First file:"
   p Document.first.file
   return docs
@@ -99,7 +105,7 @@ def create_new_sentinel_blocks(docs)
     SentinelBlock.create(
       user_id: doc.owner.id,
       block_type: block_type,
-      placeholder: "This is a #{block_type} placeholder"
+      placeholder: "This is a #{block_type} placeholder",
     )
   end
 
@@ -113,19 +119,18 @@ def create_new_content_fields(sentinels)
 
   content_fields = sentinels.map do |sentinel|
     sentinel.content_field = ContentField.create(
-      # bbox
-      # assignee_id
-      # document_id
-    )
+ # bbox
+           # assignee_id
+           # document_id
+      )
   end
 
   print_results(ContentField)
   content_fields
 end
 
-
-# users = create_new_users()
+users = create_new_users()
 # create_new_signature_blocks(users)
-# docs = create_new_documents(users)
+docs = create_new_documents()
 # sentinels = create_new_sentinel_blocks(Document.all)
 # content_fields = create_new_content_fields(sentinels)

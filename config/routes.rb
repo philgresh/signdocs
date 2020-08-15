@@ -4,12 +4,13 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :users, only: [:index, :show, :create, :update]
     resources :documents, only: [:index, :show, :create, :update, :destroy] do
-      resources :content_fields, shallow: true, only: [:index, :show, :create, :update, :destroy]
+
       member do 
         get 'final'
         post 'final'
       end
     end
+    resources :content_fields, only: [:create, :update, :destroy]
     resources :sentinel_blocks, only: [:show, :update]
     resources :signature_blocks, only: [:show, :update]
     resources :text_blocks, only: [:show, :update]

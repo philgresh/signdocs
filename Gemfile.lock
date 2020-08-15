@@ -54,7 +54,7 @@ GEM
     arel (9.0.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-    aws-partitions (1.354.0)
+    aws-partitions (1.355.0)
     aws-sdk-core (3.104.3)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -67,7 +67,7 @@ GEM
       aws-sdk-core (~> 3, >= 3.104.3)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.2.1)
+    aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.15)
     better_errors (2.7.1)
@@ -121,7 +121,7 @@ GEM
     dry-equalizer (0.3.0)
     dry-inflector (0.2.0)
     dry-initializer (3.0.3)
-    dry-logic (1.0.6)
+    dry-logic (1.0.7)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
@@ -244,6 +244,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rb-readline (0.5.5)
     regexp_parser (1.7.1)
     rexml (3.2.4)
     rspec-core (3.9.2)
@@ -356,6 +357,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.3)
   rails-controller-testing
+  rb-readline
   rspec-rails (~> 3.5)
   rubocop
   sass-rails (~> 5.0)

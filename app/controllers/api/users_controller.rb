@@ -3,21 +3,16 @@ class Api::UsersController < ApplicationController
   # before_action :require_logged_in, only: [:show, :index]
   # before_action :require_logged_out, only: [:create]
 
-  def new
-    @user = User.new
-    render :new
-
-  end
-
   def create
     @user = User.new(user_params)
 
     if @user.save
       login!(@user)
-      redirect_to users_url
+      render :show
     else
-      flash[:errors] = @user.errors.full_messages
-      render :new
+      # flash[:errors] = @user.errors.full_messages
+      errors = @user.errors.full_messages
+      render json: errors, status: 403
     end
   end
 
@@ -34,6 +29,6 @@ class Api::UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :first_name, :last_name)
   end
 end

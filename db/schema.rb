@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_053259) do
+ActiveRecord::Schema.define(version: 2020_08_14_182755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -50,25 +50,21 @@ ActiveRecord::Schema.define(version: 2020_08_13_053259) do
     t.index ["document_id"], name: "index_content_fields_on_document_id"
   end
 
-  create_table "document_changes", force: :cascade do |t|
-    t.string "change_operation", null: false
-    t.string "changeable_type"
-    t.bigint "changeable_id"
+  create_table "document_editors", force: :cascade do |t|
+    t.uuid "document_id", null: false
     t.uuid "user_id", null: false
-    t.json "changes", null: false
+    t.boolean "is_owner", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["changeable_type", "changeable_id"], name: "index_document_changes_on_changeable_type_and_changeable_id"
+    t.index ["document_id"], name: "index_document_editors_on_document_id"
+    t.index ["user_id"], name: "index_document_editors_on_user_id"
   end
 
   create_table "documents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "owner_id", null: false
-    t.uuid "editor_ids", array: true
     t.string "title", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_documents_on_owner_id"
   end
 
   create_table "sentinel_blocks", force: :cascade do |t|

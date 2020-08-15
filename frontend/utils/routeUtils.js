@@ -1,27 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { signedIn } from '../reducers/session';
+// import { signedIn } from '../reducers/session';
 
 const mapStateToProps = (state) => ({
-  signedIn: signedIn(state),
+  signedIn: !!state.session.currentUser,
+  // signedIn: signedIn(state),
 });
 
 const AUTH_REDIRECT_PATH = '/';
 const PROTECTED_REDIRECT_PATH = '/signup';
 
-const Auth = ({ component: Component, path, signedIn }) => (
+const Auth = ({ component: Component, path, signedIn, exact }) => (
   <Route
     path={path}
+    exact={exact}
     render={(props) =>
       signedIn ? <Redirect to={AUTH_REDIRECT_PATH} /> : <Component {...props} />
     }
   />
 );
 
-const Protected = ({ component: Component, path, signedIn }, ...rest) => (
+const Protected = (
+  { component: Component, path, signedIn, exact },
+  ...rest
+) => (
   <Route
     path={path}
+    exact={exact}
     render={(props) =>
       signedIn ? (
         <Component {...props} />

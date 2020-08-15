@@ -4,26 +4,17 @@
 #
 #  id          :uuid             not null, primary key
 #  description :text
-#  editor_ids  :uuid             is an Array
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  owner_id    :uuid             not null
-#
-# Indexes
-#
-#  index_documents_on_owner_id  (owner_id)
 #
 require "aws-sdk-s3"
 
 class Document < ApplicationRecord
   ACCEPTABLE_TYPES = ["application/pdf", "image/png", "image/jpg", "image/jpeg", "image/jpg", "image/svg+xml"]
-  S3 = Aws::S3::Resource.new(region: Rails.application.credentials.dig(:aws, :region))
-  BUCKET = S3.bucket(Rails.application.credentials.dig(:aws, :bucket))
 
-  validates_presence_of :owner_id
+  # attached: true,
   validates :file,
-            attached: true,
             content_type: {
               in: ACCEPTABLE_TYPES,
               message: "is not an acceptable type",
@@ -42,30 +33,42 @@ class Document < ApplicationRecord
   has_many :content_fields,
            class_name: :ContentField,
            dependent: :destroy
+  has_many :document_editors
   has_many :editors,
-           class_name: :User,
-           foreign_key: :editor_ids
-  belongs_to :owner,
-             class_name: :User,
-             foreign_key: :owner_id
-
-  before_validation :set_defaults, unless: :persisted?
+           through: :document_editors,
+           source: :user
 
   def blob
-    if file && file.blob
-      file.blob
-    else
-      nil
-    end
+    file.blob if file && file.blob
   end
 
   def gen_presigned_url(expires_in = 900)
     blob.service_url(expires_in: expires_in)
   end
 
+  def owner
+    d_owner = document_editor_owner
+    d_owner.user unless d_owner.nil?
+  end
+
+  def owner=(user)
+    de = document_editor_owner
+    if de
+      return user if de == user
+      de.set_owner(false)
+    end
+
+    document_editors.find_by(user_id: user.id).set_owner(true)
+  end
+
   private
 
-  def set_defaults
-    self.editor_ids ||= []
+  def document_editor_owner
+    document_editors.find_by(is_owner: true)
+  end
+
+  def aws_client
+    s3 = Aws::S3::Resource.new(region: Rails.application.credentials.dig(:aws, :region))
+    bucket = s3.bucket(Rails.application.credentials.dig(:aws, :bucket))
   end
 end

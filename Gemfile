@@ -60,7 +60,7 @@ group :development, :test do
   gem 'cuid'
 
   # required for ActiveStorage::Previewer::PopplerPDFPreviewer
-  # gem 'poppler' 
+  # gem 'poppler'
 end
 
 
@@ -71,6 +71,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
+  gem 'rb-readline'
 end
 
 group :test do
