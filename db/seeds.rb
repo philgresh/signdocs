@@ -39,7 +39,7 @@ def create_new_users
     f_name = Faker::Name.first_name
     User.create(
       email: Faker::Internet.safe_email(name: f_name),
-      password: "abc123!?",
+      password: "password",
       first_name: f_name,
       last_name: Faker::Name.last_name,
     )

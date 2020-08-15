@@ -35,23 +35,22 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const signedIn = currentUser ? (
-    <div>
-      <p>Hello, {currentUser.username}</p>
+  const signedIn = currentUser && (
+    <li>
+      <p>Hello, {currentUser.first_name}</p>
       <button onClick={signoutUser}>Sign Out</button>
-    </div>
-  ) : <div></div>
-
-  const signedOut = (
-    <div>
-      <Link className="btn" to="/signup">
-        Sign Up
-      </Link>
-      <Link className="btn" to="/login">
-        Log In
-      </Link>
-    </div>
+    </li>
   );
+
+  const signedOut = navBarLinksRight.map(({ to, title, className }) => (
+    <li key={to}>
+      <NavLink to={to} className={className}>
+        {title}
+      </NavLink>
+    </li>
+  ));
+
+  const navLinksRight = currentUser ? signedIn : signedOut;
 
   return (
     <nav>
@@ -66,16 +65,7 @@ const Navbar = ({ currentUser, signoutUser }) => {
         </ul>
       </div>
       <div className="flex-right">
-        <ul className="nav-links">
-          {navBarLinksRight.map(({ to, title, className }) => (
-            <li key={to}>
-              <NavLink to={to} className={className}>
-                {title}
-              </NavLink>
-            </li>
-          ))}
-          {signedIn}
-        </ul>
+        <ul className="nav-links">{navLinksRight}</ul>
       </div>
     </nav>
   );

@@ -23,30 +23,32 @@ const SessionForm = ({ errors, formType, processForm, history }) => {
   const headerText = formType === 'login' ? 'Log in' : 'Sign up';
   const errorsString = errors.join('. ');
   return (
-    <div>
+    <>
       <h1>{headerText}</h1>
-      <label htmlFor="email">Username</label>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <p className="errors" style={{ color: 'darkred' }}>
-        {errorsString}
-      </p>
-      <button type="submit" onClick={handleSubmit} disabled={submitting}>
-        {buttonText}
-      </button>
-    </div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Username</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <p className="errors" style={{ color: 'darkred' }}>
+          {errorsString}
+        </p>
+        <button type="submit" onClick={handleSubmit} disabled={submitting}>
+          {buttonText}
+        </button>
+      </form>
+    </>
   );
 };
 

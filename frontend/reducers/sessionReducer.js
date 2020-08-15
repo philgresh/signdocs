@@ -4,34 +4,31 @@ import {
   RECEIVE_ERRORS,
 } from '../actions/session';
 
-export const sessionInitialState = {
-  currentUser: null,
-};
-
-const sessionErrorsInitialState = []
-
-export const sessionErrorsReducer = (state = sessionErrorsInitialState, {type, payload}) => {
+export const sessionErrorsReducer = (state = [], action) => {
+  const { type, payload } = action;
   Object.freeze(state);
   switch (type) {
-    case RECEIVE_ERRORS:
-      return [...payload.responseJSON];
+    case RECEIVE_ERRORS: {
+      if (payload instanceof Array) return [...payload];
+      return [{error: payload}];
+    }
     case RECEIVE_CURRENT_USER:
-      return sessionErrorsInitialState;
+      return [];
     default:
       return state;
   }
 };
 
-// Selectors
-export const getCurrentUser = (state) => state.session.currentUser;
-export const signedIn = (state) => !!state.session.currentUser;
+export const sessionInitialState = {
+  currentUser: null,
+};
 
-export default (state = sessionInitialState, action) => {
+const sessionReducer = (state = sessionInitialState, { type, payload }) => {
   Object.freeze(state);
 
-  switch (action.type) {
+  switch (type) {
     case RECEIVE_CURRENT_USER: {
-      return Object.assign({}, { currentUser: action.payload });
+      return { currentUser: payload.id };
     }
     case SIGNOUT_CURRENT_USER: {
       return sessionInitialState;
@@ -40,3 +37,9 @@ export default (state = sessionInitialState, action) => {
       return state;
   }
 };
+
+// Selectors
+export const getCurrentUser = (state) => state.entities.users[state.session.currentUser];
+export const signedIn = (state) => !!state.session.currentUser;
+
+export default sessionReducer;

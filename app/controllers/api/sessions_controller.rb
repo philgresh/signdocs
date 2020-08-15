@@ -2,8 +2,6 @@ class Api::SessionsController < ApplicationController
   # before_action :require_logged_in, only: [:destroy]
   # before_action :require_logged_out, only: [:create]
 
-  skip_before_action :verify_authenticity_token
-
   def create
     @user = User.find_by_credentials(
       params[:user][:email],
@@ -23,10 +21,9 @@ class Api::SessionsController < ApplicationController
     @user = current_user
     if @user
       logout!
-      redirect_to root_url
+      redirect_to root_url, status: 204
     else
-      errors = ["Nobody signed in"]
-      render json: errors, status: 404
+      render json: ["Nobody signed in"], status: 404
     end
   end
 end

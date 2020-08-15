@@ -122,7 +122,7 @@ var signoutCurrentUser = function signoutCurrentUser() {
 
 var receiveErrors = function receiveErrors(errors) {
   return {
-    payload: errors,
+    payload: errors.responseJSON,
     type: RECEIVE_ERRORS
   };
 }; // Thunk action creators
@@ -130,28 +130,27 @@ var receiveErrors = function receiveErrors(errors) {
 
 var createNewUser = function createNewUser(formUser) {
   return function (dispatch) {
-    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postUser"])(formUser).then(function (user) {
+    return _utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postUser"](formUser).then(function (user) {
       dispatch(receiveCurrentUser(user));
-    })["catch"](function (err) {
+    }).fail(function (err) {
       return dispatch(receiveErrors(err));
     });
   };
 };
 var signinUser = function signinUser(formUser) {
   return function (dispatch) {
-    debugger;
-    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postSession"])(formUser).then(function (user) {
+    return _utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["postSession"](formUser).then(function (user) {
       return dispatch(receiveCurrentUser(user));
-    })["catch"](function (err) {
+    }).fail(function (err) {
       return dispatch(receiveErrors(err));
     });
   };
 };
 var signoutUser = function signoutUser() {
   return function (dispatch) {
-    return Object(_utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["deleteSession"])().then(function () {
+    return _utils_sessionUtils__WEBPACK_IMPORTED_MODULE_0__["deleteSession"]().then(function () {
       return dispatch(signoutCurrentUser());
-    })["catch"](function (err) {
+    }).fail(function (err) {
       return dispatch(receiveErrors(err));
     });
   };
@@ -326,23 +325,28 @@ var navBarLinksRight = [{
 var Navbar = function Navbar(_ref) {
   var currentUser = _ref.currentUser,
       signoutUser = _ref.signoutUser;
-  var signedIn = currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Hello, ", currentUser.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  var signedIn = currentUser && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Hello, ", currentUser.first_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: signoutUser
-  }, "Sign Out")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-  var signedOut = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-    className: "btn",
-    to: "/signup"
-  }, "Sign Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-    className: "btn",
-    to: "/login"
-  }, "Log In"));
+  }, "Sign Out"));
+  var signedOut = navBarLinksRight.map(function (_ref2) {
+    var to = _ref2.to,
+        title = _ref2.title,
+        className = _ref2.className;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      key: to
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+      to: to,
+      className: className
+    }, title));
+  });
+  var navLinksRight = currentUser ? signedIn : signedOut;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-left"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "SignDocs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "nav-links"
-  }, navBarLinksLeft.map(function (_ref2) {
-    var to = _ref2.to,
-        title = _ref2.title;
+  }, navBarLinksLeft.map(function (_ref3) {
+    var to = _ref3.to,
+        title = _ref3.title;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: to
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
@@ -352,21 +356,48 @@ var Navbar = function Navbar(_ref) {
     className: "flex-right"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "nav-links"
-  }, navBarLinksRight.map(function (_ref3) {
-    var to = _ref3.to,
-        title = _ref3.title,
-        className = _ref3.className;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      key: to
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
-      to: to,
-      className: className
-    }, title));
-  }), signedIn)));
+  }, navLinksRight)));
 };
 
 Navbar.propTypes = {};
 /* harmony default export */ __webpack_exports__["default"] = (Navbar);
+
+/***/ }),
+
+/***/ "./frontend/components/navbar/NavbarContainer.js":
+/*!*******************************************************!*\
+  !*** ./frontend/components/navbar/NavbarContainer.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Navbar */ "./frontend/components/navbar/Navbar.js");
+/* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
+/* harmony import */ var _reducers_sessionReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/sessionReducer */ "./frontend/reducers/sessionReducer.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentUser: Object(_reducers_sessionReducer__WEBPACK_IMPORTED_MODULE_3__["getCurrentUser"])(state)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    signoutUser: function signoutUser() {
+      return dispatch(Object(_actions_session__WEBPACK_IMPORTED_MODULE_2__["signoutUser"])());
+    }
+  };
+};
+
+var NavBarContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (NavBarContainer);
 
 /***/ }),
 
@@ -380,8 +411,10 @@ Navbar.propTypes = {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar */ "./frontend/components/navbar/Navbar.js");
+/* harmony import */ var _NavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NavbarContainer */ "./frontend/components/navbar/NavbarContainer.js");
 
-/* harmony default export */ __webpack_exports__["default"] = (_Navbar__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (_NavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 /***/ }),
 
@@ -451,7 +484,9 @@ var SessionForm = function SessionForm(_ref) {
   var buttonText = formType === 'login' ? 'Log in!' : 'Sign up!';
   var headerText = formType === 'login' ? 'Log in' : 'Sign up';
   var errorsString = errors.join('. ');
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, headerText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, headerText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "email"
   }, "Username"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "email",
@@ -479,7 +514,7 @@ var SessionForm = function SessionForm(_ref) {
     type: "submit",
     onClick: handleSubmit,
     disabled: submitting
-  }, buttonText));
+  }, buttonText)));
 };
 
 SessionForm.propTypes = {};
@@ -746,13 +781,13 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************!*\
   !*** ./frontend/reducers/sessionReducer.js ***!
   \*********************************************/
-/*! exports provided: sessionInitialState, sessionErrorsReducer, getCurrentUser, signedIn, default */
+/*! exports provided: sessionErrorsReducer, sessionInitialState, getCurrentUser, signedIn, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sessionInitialState", function() { return sessionInitialState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sessionErrorsReducer", function() { return sessionErrorsReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sessionInitialState", function() { return sessionInitialState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentUser", function() { return getCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signedIn", function() { return signedIn; });
 /* harmony import */ var _actions_session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session */ "./frontend/actions/session.js");
@@ -769,12 +804,35 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
+var sessionErrorsReducer = function sessionErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var type = action.type,
+      payload = action.payload;
+  Object.freeze(state);
+
+  switch (type) {
+    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ERRORS"]:
+      {
+        if (payload instanceof Array) return _toConsumableArray(payload);
+        return [{
+          error: payload
+        }];
+      }
+
+    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
 var sessionInitialState = {
   currentUser: null
 };
-var sessionErrorsInitialState = [];
-var sessionErrorsReducer = function sessionErrorsReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : sessionErrorsInitialState;
+
+var sessionReducer = function sessionReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : sessionInitialState;
 
   var _ref = arguments.length > 1 ? arguments[1] : undefined,
       type = _ref.type,
@@ -783,34 +841,11 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
   Object.freeze(state);
 
   switch (type) {
-    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ERRORS"]:
-      return _toConsumableArray(payload.responseJSON);
-
-    case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return sessionErrorsInitialState;
-
-    default:
-      return state;
-  }
-}; // Selectors
-
-var getCurrentUser = function getCurrentUser(state) {
-  return state.session.currentUser;
-};
-var signedIn = function signedIn(state) {
-  return !!state.session.currentUser;
-};
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : sessionInitialState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-  Object.freeze(state);
-
-  switch (action.type) {
     case _actions_session__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       {
-        return Object.assign({}, {
-          currentUser: action.payload
-        });
+        return {
+          currentUser: payload.id
+        };
       }
 
     case _actions_session__WEBPACK_IMPORTED_MODULE_0__["SIGNOUT_CURRENT_USER"]:
@@ -821,7 +856,16 @@ var signedIn = function signedIn(state) {
     default:
       return state;
   }
-});
+}; // Selectors
+
+
+var getCurrentUser = function getCurrentUser(state) {
+  return state.entities.users[state.session.currentUser];
+};
+var signedIn = function signedIn(state) {
+  return !!state.session.currentUser;
+};
+/* harmony default export */ __webpack_exports__["default"] = (sessionReducer);
 
 /***/ }),
 
