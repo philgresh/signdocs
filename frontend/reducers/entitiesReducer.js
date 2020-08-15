@@ -9,7 +9,7 @@ export const entitiesInitialState = {
   textBlocks: {},
 };
 
-const entitiesReducer = (state = entitiesInitialState, {type, payload}) => {
+const entitiesReducer = (state = entitiesInitialState, { type, payload }) => {
   Object.freeze(state);
   switch (type) {
     case RECEIVE_CURRENT_USER: {

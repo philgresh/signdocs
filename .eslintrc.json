@@ -1,0 +1,55 @@
+{
+    "extends": [
+      "airbnb",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:prettier/recommended",
+      "prettier/react"
+    ],
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    },
+    "rules": {
+      "no-underscore-dangle": ["error", { "allow": ["_"] }],
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "jsx-a11y/href-no-hash": ["off"],
+      "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+      // "no-named-as-default": ["off"],
+      // "no-named-as-default-member": ["off"],
+      "no-console": ["error", { "allow": ["warn", "error"] }],
+      "max-len": [
+        "warn",
+        {
+          "code": 80,
+          "tabWidth": 2,
+          "comments": 80,
+          "ignoreComments": false,
+          "ignoreTrailingComments": true,
+          "ignoreUrls": true,
+          "ignoreStrings": true,
+          "ignoreTemplateLiterals": true,
+          "ignoreRegExpLiterals": true
+        }
+      ]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": ["./src"]
+        }
+      }
+    }
+  }
+  

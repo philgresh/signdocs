@@ -10,7 +10,7 @@ export const sessionErrorsReducer = (state = [], action) => {
   switch (type) {
     case RECEIVE_ERRORS: {
       if (payload instanceof Array) return [...payload];
-      return [{error: payload}];
+      return [{ error: payload }];
     }
     case RECEIVE_CURRENT_USER:
       return [];
@@ -19,11 +19,11 @@ export const sessionErrorsReducer = (state = [], action) => {
   }
 };
 
-const _nullUser = Object.freeze({
-  id: null
+const nullUser = Object.freeze({
+  id: null,
 });
 
-const sessionReducer = (state = _nullUser, { type, payload }) => {
+const sessionReducer = (state = nullUser, { type, payload }) => {
   Object.freeze(state);
 
   switch (type) {
@@ -31,7 +31,7 @@ const sessionReducer = (state = _nullUser, { type, payload }) => {
       return { id: payload.id };
     }
     case SIGNOUT_CURRENT_USER: {
-      return _nullUser;
+      return nullUser;
     }
     default:
       return state;

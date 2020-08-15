@@ -1,11 +1,12 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-// import { signedIn } from '../reducers/session';
+import { signedIn as signedInSelector } from '../reducers/sessionReducer';
 
 const mapStateToProps = (state) => ({
-  signedIn: !!state.session.currentUser,
-  // signedIn: signedIn(state),
+  signedIn: signedInSelector(state),
 });
 
 const AUTH_REDIRECT_PATH = '/';
@@ -37,6 +38,28 @@ const Protected = (
     }
   />
 );
+
+Auth.propTypes = {
+  component: PropTypes.element.isRequired,
+  path: PropTypes.string.isRequired,
+  signedIn: PropTypes.bool.isRequired,
+  exact: PropTypes.bool,
+};
+
+Auth.defaultProps = {
+  exact: false,
+};
+
+Protected.propTypes = {
+  component: PropTypes.element.isRequired,
+  path: PropTypes.string.isRequired,
+  signedIn: PropTypes.bool.isRequired,
+  exact: PropTypes.bool,
+};
+
+Protected.defaultProps = {
+  exact: false,
+};
 
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));

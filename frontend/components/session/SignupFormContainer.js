@@ -5,7 +5,7 @@ import { getErrors } from '../../reducers/errorsReducer';
 import { createNewUser } from '../../actions/session';
 
 const generateBob = () => {
-  const now = (new Date().valueOf() / 1000) | 0;
+  const now = Math.floor(Date.now() / 1000);
 
   return {
     email: `bob${now}@example.com`,
@@ -15,11 +15,11 @@ const generateBob = () => {
   };
 };
 
-const mapStateToProps = (state,ownProps) => ({
+const mapStateToProps = (state, ownProps) => ({
   errors: getErrors(state),
   formType: 'SIGN_UP',
-  generateBob: generateBob,
-  email: ownProps.email
+  generateBob,
+  email: ownProps.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -27,5 +27,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SessionForm)
+  connect(mapStateToProps, mapDispatchToProps)(SessionForm),
 );

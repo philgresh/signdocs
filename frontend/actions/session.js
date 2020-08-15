@@ -19,7 +19,6 @@ const receiveErrors = (errors) => ({
   type: RECEIVE_ERRORS,
 });
 
-
 // Thunk action creators
 export const createNewUser = (formUser) => (dispatch) =>
   APIUtil.postUser(formUser)

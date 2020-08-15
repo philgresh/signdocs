@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const navBarLinksLeft = [
   {
@@ -37,8 +37,10 @@ const navBarLinksRight = [
 const Navbar = ({ currentUser, signoutUser }) => {
   const signedIn = currentUser && (
     <li>
-      <p>Hello, {currentUser.first_name}</p>
-      <button onClick={signoutUser}>Sign Out</button>
+      <p>Hello, {currentUser.firstName}</p>
+      <button onClick={signoutUser} type="button">
+        Sign Out
+      </button>
     </li>
   );
 
@@ -71,6 +73,18 @@ const Navbar = ({ currentUser, signoutUser }) => {
   );
 };
 
-Navbar.propTypes = {};
+Navbar.propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+  }),
+  signoutUser: PropTypes.func.isRequired,
+};
+
+Navbar.defaultProps = {
+  currentUser: null,
+};
 
 export default Navbar;

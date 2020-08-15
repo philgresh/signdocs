@@ -1,19 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import configureStore from './store/store';
 import { Provider } from 'react-redux';
+import configureStore from './store/store';
 import App from './components/App';
 import { entitiesInitialState } from './reducers/entitiesReducer';
-import {
-  createNewUser,
-  signinUser,
-  signoutUser,
-} from './actions/session';
+import { createNewUser, signinUser, signoutUser } from './actions/session';
 import * as serviceWorker from './serviceWorker';
+
+function setPreloadedState(currentUser) {
+  return {
+    session: {
+      id: currentUser.id,
+    },
+    entities: {
+      ...entitiesInitialState,
+      users: {
+        [currentUser.id]: currentUser,
+      },
+    },
+  };
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root');
-  let preloadedState = undefined;
+  let preloadedState;
   if (window.currentUser) {
     preloadedState = setPreloadedState(window.currentUser);
     window.currentUser = undefined;
@@ -34,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <App />
       </Provider>
     </React.StrictMode>,
-    rootEl
+    rootEl,
   );
 
   // TODO
@@ -43,17 +53,3 @@ document.addEventListener('DOMContentLoaded', () => {
   // Learn more about service workers: https://bit.ly/CRA-PWA
   serviceWorker.unregister();
 });
-
-function setPreloadedState(currentUser) {
-  return {
-    session: {
-      currentUser: currentUser.id,
-    },
-    entities: {
-      ...entitiesInitialState,
-      users: {
-        [currentUser.id]: currentUser,
-      },
-    },
-  };
-}
