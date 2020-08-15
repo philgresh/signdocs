@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DocsIndex from './DocsIndex';
 import { fetchDocuments } from '../../actions/document';
-import { getDocuments } from '../../reducers/documentsReducer';
+import { getDocuments } from '../../reducers/documents';
+import DocPropTypeShape from './propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {
@@ -20,6 +22,15 @@ class DocsIndexContainer extends Component {
     );
   }
 }
+
+DocsIndexContainer.propTypes = {
+  documents: PropTypes.arrayOf(DocPropTypeShape),
+  fetchDocuments: PropTypes.func.isRequired,
+};
+
+DocsIndexContainer.defaultProps = {
+  documents: [],
+};
 
 const mapStateToProps = (state) => ({
   documents: getDocuments(state),

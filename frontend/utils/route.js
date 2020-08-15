@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { signedIn as signedInSelector } from '../reducers/sessionReducer';
+import { signedIn as signedInSelector } from '../reducers/session';
 
 const mapStateToProps = (state) => ({
   signedIn: signedInSelector(state),

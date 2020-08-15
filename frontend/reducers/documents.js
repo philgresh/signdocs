@@ -33,5 +33,8 @@ export default (state = initialState, { type, payload }) => {
 };
 
 // Selectors
-export const getDocuments = (state) => state.entities.documents;
+const getAllDocuments = (state) => state.entities.documents;
 export const getDocument = (docId, state) => state.entities.documents[docId];
+export const getDocuments = createSelector(getAllDocuments, (docs) =>
+  Object.values(docs),
+);

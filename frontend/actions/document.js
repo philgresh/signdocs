@@ -1,4 +1,4 @@
-import * as APIUtil from '../utils/documentUtils';
+import * as APIUtil from '../utils/document';
 
 export const RECEIVE_ALL_DOCUMENTS = 'RECEIVE_ALL_DOCUMENTS';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
@@ -23,10 +23,9 @@ const removeDocument = (docId) => ({
 // Thunktions
 
 export const fetchDocuments = () => (dispatch) =>
-  APIUtil.fetchDocuments().then((documents) => {
-    console.log(documents);
-    return dispatch(receiveDocuments(documents));
-  });
+  APIUtil.fetchDocuments().then((documents) =>
+    dispatch(receiveDocuments(documents)),
+  );
 export const fetchDocument = (docId) => (dispatch) =>
   APIUtil.fetchDocument(docId).then((document) =>
     dispatch(receiveDocument(document)),

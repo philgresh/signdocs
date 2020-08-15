@@ -4,7 +4,7 @@ import {
   RECEIVE_ERRORS,
 } from '../actions/session';
 
-export const sessionErrorsReducer = (state = [], action) => {
+export const sessionErrors = (state = [], action) => {
   const { type, payload } = action;
   Object.freeze(state);
   switch (type) {
@@ -23,7 +23,7 @@ const nullUser = Object.freeze({
   id: null,
 });
 
-const sessionReducer = (state = nullUser, { type, payload }) => {
+export default (state = nullUser, { type, payload }) => {
   Object.freeze(state);
 
   switch (type) {
@@ -41,5 +41,3 @@ const sessionReducer = (state = nullUser, { type, payload }) => {
 // Selectors
 export const getCurrentUser = (state) => state.entities.users[state.session.id];
 export const signedIn = (state) => !!state.session.id;
-
-export default sessionReducer;

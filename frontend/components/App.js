@@ -5,7 +5,7 @@ import Home from './home';
 import SigninContainer from './session/SigninFormContainer';
 import SignupContainer from './session/SignupFormContainer';
 import DocsIndexContainer from './document/DocsIndexContainer';
-import { AuthRoute, ProtectedRoute } from '../utils/routeUtils';
+import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
   return (

@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SessionForm from './SessionForm';
-import { getErrors } from '../../reducers/errorsReducer';
+import { getErrors } from '../../reducers/errors';
 import { signinUser } from '../../actions/session';
-import { onlySignInFields } from '../../utils/sessionUtils';
+import { onlySignInFields } from '../../utils/session';
 
 const mapStateToProps = (state) => ({
   errors: getErrors(state),
