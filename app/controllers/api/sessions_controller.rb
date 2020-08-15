@@ -12,8 +12,7 @@ class Api::SessionsController < ApplicationController
       render "api/users/show"
     else
       # flash[:errors] = ['Invalid email or password']
-      errors = ["Invalid email or password"]
-      render json: errors, status: 401
+      render json: ["Invalid email or password"], status: 401
     end
   end
 

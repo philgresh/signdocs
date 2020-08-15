@@ -19,19 +19,19 @@ export const sessionErrorsReducer = (state = [], action) => {
   }
 };
 
-export const sessionInitialState = {
-  currentUser: null,
-};
+const _nullUser = Object.freeze({
+  id: null
+});
 
-const sessionReducer = (state = sessionInitialState, { type, payload }) => {
+const sessionReducer = (state = _nullUser, { type, payload }) => {
   Object.freeze(state);
 
   switch (type) {
     case RECEIVE_CURRENT_USER: {
-      return { currentUser: payload.id };
+      return { id: payload.id };
     }
     case SIGNOUT_CURRENT_USER: {
-      return sessionInitialState;
+      return _nullUser;
     }
     default:
       return state;
@@ -39,7 +39,7 @@ const sessionReducer = (state = sessionInitialState, { type, payload }) => {
 };
 
 // Selectors
-export const getCurrentUser = (state) => state.entities.users[state.session.currentUser];
-export const signedIn = (state) => !!state.session.currentUser;
+export const getCurrentUser = (state) => state.entities.users[state.session.id];
+export const signedIn = (state) => !!state.session.id;
 
 export default sessionReducer;

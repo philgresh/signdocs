@@ -18,6 +18,15 @@ SENTINEL_BLOCK_TYPES = [
   "TEXT",
 ]
 
+def setup_demo_user
+  User.create(
+    first_name: "Bob",
+    last_name: "Zhurunkel",
+    email: "bob@example.org",
+    password: 'password'
+  )
+end
+
 def destroy_all(klass)
   names = klass.name.underscore.pluralize
   if klass.count > 0
@@ -129,7 +138,8 @@ def create_new_content_fields(sentinels)
   content_fields
 end
 
-users = create_new_users()
+
+users = create_new_users() << setup_demo_user()
 # create_new_signature_blocks(users)
 docs = create_new_documents()
 # sentinels = create_new_sentinel_blocks(Document.all)

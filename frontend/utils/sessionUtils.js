@@ -17,3 +17,8 @@ export const deleteSession = () =>
     url: '/api/session',
     method: 'DELETE',
   });
+
+export const onlySignInFields = (formUser) => ({
+  email: formUser.email,
+  password: formUser.password,
+});
