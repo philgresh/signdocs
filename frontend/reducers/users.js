@@ -1,9 +1,7 @@
 import set from 'lodash/set';
-import { createSelector } from 'reselect';
 import { RECEIVE_USERS, RECEIVE_USER } from '../actions/user';
 import { RECEIVE_ALL_DOCUMENTS, RECEIVE_DOCUMENT } from '../actions/document';
-import { RECEIVE_CURRENT_USER } from '../actions/session';
-import { getAllDocuments } from './documents';
+import { RECEIVE_CURRENT_USER, SIGNOUT_CURRENT_USER } from '../actions/session';
 
 const initialState = Object.freeze({});
 export default (state = initialState, { type, payload }) => {
@@ -35,19 +33,10 @@ export default (state = initialState, { type, payload }) => {
     case RECEIVE_DOCUMENT: {
       return { ...newState, ...payload.users };
     }
+    case SIGNOUT_CURRENT_USER: {
+      return initialState;
+    }
     default:
       return state;
   }
 };
-
-// Selectors
-export const getUsers = (state) => state.entities.users;
-export const getUserDetails = (userId) =>
-  createSelector([getUsers], (users) => users[userId]);
-export const getAssociatedUsers = (docId) =>
-  createSelector([getAllDocuments, getUsers], (docs, users) => {
-    const doc = docs[docId];
-    if (doc && doc.editorIds)
-      return doc.editorIds.map((userId) => users[userId]);
-    return [];
-  });

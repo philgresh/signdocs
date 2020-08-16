@@ -2,7 +2,9 @@ class Api::UsersController < ApplicationController
   
   # before_action :require_logged_in, only: [:show, :index]
   # before_action :require_logged_out, only: [:create]
+  before_save :downcase_fields
 
+  
   def create
     @user = User.new(user_params)
 
@@ -31,4 +33,8 @@ class Api::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :password, :first_name, :last_name)
   end
+
+  def downcase_fields
+    self.email.downcase!
+ end
 end

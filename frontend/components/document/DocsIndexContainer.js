@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import DocsIndex from './DocsIndex';
 import { fetchDocuments } from '../../actions/document';
-import { getDocumentsAsArray } from '../../reducers/documents';
+import { getDocumentsAsArray } from '../../reducers/selectors';
 import { DocPropTypeShape } from '../propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.fetchDocuments();
+    const { fetchDocuments: fetchDocs } = this.props;
+    fetchDocs();
   }
 
   render() {
@@ -32,8 +33,8 @@ DocsIndexContainer.defaultProps = {
   documents: [],
 };
 
-const mapStateToProps = (state) => ({
-  documents: getDocumentsAsArray(state),
+const mapStateToProps = createStructuredSelector({
+  documents: getDocumentsAsArray,
 });
 
 const mapDispatchToProps = (dispatch) => ({

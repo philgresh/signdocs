@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DocDetails from './DocDetails';
 import { fetchDocument } from '../../actions/document';
-import { getDocumentById } from '../../reducers/documents';
-import { getAssociatedUsers } from '../../reducers/users';
+import { getDocumentById, getAssociatedUsers } from '../../reducers/selectors';
 import { DocPropTypeShape, UserPropTypeShape } from '../propTypes';
 
 class DocDetailsContainer extends Component {

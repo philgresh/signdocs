@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SessionForm from './SessionForm';
-import { getErrors } from '../../reducers/errors';
+import { getErrors } from '../../reducers/selectors';
 import { signinUser } from '../../actions/session';
 import { onlySignInFields } from '../../utils/session';
 

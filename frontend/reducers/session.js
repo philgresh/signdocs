@@ -14,6 +14,8 @@ export const sessionErrors = (state = [], action) => {
     }
     case RECEIVE_CURRENT_USER:
       return [];
+    case SIGNOUT_CURRENT_USER:
+      return [];
     default:
       return state;
   }
