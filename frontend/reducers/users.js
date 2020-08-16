@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { RECEIVE_USERS, RECEIVE_USER } from '../actions/user';
 import { RECEIVE_ALL_DOCUMENTS, RECEIVE_DOCUMENT } from '../actions/document';
 import { RECEIVE_CURRENT_USER } from '../actions/session';
-// import { getDocumentById } from './documents';
+import { getAllDocuments } from './documents';
 
 const initialState = Object.freeze({});
 export default (state = initialState, { type, payload }) => {
@@ -44,8 +44,10 @@ export default (state = initialState, { type, payload }) => {
 export const getUsers = (state) => state.entities.users;
 export const getUserDetails = (userId) =>
   createSelector([getUsers], (users) => users[userId]);
-// export const getAssociatedUsers = (docId) =>
-// eslint-disable-next-line max-len
-//   createSelector([getUsers, getDocumentById(docId)], (users, { editorIds }) => {
-//     return editorIds.map((userId) => users[userId]);
-//   });
+export const getAssociatedUsers = (docId) =>
+  createSelector([getAllDocuments, getUsers], (docs, users) => {
+    const doc = docs[docId];
+    if (doc && doc.editorIds)
+      return doc.editorIds.map((userId) => users[userId]);
+    return [];
+  });

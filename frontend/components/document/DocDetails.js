@@ -1,14 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-import {
-  DocPropTypeShape,
-  // UserPropTypeShape
-} from '../propTypes';
+import PropTypes from 'prop-types';
+import { DocPropTypeShape, UserPropTypeShape } from '../propTypes';
 
-const DocDetails = ({ doc }) => {
-  const { title, description, editors, fileUrl } = doc;
+const DocDetails = ({ doc, editors }) => {
+  const { title, description, fileUrl } = doc;
   return (
     <div>
       <h3>{title}</h3>
@@ -16,12 +12,14 @@ const DocDetails = ({ doc }) => {
       <div>
         <p>Editors</p>
         <ul>
-          {editors &&
+          {editors.length > 0 &&
             editors.map((editor) => (
               <li key={editor.id}>{editor.firstName}</li>
             ))}
         </ul>
-        <Link to={fileUrl}>Download</Link>
+        <a href={fileUrl} download>
+          Download
+        </a>
       </div>
     </div>
   );
@@ -29,10 +27,12 @@ const DocDetails = ({ doc }) => {
 
 DocDetails.propTypes = {
   doc: DocPropTypeShape,
+  editors: PropTypes.arrayOf(UserPropTypeShape),
 };
 
 DocDetails.defaultProps = {
-  doc: { editors: [] },
+  doc: {},
+  editors: [],
 };
 
 export default DocDetails;

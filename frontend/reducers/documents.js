@@ -30,7 +30,7 @@ export default (state = initialState, { type, payload }) => {
 };
 
 // Selectors
-const getAllDocuments = (state) => state.entities.documents;
+export const getAllDocuments = (state) => state.entities.documents;
 
 export const getDocumentById = (docId) =>
   createSelector([getAllDocuments], (docs) => docs[docId]);

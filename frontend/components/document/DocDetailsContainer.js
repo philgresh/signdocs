@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import DocDetails from './DocDetails';
 import { fetchDocument } from '../../actions/document';
 import { getDocumentById } from '../../reducers/documents';
-// import { getAssociatedUsers } from '../../reducers/users';
+import { getAssociatedUsers } from '../../reducers/users';
 import { DocPropTypeShape, UserPropTypeShape } from '../propTypes';
 
 class DocDetailsContainer extends Component {
   componentDidMount() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.fetchDocument();
+    const { fetchDocument: fetchDoc } = this.props;
+    fetchDoc();
   }
 
   render() {
@@ -39,6 +40,7 @@ const mapStateToProps = (state, ownProps) => {
   const { docId } = ownProps.match.params;
   return {
     doc: getDocumentById(docId)(state),
+    editors: getAssociatedUsers(docId)(state),
   };
 };
 
@@ -49,7 +51,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DocDetailsContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DocDetailsContainer),
+);

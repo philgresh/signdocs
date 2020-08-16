@@ -40,7 +40,7 @@ const Protected = (
 );
 
 Auth.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
   path: PropTypes.string.isRequired,
   signedIn: PropTypes.bool.isRequired,

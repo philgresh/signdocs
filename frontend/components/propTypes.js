@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
 export const DocPropTypeShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   editorIds: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   description: PropTypes.string,
   file_url: PropTypes.string,
 });
