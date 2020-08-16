@@ -9,17 +9,17 @@ export const fetchDocument = (docId) =>
     url: `/api/documents/${docId}`,
     method: 'GET',
   });
-export const createDocument = (document) =>
+export const createDocument = (doc) =>
   $.ajax({
     url: `/api/documents/`,
     method: 'POST',
-    data: { document },
+    data: { document: doc },
   });
-export const updateDocument = (document) =>
+export const updateDocument = (doc) =>
   $.ajax({
     url: `/api/documents/${document.id}`,
     method: 'POST',
-    data: { document },
+    data: { document: doc },
   });
 export const deleteDocument = (docId) =>
   $.ajax({

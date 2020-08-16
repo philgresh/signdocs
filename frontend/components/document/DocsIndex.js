@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DocPropTypeShape from './propTypes';
+import DocsIndexItem from './DocsIndexItem';
+import { DocPropTypeShape } from '../propTypes';
 
 export default function DocumentIndex({ documents }) {
   return (
@@ -8,7 +9,7 @@ export default function DocumentIndex({ documents }) {
       <h2>Documents</h2>
       <ul>
         {documents.map((doc) => (
-          <li key={doc.id}>{doc.title}</li>
+          <DocsIndexItem key={doc.id} doc={doc} />
         ))}
       </ul>
     </div>

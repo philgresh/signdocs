@@ -5,14 +5,14 @@ export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
 export const REMOVE_DOCUMENT = 'REMOVE_DOCUMENT';
 
 // Action creators
-const receiveDocuments = (documents) => ({
+const receiveDocuments = (docs) => ({
   type: RECEIVE_ALL_DOCUMENTS,
-  payload: documents,
+  payload: docs,
 });
 
-const receiveDocument = (document) => ({
+const receiveDocument = (doc) => ({
   type: RECEIVE_DOCUMENT,
-  payload: document,
+  payload: doc,
 });
 
 const removeDocument = (docId) => ({
@@ -23,20 +23,12 @@ const removeDocument = (docId) => ({
 // Thunktions
 
 export const fetchDocuments = () => (dispatch) =>
-  APIUtil.fetchDocuments().then((documents) =>
-    dispatch(receiveDocuments(documents)),
-  );
+  APIUtil.fetchDocuments().then((docs) => dispatch(receiveDocuments(docs)));
 export const fetchDocument = (docId) => (dispatch) =>
-  APIUtil.fetchDocument(docId).then((document) =>
-    dispatch(receiveDocument(document)),
-  );
-export const createDocument = (document) => (dispatch) =>
-  APIUtil.createDocument(document).then((doc) =>
-    dispatch(receiveDocument(doc)),
-  );
-export const updateDocument = (document) => (dispatch) =>
-  APIUtil.updateDocument(document).then((doc) =>
-    dispatch(receiveDocument(doc)),
-  );
+  APIUtil.fetchDocument(docId).then((doc) => dispatch(receiveDocument(doc)));
+export const createDocument = (docForm) => (dispatch) =>
+  APIUtil.createDocument(docForm).then((doc) => dispatch(receiveDocument(doc)));
+export const updateDocument = (docForm) => (dispatch) =>
+  APIUtil.updateDocument(docForm).then((doc) => dispatch(receiveDocument(doc)));
 export const deleteDocument = (docId) => (dispatch) =>
   APIUtil.deleteDocument(docId).then(() => dispatch(removeDocument(docId)));

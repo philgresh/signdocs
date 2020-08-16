@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DocsIndex from './DocsIndex';
 import { fetchDocuments } from '../../actions/document';
-import { getDocuments } from '../../reducers/documents';
-import DocPropTypeShape from './propTypes';
+import { getDocumentsAsArray } from '../../reducers/documents';
+import { DocPropTypeShape } from '../propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {
@@ -33,7 +33,7 @@ DocsIndexContainer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  documents: getDocuments(state),
+  documents: getDocumentsAsArray(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

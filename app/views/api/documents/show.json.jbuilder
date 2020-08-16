@@ -1,9 +1,7 @@
 json.key_format! camelize: :lower
 
 json.document do
-    json.set! @document.id do
-      json.partial! "api/documents/document", document: @document
-    end
+  json.partial! "api/documents/document", document: @document
 end
 json.users do
   @editors.each do |editor|

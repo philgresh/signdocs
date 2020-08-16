@@ -17,15 +17,12 @@ export default (state = initialState, { type, payload }) => {
       return payload.documents;
     }
     case RECEIVE_DOCUMENT: {
-      const { document } = payload;
-      const newDoc = {
-        [document.id]: { ...document },
-      };
-      return set(newState, document.id, newDoc);
+      const { document: doc } = payload;
+      return set(newState, doc.id, doc);
     }
     case REMOVE_DOCUMENT: {
-      const { document } = payload;
-      return unset(newState, document.id);
+      const { document: doc } = payload;
+      return unset(newState, doc.id);
     }
     default:
       return state;
@@ -34,7 +31,20 @@ export default (state = initialState, { type, payload }) => {
 
 // Selectors
 const getAllDocuments = (state) => state.entities.documents;
-export const getDocument = (docId, state) => state.entities.documents[docId];
-export const getDocuments = createSelector(getAllDocuments, (docs) =>
+
+export const getDocumentById = (docId) =>
+  createSelector([getAllDocuments], (docs) => docs[docId]);
+
+export const getDocumentsAsArray = createSelector(getAllDocuments, (docs) =>
   Object.values(docs),
 );
+
+// export const getFullDocumentDetails = (docId) =>
+//   createSelector([getAllDocuments, getUsers], (docs, users) => {
+//     const doc = docs[docId];
+//     const editors = filter(Object.values(users), (user) =>
+//       doc.editorIds.includes(user.id),
+//     );
+//     doc.editors = editors;
+//     return doc;
+//   });
