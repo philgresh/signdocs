@@ -2,7 +2,6 @@ class Api::DocumentsController < ApplicationController
   def index
     # TODO: Filter based on authorization
     @documents = Document.all
-    debugger
     @editors = User.joins(:documents).where(documents: { id: @documents })
   end
 
