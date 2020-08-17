@@ -2,7 +2,8 @@ class Api::DocumentsController < ApplicationController
   def index
     # TODO: Filter based on authorization
     @documents = Document.all
-    @editors = User.joins(:documents).where(documents: {id: @documents})
+    debugger
+    @editors = User.joins(:documents).where(documents: { id: @documents })
   end
 
   def show
@@ -15,13 +16,14 @@ class Api::DocumentsController < ApplicationController
   def create
     @post = Document.new(document_params)
     CreateDocument.call(@document) do |success, failure|
-      success.call { render json: :show, notice: 'Successfully created document.' }
+      success.call { render json: :show, notice: "Successfully created document." }
       failure.call { render :new }
     end
   end
 
   private
+
   def document_params
-    params.require(:document).permit(:description,:title)
+    params.require(:document).permit(:description, :title)
   end
 end

@@ -21,7 +21,7 @@ const receiveErrors = (errors) => ({
 
 // Thunk action creators
 export const createNewUser = (formUser) => (dispatch) =>
-  APIUtil.postUser(formUser)
+  APIUtil.createUser(formUser)
     .then((user) => {
       dispatch(receiveCurrentUser(user));
     })

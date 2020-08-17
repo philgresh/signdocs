@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-export const postUser = (user) =>
+export const createUser = (user) =>
   $.ajax({
     url: '/api/users',
     method: 'POST',
