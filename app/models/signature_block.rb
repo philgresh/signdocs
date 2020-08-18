@@ -81,9 +81,9 @@ class SignatureBlock < ApplicationRecord
   private
   def kms
     Aws::KMS::Client.new(
-      region: Rails.application.credentials.dig(:aws, :region),
-      access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
-      secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key),
+      region: 'us-west-2',
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
     )
   end
 

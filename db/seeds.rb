@@ -93,10 +93,8 @@ def create_new_documents()
     doc.editors << users[1] if (rand(0..2) ==1)
     # doc.document_editors.find_by(user_id: user.id).is_owner = true
     doc.owner=(users[0])
-
-    doc.file.attach io: File.open("/Users/phil/Downloads/signdocs_sample_pdfs/sample#{i}.pdf"),
-                    filename: "sample#{i}.pdf",
-                    content_type: "application/pdf"
+    
+    doc.file.attach io: File.open("#{Rails.root}/app/assets/images/sample#{i}.pdf"), filename: "sample#{i}.pdf", content_type: "application/pdf"
   end
 
   print_results(Document)
