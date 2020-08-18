@@ -14,6 +14,8 @@ const mapDispatchToProps = (dispatch) => ({
   processForm: (formUser) => dispatch(signinUser(onlySignInFields(formUser))),
 });
 
-export default withRouter(
+const SigninFormContainer = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(SessionForm),
 );
+
+export default SigninFormContainer;

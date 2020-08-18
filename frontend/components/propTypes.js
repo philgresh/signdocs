@@ -9,8 +9,8 @@ export const DocPropTypeShape = PropTypes.shape({
 });
 
 export const UserPropTypeShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
 });

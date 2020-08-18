@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SessionForm from './SessionForm';
-import { getErrors } from '../../reducers/selectors';
 import { createNewUser } from '../../actions/session';
 
 const generateBob = () => {
@@ -15,17 +14,18 @@ const generateBob = () => {
   };
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  errors: getErrors(state),
+const mapStateToProps = (_state, ownProps) => ({
   formType: 'SIGN_UP',
-  generateBob,
   email: ownProps.email,
+  generateBob,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   processForm: (formUser) => dispatch(createNewUser(formUser)),
 });
 
-export default withRouter(
+const SignupFormContainer = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(SessionForm),
 );
+
+export default SignupFormContainer;

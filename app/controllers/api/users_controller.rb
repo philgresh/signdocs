@@ -12,7 +12,7 @@ class Api::UsersController < ApplicationController
       render :show
     else
       # flash[:errors] = @user.errors.full_messages
-      errors = @user.errors.full_messages
+      errors = @user.errors.messages
       render json: errors, status: 403
     end
   end
@@ -33,5 +33,4 @@ class Api::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :password, :first_name, :last_name)
   end
-
 end

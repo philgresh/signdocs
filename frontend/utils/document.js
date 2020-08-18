@@ -9,11 +9,13 @@ export const fetchDocument = (docId) =>
     url: `/api/documents/${docId}`,
     method: 'GET',
   });
-export const createDocument = (doc) =>
+export const createDocument = (formData) =>
   $.ajax({
     url: `/api/documents/`,
     method: 'POST',
-    data: { document: doc },
+    data: formData,
+    contentType: false,
+    processData: false,
   });
 export const updateDocument = (doc) =>
   $.ajax({

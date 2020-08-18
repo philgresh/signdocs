@@ -8,7 +8,16 @@ export const getAllDocuments = (state) => state.entities.documents;
 export const getAllUsers = (state) => state.entities.users;
 
 // Errors
-export const getErrors = (state, type = 'session') => state.errors[type] || [];
+export const getErrors = (state, type = 'session') => state.errors[type] || {};
+
+// Session
+/**
+ * returns state.session.id
+ */
+export const getCurrentUser = memoize(
+  (state) => state.entities.users[state.session.id],
+);
+export const signedIn = (state) => !!state.session.id;
 
 //
 //

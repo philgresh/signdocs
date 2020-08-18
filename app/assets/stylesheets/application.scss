@@ -29,6 +29,7 @@
   --success-green: #007831;
   --pink: #ff3bdd;
   --yellow: #f6b610;
+  --dark-yellow: #e1a205;
   --yellow-hover: #1951b8;
   --light-gray: #bebfc0;
   --background-white: #fcfcfc;
@@ -60,6 +61,10 @@ samp {
   font-family: var(--monospace-font-family), monospace;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   border: 0;
   border-radius: 0.25rem;
@@ -72,9 +77,39 @@ button {
   cursor: pointer;
 
   & a {
-    text-decoration: none;
     color: inherit;
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  &[aria-pressed='true'] {
+    box-shadow: none;
+  }
+}
+
+label {
+  margin-bottom: 1rem;
+
+  & > input {
+    margin-top: 0.5rem;
+  }
+}
+
+input {
+  height: 2rem;
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.39), 0 -1px 1px #fff, 0 1px 0 #fff;
+  padding: 0 0.5rem;
+
+  // &:invalid {
+  //   border: 1px solid red;
+  // }
 }
 
 header {
@@ -139,6 +174,15 @@ nav {
   /* content should fall over shadow and cover */
   z-index: 3;
   background: var(--background-white);
+
+  & h1 {
+    & a,
+    & a:visited,
+    & a:hover,
+    & a:active {
+      color: inherit;
+    }
+  }
 }
 
 main {
@@ -157,7 +201,6 @@ main {
   & li {
     list-style: none;
     height: 100%;
-    padding: 0 10px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -167,7 +210,7 @@ main {
     display: block;
     height: 100%;
     margin: 0;
-    padding: 10px;
+    padding: 24px 10px;
     background: transparent;
     text-decoration: none;
     color: inherit;
@@ -191,4 +234,81 @@ main {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.session-form {
+  margin: 0 auto;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Titillium Web', 'Roboto';
+    text-align: left;
+
+    & button {
+      padding: 0.5rem 1rem;
+      margin: 1rem 0 0 0;
+      text-transform: uppercase;
+      width: 100%;
+      box-shadow: 0px 4px 5px 0px #c1c1c1;
+      &:hover {
+        box-shadow: 0px 1px 3px 0px #c1c1c1;
+        background: var(--dark-yellow);
+      }
+    }
+
+    & button[type='submit'] {
+      background: var(--yellow);
+      &:hover {
+        background: var(--dark-yellow);
+      }
+    }
+
+    & button[name='demoBtn'] {
+      margin-top: 1rem;
+      font-size: 90%;
+      color: darkgray;
+      opacity: 0.9;
+      background: var(--background-white);
+      &:hover {
+        background: var(--powder-blue);
+        color: var(--dark-blue);
+      }
+    }
+  }
+
+  & .footer-links {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & p {
+      margin: 10px 0 0 0;
+    }
+  }
+}
+
+.errors-list,
+.password-helper-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  color: darkred;
+}
+
+.error {
+  color: darkred;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  margin: 0 1rem;
+  margin: -0.75rem 0 1rem 1rem;
 }

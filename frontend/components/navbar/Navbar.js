@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import { UserPropTypeShape } from '../propTypes';
 
-const navBarLinksLeft = [
+const splashLinksLeft = [
   {
     to: '/products',
     title: 'Products',
@@ -21,6 +22,13 @@ const navBarLinksLeft = [
   },
 ];
 
+const signedInLinksLeft = [
+  {
+    to: '/documents',
+    title: 'Documents',
+  },
+];
+
 const navBarLinksRight = [
   {
     to: '/signin',
@@ -35,7 +43,7 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const signedIn = currentUser && (
+  const rightNavSignedIn = currentUser && (
     <li>
       <p>Hello, {currentUser.firstName}</p>
       <button onClick={signoutUser} type="button">
@@ -44,7 +52,7 @@ const Navbar = ({ currentUser, signoutUser }) => {
     </li>
   );
 
-  const signedOut = navBarLinksRight.map(({ to, title, className }) => (
+  const rightNavSignedOut = navBarLinksRight.map(({ to, title, className }) => (
     <li key={to}>
       <NavLink to={to} className={className}>
         {title}
@@ -52,19 +60,36 @@ const Navbar = ({ currentUser, signoutUser }) => {
     </li>
   ));
 
-  const navLinksRight = currentUser ? signedIn : signedOut;
+  const leftNavSignedIn =
+    currentUser &&
+    signedInLinksLeft.map((link) => (
+      <li key={link.to}>
+        <NavLink to={link.to}>{link.title}</NavLink>
+      </li>
+    ));
+
+  const leftNavSignedOut = splashLinksLeft.map(({ to, title }) => (
+    <li key={to}>
+      <NavLink to={to}>{title}</NavLink>
+    </li>
+  ));
+
+  let navLinksRight = rightNavSignedOut;
+  let navLinksLeft = leftNavSignedOut;
+  let mastheadLinkTo = '/';
+  if (currentUser) {
+    navLinksRight = rightNavSignedIn;
+    navLinksLeft = leftNavSignedIn;
+    mastheadLinkTo = '/';
+  }
 
   return (
     <nav>
       <div className="flex-left">
-        <h1>SignDocs</h1>
-        <ul className="nav-links">
-          {navBarLinksLeft.map(({ to, title }) => (
-            <li key={to}>
-              <NavLink to={to}>{title}</NavLink>
-            </li>
-          ))}
-        </ul>
+        <h1>
+          <Link to={mastheadLinkTo}>SignDocs</Link>
+        </h1>
+        <ul className="nav-links">{navLinksLeft}</ul>
       </div>
       <div className="flex-right">
         <ul className="nav-links">{navLinksRight}</ul>
@@ -74,12 +99,7 @@ const Navbar = ({ currentUser, signoutUser }) => {
 };
 
 Navbar.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-  }),
+  currentUser: UserPropTypeShape,
   signoutUser: PropTypes.func.isRequired,
 };
 

@@ -13,6 +13,7 @@ class Api::SessionsController < ApplicationController
       render "api/users/show"
     else
       # flash[:errors] = ['Invalid email or password']
+      debugger
       render json: ["Invalid email or password"], status: 401
     end
   end

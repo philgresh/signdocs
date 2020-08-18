@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import { signoutUser } from '../../actions/session';
-import { getCurrentUser } from '../../reducers/session';
+import { getCurrentUser } from '../../reducers/selectors';
 
 const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),

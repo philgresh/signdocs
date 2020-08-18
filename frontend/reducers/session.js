@@ -4,13 +4,20 @@ import {
   RECEIVE_ERRORS,
 } from '../actions/session';
 
-export const sessionErrors = (state = [], action) => {
+export const sessionErrors = (state = {}, action) => {
   const { type, payload } = action;
   Object.freeze(state);
   switch (type) {
     case RECEIVE_ERRORS: {
-      if (payload instanceof Array) return [...payload];
-      return [{ error: payload }];
+      let newState = {};
+      if (payload instanceof Array) {
+        payload.forEach((err, index) => {
+          newState[index] = err;
+        });
+      } else {
+        newState = payload;
+      }
+      return newState;
     }
     case RECEIVE_CURRENT_USER:
       return [];
@@ -39,7 +46,3 @@ export default (state = nullUser, { type, payload }) => {
       return state;
   }
 };
-
-// Selectors
-export const getCurrentUser = (state) => state.entities.users[state.session.id];
-export const signedIn = (state) => !!state.session.id;

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { signedIn as signedInSelector } from '../reducers/session';
+import { signedIn as signedInSelector } from '../reducers/selectors';
 
 const mapStateToProps = (state) => ({
   signedIn: signedInSelector(state),
@@ -22,10 +22,7 @@ const Auth = ({ component: Component, path, signedIn, exact }) => (
   />
 );
 
-const Protected = (
-  { component: Component, path, signedIn, exact },
-  ...rest
-) => (
+const Protected = ({ component: Component, path, signedIn, exact }) => (
   <Route
     path={path}
     exact={exact}
@@ -33,15 +30,18 @@ const Protected = (
       signedIn ? (
         <Component {...props} />
       ) : (
-        <Redirect to={PROTECTED_REDIRECT_PATH} {...rest} {...props} />
+        <Redirect to={PROTECTED_REDIRECT_PATH} {...props} />
       )
     }
   />
 );
 
 Auth.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-    .isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.element,
+  ]).isRequired,
   path: PropTypes.string.isRequired,
   signedIn: PropTypes.bool.isRequired,
   exact: PropTypes.bool,
@@ -52,17 +52,7 @@ Auth.defaultProps = {
 };
 
 Protected.propTypes = Auth.propTypes;
-// Protected.propTypes = {
-//   component: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
-//     .isRequired,
-//   path: PropTypes.string.isRequired,
-//   signedIn: PropTypes.bool.isRequired,
-//   exact: PropTypes.bool,
-// };
-
-Protected.defaultProps = {
-  exact: false,
-};
+Protected.defaultProps = Auth.defaultProps;
 
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
