@@ -14,9 +14,7 @@
 #
 #  index_signature_blocks_on_user_id  (user_id) UNIQUE
 #
-require "byebug"
 require "aws-sdk-s3"
-
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
