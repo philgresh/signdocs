@@ -1,5 +1,9 @@
 {
   "name": "signdocs",
+  "engines": {
+    "node": "12.5.0",
+    "npm": "6.9.0"
+  },
   "scripts": {
     "postinstall": "webpack",
     "start": "webpack --watch --mode=development",
