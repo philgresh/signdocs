@@ -43,10 +43,22 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const rightNavSignedIn = currentUser && (
-    <li>
+  const currentUserIsDemo =
+    currentUser && /^bob.*@example.com/.test(currentUser.email);
+  const greeting =
+    currentUser &&
+    (currentUserIsDemo ? (
+      <p>
+        Hello, <abbr title={currentUser.email}>{currentUser.firstName}</abbr>
+      </p>
+    ) : (
       <p>Hello, {currentUser.firstName}</p>
-      <button onClick={signoutUser} type="button">
+    ));
+
+  const rightNavSignedIn = currentUser && (
+    <li className="no-pointer">
+      {greeting}
+      <button onClick={signoutUser} type="button" className="signout flat">
         Sign Out
       </button>
     </li>

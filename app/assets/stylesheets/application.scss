@@ -75,6 +75,11 @@ button {
   padding: 0.25rem 0.5rem;
   margin: 0.25rem;
   cursor: pointer;
+  box-shadow: 0px 4px 5px 0px #c1c1c1;
+
+  &:hover {
+    box-shadow: 0px 1px 3px 0px #c1c1c1;
+  }
 
   & a {
     color: inherit;
@@ -222,6 +227,15 @@ main {
       border-bottom: 2px solid lightgray;
     }
   }
+
+  & button.signout {
+    padding: 1rem 0.5rem;
+    margin: 0 0.5rem;
+
+    &:hover {
+      background-color: var(--yellow);
+    }
+  }
 }
 
 .flex-left {
@@ -311,4 +325,16 @@ main {
   font-size: 0.8rem;
   margin: 0 1rem;
   margin: -0.75rem 0 1rem 1rem;
+}
+
+li.no-pointer {
+  cursor: default;
+}
+
+.flat {
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+  }
 }

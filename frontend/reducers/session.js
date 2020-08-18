@@ -20,9 +20,9 @@ export const sessionErrors = (state = {}, action) => {
       return newState;
     }
     case RECEIVE_CURRENT_USER:
-      return [];
+      return {};
     case SIGNOUT_CURRENT_USER:
-      return [];
+      return {};
     default:
       return state;
   }

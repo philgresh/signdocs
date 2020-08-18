@@ -34,23 +34,12 @@ const SessionForm = (props) => {
     setState({ ...state, [name]: value });
   };
 
-  // const handleDemoUser = (e) => {
-  //   debugger;
-  //   e.preventDefault();
-  //   const bob = generateBob();
-  //   setState({ ...bob });
-  //   handleSubmit(e);
-  // };
-
   const clearPassword = () =>
     setState((oldState) => ({ ...oldState, password: '' }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, user = state) => {
     e.preventDefault();
-    let user = { ...state };
-    if (e.target.name === 'demoBtn') {
-      user = generateBob();
-    }
+
     setSubmitting(true);
     processForm(user)
       .then(() => {
@@ -62,7 +51,17 @@ const SessionForm = (props) => {
       });
   };
 
+  const handleDemoUser = (e) => {
+    setSubmitting(true);
+    e.preventDefault();
+    e.persist();
+    const bob = generateBob();
+    setState({ ...bob });
+    setTimeout(() => handleSubmit(e, bob), 1000);
+  };
+
   let buttonText = 'Sign in';
+  let buttonTextSubmitting = 'Signing in...';
   let headerText = <h1>Please sign in to your account</h1>;
   let helmetText = 'SignDocs - Sign in';
 
@@ -78,6 +77,7 @@ const SessionForm = (props) => {
       </>
     );
     buttonText = 'Get started';
+    buttonTextSubmitting = 'Getting you started...';
     helmetText = 'SignDocs - Sign up for free';
   }
 
@@ -135,11 +135,11 @@ const SessionForm = (props) => {
           state={state}
         />
         <button type="submit" disabled={submitting}>
-          {buttonText}
+          {submitting ? buttonTextSubmitting : buttonText}
         </button>
         <DemoButton
           isSignUp={isSignUp}
-          handleSubmit={handleSubmit}
+          handleSubmit={handleDemoUser}
           submitting={submitting}
         />
       </form>

@@ -8,8 +8,8 @@ const generateBob = () => {
 
   return {
     email: `bob${now}@example.com`,
-    first_name: 'Bob',
-    last_name: 'Zhurunkel',
+    firstName: 'Bob',
+    lastName: 'Zhurunkel',
     password: 'password',
   };
 };

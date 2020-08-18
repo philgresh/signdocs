@@ -7,11 +7,9 @@ import { getErrors } from '../../../reducers/selectors';
 const HelperText = ({ field, errors }) => {
   if (!errors[field]) return <div className="helper-text" />;
   const newFieldName = humanizeString(field);
-  return (
-    <div className="helper-text error">
-      {`${newFieldName} ${errors[field][0]}`}
-    </div>
-  );
+  const error =
+    errors[field] instanceof Array ? errors[field][0] : errors[field];
+  return <div className="helper-text error">{`${newFieldName} ${error}`}</div>;
 };
 
 HelperText.propTypes = {
