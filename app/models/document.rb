@@ -68,7 +68,15 @@ class Document < ApplicationRecord
   end
 
   def aws_client
-    s3 = Aws::S3::Resource.new(region: Rails.application.credentials.dig(:aws, :region))
-    bucket = s3.bucket(Rails.application.credentials.dig(:aws, :bucket))
+    @s3 = Aws::S3::Resource.new(region: Rails.application.credentials.aws.region)
+  end
+
+  def bucket
+    client = @s3 || aws_client
+    if Rails.env.production?
+      return client.bucket(Rails.application.credentials.aws.prod.bucket)
+    else
+      return client.bucket(Rails.application.credentials.aws.dev.bucket)
+    end
   end
 end
