@@ -31,7 +31,7 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     // "no-named-as-default": ["off"],
     // "no-named-as-default-member": ["off"],
-    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "max-len": [
       "warn",
       {

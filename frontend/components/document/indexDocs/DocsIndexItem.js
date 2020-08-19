@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { DocPropTypeShape } from '../propTypes';
+import { DocPropTypeShape } from '../../propTypes';
 
 const DocsIndexItem = ({ doc }) => {
   const { id: docId, title, description } = doc;

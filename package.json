@@ -1,8 +1,8 @@
 {
   "name": "signdocs",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/philgresh/signdocs.git"
+    "type": "git",
+    "url": "https://github.com/philgresh/signdocs.git"
   },
   "engines": {
     "node": "12.5.0",
@@ -42,9 +42,11 @@
       "react-app"
     ]
   },
+  
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",

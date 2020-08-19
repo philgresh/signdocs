@@ -23,7 +23,7 @@ class Document < ApplicationRecord
               less_than: 20.megabytes,
               message: "is not given between size",
             }
-
+  validates_presence_of :title
   # validates :editor_ids, presence: true
 
   # ActiveStorage association
@@ -68,7 +68,7 @@ class Document < ApplicationRecord
   end
 
   def aws_client
-    @s3 = Aws::S3::Resource.new(region: 'us-west-2')
+    @s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
   end
 
   def bucket

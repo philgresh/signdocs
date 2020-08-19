@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import DocsIndex from './DocsIndex';
-import { fetchDocuments } from '../../actions/document';
-import { getDocumentsAsArray } from '../../reducers/selectors';
-import { DocPropTypeShape } from '../propTypes';
+import { fetchDocuments } from '../../../actions/document';
+import { getDocumentsAsArray } from '../../../reducers/selectors';
+import { DocPropTypeShape } from '../../propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {

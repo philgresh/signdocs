@@ -6,23 +6,32 @@ class Api::DocumentsController < ApplicationController
   end
 
   def show
-    @document = Document.find(params[:id])
+    @document = @document || Document.find(params[:id])
     @editors = User.where(id: @document.editor_ids)
-
+    # @owner = @document.owner
     render :show
   end
 
   def create
-    @post = Document.new(document_params)
-    CreateDocument.call(@document) do |success, failure|
-      success.call { render json: :show, notice: "Successfully created document." }
-      failure.call { render :new }
+    @document = Document.new(document_params)
+    @document.editors << current_user
+
+    if @document && @document.save
+      show
+    else
+      render json: { document: "Cannot create document" }, status: 400
     end
+    # CreateDocument.call(@document) do |success, failure|
+    #   success.call { render json: :show, notice: "Successfully created document." }
+    #   failure.call do
+    #     render json: { document: "Cannot create document" }, status: 400
+    #   end
+    # end
   end
 
   private
 
   def document_params
-    params.require(:document).permit(:description, :title)
+    params.require(:doc).permit(:description, :title, :file)
   end
 end

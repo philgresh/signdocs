@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DocDetails from './DocDetails';
-import { fetchDocument } from '../../actions/document';
-import { getDocumentById, getAssociatedUsers } from '../../reducers/selectors';
-import { DocPropTypeShape, UserPropTypeShape } from '../propTypes';
+import { fetchDocument } from '../../../actions/document';
+import {
+  getDocumentById,
+  getAssociatedUsers,
+} from '../../../reducers/selectors';
+import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 
 class DocDetailsContainer extends Component {
   componentDidMount() {
