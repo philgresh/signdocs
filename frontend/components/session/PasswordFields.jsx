@@ -1,10 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import zxcvbn from 'zxcvbn';
-import HelperText from './HelperText';
+import { HelperText } from '../helperComponents';
 
 const PASSWORD_QUALITY_MIN = 2;
 const PASSWORD_LENGTH_MIN = 6;
@@ -16,33 +16,33 @@ const PASSWORD_LENGTH_MIN = 6;
 //   3 # safely unguessable: moderate protection from offline slow-hash scenario. (guesses < 10^10)
 //   4 # very unguessable: strong protection from offline slow-hash scenario. (guesses >= 10^10)
 
-const PasswordFields = ({ password, handleChange, state, isSignUp }) => {
-  const [passwordWarnings, setPasswordWarnings] = useState({});
-
-  const acceptablePasswordStrength = (score, length) => {
-    if (!isSignUp || length === 0) return true;
-    if (length > PASSWORD_LENGTH_MIN || score > PASSWORD_QUALITY_MIN) {
-      return true;
-    }
-    return false;
+const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
+  const setPasswordWarnings = (warnings) => {
+    receiveErrors({ password: warnings });
   };
 
   const handlePasswordQualityCheck = (pw) => {
     const analysis = zxcvbn(pw, Object.values(state));
-    // console.log(analysis);
-    const { score } = analysis;
+    // console.log(analysis, Object.values());
+    const { score, feedback } = analysis;
     const len = pw.length;
-    if (!acceptablePasswordStrength(score, len)) {
-      // setPasswordWarnings({ feedback, score });
-      setPasswordWarnings({ password: [`strength is ${score}`] });
-    } else {
-      setPasswordWarnings({});
+    const longEnough = len > PASSWORD_LENGTH_MIN;
+    const strongEnough = score > PASSWORD_QUALITY_MIN;
+
+    if (len === 0) return setPasswordWarnings([]);
+
+    let warnings = [];
+    if (!longEnough) {
+      warnings.push(`must be at least ${PASSWORD_LENGTH_MIN} characters long.`);
     }
+    if (!strongEnough && len < 12)
+      warnings = [...warnings, feedback.suggestions];
+    return setPasswordWarnings(warnings);
   };
 
   const handlePasswordChange = (e) => {
     handleChange(e);
-    handlePasswordQualityCheck(e.target.value);
+    if (isSignUp) handlePasswordQualityCheck(e.target.value);
   };
 
   return (
@@ -53,12 +53,12 @@ const PasswordFields = ({ password, handleChange, state, isSignUp }) => {
           type="password"
           name="password"
           id="password"
-          value={password}
+          value={state.password}
           onChange={handlePasswordChange}
           required
         />
       </label>
-      <HelperText field="password" errors={{ password: passwordWarnings }} />
+      <HelperText field="password" path="session.password" />
       <div className="password-helper-text" />
     </>
   );
@@ -66,7 +66,7 @@ const PasswordFields = ({ password, handleChange, state, isSignUp }) => {
 
 PasswordFields.propTypes = {
   isSignUp: PropTypes.bool.isRequired,
-  password: PropTypes.string.isRequired,
+  receiveErrors: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   state: PropTypes.object,
 };

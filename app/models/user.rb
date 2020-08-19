@@ -21,10 +21,10 @@
 class User < ApplicationRecord
   validates :email, :session_token, presence: true, uniqueness: true
   validates :password_digest, :first_name, :last_name, presence: true
-  validates :password, length: { minimum: 6, allow_nil: true }
+  validates :password, length: { minimum: 6, maximum: 64, allow_nil: true }
 
   attr_reader :password
-  before_validation :ensure_session_token  
+  before_validation :ensure_session_token
   before_create :downcase_fields
 
   # ActiveStorage associations
@@ -68,6 +68,7 @@ class User < ApplicationRecord
   end
 
   private
+
   def downcase_fields
     self.email = self.email.downcase
   end

@@ -2,7 +2,7 @@ import * as APIUtil from '../utils/session';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const SIGNOUT_CURRENT_USER = 'SIGNOUT_CURRENT_USER';
-export const RECEIVE_ERRORS = 'RECEIVE_ERRORS';
+export const RECEIVE_SESSION_ERROR = 'RECEIVE_SESSION_ERROR';
 
 // Action creators
 const receiveCurrentUser = (user) => ({
@@ -14,9 +14,9 @@ const signoutCurrentUser = () => ({
   type: SIGNOUT_CURRENT_USER,
 });
 
-const receiveErrors = (errors) => ({
-  payload: errors.responseJSON,
-  type: RECEIVE_ERRORS,
+export const receiveErrors = (errors) => ({
+  payload: errors,
+  type: RECEIVE_SESSION_ERROR,
 });
 
 // Thunk action creators
@@ -25,14 +25,14 @@ export const createNewUser = (formUser) => (dispatch) =>
     .then((user) => {
       dispatch(receiveCurrentUser(user));
     })
-    .fail((err) => dispatch(receiveErrors(err)));
+    .fail((err) => dispatch(receiveErrors(err.responseJSON)));
 
 export const signinUser = (formUser) => (dispatch) =>
   APIUtil.postSession(formUser)
     .then((user) => dispatch(receiveCurrentUser(user)))
-    .fail((err) => dispatch(receiveErrors(err)));
+    .fail((err) => dispatch(receiveErrors(err.responseJSON)));
 
 export const signoutUser = () => (dispatch) =>
   APIUtil.deleteSession()
     .then(() => dispatch(signoutCurrentUser()))
-    .fail((err) => dispatch(receiveErrors(err)));
+    .fail((err) => dispatch(receiveErrors(err.responseJSON)));

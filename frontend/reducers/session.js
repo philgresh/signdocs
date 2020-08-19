@@ -1,23 +1,14 @@
 import {
   RECEIVE_CURRENT_USER,
   SIGNOUT_CURRENT_USER,
-  RECEIVE_ERRORS,
+  RECEIVE_SESSION_ERROR,
 } from '../actions/session';
 
-export const sessionErrors = (state = {}, action) => {
-  const { type, payload } = action;
+export const sessionErrors = (state = {}, { type, payload }) => {
   Object.freeze(state);
   switch (type) {
-    case RECEIVE_ERRORS: {
-      let newState = {};
-      if (payload instanceof Array) {
-        payload.forEach((err, index) => {
-          newState[index] = err;
-        });
-      } else {
-        newState = payload;
-      }
-      return newState;
+    case RECEIVE_SESSION_ERROR: {
+      return payload;
     }
     case RECEIVE_CURRENT_USER:
       return {};

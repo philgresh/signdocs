@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import HelperText from './HelperText';
-import { getErrors } from '../../../reducers/selectors';
+import { HelperText } from '../helperComponents';
+import { getErrors } from '../../reducers/selectors';
 
-const SignUpFields = ({ isSignUp, handleChange, state, errors }) => {
+const SignUpFields = ({ isSignUp, handleChange, state }) => {
   const { firstName, lastName } = state;
   if (!isSignUp) return null;
 
@@ -23,7 +23,7 @@ const SignUpFields = ({ isSignUp, handleChange, state, errors }) => {
           minLength={1}
         />
       </label>
-      <HelperText field="first_name" errors={errors} />
+      <HelperText path="session.first_name" field="first_name" />
       <label htmlFor="lastName">
         Last Name
         <input
@@ -37,7 +37,7 @@ const SignUpFields = ({ isSignUp, handleChange, state, errors }) => {
           minLength={3}
         />
       </label>
-      <HelperText field="last_name" errors={errors} />
+      <HelperText path="session.last_name" field="last_name" />
     </>
   );
 };
@@ -49,13 +49,9 @@ SignUpFields.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
   }).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  errors: PropTypes.object,
 };
 
-SignUpFields.defaultProps = {
-  errors: {},
-};
+SignUpFields.defaultProps = {};
 
 const mapStateToProps = (state) => ({
   errors: getErrors(state),

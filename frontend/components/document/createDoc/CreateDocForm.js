@@ -1,6 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { HelperText } from '../../helperComponents';
 
 export default class CreateDocForm extends Component {
   constructor(props) {
@@ -29,7 +31,7 @@ export default class CreateDocForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     const { title, description, file } = this.state;
     const formData = new FormData();
     formData.append('doc[title]', title);
@@ -37,16 +39,14 @@ export default class CreateDocForm extends Component {
     formData.append('doc[file]', file);
     // console.log({ formData });
     // eslint-disable-next-line react/destructuring-assignment
-    this.props
-      .createDocument(formData)
-      .then(({ document }) => {
-        this.props.history.push(`/documents/${document.id}`);
-      })
-      .catch((err) => console.error(err));
+    this.props.createDocument(formData).then(({ document }) => {
+      this.props.history.push(`/documents/${document.id}`);
+    });
   }
 
   render() {
     const { title, description, loading } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="titleInput">
@@ -59,6 +59,7 @@ export default class CreateDocForm extends Component {
             value={title}
           />
         </label>
+        <HelperText field="title" path="documents.title" />
         <label htmlFor="description">
           Description
           <textarea
@@ -70,7 +71,9 @@ export default class CreateDocForm extends Component {
             value={description}
           />
         </label>
+        <HelperText field="description" path="documents.description" />
         <input type="file" name="file" id="file" onChange={this.handleFile} />
+        <HelperText field="file" path="documents.file" />
         <button type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create'}
         </button>

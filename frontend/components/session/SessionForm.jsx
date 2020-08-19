@@ -1,15 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/no-autofocus */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import {
-  DemoButton,
-  SignUpFields,
-  PasswordFields,
-  HelperText,
-} from './helperComponents';
+import DemoButton from './DemoButton';
+import SignUpFields from './SignUpFields';
+import PasswordFields from './PasswordFields';
+import { HelperText } from '../helperComponents';
 
 const SessionForm = (props) => {
   const {
@@ -18,6 +16,7 @@ const SessionForm = (props) => {
     history,
     generateBob,
     email: propsEmail,
+    receiveErrors,
   } = props;
   const [state, setState] = useState({
     email: propsEmail || '',
@@ -26,6 +25,12 @@ const SessionForm = (props) => {
     lastName: '',
   });
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      receiveErrors({});
+    };
+  }, []);
 
   const handleChange = (event) => {
     const {
@@ -101,7 +106,7 @@ const SessionForm = (props) => {
     </div>
   );
 
-  const { email, password } = state;
+  const { email } = state;
 
   return (
     <div className="session-form">
@@ -127,12 +132,12 @@ const SessionForm = (props) => {
             required
           />
         </label>
-        <HelperText field="email" />
+        <HelperText field="email" path="session.email" />
         <PasswordFields
           isSignUp={isSignUp}
-          password={password}
           handleChange={handleChange}
           state={state}
+          receiveErrors={receiveErrors}
         />
         <button type="submit" disabled={submitting}>
           {submitting ? buttonTextSubmitting : buttonText}
@@ -151,6 +156,7 @@ const SessionForm = (props) => {
 SessionForm.propTypes = {
   formType: PropTypes.string.isRequired,
   processForm: PropTypes.func.isRequired,
+  receiveErrors: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

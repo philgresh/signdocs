@@ -1,3 +1,4 @@
+import lodashGet from 'lodash/get';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
 
@@ -8,7 +9,7 @@ export const getAllDocuments = (state) => state.entities.documents;
 export const getAllUsers = (state) => state.entities.users;
 
 // Errors
-export const getErrors = (state, type = 'session') => state.errors[type] || {};
+export const getErrors = (state) => state.errors;
 
 // Session
 /**
@@ -29,6 +30,9 @@ export const getDocumentsAsArray = createSelector(getAllDocuments, (docs) =>
 export const getUsersAsArray = createSelector(getAllUsers, (users) =>
   Object.values(users),
 );
+
+export const getErrorsAt = (path) =>
+  createSelector(getErrors, (errors) => lodashGet(errors, path, []));
 
 export const getUserDetails = (userId) =>
   createSelector([getAllUsers], (users) => users[userId]);

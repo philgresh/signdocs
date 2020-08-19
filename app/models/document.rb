@@ -68,13 +68,13 @@ class Document < ApplicationRecord
   end
 
   def aws_client
-    @s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+    @s3 = Aws::S3::Resource.new(region: ENV["AWS_REGION"])
   end
 
   def bucket
     client = @s3 || aws_client
     if Rails.env.production?
-      return client.bucket(ENV['S3_BUCKET_NAME'])
+      return client.bucket(ENV["S3_BUCKET_NAME"])
     else
       return client.bucket(Rails.application.credentials.aws.dev.bucket)
     end

@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import CreateDocForm from './CreateDocForm';
 import { createDocument } from '../../../actions/document';
+import { getErrors } from '../../../reducers/selectors';
 
-const mapStateToProps = (_state) => ({
+const mapStateToProps = (state) => ({
   docState: {
     title: '',
     description: '',
   },
+  errors: getErrors(state, 'documents'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

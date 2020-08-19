@@ -19,7 +19,7 @@ class Api::DocumentsController < ApplicationController
     if @document && @document.save
       show
     else
-      render json: { document: "Cannot create document" }, status: 400
+      render json: @document.errors.messages, status: :bad_request
     end
     # CreateDocument.call(@document) do |success, failure|
     #   success.call { render json: :show, notice: "Successfully created document." }

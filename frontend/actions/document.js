@@ -3,7 +3,7 @@ import * as APIUtil from '../utils/document';
 export const RECEIVE_ALL_DOCUMENTS = 'RECEIVE_ALL_DOCUMENTS';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
 export const REMOVE_DOCUMENT = 'REMOVE_DOCUMENT';
-export const RECEIVE_ERROR = 'RECEIVE_ERROR';
+export const RECEIVE_DOCUMENT_ERROR = 'RECEIVE_DOCUMENT_ERROR';
 
 // Action creators
 const receiveDocuments = (docs) => ({
@@ -22,7 +22,7 @@ const removeDocument = (docId) => ({
 });
 
 const receiveError = (error) => ({
-  type: RECEIVE_ERROR,
+  type: RECEIVE_DOCUMENT_ERROR,
   payload: error,
 });
 
@@ -38,10 +38,7 @@ export const createDocument = (docForm) => (dispatch) =>
       dispatch(receiveDocument(doc));
       return doc;
     })
-    .fail((err) => {
-      receiveError(err);
-      return err;
-    });
+    .fail((err) => dispatch(receiveError(err.responseJSON)));
 
 export const updateDocument = (docForm) => (dispatch) =>
   APIUtil.updateDocument(docForm).then((doc) => dispatch(receiveDocument(doc)));

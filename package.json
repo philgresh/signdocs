@@ -21,7 +21,6 @@
     "@babel/preset-react": "^7.10.4",
     "@reduxjs/toolkit": "^1.4.0",
     "babel-loader": "^8.1.0",
-    "humanize-string": "^2.1.0",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -42,7 +41,6 @@
       "react-app"
     ]
   },
-  
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "babel-eslint": "^10.1.0",
