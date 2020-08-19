@@ -1,4 +1,6 @@
 class Api::DocumentsController < ApplicationController
+  rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
+
   def index
     # TODO: Filter based on authorization
     @documents = Document.all
@@ -14,9 +16,9 @@ class Api::DocumentsController < ApplicationController
 
   def create
     @document = Document.new(document_params)
-    @document.editors << current_user
 
-    if @document && @document.save
+    if @document.valid? && @document.save
+      @document.editors << current_user
       show
     else
       render json: @document.errors.messages, status: :bad_request
@@ -33,5 +35,11 @@ class Api::DocumentsController < ApplicationController
 
   def document_params
     params.require(:doc).permit(:description, :title, :file)
+  end
+
+  def invalid_params
+    errors = (@document && @document.errors.messages) || {}
+    errors["document"] = ["Invalid parameters"]
+    render json: errors, status: :bad_request
   end
 end

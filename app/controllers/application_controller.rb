@@ -3,7 +3,16 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   helper_method :current_user, :logged_in?
+
   private
+
+  # rescue_from User::NotAuthorized, with: :user_not_authorized
+  # def user_not_authorized
+  # flash[:error] = "You don't have access to this section."
+  # redirect_back(fallback_location: root_path)
+  # render json: { user: ["You are not authorized to do that."] }
+  # https://edgeguides.rubyonrails.org/action_controller_overview.html#the-default-500-and-404-templates
+  # end
 
   def current_user
     return nil unless session[:session_token]
@@ -27,7 +36,7 @@ class ApplicationController < ActionController::Base
 
   def require_logged_in
     unless current_user
-      render json: { base: ['invalid credentials'] }, status: 401
+      render json: { base: ["invalid credentials"] }, status: 401
     end
   end
 

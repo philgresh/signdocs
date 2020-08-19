@@ -48,7 +48,7 @@ export default class CreateDocForm extends Component {
     const { title, description, loading } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} method="POST">
         <label htmlFor="titleInput">
           Title
           <input
@@ -57,6 +57,8 @@ export default class CreateDocForm extends Component {
             id="titleInput"
             onChange={this.handleChange('title')}
             value={title}
+            required
+            minLength={3}
           />
         </label>
         <HelperText field="title" path="documents.title" />
@@ -77,6 +79,7 @@ export default class CreateDocForm extends Component {
         <button type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create'}
         </button>
+        <HelperText field="document" path="documents.document" />
       </form>
     );
   }
