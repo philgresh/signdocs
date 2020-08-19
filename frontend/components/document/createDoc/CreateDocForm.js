@@ -13,6 +13,7 @@ export default class CreateDocForm extends Component {
       description: docState.description || '',
       file: null,
       loading: false,
+      fileUrl: '',
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -20,7 +21,12 @@ export default class CreateDocForm extends Component {
   }
 
   handleFile(e) {
-    this.setState({ file: e.currentTarget.files[0] });
+    const file = e.currentTarget.files[0];
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      this.setState({ file, fileUrl: fileReader.result });
+    };
+    if (file) fileReader.readAsDataURL(file);
   }
 
   handleChange(field) {
@@ -31,17 +37,18 @@ export default class CreateDocForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // this.setState({ loading: true });
+    this.setState({ loading: true });
     const { title, description, file } = this.state;
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
     formData.append('doc[file]', file);
-    // console.log({ formData });
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.createDocument(formData).then(({ document }) => {
-      this.props.history.push(`/documents/${document.id}`);
-    });
+    this.props
+      .createDocument(formData)
+      .then(({ document }) => {
+        this.props.history.push(`/documents/${document.id}`);
+      })
+      .catch(() => this.setState({ loading: false }));
   }
 
   render() {

@@ -35,6 +35,8 @@
   --background-white: #fcfcfc;
   --background-white-rgb: 252, 252, 252;
   --off-black: #1e1e1e;
+  --box-shadow-1: 1px 1px 4px 0px #999;
+  --rounded-corners: 4px;
 }
 
 h1,
@@ -63,6 +65,9 @@ samp {
 
 a {
   text-decoration: none;
+  &.inline-link {
+    margin: 0 1rem;
+  }
 }
 
 button {
@@ -75,10 +80,27 @@ button {
   padding: 0.25rem 0.5rem;
   margin: 0.25rem;
   cursor: pointer;
-  box-shadow: 0px 4px 5px 0px #c1c1c1;
+  box-shadow: var(--box-shadow-1);
 
   &:hover {
     background-color: var(--yellow);
+  }
+
+  .flat {
+    box-shadow: none;
+  
+    &:hover {
+      box-shadow: none;
+    }
+  }
+
+  &.warn {
+    background-color: transparent;
+    font-weight: lighter;
+    color: gray;
+    &:hover {
+      color: red;
+    }
   }
 
   & a {
@@ -153,12 +175,12 @@ header::before {
 header::after {
   /* linear gradient from background color to transparent acts as
      a transition effect so the shadow appears gradually */
-  background: linear-gradient(
-    var(--background-white) 10%,
-    rgba(var(--background-white-rgb), 0.8) 50%,
-    rgba(var(--background-white-rgb), 0.4) 70%,
-    transparent
-  );
+  // background: linear-gradient(
+  //   var(--background-white) 10%,
+  //   rgba(var(--background-white-rgb), 0.8) 50%,
+  //   rgba(var(--background-white-rgb), 0.4) 70%,
+  //   transparent
+  // );
   top: 0;
   /* cover should fall over shadow */
   z-index: 2;
@@ -265,9 +287,8 @@ main {
       margin: 1rem 0 0 0;
       text-transform: uppercase;
       width: 100%;
-      box-shadow: 0px 4px 5px 0px #c1c1c1;
+      box-shadow: var(--box-shadow-1);
       &:hover {
-        // box-shadow: 0px 1px 3px 0px #c1c1c1;
         background: var(--dark-yellow);
       }
     }
@@ -331,10 +352,101 @@ li.no-pointer {
   cursor: default;
 }
 
-.flat {
-  box-shadow: none;
+.z1 {
+  z-index: 1;
+}
 
-  &:hover {
-    box-shadow: none;
+.background-gradient {
+  height: 250px;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(0, 91, 182);
+  background: -moz-linear-gradient(
+    45deg,
+    rgba(0, 91, 182, 1) 0%,
+    rgba(75, 154, 175, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    rgba(0, 91, 182, 1) 0%,
+    rgba(75, 154, 175, 1) 100%
+  );
+  background: linear-gradient(
+    45deg,
+    rgba(0, 91, 182, 1) 0%,
+    rgba(75, 154, 175, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005bb6",endColorstr="#4b9aaf",GradientType=1);
+}
+
+.flex-col-container {
+  display: flex;
+  flex-direction: column;
+}
+.flex-row-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-item {
+  flex: 1 0;
+  width: 100%;
+  align-items: center;
+}
+
+ul.docs-index {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 1rem;
+  padding: 0;
+
+  & .linkable-card {
+    // stolen from https://github.com/twbs/bootstrap/issues/18294
+    position: relative;
+    flex: 1 0 250px;
+    margin: 1rem;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--background-white);
+    box-shadow: var(--box-shadow-1);
+    border-radius: var(--rounded-corners);
+
+    & a.card-link {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+
+      &:hover ~ .card-title {
+        text-decoration: underline;
+      }
+    }
+    .card-image,
+    .card-title,
+    .card-actions,
+    .card-body {
+      pointer-events: none; /* IMPORTANT! Lets clicks fall through */
+      position: relative;
+      z-index: 10; /* IMPORTANT! Makes actual content be on top of linked card */
+
+      button,
+      a {
+        pointer-events: auto; /* IMPORTANT! ... Except for buttons and links that should be clickable */
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

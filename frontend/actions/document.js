@@ -31,7 +31,9 @@ const receiveError = (error) => ({
 export const fetchDocuments = () => (dispatch) =>
   APIUtil.fetchDocuments().then((docs) => dispatch(receiveDocuments(docs)));
 export const fetchDocument = (docId) => (dispatch) =>
-  APIUtil.fetchDocument(docId).then((doc) => dispatch(receiveDocument(doc)));
+  APIUtil.fetchDocument(docId)
+    .then((doc) => dispatch(receiveDocument(doc)))
+    .fail((err) => dispatch(receiveError(err)));
 export const createDocument = (docForm) => (dispatch) =>
   APIUtil.createDocument(docForm)
     .then((doc) => {
@@ -43,4 +45,9 @@ export const createDocument = (docForm) => (dispatch) =>
 export const updateDocument = (docForm) => (dispatch) =>
   APIUtil.updateDocument(docForm).then((doc) => dispatch(receiveDocument(doc)));
 export const deleteDocument = (docId) => (dispatch) =>
-  APIUtil.deleteDocument(docId).then(() => dispatch(removeDocument(docId)));
+  APIUtil.deleteDocument(docId)
+    .then((res) => {
+      console.log(res);
+      dispatch(removeDocument(docId));
+    })
+    .fail((err) => dispatch(receiveError(err)));

@@ -1,10 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import DocsIndex from './DocsIndex';
-import { fetchDocuments } from '../../../actions/document';
-import { getDocumentsAsArray } from '../../../reducers/selectors';
+import { fetchDocuments, deleteDocument } from '../../../actions/document';
+import {
+  getDocumentsAsArray,
+  getCurrentUser,
+} from '../../../reducers/selectors';
 import { DocPropTypeShape } from '../../propTypes';
 
 class DocsIndexContainer extends Component {
@@ -14,11 +18,9 @@ class DocsIndexContainer extends Component {
   }
 
   render() {
-    const { documents } = this.props;
-
     return (
       <div>
-        <DocsIndex documents={documents} />
+        <DocsIndex {...this.props} />
       </div>
     );
   }
@@ -33,12 +35,14 @@ DocsIndexContainer.defaultProps = {
   documents: [],
 };
 
-const mapStateToProps = createStructuredSelector({
-  documents: getDocumentsAsArray,
+const mapStateToProps = (state) => ({
+  documents: getDocumentsAsArray(state),
+  currentUser: getCurrentUser(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchDocuments: () => dispatch(fetchDocuments()),
+  deleteDocument: (docId) => dispatch(deleteDocument(docId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocsIndexContainer);

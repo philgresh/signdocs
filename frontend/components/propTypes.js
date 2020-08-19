@@ -6,6 +6,7 @@ export const DocPropTypeShape = PropTypes.shape({
   title: PropTypes.string,
   description: PropTypes.string,
   file_url: PropTypes.string,
+  ownerId: PropTypes.string,
 });
 
 export const UserPropTypeShape = PropTypes.shape({
@@ -13,4 +14,5 @@ export const UserPropTypeShape = PropTypes.shape({
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
+  imageTag: PropTypes.string,
 });
