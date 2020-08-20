@@ -14,8 +14,11 @@ import { DocPropTypeShape } from '../../propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {
-    const { fetchDocuments: fetchDocs } = this.props;
+    const { fetchDocuments: fetchDocs, documents } = this.props;
     fetchDocs();
+    if (documents) {
+      document.title = `SignDocs - Documents`;
+    }
   }
 
   render() {

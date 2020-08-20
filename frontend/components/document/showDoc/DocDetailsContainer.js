@@ -17,8 +17,11 @@ import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 
 class DocDetailsContainer extends Component {
   componentDidMount() {
-    const { fetchDocument: fetchDoc } = this.props;
+    const { fetchDocument: fetchDoc, doc } = this.props;
     fetchDoc();
+    if (doc) {
+      document.title = `SignDocs - ${doc.title}`;
+    }
   }
 
   render() {

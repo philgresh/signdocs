@@ -17,6 +17,7 @@ export default class CreateDocForm extends Component {
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    document.title = `SignDocs - Create new document`;
   }
 
   handleFile(e) {

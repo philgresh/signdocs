@@ -218,6 +218,31 @@ main {
   margin: auto;
 }
 
+footer {
+  background: #ffab62;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 4rem; /* Footer height + space */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem; /* Footer height */
+}
+
 .nav-links {
   display: flex;
   flex-direction: row;
@@ -255,18 +280,6 @@ main {
     padding: 1rem 0.5rem;
     margin: 0 0.5rem;
   }
-}
-
-.flex-left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.flex-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .session-form {
@@ -391,17 +404,53 @@ li.no-pointer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: baseline;
 }
 
-.flex-between {
+.flex-between-center {
   justify-content: space-between;
   align-items: center;
+}
+
+.flex-between-baseline {
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .flex-item {
   flex: 1 0;
   width: 100%;
+}
+
+.flex-left {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flex-item-left {
+  flex: 1;
+  text-align: left;
+}
+
+.flex-item-right {
+  flex: 1;
+  text-align: right;
+}
+
+.card {
+  background-color: var(--background-white);
+  box-shadow: var(--box-shadow-1);
+  border-radius: var(--rounded-corners);
+  margin: 1rem;
+  padding: 1rem;
+  position: relative;
 }
 
 ul.docs-index {
@@ -453,21 +502,88 @@ ul.docs-index {
 }
 
 .doc-show {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  & h1,
+  & h2,
+  & h3 {
+    margin-bottom: 0;
+  }
 
-  & .title-bar,
-  & .details {
+  & p {
+    margin-bottom: 0.5rem;
+  }
+
+  & .pdf-document-container {
+    & .pages-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: baseline;
+    }
+
+    & .card {
+      height: 792px;
+      width: 612px;
+      display: block;
+      user-select: none;
+      z-index: -1;
+      border: 1px solid #ddd;
+      border-radius: 0;
+      box-shadow: 0px 1px 2px 0px #ccc;
+    }
+
+    & .react-pdf__Document {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+
+      & .react-pdf__Page {
+        border: 1px solid #ddd;
+        border-radius: 0;
+        box-shadow: 0px 1px 2px 0px #ccc;
+      }
+    }
+  }
+
+  & .doc-attr-key {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 0 2rem;
+  }
+
+  & .doc-details-grid {
+    display: grid;
+    grid-template-columns: 200px auto 1fr;
+    gap: 1rem;
+    justify-content: center;
+
+    & > * {
+      margin-top: 0;
+    }
+
+    & .doc-attr-key {
+      min-width: 200px;
+      text-align: right;
+    }
+
+    & .doc-attr-value {
+      grid-column: 2/-1;
+    }
+  }
+
+  & .doc-button-bar,
+  & .doc-details-title-bar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
 
-    & h2,
-    & ul {
-      flex: 1;
-    }
-    & ul:first-child {
-      flex: 0;
+  & .doc-button-bar {
+    & > button,
+    & > a {
+      margin: 1rem 0;
+      padding: 0;
     }
   }
 }

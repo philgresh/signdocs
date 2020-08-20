@@ -9,6 +9,7 @@ import { fetchDocuments } from '../../actions/document';
 import { getCurrentUser } from '../../reducers/selectors';
 
 const HomeContainer = (props) => {
+  document.title = `SignDocs - Share and Sign Documents`;
   if (!props.currentUser) return <Splash />;
   return <Home {...props} />;
 };

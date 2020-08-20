@@ -29,11 +29,17 @@ const receiveError = (error) => ({
 // Thunktions
 
 export const fetchDocuments = () => (dispatch) =>
-  APIUtil.fetchDocuments().then((docs) => dispatch(receiveDocuments(docs)));
+  APIUtil.fetchDocuments().then((docs) => {
+    dispatch(receiveDocuments(docs));
+    return docs;
+  });
 
 export const fetchDocument = (docId) => (dispatch) =>
   APIUtil.fetchDocument(docId)
-    .then((doc) => dispatch(receiveDocument(doc)))
+    .then((doc) => {
+      dispatch(receiveDocument(doc));
+      return doc;
+    })
     .fail((err) => dispatch(receiveError(err)));
 
 export const createDocument = (docForm) => (dispatch) =>

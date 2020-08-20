@@ -8,6 +8,10 @@
       href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,400;0,700;1,100&family=Roboto:ital,wght@0,300;0,400;0,700;1,300&family=Titillium+Web:wght@200;300;400;700&display=swap"
       rel="stylesheet"
     />
+    <%= favicon_link_tag asset_path('apple-touch-icon.png') %>
+    <%= favicon_link_tag asset_path('favicon-32x32.png') %>
+    <%= favicon_link_tag asset_path('favicon-16x16.png') %>
+    <link rel="manifest" href="<%= asset_path '/site.webmanifest' %>">
     <%= stylesheet_link_tag 'application', media: 'all' %> 
     <%= javascript_include_tag 'application' %>
     <% if current_user %>

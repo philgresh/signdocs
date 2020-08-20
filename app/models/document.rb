@@ -13,7 +13,6 @@ require "aws-sdk-s3"
 class Document < ApplicationRecord
   ACCEPTABLE_TYPES = ["application/pdf", "image/png", "image/jpg", "image/jpeg", "image/jpg", "image/svg+xml"]
 
-  # attached: true,
   validates_presence_of :title
   validates :file,
             content_type: {
@@ -24,7 +23,6 @@ class Document < ApplicationRecord
               less_than: 20.megabytes,
               message: "is not given between size",
             }
-  # validates :editor_ids, presence: true
 
   # ActiveStorage association
   has_one_attached :file

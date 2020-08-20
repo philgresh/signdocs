@@ -11,22 +11,31 @@ import { AuthRoute, ProtectedRoute } from '../utils/route';
 const App = () => {
   return (
     <HashRouter>
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        <Switch>
-          <AuthRoute path="/signin" component={Signin} />
-          <AuthRoute path="/signup" component={Signup} />
-          <ProtectedRoute path="/user" component={Signin} />
-          <ProtectedRoute path="/documents" exact component={DocsIndex} />
-          <ProtectedRoute path="/documents/new" exact component={DocCreate} />
-          <ProtectedRoute path="/documents/:docId" component={DocDetails} />
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </main>
+      <div id="page-container">
+        <div id="content-wrap">
+          <header>
+            <Navbar />
+          </header>
+          <main>
+            <Switch>
+              <AuthRoute path="/signin" component={Signin} />
+              <AuthRoute path="/signup" component={Signup} />
+              <ProtectedRoute path="/user" component={Signin} />
+              <ProtectedRoute path="/documents" exact component={DocsIndex} />
+              <ProtectedRoute
+                path="/documents/new"
+                exact
+                component={DocCreate}
+              />
+              <ProtectedRoute path="/documents/:docId" component={DocDetails} />
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </main>
+        </div>
+        <footer id="footer">This is teh footer</footer>
+      </div>
     </HashRouter>
   );
 };

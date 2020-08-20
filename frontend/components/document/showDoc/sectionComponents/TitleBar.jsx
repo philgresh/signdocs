@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 const TitleBar = ({ title }) => {
   return (
-    <div className="doc-show title-bar">
-      <h2>{title}</h2>
-      <p>(STATUS GOES HERE)</p>
+    <div className="flex-row-container flex-between-baseline">
+      <h2 className="flex-item-left">{title}</h2>
+      <p className="flex-item-right">(STATUS GOES HERE)</p>
     </div>
   );
 };

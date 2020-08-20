@@ -37,34 +37,26 @@ const ButtonBar = ({ doc, currentUser, deleteDocument, history }) => {
   };
 
   return (
-    <div>
-      <div>
-        <a href={fileUrl} target="_blank" rel="noreferrer">
-          View&nbsp;
-          <FontAwesomeIcon icon={faExternalLinkAlt} />
-        </a>
-        <a href={downloadUrl} download>
-          Download&nbsp;
-          <FontAwesomeIcon icon={faFileDownload} />
-        </a>
-      </div>
-      <div>
-        {isEditor && (
-          <Link to={`documents/${docId}/edit`} className="inline-link">
-            Edit
-          </Link>
-        )}
-        {isOwner && (
-          <button
-            type="button"
-            className="flat warn"
-            onClick={onDelete}
-            disabled={deleting}
-          >
-            {deleting ? 'Deleting...' : 'Delete'}
-          </button>
-        )}
-      </div>
+    <div className="doc-button-bar">
+      <a href={downloadUrl} download className="inline-link">
+        Download&nbsp;
+        {/* <FontAwesomeIcon icon={faFileDownload} /> */}
+      </a>
+      {isEditor && (
+        <Link to={`documents/${docId}/edit`} className="inline-link">
+          Edit
+        </Link>
+      )}
+      {isOwner && (
+        <button
+          type="button"
+          className="flat warn"
+          onClick={onDelete}
+          disabled={deleting}
+        >
+          {deleting ? 'Deleting...' : 'Delete'}
+        </button>
+      )}
     </div>
   );
 };

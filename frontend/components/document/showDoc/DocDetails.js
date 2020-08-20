@@ -4,24 +4,25 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 // import BreadCrumbs from '../../BreadCrumbs';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
-import { TitleBar, Details, ButtonBar } from './sectionComponents';
-import PDF from './pdf/pdf';
+import { TitleBar, Details, ButtonBar, PDF } from './sectionComponents';
 
 const DocDetails = ({ doc, currentUser, deleteDocument }) => {
   // eslint-disable-next-line react/prop-types
-  const { title } = doc;
+  const { title, fileUrl } = doc;
   return (
-    <div className="doc-show">
+    <div className="flex-col-container doc-show">
       <Link to="/documents">Back to Documents</Link>
       <TitleBar title={title} />
-      <Details doc={doc} />
+      <div className="flex-col-container">
+        <Details doc={doc} />
+        {/* <History></History> */}
+      </div>
       <ButtonBar
         doc={doc}
         currentUser={currentUser}
         deleteDocument={deleteDocument}
       />
-      <PDF doc={doc} />
-      {/* <History></History> */}
+      <PDF fileUrl={fileUrl} />
     </div>
   );
 };
