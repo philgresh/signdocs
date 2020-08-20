@@ -1,20 +1,16 @@
-import React from 'react';
+/* eslint-disable react/require-default-props */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 import { getUserDetails } from '../../../reducers/selectors';
 // import Avatar from '../../user/avatar';
 
-const DocsIndexItem = ({ doc, currentUser, deleteDocument }) => {
-  const {
-    id: docId,
-    title,
-    updatedAt,
-    contentFieldsCount,
-    ownerId,
-    editorIds,
-  } = doc;
+const DocsIndexItem = ({ doc, currentUser, deleteDocument, history }) => {
+  const [deleting, setDeleting] = useState(false);
+  const { id: docId, title, updatedAt, ownerId, editorIds } = doc;
   const ownerDetails = useSelector(getUserDetails(ownerId));
   const isOwner = ownerDetails.id === currentUser.id;
   const isEditor = isOwner || editorIds.includes(currentUser.id);
@@ -22,8 +18,26 @@ const DocsIndexItem = ({ doc, currentUser, deleteDocument }) => {
   let ownerSection = null;
 
   const onDelete = () => {
-    deleteDocument(docId);
+    setDeleting(true);
+    // eslint-disable-next-line no-alert
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this document?',
+    );
+    if (confirmed) {
+      deleteDocument()
+        .then(() => {
+          history.push('/documents');
+        })
+        .catch((err) => {
+          console.error(err);
+          setDeleting(false);
+        });
+    } else {
+      setDeleting(false);
+    }
   };
+
+  const updatedAtText = moment(updatedAt).fromNow();
 
   if (isEditor) {
     ownerSection = (
@@ -32,8 +46,13 @@ const DocsIndexItem = ({ doc, currentUser, deleteDocument }) => {
           Edit
         </Link>
         {isOwner && (
-          <button type="button" className="flat warn" onClick={onDelete}>
-            Delete
+          <button
+            type="button"
+            className="flat warn"
+            onClick={onDelete}
+            disabled={deleting}
+          >
+            {deleting ? 'Deleting...' : 'Delete'}
           </button>
         )}
       </div>
@@ -48,13 +67,11 @@ const DocsIndexItem = ({ doc, currentUser, deleteDocument }) => {
     <div className="linkable-card index-item flex-col-container flex-between">
       <Link to={`/documents/${docId}`} className="card-link" />
       <p className="card-title flex-item">{title}</p>
-      <div className="flex-row-container flex-between flex-item card-body">
-        {/* <p className="card-title flex-item">{title}</p> */}
-        {/* <p>{contentFieldsCount} fields added</p> */}
-      </div>
       <div className="flex-item status card-body">In Process</div>
       <div className="flex-row-container flex-item card-body">
-        <time className="flex-item">{updatedAt}</time>
+        <time className="flex-item" dateTime={updatedAt}>
+          {updatedAtText}
+        </time>
         {ownerSection}
       </div>
     </div>
@@ -65,6 +82,8 @@ DocsIndexItem.propTypes = {
   deleteDocument: PropTypes.func.isRequired,
   doc: DocPropTypeShape.isRequired,
   currentUser: UserPropTypeShape.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object,
 };
 
 export default DocsIndexItem;

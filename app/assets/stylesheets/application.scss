@@ -86,9 +86,9 @@ button {
     background-color: var(--yellow);
   }
 
-  .flat {
+  &.flat {
     box-shadow: none;
-  
+
     &:hover {
       box-shadow: none;
     }
@@ -163,6 +163,7 @@ header::after {
   /* make pseudo elements sticky as well */
   position: sticky;
   -webkit-position: sticky;
+  background-color: var(--background-white);
 }
 
 /* SHADOW */
@@ -172,19 +173,19 @@ header::before {
 }
 
 /* COVER */
-header::after {
-  /* linear gradient from background color to transparent acts as
-     a transition effect so the shadow appears gradually */
-  // background: linear-gradient(
-  //   var(--background-white) 10%,
-  //   rgba(var(--background-white-rgb), 0.8) 50%,
-  //   rgba(var(--background-white-rgb), 0.4) 70%,
-  //   transparent
-  // );
-  top: 0;
-  /* cover should fall over shadow */
-  z-index: 2;
-}
+// header::after {
+//   /* linear gradient from background color to transparent acts as
+//      a transition effect so the shadow appears gradually */
+//   // background: linear-gradient(
+//   //   var(--background-white) 10%,
+//   //   rgba(var(--background-white-rgb), 0.8) 50%,
+//   //   rgba(var(--background-white-rgb), 0.4) 70%,
+//   //   transparent
+//   // );
+//   top: 0;
+//   /* cover should fall over shadow */
+//   z-index: 2;
+// }
 
 nav {
   display: flex;
@@ -276,40 +277,40 @@ main {
   align-items: center;
   text-align: center;
 
-  & form {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Titillium Web', 'Roboto';
-    text-align: left;
-
-    & button {
-      padding: 0.5rem 1rem;
-      margin: 1rem 0 0 0;
-      text-transform: uppercase;
-      width: 100%;
-      box-shadow: var(--box-shadow-1);
-      &:hover {
-        background: var(--dark-yellow);
-      }
+  & button[name='demoBtn'] {
+    margin-top: 1rem;
+    font-size: 90%;
+    color: darkgray;
+    opacity: 0.9;
+    background: var(--background-white);
+    &:hover {
+      background: var(--powder-blue);
+      color: var(--dark-blue);
     }
+  }
+}
 
-    & button[type='submit'] {
-      background: var(--yellow);
-      &:hover {
-        background: var(--dark-yellow);
-      }
+form {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Titillium Web', 'Roboto';
+  text-align: left;
+
+  & button {
+    padding: 0.5rem 1rem;
+    margin: 1rem 0 0 0;
+    text-transform: uppercase;
+    width: 100%;
+    box-shadow: var(--box-shadow-1);
+    &:hover {
+      background: var(--dark-yellow);
     }
+  }
 
-    & button[name='demoBtn'] {
-      margin-top: 1rem;
-      font-size: 90%;
-      color: darkgray;
-      opacity: 0.9;
-      background: var(--background-white);
-      &:hover {
-        background: var(--powder-blue);
-        color: var(--dark-blue);
-      }
+  & button[type='submit'] {
+    background: var(--yellow);
+    &:hover {
+      background: var(--dark-yellow);
     }
   }
 
@@ -447,6 +448,26 @@ ul.docs-index {
       a:hover {
         text-decoration: underline;
       }
+    }
+  }
+}
+
+.doc-show {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  & .title-bar,
+  & .details {
+    display: flex;
+    flex-direction: row;
+
+    & h2,
+    & ul {
+      flex: 1;
+    }
+    & ul:first-child {
+      flex: 0;
     }
   }
 }

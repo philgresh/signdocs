@@ -24,8 +24,12 @@ const splashLinksLeft = [
 
 const signedInLinksLeft = [
   {
-    to: '/documents',
+    to: '/home',
     title: 'Home',
+  },
+  {
+    to: '/documents',
+    title: 'Documents',
   },
 ];
 

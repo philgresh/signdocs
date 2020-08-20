@@ -13,7 +13,7 @@ class Api::DocumentsController < ApplicationController
   def show
     @document = @document || Document.find_by(id: params[:id])
     if @document
-      @editors = User.where(id: @document.editor_ids)
+      @users = User.where(id: @document.editor_ids)
       render :show
     else
       render json: {
@@ -44,8 +44,11 @@ class Api::DocumentsController < ApplicationController
   def destroy
     @document = Document.find(params[:id])
     @document.file.purge_later
-    @document.destroy
-    render json: { document: { id: @document.id } }, status: :ok
+    if @document.destroy
+      #   render json: { document: { id: @document.id } }, status: :ok
+      # else
+      render json: { document: ["An error occured."] }, status: 418
+    end
   end
 
   private

@@ -38,8 +38,8 @@ const documentsReducer = (state = initialState, { type, payload }) => {
       return set(newState, doc.id, doc);
     }
     case REMOVE_DOCUMENT: {
-      const { document: doc } = payload;
-      return unset(newState, doc.id);
+      const { docId } = payload;
+      return unset(newState, docId);
     }
     case SIGNOUT_CURRENT_USER: {
       return initialState;

@@ -2,49 +2,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import BreadCrumbs from '../../BreadCrumbs';
+// import BreadCrumbs from '../../BreadCrumbs';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
+import { TitleBar, Details, ButtonBar } from './sectionComponents';
+import PDF from './pdf/pdf';
 
-const DocDetails = ({ doc, editors }) => {
-  const { title, description, fileUrl } = doc;
-
-  // const history = [
-  //   { to: '/documents', title: 'Documents' },
-  //   { to: `/documents/${doc.id}`, title },
-  // ];
-
+const DocDetails = ({ doc, currentUser, deleteDocument }) => {
+  // eslint-disable-next-line react/prop-types
+  const { title } = doc;
   return (
-    <div>
-      {/* <BreadCrumbs history={history} /> */}
-      <Link to="/documents" className="documents-link">
-        Back to Documents List
-      </Link>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <div>
-        <p>Editors</p>
-        <ul>
-          {editors.length > 0 &&
-            editors.map((editor) => (
-              <li key={editor.id}>{editor.firstName}</li>
-            ))}
-        </ul>
-        <a href={fileUrl} download target="_blank" rel="noreferrer">
-          Download
-        </a>
-      </div>
+    <div className="doc-show">
+      <Link to="/documents">Back to Documents</Link>
+      <TitleBar title={title} />
+      <Details doc={doc} />
+      <ButtonBar
+        doc={doc}
+        currentUser={currentUser}
+        deleteDocument={deleteDocument}
+      />
+      <PDF doc={doc} />
+      {/* <History></History> */}
     </div>
   );
 };
 
 DocDetails.propTypes = {
-  doc: DocPropTypeShape,
-  editors: PropTypes.arrayOf(UserPropTypeShape),
-};
-
-DocDetails.defaultProps = {
-  doc: {},
-  editors: [],
+  doc: PropTypes.shape({
+    ...DocPropTypeShape,
+    editors: PropTypes.arrayOf(UserPropTypeShape),
+    owner: UserPropTypeShape,
+  }).isRequired,
+  currentUser: UserPropTypeShape.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
 };
 
 export default DocDetails;

@@ -4,9 +4,9 @@ json.document do
   json.partial! "api/documents/document", document: @document
 end
 json.users do
-  @editors.each do |editor|
-    json.set! editor.id do
-      json.partial! 'api/users/user', user: editor
+  @users.each do |user|
+    json.set! user.id do
+      json.partial! "api/users/user", user: user
     end
   end
 end

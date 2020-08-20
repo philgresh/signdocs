@@ -5,7 +5,8 @@ export const DocPropTypeShape = PropTypes.shape({
   editorIds: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
   description: PropTypes.string,
-  file_url: PropTypes.string,
+  fileUrl: PropTypes.string,
+  downloadUrl: PropTypes.string,
   ownerId: PropTypes.string,
 });
 

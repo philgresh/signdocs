@@ -13,7 +13,6 @@ export default class CreateDocForm extends Component {
       description: docState.description || '',
       file: null,
       loading: false,
-      fileUrl: '',
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -24,7 +23,10 @@ export default class CreateDocForm extends Component {
     const file = e.currentTarget.files[0];
     const fileReader = new FileReader();
     fileReader.onloadend = () => {
-      this.setState({ file, fileUrl: fileReader.result });
+      this.setState({
+        file,
+        // fileUrl: fileReader.result,
+      });
     };
     if (file) fileReader.readAsDataURL(file);
   }
@@ -48,7 +50,7 @@ export default class CreateDocForm extends Component {
       .then(({ document }) => {
         this.props.history.push(`/documents/${document.id}`);
       })
-      .catch(() => this.setState({ loading: false }));
+      .fail(() => this.setState({ loading: false }));
   }
 
   render() {

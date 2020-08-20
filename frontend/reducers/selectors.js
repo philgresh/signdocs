@@ -43,8 +43,12 @@ export const getDocumentById = (docId) =>
 export const getAssociatedUsers = memoize((docId) =>
   createSelector([getAllDocuments, getAllUsers], (docs, users) => {
     const doc = docs[docId];
+    const associatedUsers = { editors: [], owner: null };
     if (doc && doc.editorIds)
-      return doc.editorIds.map((userId) => users[userId]);
-    return [];
+      doc.editorIds.forEach((userId) =>
+        associatedUsers.editors.push(users[userId]),
+      );
+    if (doc && doc.ownerId) associatedUsers.owner = users[doc.ownerId];
+    return associatedUsers;
   }),
 );

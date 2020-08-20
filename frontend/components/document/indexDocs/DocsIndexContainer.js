@@ -1,8 +1,9 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router-dom';
 import DocsIndex from './DocsIndex';
 import { fetchDocuments, deleteDocument } from '../../../actions/document';
 import {
@@ -29,6 +30,8 @@ class DocsIndexContainer extends Component {
 DocsIndexContainer.propTypes = {
   documents: PropTypes.arrayOf(DocPropTypeShape),
   fetchDocuments: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object,
 };
 
 DocsIndexContainer.defaultProps = {
@@ -45,4 +48,6 @@ const mapDispatchToProps = (dispatch) => ({
   deleteDocument: (docId) => dispatch(deleteDocument(docId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocsIndexContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DocsIndexContainer),
+);

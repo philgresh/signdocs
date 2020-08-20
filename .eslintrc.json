@@ -13,12 +13,14 @@
     "commonjs": true,
     "es6": true,
     "jest": true,
-    "node": true
+    "node": true,
+    "jquery": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
-    "allowImportExportEverywhere": true
+    "allowImportExportEverywhere": true,
+    "cache": true
   },
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["_"] }],
@@ -46,12 +48,12 @@
         "ignoreRegExpLiterals": true
       }
     ]
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": ["./src"]
-      }
-    }
   }
+  //   "settings": {
+  //     "import/resolver": {
+  //       "node": {
+  //         "paths": ["./src"]
+  //       }
+  //     }
+  //   }
 }

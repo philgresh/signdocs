@@ -20,7 +20,6 @@ function setPreloadedState(currentUser) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const rootEl = document.getElementById('root');
   let preloadedState;
   if (window.currentUser) {
     preloadedState = setPreloadedState(window.currentUser);
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <App />
       </Provider>
     </React.StrictMode>,
-    rootEl,
+    document.getElementById('root'),
   );
 
   // TODO
