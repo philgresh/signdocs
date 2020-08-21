@@ -60,7 +60,7 @@ group :development, :test do
   gem 'kramdown'
 
   # required for ActiveStorage::Previewer::PopplerPDFPreviewer
-  gem 'poppler'
+  # gem 'poppler'
 end
 
 

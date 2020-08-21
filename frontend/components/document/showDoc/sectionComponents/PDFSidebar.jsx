@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Document, Page, pdfjs } from 'react-pdf';
+// import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+// eslint-disable-next-line max-len
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDFSidebar = ({ fileUrl }) => {
-  const [docLoadSuccess, setDocLoadSuccess] = useState(false);
-  const [pageChange, setPageChange] = useState(false);
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const onDocumentLoadSuccess = (e) => {
-    // console.log(e);
-    const { numPages: numP } = e;
-    setDocLoadSuccess(true);
-    setNumPages(numP);
-  };
+const PDFSidebar = ({ previewImageUrl }) => {
   return (
     <div className="doc-show-pdf-sidebar">
-      <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-      </Document>
+      <div>
+        <img src={previewImageUrl} alt="Document Preview" width={150} />
+        <div className="sidebar-pagecount">Page 1 of 2</div>
+      </div>
     </div>
   );
 };
 
-PDFSidebar.propTypes = {};
+PDFSidebar.propTypes = {
+  previewImageUrl: PropTypes.string.isRequired,
+};
 
 export default PDFSidebar;

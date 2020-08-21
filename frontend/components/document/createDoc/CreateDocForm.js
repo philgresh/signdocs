@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -58,33 +59,39 @@ export default class CreateDocForm extends Component {
     const { title, description, loading } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} method="POST">
-        <label htmlFor="titleInput">
-          Title
-          <input
-            type="text"
-            name="titleInput"
-            id="titleInput"
-            onChange={this.handleChange('title')}
-            value={title}
-            required
-            minLength={3}
-          />
-        </label>
+      <form onSubmit={this.handleSubmit} method="POST" className="doc-form">
+        <h1>Create Form</h1>
+        <label htmlFor="titleInput">Title</label>
+        <input
+          type="text"
+          name="titleInput"
+          id="titleInput"
+          onChange={this.handleChange('title')}
+          value={title}
+          required
+          minLength={3}
+          placeholder="Offer of employment re: P. Gresham"
+        />
         <HelperText field="title" path="documents.title" />
-        <label htmlFor="description">
-          Description
-          <textarea
-            rows={3}
-            columns={30}
-            name="description"
-            id="description"
-            onChange={this.handleChange('description')}
-            value={description}
-          />
-        </label>
+        <label htmlFor="description">Note to Recipients</label>
+        <textarea
+          rows={3}
+          columns={30}
+          name="description"
+          id="description"
+          onChange={this.handleChange('description')}
+          value={description}
+          placeholder="Please sign, seal and deliver"
+        />
         <HelperText field="description" path="documents.description" />
-        <input type="file" name="file" id="file" onChange={this.handleFile} />
+        <label htmlFor="file">Attach File</label>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          onChange={this.handleFile}
+          accept="application/pdf"
+        />
         <HelperText field="file" path="documents.file" />
         <button type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create'}
