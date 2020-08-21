@@ -39,6 +39,7 @@ class DocDetailsContainer extends Component {
       ...doc,
       editors,
       owner,
+      isOwner: owner.id === currentUser.id,
     };
     return (
       <div>

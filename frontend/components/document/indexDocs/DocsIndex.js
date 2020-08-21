@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import DocsIndexGridHeader from './DocsIndexGridHeader';
 import DocsIndexItem from './DocsIndexItem';

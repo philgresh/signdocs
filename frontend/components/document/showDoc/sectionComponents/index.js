@@ -1,6 +1,7 @@
 import TitleBar from './TitleBar';
-import Details from './Details';
 import ButtonBar from './ButtonBar';
 import PDF from './PDF';
+import RecipientsList from './RecipientsList';
+import PDFSidebar from './PDFSidebar';
 
-export { TitleBar, Details, ButtonBar, PDF };
+export { TitleBar, ButtonBar, PDF, RecipientsList, PDFSidebar };

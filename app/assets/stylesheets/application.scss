@@ -31,12 +31,13 @@
   --yellow: #f6b610;
   --dark-yellow: #e1a205;
   --yellow-hover: #1951b8;
+  --gray: #737373;
   --light-gray: #bebfc0;
   --lighter-gray: #f4f4f4;
   --background-white: #fcfcfc;
   --background-white-rgb: 252, 252, 252;
   --off-black: #1e1e1e;
-  --box-shadow-1: 1px 1px 4px 0px #999;
+  --box-shadow-1: 0px 3px 4px -1px var(--gray);
   --rounded-corners: 4px;
 }
 
@@ -69,6 +70,10 @@ a {
   &.inline-link {
     margin: 0 1rem;
   }
+
+  &:visited.inline-link {
+    // color: inherit;
+  }
 }
 
 button,
@@ -99,7 +104,7 @@ a.a-as-button {
   &.warn {
     background-color: transparent;
     font-weight: lighter;
-    color: gray;
+    color: var(--gray);
     &:hover {
       color: red;
     }
@@ -429,6 +434,7 @@ li.no-pointer {
 .flex-item {
   flex: 1 0;
   width: 100%;
+  display: block;
 }
 
 .flex-left {
@@ -517,8 +523,57 @@ ul.docs-index {
     margin-bottom: 0;
   }
 
-  & p {
-    margin-bottom: 0.5rem;
+  & .doc-show-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+
+    & h2 {
+      margin: 0 0 0.5rem 0;
+    }
+
+    & p {
+      font-size: 80%;
+      margin: 0.25rem 0 0 0;
+      color: var(--gray);
+      font-weight: lighter;
+    }
+
+    & button.flat {
+      margin-left: 0;
+    }
+
+    & div:last-child {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  & .doc-show-recipients {
+    & h3 {
+      margin-bottom: 1rem;
+    }
+
+    & .doc-show-recipients-grid {
+      display: grid;
+      grid-template-columns: 50px 50px 3fr 50px 1fr;
+
+      & > div:nth-child(1n) {
+        border-bottom: 1px solid var(--light-gray);
+        padding: 1rem 0;
+      }
+
+      & .grid-row-user p {
+        margin: 0.25rem 0 0 0;
+        font-size: 80%;
+        color: var(--gray);
+      }
+    }
+  }
+
+  & .doc-show-pdf-sidebar {
+    //
   }
 
   & .pdf-document-container {
@@ -654,7 +709,7 @@ ul.docs-index {
   width: 100%;
 
   & .search-bar {
-    // height: 80px;
+    max-height: 80px;
   }
 
   & h2 {
