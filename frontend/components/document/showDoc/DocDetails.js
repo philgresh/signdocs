@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 import { TitleBar, Details, ButtonBar, PDF } from './sectionComponents';
 
-const DocDetails = ({ doc, currentUser, deleteDocument }) => {
+const DocDetails = ({ doc, currentUser, deleteDocument, fetchSignedUrl }) => {
   // eslint-disable-next-line react/prop-types
   const { title, fileUrl } = doc;
   return (
@@ -21,6 +21,7 @@ const DocDetails = ({ doc, currentUser, deleteDocument }) => {
         doc={doc}
         currentUser={currentUser}
         deleteDocument={deleteDocument}
+        fetchSignedUrl={fetchSignedUrl}
       />
       <PDF fileUrl={fileUrl} />
     </div>
@@ -35,6 +36,7 @@ DocDetails.propTypes = {
   }).isRequired,
   currentUser: UserPropTypeShape.isRequired,
   deleteDocument: PropTypes.func.isRequired,
+  fetchSignedUrl: PropTypes.func.isRequired,
 };
 
 export default DocDetails;

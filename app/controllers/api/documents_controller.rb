@@ -1,7 +1,7 @@
 class Api::DocumentsController < ApplicationController
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
   before_action :require_logged_in
-  before_action :require_owner_status, only: [:destroy]
+  before_action :require_owner_status, only: [:destroy, :signedurl]
   before_action :require_editor_status, only: [:edit, :update]
 
   def index
@@ -45,10 +45,18 @@ class Api::DocumentsController < ApplicationController
     @document = Document.find(params[:id])
     @document.file.purge_later
     if @document.destroy
-      #   render json: { document: { id: @document.id } }, status: :ok
-      # else
+      render json: { document: { id: @document.id } }, status: :ok
+    else
       render json: { document: ["An error occured."] }, status: 418
     end
+  end
+
+  def signedurl
+    url = @document.gen_presigned_url
+    render json: { document: {
+             id: @document.id,
+             signedUrl: url,
+           } }
   end
 
   private

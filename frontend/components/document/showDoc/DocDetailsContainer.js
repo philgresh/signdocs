@@ -7,6 +7,7 @@ import DocDetails from './DocDetails';
 import {
   fetchDocument,
   deleteDocument as delDoc,
+  fetchSignedUrl as fetchUrl,
 } from '../../../actions/document';
 import {
   getDocumentById,
@@ -32,6 +33,7 @@ class DocDetailsContainer extends Component {
       associatedUsers: { editors, owner },
       currentUser,
       deleteDocument,
+      fetchSignedUrl,
     } = this.props;
     const newDoc = {
       ...doc,
@@ -45,6 +47,7 @@ class DocDetailsContainer extends Component {
             doc={newDoc}
             currentUser={currentUser}
             deleteDocument={deleteDocument}
+            fetchSignedUrl={fetchSignedUrl}
           />
         )}
       </div>
@@ -60,6 +63,7 @@ DocDetailsContainer.propTypes = {
   }).isRequired,
   fetchDocument: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
+  fetchSignedUrl: PropTypes.func.isRequired,
   currentUser: UserPropTypeShape.isRequired,
 };
 
@@ -77,6 +81,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchDocument: () => dispatch(fetchDocument(docId)),
     deleteDocument: () => dispatch(delDoc(docId)),
+    fetchSignedUrl: () => dispatch(fetchUrl(docId)),
   };
 };
 

@@ -28,3 +28,9 @@ export const deleteDocument = (docId) =>
     url: `/api/documents/${docId}`,
     method: 'DELETE',
   });
+
+export const fetchSignedUrl = (docId) =>
+  $.ajax({
+    url: `/api/documents/${docId}/signedurl`,
+    method: 'GET',
+  });

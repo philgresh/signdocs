@@ -63,3 +63,9 @@ export const deleteDocument = (docId) => (dispatch) =>
       dispatch(receiveError(err.responseJSON));
       return err;
     });
+
+export const fetchSignedUrl = (docId) => (dispatch) =>
+  APIUtil.fetchSignedUrl(docId).then((res) => {
+    dispatch(receiveDocument(res));
+    return res;
+  });

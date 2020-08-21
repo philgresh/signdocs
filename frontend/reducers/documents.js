@@ -1,4 +1,4 @@
-import set from 'lodash/set';
+import merge from 'lodash/merge';
 import unset from 'lodash/unset';
 import {
   RECEIVE_ALL_DOCUMENTS,
@@ -31,11 +31,13 @@ const documentsReducer = (state = initialState, { type, payload }) => {
   const newState = { ...state };
   switch (type) {
     case RECEIVE_ALL_DOCUMENTS: {
-      return { ...newState, ...payload.documents };
+      // return { ...newState, ...payload.documents };
+      return merge(newState, payload.documents);
     }
     case RECEIVE_DOCUMENT: {
       const { document: doc } = payload;
-      return set(newState, doc.id, doc);
+      // return set(newState, doc.id, doc);
+      return merge(newState, { [doc.id]: doc });
     }
     case REMOVE_DOCUMENT: {
       const { docId } = payload;

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :create, :update]
     resources :documents, only: [:index, :show, :create, :update, :destroy] do
       member do
+        get 'signedurl'
         get "final"
         post "final"
       end

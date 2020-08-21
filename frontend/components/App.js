@@ -6,6 +6,7 @@ import { Signin, Signup } from './session';
 import DocCreate from './document/createDoc';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
+import Footer from './footer';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
@@ -34,7 +35,9 @@ const App = () => {
             </Switch>
           </main>
         </div>
-        <footer id="footer">This is teh footer</footer>
+        <footer id="footer">
+          <Footer />
+        </footer>
       </div>
     </HashRouter>
   );
