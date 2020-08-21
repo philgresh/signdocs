@@ -1,3 +1,46 @@
 // Place all the styles related to the Api/Session controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.session-form {
+  margin: 0 auto;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  & button[name='demoBtn'] {
+    margin-top: 1rem;
+    font-size: 90%;
+    color: darkgray;
+    opacity: 0.9;
+    background: var(--background-white);
+    &:hover {
+      background: var(--powder-blue);
+      color: var(--dark-blue);
+    }
+  }
+}
+
+.errors-list,
+.password-helper-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  color: darkred;
+}
+
+.error {
+  color: darkred;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  margin: 0 1rem;
+  margin: -0.75rem 0 1rem 1rem;
+
+  & p {
+    margin-bottom: -0.5rem;
+  }
+}

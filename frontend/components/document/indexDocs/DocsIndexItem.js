@@ -18,55 +18,8 @@ const DocsIndexItem = ({
   const { id: docId, title, updatedAt, ownerId } = doc;
   const ownerDetails = useSelector(getUserDetails(ownerId));
   const isOwner = ownerDetails.id === currentUser.id;
-  // const isEditor = isOwner || editorIds.includes(currentUser.id);
-
-  // let ownerSection = null;
-
-  // const onDelete = () => {
-  //   setDeleting(true);
-  //   // eslint-disable-next-line no-alert
-  //   const confirmed = window.confirm(
-  //     'Are you sure you want to delete this document?',
-  //   );
-  //   if (confirmed) {
-  //     deleteDocument()
-  //       .then(() => {
-  //         history.push('/documents');
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //         setDeleting(false);
-  //       });
-  //   } else {
-  //     setDeleting(false);
-  //   }
-  // };
 
   const updatedAtText = moment(updatedAt).format('M/D/YYYY');
-
-  // if (isEditor) {
-  //   ownerSection = (
-  //     <div className="card-actions">
-  //       <Link to={`documents/${docId}/edit`} className="inline-link">
-  //         Edit
-  //       </Link>
-  //       {isOwner && (
-  //         <button
-  //           type="button"
-  //           className="flat warn"
-  //           onClick={onDelete}
-  //           disabled={deleting}
-  //         >
-  //           {deleting ? 'Deleting...' : 'Delete'}
-  //         </button>
-  //       )}
-  //     </div>
-  //   );
-  // } else {
-  //   ownerSection = (
-  //     <p>{`${ownerDetails.firstName} ${ownerDetails.lastName}`}</p>
-  //   );
-  // }
 
   return (
     <Fragment key={docId}>
