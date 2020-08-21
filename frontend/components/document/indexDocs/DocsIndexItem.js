@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -64,26 +64,37 @@ const DocsIndexItem = ({ doc, currentUser, deleteDocument, history }) => {
   }
 
   return (
-    <div className="linkable-card index-item flex-col-container flex-between">
-      <Link to={`/documents/${docId}`} className="card-link" />
-      <p className="card-title flex-item">{title}</p>
-      <div className="flex-item status card-body">In Process</div>
-      <div className="flex-row-container flex-item card-body">
-        <time className="flex-item" dateTime={updatedAt}>
-          {updatedAtText}
-        </time>
-        {ownerSection}
+    <Fragment key={doc.id}>
+      <div data-id={doc.id}>&nbsp;</div>
+      <div className="docs-index-subject">
+        <Link to={`/documents/${doc.id}`}>
+          <div className="docs-index-title">{doc.title}</div>
+        </Link>
+        {isOwner ? (
+          <div className="docs-index-recipients">To: RECIPIENTS</div>
+        ) : (
+          <div className="docs-index-owner">From: OWNER</div>
+        )}
       </div>
-    </div>
+      <div>{doc.status || 'In Progress'}</div>
+      <div>
+        <time dateTime={doc.updatedAt}>
+          {moment(doc.updatedAt).format('M/D/YYYY')}
+        </time>
+        <br />
+        <div> {moment(doc.updatedAt).format('H:mma')}</div>
+      </div>
+      <div>&nbsp;</div>
+    </Fragment>
   );
 };
 
 DocsIndexItem.propTypes = {
-  deleteDocument: PropTypes.func.isRequired,
   doc: DocPropTypeShape.isRequired,
-  currentUser: UserPropTypeShape.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object,
+  // deleteDocument: PropTypes.func.isRequired,
+  // currentUser: UserPropTypeShape.isRequired,
+  // // eslint-disable-next-line react/forbid-prop-types
+  // history: PropTypes.object,
 };
 
 export default DocsIndexItem;

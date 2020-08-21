@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DocsIndex from './DocsIndex';
+import Sidebar from './Sidebar';
 import { fetchDocuments, deleteDocument } from '../../../actions/document';
 import {
   getDocumentsAsArray,
@@ -14,16 +15,17 @@ import { DocPropTypeShape } from '../../propTypes';
 
 class DocsIndexContainer extends Component {
   componentDidMount() {
-    const { fetchDocuments: fetchDocs, documents } = this.props;
+    const { fetchDocuments: fetchDocs, docs } = this.props;
     fetchDocs();
-    if (documents) {
+    if (docs) {
       document.title = `SignDocs - Documents`;
     }
   }
 
   render() {
     return (
-      <div>
+      <div className="index-container">
+        <Sidebar />
         <DocsIndex {...this.props} />
       </div>
     );
@@ -31,18 +33,18 @@ class DocsIndexContainer extends Component {
 }
 
 DocsIndexContainer.propTypes = {
-  documents: PropTypes.arrayOf(DocPropTypeShape),
+  docs: PropTypes.arrayOf(DocPropTypeShape),
   fetchDocuments: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
 };
 
 DocsIndexContainer.defaultProps = {
-  documents: [],
+  docs: [],
 };
 
 const mapStateToProps = (state) => ({
-  documents: getDocumentsAsArray(state),
+  docs: getDocumentsAsArray(state),
   currentUser: getCurrentUser(state),
 });
 
