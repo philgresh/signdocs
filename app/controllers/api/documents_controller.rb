@@ -30,10 +30,11 @@ class Api::DocumentsController < ApplicationController
     if @document.valid? && @document.save
       @document.editors << current_user
       @document.owner = current_user
-        # @preview_image = blob.preview(resize: "200x200>").processed.image
+      @preview_image = @document.file.preview(resize: "200x200>").processed.image
       # @document[''] = blob.preview(thumbnail: "300").processed.image
       show
     else
+      @document.destroy
       render json: @document.errors.messages, status: :bad_request
     end
     # CreateDocument.call(@document) do |success, failure|

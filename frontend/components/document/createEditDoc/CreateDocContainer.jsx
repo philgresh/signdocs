@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CreateDocForm from './DocForm';
-import { createDocument } from '../../../actions/document';
+import { createDocument, receiveError } from '../../../actions/document';
 import { getErrors } from '../../../reducers/selectors';
 
 const mapStateToProps = (state) => ({
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   action: (formData) => dispatch(createDocument(formData)),
+  receiveError: (err) => dispatch(receiveError(err)),
 });
 
 const CreateDocContainer = withRouter(

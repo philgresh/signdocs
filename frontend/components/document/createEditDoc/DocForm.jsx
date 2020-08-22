@@ -4,6 +4,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { HelperText } from '../../helperComponents';
+import { createSchema, editSchema } from './validationSchema';
+
+const genErrorAction = (err) => {
+  let { path } = err;
+  if (path === 'size' || path === 'type') {
+    path = 'file';
+  }
+  return {
+    [path]: [err.message],
+  };
+};
 
 export default class DocForm extends Component {
   constructor(props) {
@@ -18,10 +29,10 @@ export default class DocForm extends Component {
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    document.title =
-      formType === 'Create Document'
-        ? `SignDocs - Create new document`
-        : `SignDocs - Editing ${props.docState.title}`;
+    this.isCreate = formType === 'Create Document';
+    document.title = this.isCreate
+      ? `SignDocs - Create new document`
+      : `SignDocs - Editing ${props.docState.title}`;
   }
 
   handleFile(e) {
@@ -45,7 +56,36 @@ export default class DocForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.setState({ loading: true });
+
+    const schema = this.isCreate ? createSchema : editSchema;
+    // const { size = null, type = null } = this.state.file;
+    let size = null;
+    let type = null;
+    if (this.state.file) ({ size, type } = this.state.file);
+
+    schema
+      .validate(
+        {
+          ...this.state,
+          size,
+          type,
+        },
+        { stripUnknown: true },
+      )
+      .then(() => {
+        this.props.receiveError(genErrorAction({}));
+        this.submitFormData();
+      })
+      .catch((err) => {
+        console.error(err);
+        this.props.receiveError(genErrorAction(err));
+        this.setState({ loading: false });
+      });
+  }
+
+  submitFormData() {
     const { title, description, file } = this.state;
+
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
@@ -54,7 +94,7 @@ export default class DocForm extends Component {
     this.props
       .action(formData)
       .then(({ document }) => {
-        console.log(document);
+        // TODO:  Modal success
         this.props.history.push(`/documents/${document.id}`);
       })
       .fail(() => this.setState({ loading: false }));
@@ -62,19 +102,18 @@ export default class DocForm extends Component {
 
   render() {
     const { title, description, loading } = this.state;
-    const { formType } = this.props;
 
     let buttonText = 'Create';
     let headerText = 'Create Document';
     let buttonSubmitText = 'Creating...';
-    let buttonSuccessText = 'Created!';
+    // let buttonSuccessText = 'Created!';
     let isCreate = true;
 
-    if (formType === 'Edit Document') {
+    if (!this.isCreate) {
       headerText = 'Edit Document';
       buttonText = 'Save Changes';
       buttonSubmitText = 'Saving...';
-      buttonSuccessText = 'Saved!';
+      // buttonSuccessText = 'Saved!';
       isCreate = false;
     }
 
@@ -135,6 +174,7 @@ DocForm.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   action: PropTypes.func.isRequired,
+  receiveError: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
 };
 

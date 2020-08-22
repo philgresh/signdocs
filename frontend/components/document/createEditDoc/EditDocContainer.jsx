@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DocForm from './DocForm';
-import { fetchDocument, updateDocument } from '../../../actions/document';
+import {
+  fetchDocument,
+  updateDocument,
+  receiveError as recError,
+} from '../../../actions/document';
 import { getErrors, getDocumentById } from '../../../reducers/selectors';
 import { DocPropTypeShape } from '../../propTypes';
 
@@ -15,7 +19,7 @@ class EditDocForm extends Component {
 
   render() {
     // DO NOT MODIFY THIS FUNCTION
-    const { action, formType, doc, errors, history } = this.props;
+    const { action, formType, doc, errors, history, receiveError } = this.props;
 
     // Hint: The report will not exist on the first render - what do we need to
     // do to get it?
@@ -31,6 +35,7 @@ class EditDocForm extends Component {
         docState={docState}
         errors={errors}
         history={history}
+        receiveError={receiveError}
       />
     );
   }
@@ -43,6 +48,7 @@ EditDocForm.propTypes = {
   formType: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
   fetchDoc: PropTypes.func.isRequired,
+  receiveError: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
 };
@@ -64,6 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     action: (formData) => dispatch(updateDocument(docId, formData)),
     fetchDoc: () => dispatch(fetchDocument(docId)),
+    receiveError: (err) => dispatch(recError(err)),
   };
 };
 

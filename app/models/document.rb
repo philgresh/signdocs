@@ -20,7 +20,7 @@ class Document < ApplicationRecord
               message: "is not an acceptable type",
             },
             size: {
-              less_than: 20.megabytes,
+              less_than: 30.megabytes,
               message: "is not given between size",
             }
 

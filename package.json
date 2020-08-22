@@ -12,7 +12,8 @@
     "postinstall": "webpack",
     "start": "webpack --watch --mode=development",
     "commit": "git-cz",
-    "eslint": "eslint --fix frontend/"
+    "eslint": "eslint --fix frontend/",
+    "deploy": "eslint --fix frontend/ && git push heroku master"
   },
   "private": true,
   "dependencies": {
@@ -40,6 +41,7 @@
     "reselect": "^4.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
+    "yup": "^0.29.3",
     "zxcvbn": "^4.4.2"
   },
   "eslintConfig": {

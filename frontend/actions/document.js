@@ -21,7 +21,7 @@ const removeDocument = (docId) => ({
   payload: docId,
 });
 
-const receiveError = (error) => ({
+export const receiveError = (error) => ({
   type: RECEIVE_DOCUMENT_ERROR,
   payload: error,
 });

@@ -23,7 +23,6 @@ const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
 
   const handlePasswordQualityCheck = (pw) => {
     const analysis = zxcvbn(pw, Object.values(state));
-    // console.log(analysis, Object.values());
     const { score, feedback } = analysis;
     const len = pw.length;
     const longEnough = len > PASSWORD_LENGTH_MIN;

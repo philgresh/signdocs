@@ -29,10 +29,11 @@ const TitleBar = ({
       {isOwner ? (
         <p className="flex-item flex-item-left">From:&nbsp;{ownerText}</p>
       ) : null}
-
-      <p className="flex-item flex-item-left">
-        Message to recipients:&nbsp;{description}
-      </p>
+      {description && (
+        <p className="flex-item flex-item-left">
+          Message to recipients:&nbsp;{description}
+        </p>
+      )}
       <p className="flex-item flex-item-left">
         Last change on&nbsp;{updatedAtText}
       </p>
