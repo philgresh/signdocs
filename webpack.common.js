@@ -2,7 +2,6 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   context: __dirname,
   entry: './frontend/index.js',
   output: {
@@ -10,10 +9,6 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })],
-  devServer: {
-    publicPath: 'app/assets/javascripts/',
-    hot: true,
-  },
   module: {
     rules: [
       {
@@ -28,7 +23,6 @@ module.exports = {
       },
     ],
   },
-  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.js', '.jsx', '*'],
   },

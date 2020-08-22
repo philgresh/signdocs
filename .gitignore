@@ -20,7 +20,7 @@
 
 /node_modules
 /yarn-error.log
-/app/assets/javascripts/bundle.js
+/app/assets/javascripts/*bundle.js*
 /app/assets/javascripts/bundle.js.map
 
 /public/assets
