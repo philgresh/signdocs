@@ -54,7 +54,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
       <div className="flex-right">
         {isOwner && (
           <>
-            <Link to={`documents/${docId}/edit`} className="inline-link">
+            <Link to={`/documents/${docId}/edit`} className="inline-link">
               Edit
             </Link>
             <button

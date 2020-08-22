@@ -1,8 +1,8 @@
 class Api::DocumentsController < ApplicationController
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
   before_action :require_logged_in
-  before_action :require_owner_status, only: [:destroy, :signedurl]
-  before_action :require_editor_status, only: [:edit, :update]
+  before_action :require_owner_status, only: [:destroy, :update, :signedurl]
+  # before_action :require_editor_status, only: [:edit]
 
   def index
     # TODO: Filter based on authorization
@@ -13,6 +13,7 @@ class Api::DocumentsController < ApplicationController
   def show
     @document = @document || Document.find_by(id: params[:id])
     if @document
+      @file = @document.file
       @users = User.where(id: @document.editor_ids)
       render :show
     else
@@ -29,9 +30,8 @@ class Api::DocumentsController < ApplicationController
     if @document.valid? && @document.save
       @document.editors << current_user
       @document.owner = current_user
-      if @document.blob
-        @preview_image = blob.preview(resize: "200x200>").processed.image
-      end
+        # @preview_image = blob.preview(resize: "200x200>").processed.image
+      # @document[''] = blob.preview(thumbnail: "300").processed.image
       show
     else
       render json: @document.errors.messages, status: :bad_request
@@ -42,6 +42,15 @@ class Api::DocumentsController < ApplicationController
     #     render json: { document: "Cannot create document" }, status: 400
     #   end
     # end
+  end
+
+  def update
+    if @document.update(document_params)
+      # render "api/documents/document", document: @document
+      show
+    else
+      render json: { document: @document.errors.messages }, status: 418
+    end
   end
 
   def destroy

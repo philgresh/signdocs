@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import CreateDocForm from './CreateDocForm';
+import { withRouter } from 'react-router-dom';
+import CreateDocForm from './DocForm';
 import { createDocument } from '../../../actions/document';
 import { getErrors } from '../../../reducers/selectors';
 
@@ -9,10 +10,15 @@ const mapStateToProps = (state) => ({
     description: '',
   },
   errors: getErrors(state, 'documents'),
+  formType: 'Create Document',
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createDocument: (formData) => dispatch(createDocument(formData)),
+  action: (formData) => dispatch(createDocument(formData)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateDocForm);
+const CreateDocContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CreateDocForm),
+);
+
+export default CreateDocContainer;

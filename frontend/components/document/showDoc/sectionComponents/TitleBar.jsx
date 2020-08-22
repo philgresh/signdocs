@@ -13,6 +13,7 @@ const TitleBar = ({
 }) => {
   const {
     title,
+    description,
     owner,
     isOwner,
     status = 'In Progress',
@@ -29,6 +30,9 @@ const TitleBar = ({
         <p className="flex-item flex-item-left">From:&nbsp;{ownerText}</p>
       ) : null}
 
+      <p className="flex-item flex-item-left">
+        Message to recipients:&nbsp;{description}
+      </p>
       <p className="flex-item flex-item-left">
         Last change on&nbsp;{updatedAtText}
       </p>
@@ -50,6 +54,7 @@ TitleBar.propTypes = {
   doc: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
+    description: PropTypes.string,
     isOwner: PropTypes.bool,
     owner: PropTypes.string,
     status: PropTypes.string,

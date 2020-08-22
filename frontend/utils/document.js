@@ -17,11 +17,13 @@ export const createDocument = (formData) =>
     contentType: false,
     processData: false,
   });
-export const updateDocument = (doc) =>
+export const updateDocument = (docId, formData) =>
   $.ajax({
-    url: `/api/documents/${document.id}`,
-    method: 'POST',
-    data: { document: doc },
+    url: `/api/documents/${docId}`,
+    method: 'PUT',
+    data: formData,
+    contentType: false,
+    processData: false,
   });
 export const deleteDocument = (docId) =>
   $.ajax({

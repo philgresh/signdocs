@@ -82,7 +82,6 @@
   text-align: right;
 }
 
-
 .doc-show {
   width: calc(100% - 200px);
 
@@ -251,7 +250,6 @@
   }
 }
 
-
 .index-container {
   position: absolute;
   top: 80px;
@@ -275,7 +273,7 @@
     font-size: 80%;
     color: inherit;
     padding: 0.5rem 1rem;
-    margin: 1rem 0 0 0;
+    margin: 1rem 0 0 0 !important;
     text-transform: uppercase;
     background-color: var(--yellow);
     text-align: center;
@@ -398,7 +396,7 @@
     line-height: 1.4;
   }
 
-  & input[type="file"] {
+  & input[type='file'] {
     padding: 0.5rem;
   }
 }

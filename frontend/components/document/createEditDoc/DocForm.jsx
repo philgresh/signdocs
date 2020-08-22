@@ -5,10 +5,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { HelperText } from '../../helperComponents';
 
-export default class CreateDocForm extends Component {
+export default class DocForm extends Component {
   constructor(props) {
     super(props);
-    const { docState } = props;
+    const { docState, formType } = props;
     this.state = {
       title: docState.title || '',
       description: docState.description || '',
@@ -18,7 +18,10 @@ export default class CreateDocForm extends Component {
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    document.title = `SignDocs - Create new document`;
+    document.title =
+      formType === 'Create Document'
+        ? `SignDocs - Create new document`
+        : `SignDocs - Editing ${props.docState.title}`;
   }
 
   handleFile(e) {
@@ -46,10 +49,12 @@ export default class CreateDocForm extends Component {
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
-    formData.append('doc[file]', file);
+    if (this.props.formType === 'Create Document')
+      formData.append('doc[file]', file);
     this.props
-      .createDocument(formData)
+      .action(formData)
       .then(({ document }) => {
+        console.log(document);
         this.props.history.push(`/documents/${document.id}`);
       })
       .fail(() => this.setState({ loading: false }));
@@ -57,10 +62,25 @@ export default class CreateDocForm extends Component {
 
   render() {
     const { title, description, loading } = this.state;
+    const { formType } = this.props;
+
+    let buttonText = 'Create';
+    let headerText = 'Create Document';
+    let buttonSubmitText = 'Creating...';
+    let buttonSuccessText = 'Created!';
+    let isCreate = true;
+
+    if (formType === 'Edit Document') {
+      headerText = 'Edit Document';
+      buttonText = 'Save Changes';
+      buttonSubmitText = 'Saving...';
+      buttonSuccessText = 'Saved!';
+      isCreate = false;
+    }
 
     return (
       <form onSubmit={this.handleSubmit} method="POST" className="doc-form">
-        <h1>Create Form</h1>
+        <h1>{headerText}</h1>
         <label htmlFor="titleInput">Title</label>
         <input
           type="text"
@@ -84,17 +104,21 @@ export default class CreateDocForm extends Component {
           placeholder="Please sign, seal and deliver"
         />
         <HelperText field="description" path="documents.description" />
-        <label htmlFor="file">Attach File</label>
-        <input
-          type="file"
-          name="file"
-          id="file"
-          onChange={this.handleFile}
-          accept="application/pdf"
-        />
-        <HelperText field="file" path="documents.file" />
+        {isCreate && (
+          <>
+            <label htmlFor="file">Attach File</label>
+            <input
+              type="file"
+              name="file"
+              id="file"
+              onChange={this.handleFile}
+              accept="application/pdf"
+            />
+            <HelperText field="file" path="documents.file" />
+          </>
+        )}
         <button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create'}
+          {loading ? buttonSubmitText : buttonText}
         </button>
         <HelperText field="document" path="documents.document" />
       </form>
@@ -102,18 +126,19 @@ export default class CreateDocForm extends Component {
   }
 }
 
-CreateDocForm.propTypes = {
+DocForm.propTypes = {
   docState: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
   }),
-  createDocument: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  action: PropTypes.func.isRequired,
+  formType: PropTypes.string.isRequired,
 };
 
-CreateDocForm.defaultProps = {
+DocForm.defaultProps = {
   docState: {
     title: '',
     description: '',

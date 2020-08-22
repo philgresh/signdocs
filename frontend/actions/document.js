@@ -50,8 +50,11 @@ export const createDocument = (docForm) => (dispatch) =>
     })
     .fail((err) => dispatch(receiveError(err.responseJSON)));
 
-export const updateDocument = (docForm) => (dispatch) =>
-  APIUtil.updateDocument(docForm).then((doc) => dispatch(receiveDocument(doc)));
+export const updateDocument = (docId, docForm) => (dispatch) =>
+  APIUtil.updateDocument(docId, docForm).then((doc) => {
+    dispatch(receiveDocument(doc));
+    return doc;
+  });
 
 export const deleteDocument = (docId) => (dispatch) =>
   APIUtil.deleteDocument(docId)

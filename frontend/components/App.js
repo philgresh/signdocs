@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
-import DocCreate from './document/createDoc';
+import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
@@ -26,7 +26,11 @@ const App = () => {
               <ProtectedRoute
                 path="/documents/new"
                 exact
-                component={DocCreate}
+                component={CreateDocContainer}
+              />
+              <ProtectedRoute
+                path="/documents/:docId/edit"
+                component={EditDocContainer}
               />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
               <Route path="/">
