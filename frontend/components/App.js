@@ -44,9 +44,7 @@ const App = () => {
                 component={EditDocContainer}
               />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
-              <Route path="/">
-                <Home />
-              </Route>
+              <Route exact path="/" component={Home} />
               <Route path="/404" component={FourOhFour} />
               <Redirect to="/404" />
             </Switch>
