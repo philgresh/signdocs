@@ -35,6 +35,9 @@ class Document < ApplicationRecord
   has_many :editors,
            through: :document_editors,
            source: :user
+  has_many :signatures,
+           through: :editors,
+           source: :signature
 
   def blob
     file.blob if file && file.blob

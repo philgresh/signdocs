@@ -16,3 +16,10 @@ json.users do
     end
   end
 end
+json.signatures do
+  @document.signatures.each do |sig|
+    json.set! sig.user_id do
+      json.partial! "api/signature_blocks/signature", sig: sig
+    end
+  end
+end

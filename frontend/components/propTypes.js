@@ -17,3 +17,13 @@ export const UserPropTypeShape = PropTypes.shape({
   email: PropTypes.string,
   imageTag: PropTypes.string,
 });
+
+export const SigPropTypeShape = PropTypes.shape({
+  id: PropTypes.string,
+  body: PropTypes.string,
+  pub_key: PropTypes.string,
+  styling: PropTypes.shape({
+    'font-family': PropTypes.string,
+    color: PropTypes.string,
+  }),
+});

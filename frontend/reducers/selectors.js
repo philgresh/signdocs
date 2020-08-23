@@ -12,13 +12,13 @@ export const getAllUsers = (state) => state.entities.users;
 export const getErrors = (state) => state.errors;
 
 // Session
-/**
- * returns state.session.id
- */
 export const getCurrentUser = memoize(
   (state) => state.entities.users[state.session.id],
 );
 export const signedIn = (state) => !!state.session.id;
+
+// Signatures
+export const getAllSignatures = (state) => state.entities.signatures;
 
 //
 //
@@ -52,3 +52,8 @@ export const getAssociatedUsers = memoize((docId) =>
     return associatedUsers;
   }),
 );
+
+export const getSignatureFromUserId = (userId) =>
+  createSelector([getAllSignatures], (sigs) => {
+    return sigs[userId];
+  });

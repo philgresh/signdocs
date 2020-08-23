@@ -42,6 +42,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "signature_pad": "^3.0.0-beta.3",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "yup": "^0.29.3",
