@@ -5,7 +5,7 @@ require "cuid"
 require "victor"
 require "byebug"
 
-NUM_USERS = 1
+NUM_USERS = 3
 NUM_DOCUMENTS = 3
 SIGNATURE_STYLE_FONT_FAMILIES = [
   "'Caveat', cursive",
@@ -24,7 +24,7 @@ IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
 def gen_svg_from_name(first_name, last_name)
   svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
-  
+
   svg.build do
     svg.text "#{first_name} #{last_name}",
              x: 20,
@@ -45,7 +45,8 @@ def setup_demo_user
     email: "bob1@example.org",
     password: "password",
   )
-  svg = svg_wrapper(u.first_name, u.last_name)
+  # create_avatar(user)
+  # create_new_signature_block(user)
 end
 
 def destroy_all(klass)
@@ -67,12 +68,14 @@ def create_new_users
   destroy_all(User)
   users = (0...NUM_USERS).map do
     f_name = Faker::Name.first_name
-    User.create(
+    user = User.create(
       email: Faker::Internet.safe_email(name: f_name),
       password: "password",
       first_name: f_name,
       last_name: Faker::Name.last_name,
     )
+    create_avatar(user)
+    create_new_signature_block(user)
   end
 
   print_results(User)
@@ -93,34 +96,26 @@ def create_avatar(user)
     io: File.open(local_link),
     content_type: "image/png",
     filename: "#{user.id}-avatar.png",
-    identify: false,
+    # identify: false,
   )
   user.save!
 end
 
-def create_new_signature_blocks(users)
-  destroy_all(SignatureBlock)
+def create_new_signature_block(user)
+  s = SignatureBlock.create(
+    user_id: user.id,
+  )
+  # s.gen_new_pub_key
+  # s.schedule_key_deletion(30)
+  file = gen_svg_from_name(user.first_name, user.last_name)
+  s.sig_image.attach(
+    io: File.open(file),
+    content_type: "image/svg+xml",
+    filename: "#{user.id}-sig.svg",
+    # identify: false,
+  )
+  File.delete(file) if File.exist?(file)
 
-  users.each do |user|
-    
-    s = SignatureBlock.create(
-      user_id: user.id,
-      pub_key: Cuid.generate,
-      body: "#{user.first_name} #{user.last_name}"
-    )
-    s.gen_new_pub_key
-    s.schedule_key_deletion(30)
-    file = gen_svg_from_name(user.first_name, user.last_name)
-    s.sig_image.attach(
-      io: File.open(file),
-      content_type: "image/svg+xml",
-      filename: "#{user.id}-sig.svg",
-      # identify: false,
-    )
-    File.delete(file) if File.exist?(file)
-  end
-
-  print_results(SignatureBlock)
 end
 
 def create_new_documents()
@@ -138,7 +133,13 @@ def create_new_documents()
     # doc.document_editors.find_by(user_id: user.id).is_owner = true
     doc.owner = (users[0])
 
-    doc.file.attach io: File.open("#{Rails.root}/app/assets/images/sample#{i}.pdf"), filename: "sample#{i}.pdf", content_type: "application/pdf"
+    doc.file.attach(
+      io: File.open(
+        "#{Rails.root}/app/assets/images/sample#{i}.pdf"
+      ),
+      filename: "sample#{i}.pdf",
+      content_type: "application/pdf",
+    )
   end
 
   print_results(Document)
@@ -181,7 +182,6 @@ def create_new_content_fields(sentinels)
 end
 
 users = create_new_users()
-create_new_signature_blocks(users)
-# docs = create_new_documents()
+docs = create_new_documents()
 # sentinels = create_new_sentinel_blocks(Document.all)
 # content_fields = create_new_content_fields(sentinels)

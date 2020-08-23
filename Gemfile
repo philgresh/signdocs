@@ -86,3 +86,4 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # use config for picking out key/values
 gem 'config'
+gem 'figaro'

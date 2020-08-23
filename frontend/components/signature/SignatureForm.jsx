@@ -2,6 +2,7 @@ import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import SignatureCanvas from 'react-signature-canvas';
 import clsx from 'clsx';
+import { SvgLoader, SvgProxy } from 'react-svgmt';
 import { SigPropTypeShape } from '../propTypes';
 import { updateSignature } from '../../utils/signature';
 
@@ -13,6 +14,22 @@ const COLORS = [
   'midnightblue',
   'royalblue',
 ];
+
+const SVG = ({ svgUrl }) => (
+  <SvgLoader path={svgUrl}>
+    {/* Important! this proxy will reset the color to black,
+          otherwise old elements would still be shown in red
+          because this library doesn't store previous states */}
+    {/* <SvgProxy selector={'path'} fill="white" /> */}
+    {/* {countryCodes.map(code => (
+          <SvgProxy
+            key={code}
+            selector={"#" + code + ",#" + code + " path"}
+            fill="red"
+          />
+        ))} */}
+  </SvgLoader>
+);
 
 const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
   const onClick = (e) => {
@@ -31,10 +48,13 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
             onClick={onClick}
             disabled={disabled}
             title={color}
-          />
+            type="button"
+          >
+            &nbsp;
+          </button>
         );
       })}
-      <button type="reset" onClick={sigPadClear} className="clear">
+      <button type="button" onClick={sigPadClear} className="clear">
         Clear
       </button>
       <button type="submit" onClick={onSubmit} className="update">
@@ -45,7 +65,7 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
 };
 
 const SignatureForm = ({ sig }) => {
-  const { body, id } = sig;
+  const { id, imageUrl } = sig;
   const sigPad = createRef();
   const [penColor, setPenColor] = useState(sig?.styling?.color || 'black');
   const sigPadClear = () => {
@@ -53,19 +73,19 @@ const SignatureForm = ({ sig }) => {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault;
+    e.preventDefault();
     updateSignature({
       id,
-      body: sigPad.current.toDataURL('image/svg+xml'),
+      // body: sigPad.current.toDataURL('image/svg+xml'),
     }).then(console.log);
   };
 
   React.useEffect(() => {
-    if (sig && body) {
-      sigPad.current.fromDataURL(body);
+    if (sig) {
+      // sigPad.current.fromDataURL(body);
       window.sigPad = sigPad.current;
     }
-  }, [sig, body]);
+  }, [sig]);
 
   return (
     <div className="signature">
@@ -81,7 +101,7 @@ const SignatureForm = ({ sig }) => {
         sigPadClear={sigPadClear}
         onSubmit={onSubmit}
       /> */}
-      <img src={body} height="200px" />
+      <SVG svgUrl={imageUrl} />
       <pre>{JSON.stringify(sig, null, 2)}</pre>
     </div>
   );

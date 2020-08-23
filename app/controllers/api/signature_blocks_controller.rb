@@ -1,9 +1,9 @@
 class Api::SignatureBlocksController < ApplicationController
-  before_action :require_owner, only: [:update]
+  # before_action :require_owner, only: [:update]
 
   def show
-    @user = User.find(params[:id])
-    @signature ||= @user.signature
+    @signature = SignatureBlock.find(params[:id])
+    @user = @signature.user
     render :show
   end
 
@@ -18,14 +18,14 @@ class Api::SignatureBlocksController < ApplicationController
   private
 
   def signature_params
-    params.require(:signature).permit(:body, :styling)
+    params.require(:signature).permit(:styling)
   end
 
   def require_owner
-    @user = User.find(params[:id])
-    @signature ||= @user.signature
+    @signature = SignatureBlock.find(params[:id])
+    @user = @signature.user
     if @user != current_user
-      # render json: { signature: ["You must be an owner to do that."] }, status: :unauthorized
+      render json: { signature: ["You must be an owner to do that."] }, status: :unauthorized
     end
   end
 end

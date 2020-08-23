@@ -1,6 +1,6 @@
-export const fetchSignature = (userId) =>
+export const fetchSignature = (sigId) =>
   $.ajax({
-    url: `/api/signature_blocks/${userId}`,
+    url: `/api/signature_blocks/${sigId}`,
     method: 'GET',
   });
 

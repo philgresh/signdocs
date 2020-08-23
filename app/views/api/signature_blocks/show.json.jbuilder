@@ -1,3 +1,5 @@
 json.key_format! camelize: :lower
 
-json.partial! "api/signature_blocks/signature", sig: @signature
+json.signature do
+  json.partial! "api/signature_blocks/signature", sig: @signature
+end

@@ -2,8 +2,7 @@
 #
 # Table name: signature_blocks
 #
-#  id         :bigint           not null, primary key
-#  body       :string           not null
+#  id         :uuid             not null, primary key
 #  pub_key    :string
 #  styling    :json
 #  created_at :datetime         not null

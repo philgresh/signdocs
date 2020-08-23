@@ -76,9 +76,8 @@ ActiveRecord::Schema.define(version: 2020_08_14_182755) do
     t.index ["user_id"], name: "index_sentinel_blocks_on_user_id"
   end
 
-  create_table "signature_blocks", force: :cascade do |t|
+  create_table "signature_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "body", null: false
     t.json "styling"
     t.string "pub_key"
     t.datetime "created_at", null: false

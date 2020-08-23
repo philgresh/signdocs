@@ -26,6 +26,8 @@ class User < ApplicationRecord
   attr_reader :password
   before_validation :ensure_session_token
   before_create :downcase_fields
+  after_create :create_signature
+  after_create :create_avatar
 
   # ActiveStorage associations
   has_one_attached :avatar
@@ -75,5 +77,28 @@ class User < ApplicationRecord
 
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64
+  end
+
+  def create_signature
+    self.signature = SignatureBlock.create(user_id: self.id)
+  end
+
+  def create_avatar
+    new_avatar = Faker::Avatar.image(
+      slug: "#{self.first_name}_#{self.last_name}",
+      size: "200x200",
+      format: "png",
+    )
+    download = open(new_avatar)
+    local_link = "#{Rails.root}/app/assets/images/#{self.id}-avatar.png"
+    IO.copy_stream(download, local_link)
+    self.avatar.attach(
+      io: File.open(local_link),
+      content_type: "image/png",
+      filename: "#{self.id}-avatar.png",
+      # identify: false,
+    )
+    self.save!
+    File.delete(local_link) if File.exist?(local_link)
   end
 end
