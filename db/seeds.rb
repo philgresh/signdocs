@@ -12,7 +12,7 @@ SIGNATURE_STYLE_FONT_FAMILIES = [
   "Rock Salt",
   "Homemade Apple",
 ].freeze
-COLORS = %w[darkgreen darkgray midnightblue royalblue darkslategray teal].freeze
+COLORS = %w[darkgreen black midnightblue royalblue darkslategray teal].freeze
 SENTINEL_BLOCK_TYPES = [
   "SIGNATURE",
   "TEXT",

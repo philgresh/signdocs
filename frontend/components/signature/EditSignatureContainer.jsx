@@ -20,11 +20,7 @@ class EditSignature extends Component {
   }
 
   render() {
-    // DO NOT MODIFY THIS FUNCTION
     const { sig, updateSignature } = this.props;
-
-    // Hint: The report will not exist on the first render - what do we need to
-    // do to get it?
     if (!sig) return null;
 
     return <SignatureForm sig={sig} updateSignature={updateSignature} />;
