@@ -1,13 +1,14 @@
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
 import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
-import { EditSignatureContainer, SigRedirect } from './signature';
+import { EditSignatureContainer } from './signature';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
+import FourOhFour from './_404';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
@@ -46,6 +47,8 @@ const App = () => {
               <Route path="/">
                 <Home />
               </Route>
+              <Route path="/404" component={FourOhFour} />
+              <Redirect to="/404" />
             </Switch>
           </main>
         </div>

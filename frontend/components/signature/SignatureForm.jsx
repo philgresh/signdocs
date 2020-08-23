@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SignaturePad from 'signature_pad';
+import { SigPropTypeShape } from '../propTypes';
 
 const SignatureForm = ({ sig }) => {
   const canvas = document.querySelector('sig-canvas');
@@ -15,6 +16,8 @@ const SignatureForm = ({ sig }) => {
   );
 };
 
-SignatureForm.propTypes = {};
+SignatureForm.propTypes = {
+  sig: SigPropTypeShape.isRequired,
+};
 
 export default SignatureForm;
