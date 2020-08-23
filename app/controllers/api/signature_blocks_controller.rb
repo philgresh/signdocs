@@ -8,6 +8,11 @@ class Api::SignatureBlocksController < ApplicationController
   end
 
   def update
+    if @signature.update_attributes(signature_params)
+      render :show
+    else
+      render json: { signature: ["You must be an owner to do that."] }, status: :unauthorized
+    end
   end
 
   private
@@ -20,7 +25,7 @@ class Api::SignatureBlocksController < ApplicationController
     @user = User.find(params[:id])
     @signature ||= @user.signature
     if @user != current_user
-      render json: { signature: ["You must be an owner to do that."] }, status: :unauthorized
+      # render json: { signature: ["You must be an owner to do that."] }, status: :unauthorized
     end
   end
 end

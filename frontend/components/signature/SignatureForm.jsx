@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SignatureCanvas from 'react-signature-canvas';
 import clsx from 'clsx';
 import { SigPropTypeShape } from '../propTypes';
+import { updateSignature } from '../../utils/signature';
 
 const COLORS = [
   'black',
@@ -13,7 +14,7 @@ const COLORS = [
   'royalblue',
 ];
 
-const ButtonBar = ({ penColor, setPenColor, sigPadClear }) => {
+const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
   const onClick = (e) => {
     // console.log(e.currentTarget.className);
     setPenColor(e.currentTarget.className);
@@ -35,23 +36,35 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear }) => {
       <button type="reset" onClick={sigPadClear}>
         Clear
       </button>
+      <button type="submit" onClick={onSubmit}>
+        Update
+      </button>
     </div>
   );
 };
 
 const SignatureForm = ({ sig }) => {
+  const { body, id } = sig;
   const sigPad = createRef();
   const [penColor, setPenColor] = useState(sig?.styling?.color || 'black');
   const sigPadClear = () => {
     sigPad.current.clear();
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault;
+    updateSignature({
+      id,
+      body: sigPad.current.toDataURL('image/svg+xml'),
+    }).then(console.log);
+  };
+
   React.useEffect(() => {
-    if (sig && sig.body) {
-      sigPad.current.fromDataURL(sig.body);
+    if (sig && body) {
+      sigPad.current.fromDataURL(body);
       window.sigPad = sigPad.current;
     }
-  }, [sig, sig.body]);
+  }, [sig, body]);
 
   return (
     <div className="signature">
@@ -65,6 +78,7 @@ const SignatureForm = ({ sig }) => {
         setPenColor={setPenColor}
         penColor={penColor}
         sigPadClear={sigPadClear}
+        onSubmit={onSubmit}
       />
       <pre>{JSON.stringify(sig, null, 2)}</pre>
     </div>
