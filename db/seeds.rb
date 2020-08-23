@@ -2,15 +2,17 @@
 
 require "faker"
 require "cuid"
+require "victor"
+require "byebug"
 
-NUM_USERS = 10
+NUM_USERS = 1
 NUM_DOCUMENTS = 3
 SIGNATURE_STYLE_FONT_FAMILIES = [
-  "Dancing Script",
-  "Caveat",
-  "Permanent Marker",
-  "Rock Salt",
-  "Homemade Apple",
+  "'Caveat', cursive",
+  "'Dancing Script', cursive",
+  "'Homemade Apple', cursive",
+  "'Permanent Marker', cursive",
+  "'Rock Salt', cursive",
 ].freeze
 COLORS = %w[darkgreen black midnightblue royalblue darkslategray teal].freeze
 SENTINEL_BLOCK_TYPES = [
@@ -18,13 +20,32 @@ SENTINEL_BLOCK_TYPES = [
   "TEXT",
 ]
 
+IMGS_PATH = "#{Rails.root}/app/assets/images/"
+
+def gen_svg_from_name(first_name, last_name)
+  svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
+  
+  svg.build do
+    svg.text "#{first_name} #{last_name}",
+             x: 20,
+             y: 65,
+             font_family: SIGNATURE_STYLE_FONT_FAMILIES.sample,
+             font_size: 30,
+             fill: COLORS.sample
+  end
+  file = "#{IMGS_PATH}#{Time.now.to_i}#{first_name}.svg"
+  svg.save file
+  file
+end
+
 def setup_demo_user
-  User.create(
+  u = User.create(
     first_name: "Bob",
     last_name: "Zhurunkel",
-    email: "bob@example.org",
+    email: "bob1@example.org",
     password: "password",
   )
+  svg = svg_wrapper(u.first_name, u.last_name)
 end
 
 def destroy_all(klass)
@@ -69,10 +90,10 @@ def create_avatar(user)
   local_link = "#{Rails.root}/app/assets/images/avatar.png"
   IO.copy_stream(download, local_link)
   user.avatar.attach(
-    io: File.open(local_link), 
-    content_type: "image/png", 
+    io: File.open(local_link),
+    content_type: "image/png",
     filename: "#{user.id}-avatar.png",
-    identify: false
+    identify: false,
   )
   user.save!
 end
@@ -81,17 +102,22 @@ def create_new_signature_blocks(users)
   destroy_all(SignatureBlock)
 
   users.each do |user|
+    
     s = SignatureBlock.create(
       user_id: user.id,
-      styling: {
-        "font-family": SIGNATURE_STYLE_FONT_FAMILIES.sample,
-        "color": COLORS.sample,
-      },
       pub_key: Cuid.generate,
-      body: "#{user.first_name} #{user.last_name}",
+      body: "#{user.first_name} #{user.last_name}"
     )
     s.gen_new_pub_key
     s.schedule_key_deletion(30)
+    file = gen_svg_from_name(user.first_name, user.last_name)
+    s.sig_image.attach(
+      io: File.open(file),
+      content_type: "image/svg+xml",
+      filename: "#{user.id}-sig.svg",
+      # identify: false,
+    )
+    File.delete(file) if File.exist?(file)
   end
 
   print_results(SignatureBlock)
@@ -154,8 +180,8 @@ def create_new_content_fields(sentinels)
   content_fields
 end
 
-users = create_new_users() << setup_demo_user()
-# create_new_signature_blocks(users)
-docs = create_new_documents()
+users = create_new_users()
+create_new_signature_blocks(users)
+# docs = create_new_documents()
 # sentinels = create_new_sentinel_blocks(Document.all)
 # content_fields = create_new_content_fields(sentinels)

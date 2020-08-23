@@ -30,13 +30,14 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
             className={classes}
             onClick={onClick}
             disabled={disabled}
+            title={color}
           />
         );
       })}
-      <button type="reset" onClick={sigPadClear}>
+      <button type="reset" onClick={sigPadClear} className="clear">
         Clear
       </button>
-      <button type="submit" onClick={onSubmit}>
+      <button type="submit" onClick={onSubmit} className="update">
         Update
       </button>
     </div>
@@ -69,17 +70,18 @@ const SignatureForm = ({ sig }) => {
   return (
     <div className="signature">
       <h1>Signature Page</h1>
-      <SignatureCanvas
+      {/* <SignatureCanvas
         penColor={penColor}
         canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
         ref={sigPad}
-      />
-      <ButtonBar
+      /> */}
+      {/* <ButtonBar
         setPenColor={setPenColor}
         penColor={penColor}
         sigPadClear={sigPadClear}
         onSubmit={onSubmit}
-      />
+      /> */}
+      <img src={body} height="200px" />
       <pre>{JSON.stringify(sig, null, 2)}</pre>
     </div>
   );

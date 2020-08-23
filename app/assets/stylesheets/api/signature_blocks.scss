@@ -2,6 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// font-family: 'Caveat', cursive;
+// font-family: 'Dancing Script', cursive;
+// font-family: 'Homemade Apple', cursive;
+// font-family: 'Permanent Marker', cursive;
+// font-family: 'Roboto', sans-serif;
+// font-family: 'Roboto Mono', monospace;
+// font-family: 'Rock Salt', cursive;
+// font-family: 'Titillium Web', sans-serif;
+
 .signature {
   .sigCanvas {
     border: 1px solid gray;
@@ -53,10 +62,18 @@
       }
     }
 
-    &.current {
-      box-shadow: 2px 2px 15px 1px var(--yellow), -2px -2px 10px 1px var(--yellow);
-      opacity: 1;
+    &.clear,
+    &.update {
+      width: auto;
+      height: auto;
+      border-radius: 5px;
+      padding: 5px;
+    }
 
+    &.current {
+      box-shadow: 2px 2px 15px 1px var(--yellow),
+        -2px -2px 10px 1px var(--yellow);
+      opacity: 1;
     }
   }
 }

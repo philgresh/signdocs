@@ -20,10 +20,10 @@ class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
   
   
-  validates_presence_of :body, :user_id
+  validates_presence_of :user_id
+  belongs_to :user
   has_one :content_fields, as: :contentable
   has_one_attached :sig_image
-  belongs_to :user
 
   def gen_new_pub_key
     response = kms.create_key({ 
