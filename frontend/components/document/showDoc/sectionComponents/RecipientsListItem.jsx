@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTasks } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +8,7 @@ import { UserPropTypeShape } from '../../../propTypes';
 const RecipientsListItem = ({
   index,
   status,
-  user: { firstName, lastName, email },
+  user: { id: userId, firstName, lastName, email },
 }) => {
   const userNameText = `${firstName} ${lastName}`;
   return (
@@ -18,7 +19,9 @@ const RecipientsListItem = ({
       </div>
       <div className="grid-row-user">
         <div>
-          <strong>{userNameText}</strong>
+          <strong>
+            <Link to={`/signature/${userId}`}>{userNameText}</Link>
+          </strong>
         </div>
         <div>
           <p>{email}</p>
@@ -47,6 +50,7 @@ RecipientsListItem.propTypes = {
   status: PropTypes.string,
   user: PropTypes.shape({
     ...UserPropTypeShape,
+    id: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     email: PropTypes.string,

@@ -4,6 +4,7 @@ import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
 import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
+import { EditSignatureContainer, SigRedirect } from './signature';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
@@ -22,6 +23,15 @@ const App = () => {
               <AuthRoute path="/signin" component={Signin} />
               <AuthRoute path="/signup" component={Signup} />
               <ProtectedRoute path="/user" component={Signin} />
+              {/* <ProtectedRoute
+                exact
+                path="/signature"
+                component={EditSignatureContainer}
+              /> */}
+              <ProtectedRoute
+                path="/signature/:userId"
+                component={EditSignatureContainer}
+              />
               <ProtectedRoute path="/documents" exact component={DocsIndex} />
               <ProtectedRoute
                 path="/documents/new"
