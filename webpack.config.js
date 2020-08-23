@@ -1,18 +1,11 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   context: __dirname,
   entry: './frontend/index.js',
   output: {
     path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
     filename: 'bundle.js',
-  },
-  plugins: [new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })],
-  devServer: {
-    publicPath: 'app/assets/javascripts/',
-    hot: true,
   },
   module: {
     rules: [
@@ -28,11 +21,8 @@ module.exports = {
       },
     ],
   },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx', '*'],
   },
-  optimization: {
-    usedExports: true,
-  }
 };

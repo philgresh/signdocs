@@ -8,7 +8,7 @@ import { EditSignatureContainer } from './signature';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
-import FourOhFour from './_404';
+import FourOhFour from './_404/FourOhFour';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
