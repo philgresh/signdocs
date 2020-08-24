@@ -7,14 +7,7 @@ require "byebug"
 
 NUM_USERS = 3
 NUM_DOCUMENTS = 3
-SIGNATURE_STYLE_FONT_FAMILIES = [
-  "'Caveat', cursive",
-  "'Dancing Script', cursive",
-  "'Homemade Apple', cursive",
-  "'Permanent Marker', cursive",
-  "'Rock Salt', cursive",
-].freeze
-COLORS = %w[darkgreen black midnightblue royalblue darkslategray teal].freeze
+
 SENTINEL_BLOCK_TYPES = [
   "SIGNATURE",
   "TEXT",
@@ -22,21 +15,6 @@ SENTINEL_BLOCK_TYPES = [
 
 IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
-def gen_svg_from_name(first_name, last_name)
-  svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
-
-  svg.build do
-    svg.text "#{first_name} #{last_name}",
-             x: 20,
-             y: 65,
-             font_family: SIGNATURE_STYLE_FONT_FAMILIES.sample,
-             font_size: 30,
-             fill: COLORS.sample
-  end
-  file = "#{IMGS_PATH}#{Time.now.to_i}#{first_name}.svg"
-  svg.save file
-  file
-end
 
 def setup_demo_user
   u = User.create(

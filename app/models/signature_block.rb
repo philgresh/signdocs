@@ -15,7 +15,7 @@
 #
 require "aws-sdk-s3"
 require "victor"
-require 'digest/md5'
+require "digest/md5"
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
@@ -26,7 +26,7 @@ class SignatureBlock < ApplicationRecord
     "'Permanent Marker', cursive",
     "'Rock Salt', cursive",
   ].freeze
-  COLORS = %w[darkgreen black midnightblue royalblue darkslategray teal].freeze
+  COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
 
   IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
@@ -52,7 +52,7 @@ class SignatureBlock < ApplicationRecord
     self.pub_key
   end
 
-  def fetch_pub_key(truncated=false)
+  def fetch_pub_key(truncated = false)
     key_id = self.pub_key ? self.pub_key : new_pub_key
     @kms ||= kms
 
@@ -97,6 +97,63 @@ class SignatureBlock < ApplicationRecord
     })
   end
 
+  def gen_svg_from_name(
+    font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample,
+    fill_color = COLORS.sample
+  )
+    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
+    @user = self.user
+    name_text = "#{@user.first_name} #{@user.last_name}"
+
+    svg.build do
+      svg.path(
+        d: "M 50 10 l -20 0 a 25 25 90 0 0 -25 25 L 5 65 a 25 25 90 0 0 25 25 L 50 90",
+        stroke: "#000028",
+        fill: "transparent",
+        stroke_width: "4",
+        stroke_linecap: "round",
+      )
+      svg.text(
+        "SignDocked by:",
+        x: 55,
+        y: 15,
+        font_family: "'Roboto', sans-serif",
+        font_size: 15,
+        fill: "#000028",
+        font_weight: "700",
+      )
+      svg.text(
+        "423EB1DA08FE722382A115E350B522AB",
+        # self.fetch_pub_key(true),
+        x: 55,
+        y: 94,
+        font_family: "'Roboto Mono', monospace",
+        font_size: 12,
+        fill: "#000028",
+      )
+      svg.text(
+        name_text,
+        x: 20,
+        y: 60,
+        font_family: font_family,
+        font_size: 30,
+        fill: fill_color,
+      )
+    end
+    local_link = "#{IMGS_PATH}#{Time.now.to_i}.svg"
+    svg.save local_link
+    self.sig_image.attach(
+      io: File.open(local_link),
+      content_type: "image/svg+xml",
+      filename: "#{@user.id}-sig-image.svg",
+      # identify: false,
+    )
+
+    self.styling = { font_family: font_family, fill: fill_color }
+    self.save!
+    File.delete(local_link) if File.exist?(local_link)
+  end
+
   private
 
   def ensure_pub_key
@@ -124,31 +181,7 @@ class SignatureBlock < ApplicationRecord
     message = blob.checksum
   end
 
-  def gen_svg_from_name
-    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
-    @user=self.user
-    svg_text = "#{@user.first_name} #{@user.last_name}"
-    svg.build do
-      svg.text svg_text,
-               x: 20,
-               y: 65,
-               font_family: SIGNATURE_STYLE_FONT_FAMILIES.sample,
-               font_size: 30,
-               fill: COLORS.sample
-    end
-    local_link = "#{IMGS_PATH}#{Time.now.to_i}.svg"
-    svg.save local_link
-    self.sig_image.attach(
-      io: File.open(local_link),
-      content_type: "image/svg+xml",
-      filename: "#{@user.id}-sig-image.svg",
-      # identify: false,
-    )
-    self.save!
-    File.delete(local_link) if File.exist?(local_link)
-  end
-
-  def make_checksum string
+  def make_checksum(string)
     Digest::MD5.hexdigest string
   end
 end

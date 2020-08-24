@@ -3,7 +3,7 @@ import React from 'react';
 const Splash = () => {
   return (
     <main style={{ width: '25%' }}>
-      This is the SPLASH component
+      <h1>This is the SPLASH component</h1>
       <div>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi amet,
         deserunt recusandae quis magni, facere accusamus dignissimos cumque

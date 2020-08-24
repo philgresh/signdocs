@@ -1,20 +1,11 @@
 import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import SignatureCanvas from 'react-signature-canvas';
-import clsx from 'clsx';
 import { SvgLoader, SvgProxy } from 'react-svgmt';
 import { SigPropTypeShape } from '../propTypes';
 import { updateSignature } from '../../utils/signature';
 import FontFamilySelection from './FontFamilySelection';
-
-const COLORS = [
-  'black',
-  'darkslategray',
-  'teal',
-  'darkgreen',
-  'midnightblue',
-  'royalblue',
-];
+import { COLORS } from './constants';
 
 const SVG = ({ svgUrl }) => (
   <SvgLoader path={svgUrl}>
@@ -40,8 +31,12 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
   return (
     <div className="button-bar">
       {COLORS.map((color) => {
-        const disabled = color === penColor;
-        const classes = clsx(color, penColor === color && 'current');
+        let disabled = false;
+        let classes = color;
+        if (penColor === color) {
+          classes += ' current';
+          disabled = true;
+        }
         return (
           <button
             key={color}

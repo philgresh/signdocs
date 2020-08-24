@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchUser } from '../../actions/user';
-import { fetchSignature } from '../../actions/signature';
+import { fetchSignature, updateSignature } from '../../actions/signature';
 import { getCurrentUser, getCurrentUserSig } from '../../reducers/selectors';
 import { UserPropTypeShape, SigPropTypeShape } from '../propTypes';
 import Profile from './Profile';
@@ -24,10 +24,10 @@ class ProfileContainer extends Component {
   render() {
     if (!this.props.user || Object.keys(this.props.user).length === 0)
       return <div />;
-    const { user, sig } = this.props;
+    const { user, sig, updateSig } = this.props;
     return (
       <div>
-        <Profile user={user} sig={sig} />
+        <Profile user={user} sig={sig} updateSig={updateSig} />
       </div>
     );
   }
@@ -38,6 +38,7 @@ ProfileContainer.propTypes = {
   sig: SigPropTypeShape.isRequired,
   fetchMe: PropTypes.func.isRequired,
   fetchSig: PropTypes.func.isRequired,
+  updateSig: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -51,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMe: (userId) => dispatch(fetchUser(userId)),
     fetchSig: (sigId) => dispatch(fetchSignature(sigId)),
+    updateSig: (sigData) => dispatch(updateSignature(sigData)),
   };
 };
 

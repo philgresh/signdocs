@@ -14,7 +14,5 @@ export const updateSignature = (sigData) =>
   $.ajax({
     url: `/api/signature_blocks/${sigData.id}`,
     method: 'PATCH',
-    data: {
-      signature: sigData,
-    },
+    data: sigData,
   });

@@ -24,7 +24,7 @@ const splashLinksLeft = [
 
 const signedInLinksLeft = [
   {
-    to: '/home',
+    to: '/',
     title: 'Home',
   },
   {
@@ -56,7 +56,7 @@ const Navbar = ({ currentUser, signoutUser }) => {
         Hello, <abbr title={currentUser.email}>{currentUser.firstName}</abbr>
       </p>
     ) : (
-      <p>Hello, {currentUser.firstName}</p>
+      <Link to="/profile">Hello, {currentUser.firstName}</Link>
     ));
 
   const rightNavSignedIn = currentUser && (

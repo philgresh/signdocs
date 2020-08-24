@@ -16,64 +16,89 @@
     border: 1px solid gray;
     box-shadow: var(--box-shadow-1);
   }
+}
 
-  .button-bar button {
-    width: 15px;
-    height: 15px;
-    padding: 0;
-    border-radius: 50%;
-    border: 1px solid darkgrey;
-    box-shadow: var(--box-shadow-1);
+.button-bar button {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid darkgrey;
+  box-shadow: var(--box-shadow-1);
 
-    &.black {
-      background-color: var(--off-black);
-      &:hover {
-        filter: brightness(85%);
-      }
-    }
-    &.darkslategray {
-      background-color: darkslategray;
-      &:hover {
-        filter: brightness(85%);
-      }
-    }
-    &.darkgreen {
-      background-color: darkgreen;
-      &:hover {
-        filter: brightness(85%);
-      }
-    }
-    &.midnightblue {
-      background-color: midnightblue;
-      &:hover {
-        filter: brightness(85%);
-      }
-    }
-    &.royalblue {
-      background-color: royalblue;
-      &:hover {
-        filter: brightness(85%);
-      }
-    }
-    &.teal {
-      background-color: teal;
-      &:hover {
-        filter: brightness(85%);
-      }
+  &:hover {
+    filter: brightness(85%);
+  }
+  //
+  // WORKAROUND
+  background-color: #000028;
+  // &.#000028 {
+  //   background-color: #000028;
+  //   &:hover {
+  //     filter: brightness(85%);
+  //   }
+  // }
+  &.darkslategray {
+    background-color: darkslategray;
+  }
+  &.darkgreen {
+    background-color: darkgreen;
+  }
+  &.midnightblue {
+    background-color: midnightblue;
+  }
+  &.royalblue {
+    background-color: royalblue;
+  }
+  &.teal {
+    background-color: teal;
+  }
+
+  &.clear,
+  &.update {
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  &.current {
+    box-shadow: 2px 2px 15px 1px var(--yellow), -2px -2px 10px 1px var(--yellow);
+    opacity: 1;
+  }
+}
+
+.sig-svg {
+  // $border-radius: 20px;
+  // $border-color: var(--off-black);
+  // $border-thickness: 5px;
+  // border-top: $border-thickness/2 solid $border-color;
+  // border-left: $border-thickness solid $border-color;
+  // border-bottom: $border-thickness/1.5 solid $border-color;
+  // border-top-left-radius: $border-radius;
+  // border-bottom-left-radius: $border-radius;
+}
+
+.font-family-picker {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  margin: auto;
+
+  & div.svg-wrapper {
+    padding: 0.5rem 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e8e8e2;
     }
 
-    &.clear,
-    &.update {
-      width: auto;
-      height: auto;
-      border-radius: 5px;
-      padding: 5px;
-    }
+    &.svg-selected {
+      background-color: #c9e2f2;
 
-    &.current {
-      box-shadow: 2px 2px 15px 1px var(--yellow),
-        -2px -2px 10px 1px var(--yellow);
-      opacity: 1;
+      &:hover {
+        background-color: #c9e2f2;
+      }
     }
   }
 }
