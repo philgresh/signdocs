@@ -56,11 +56,9 @@ const SigRow = ({ font, name, pubKey, color, handleChange, isSelected }) => {
   );
 };
 
-const FontFamilySelection = ({ sig, user, onUpdate }) => {
-  if (!user || !sig) return null;
-  const { firstName, lastName } = user;
+const FontFamilySelection = ({ sig, fullName, onUpdate }) => {
+  if (!fullName || !sig) return null;
   const { pubKey, styling } = sig;
-  const name = `${firstName} ${lastName}`;
   const currKey = getStyleKey(styling);
   const [selectedFont, setSelectedFont] = useState(currKey);
   const [color, setColor] = useState('#000028');
@@ -83,7 +81,7 @@ const FontFamilySelection = ({ sig, user, onUpdate }) => {
               key={font}
               font={font}
               color={color}
-              name={name}
+              name={fullName}
               pubKey={pubKey}
               handleChange={handleChange}
               isSelected={isSelected}

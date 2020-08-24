@@ -2,12 +2,13 @@
 #
 # Table name: signature_blocks
 #
-#  id         :uuid             not null, primary key
-#  pub_key    :string
-#  styling    :json
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :uuid             not null
+#  id                  :uuid             not null, primary key
+#  pub_key             :string
+#  pub_key_fingerprint :string
+#  styling             :json
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :uuid             not null
 #
 # Indexes
 #
@@ -47,6 +48,8 @@ class SignatureBlock < ApplicationRecord
 
     if response
       self.pub_key = response.key_metadata.key_id
+      # debugger
+      self.pub_key_fingerprint = fetch_pub_key(true)
       self.save!
     end
     self.pub_key

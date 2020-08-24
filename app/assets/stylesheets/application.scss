@@ -348,7 +348,7 @@ li.no-pointer {
 }
 
 .small {
-  font-size: 70%;
+  font-size: 80%;
   & a,
   & a:visited {
     color: #999;
@@ -357,6 +357,10 @@ li.no-pointer {
       text-decoration: underline 1px dotted;
     }
   }
+}
+
+.smallest {
+  font-size: 70%;
 }
 
 .modal-background {

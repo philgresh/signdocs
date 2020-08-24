@@ -22,9 +22,14 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    if (!this.props.user || Object.keys(this.props.user).length === 0)
-      return <div />;
     const { user, sig, updateSig } = this.props;
+    if (
+      !user ||
+      Object.keys(user).length === 0 ||
+      !sig ||
+      Object.keys(sig).length === 0
+    )
+      return <div />;
     return (
       <div>
         <Profile user={user} sig={sig} updateSig={updateSig} />

@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_182755) do
     t.uuid "user_id", null: false
     t.json "styling"
     t.string "pub_key"
+    t.string "pub_key_fingerprint"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_signature_blocks_on_user_id", unique: true

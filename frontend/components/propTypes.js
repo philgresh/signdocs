@@ -21,7 +21,8 @@ export const UserPropTypeShape = PropTypes.shape({
 export const SigPropTypeShape = PropTypes.shape({
   id: PropTypes.string,
   body: PropTypes.string,
-  pub_key: PropTypes.string,
+  pubKeyFingerprint: PropTypes.string,
+  imageUrl: PropTypes.string,
   styling: PropTypes.shape({
     'font-family': PropTypes.string,
     color: PropTypes.string,

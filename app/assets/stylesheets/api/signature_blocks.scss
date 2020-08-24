@@ -68,17 +68,6 @@
   }
 }
 
-.sig-svg {
-  // $border-radius: 20px;
-  // $border-color: var(--off-black);
-  // $border-thickness: 5px;
-  // border-top: $border-thickness/2 solid $border-color;
-  // border-left: $border-thickness solid $border-color;
-  // border-bottom: $border-thickness/1.5 solid $border-color;
-  // border-top-left-radius: $border-radius;
-  // border-bottom-left-radius: $border-radius;
-}
-
 .font-family-picker {
   display: flex;
   width: 300px;
@@ -99,6 +88,113 @@
       &:hover {
         background-color: #c9e2f2;
       }
+    }
+  }
+}
+
+.signature-create-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: stretch;
+  max-width: 900px;
+
+  & > * {
+    padding: 2rem;
+    border-bottom: 1px solid gray;
+  }
+
+  & > h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  & div.name-header {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: baseline;
+    padding: 1rem 2rem;
+
+    & label {
+      flex: 1 0 300px;
+
+      & input {
+        width: 250px;
+        margin-left: 2rem;
+        margin-top: 0;
+      }
+    }
+
+    & .current-sig {
+      width: 50%;
+      flex: 1 0;
+
+      & svg {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  .sig-tabs-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    & li {
+      $border-width: 3px;
+      $border-color: lightgray;
+      $background-color-hover: rgba(240, 240, 240, 0.61);
+      list-style: none;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      display: block;
+      height: 100%;
+      margin: 0;
+      padding: 24px 10px;
+      background-color: transparent;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: $border-width solid transparent;
+
+      &:hover {
+        background-color: $background-color-hover;
+        border-bottom: $border-width solid $border-color;
+      }
+
+      &.current {
+        color: var(--main-blue);
+        border-bottom: $border-width solid var(--main-blue);
+        pointer-events: none;
+      }
+    }
+  }
+
+  & .footer {
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    color: gray;
+    font-weight: 300;
+  }
+
+  & .actions {
+    padding-top: 0;
+    border: none;
+
+    & button {
+      //
     }
   }
 }

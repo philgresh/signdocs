@@ -2,12 +2,13 @@
 #
 # Table name: signature_blocks
 #
-#  id         :uuid             not null, primary key
-#  pub_key    :string
-#  styling    :json
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :uuid             not null
+#  id                  :uuid             not null, primary key
+#  pub_key             :string
+#  pub_key_fingerprint :string
+#  styling             :json
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :uuid             not null
 #
 # Indexes
 #
