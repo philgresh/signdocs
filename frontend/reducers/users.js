@@ -14,9 +14,7 @@ export default (state = initialState, { type, payload }) => {
     case RECEIVE_USER: {
       const userId = payload.user.id;
       const newUser = {
-        [payload.user.id]: {
-          ...payload.user,
-        },
+        ...payload.user,
       };
       return set(newState, userId, newUser);
     }

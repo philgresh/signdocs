@@ -8,7 +8,7 @@ import { UserPropTypeShape } from '../../../propTypes';
 const RecipientsListItem = ({
   index,
   status,
-  user: { firstName, lastName, email, sigId },
+  user: { id: userId, firstName, lastName, email },
 }) => {
   const userNameText = `${firstName} ${lastName}`;
   return (
@@ -20,7 +20,7 @@ const RecipientsListItem = ({
       <div className="grid-row-user">
         <div>
           <strong>
-            <Link to={`/signature/${sigId}`}>{userNameText}</Link>
+            <Link to={`/user/${userId}`}>{userNameText}</Link>
           </strong>
         </div>
         <div>
@@ -50,7 +50,7 @@ RecipientsListItem.propTypes = {
   status: PropTypes.string,
   user: PropTypes.shape({
     ...UserPropTypeShape,
-    sigId: PropTypes.string,
+    id: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     email: PropTypes.string,

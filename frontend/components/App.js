@@ -4,7 +4,7 @@ import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
 import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
-import { EditSignatureContainer } from './signature';
+import ProfileContainer from './profile/ProfileContainer';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
@@ -21,17 +21,10 @@ const App = () => {
           </header>
           <main>
             <Switch>
-              <AuthRoute path="/signin" component={Signin} />
-              <AuthRoute path="/signup" component={Signup} />
-              <ProtectedRoute path="/user" component={Signin} />
-              {/* <ProtectedRoute
-                exact
-                path="/signature"
-                component={EditSignatureContainer}
-              /> */}
               <ProtectedRoute
-                path="/signature/:userId"
-                component={EditSignatureContainer}
+                path="/profile"
+                exact
+                component={ProfileContainer}
               />
               <ProtectedRoute path="/documents" exact component={DocsIndex} />
               <ProtectedRoute
@@ -45,6 +38,8 @@ const App = () => {
               />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
               <Route exact path="/" component={Home} />
+              <AuthRoute exact path="/signin" component={Signin} />
+              <AuthRoute exact path="/signup" component={Signup} />
               <Route path="/404" component={FourOhFour} />
               <Redirect to="/404" />
             </Switch>

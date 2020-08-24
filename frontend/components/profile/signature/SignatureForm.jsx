@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { SvgLoader, SvgProxy } from 'react-svgmt';
 import { SigPropTypeShape } from '../propTypes';
 import { updateSignature } from '../../utils/signature';
+import FontFamilySelection from './FontFamilySelection';
 
 const COLORS = [
   'black',
@@ -64,7 +65,7 @@ const ButtonBar = ({ penColor, setPenColor, sigPadClear, onSubmit }) => {
   );
 };
 
-const SignatureForm = ({ sig }) => {
+const SignatureForm = ({ sig, user }) => {
   const { id, imageUrl } = sig;
   const sigPad = createRef();
   const [penColor, setPenColor] = useState(sig?.styling?.color || 'black');
@@ -101,7 +102,8 @@ const SignatureForm = ({ sig }) => {
         sigPadClear={sigPadClear}
         onSubmit={onSubmit}
       /> */}
-      <SVG svgUrl={imageUrl} />
+      {/* <SVG svgUrl={imageUrl} /> */}
+      <FontFamilySelection sig={sig} user={user} />
       <pre>{JSON.stringify(sig, null, 2)}</pre>
     </div>
   );

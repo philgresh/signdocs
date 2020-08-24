@@ -53,7 +53,20 @@ export const getAssociatedUsers = memoize((docId) =>
   }),
 );
 
-export const getSignatureFromUserId = (userId) =>
+export const getSignatureById = (sigId) =>
   createSelector([getAllSignatures], (sigs) => {
-    return sigs[userId];
+    return sigs[sigId];
+  });
+
+export const getUserBySigId = (sigId) =>
+  createSelector([getAllSignatures, getAllUsers], (sigs, users) => {
+    const sig = sigs[sigId];
+    if (!sig) return null;
+    return users[sig.userId];
+  });
+
+export const getCurrentUserSig = () =>
+  createSelector([getCurrentUser, getAllSignatures], (currUser, sigs) => {
+    const { sigId } = currUser;
+    return sigs[sigId];
   });

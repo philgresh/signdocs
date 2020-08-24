@@ -15,6 +15,7 @@
 #
 require "aws-sdk-s3"
 require "victor"
+require 'digest/md5'
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
@@ -51,11 +52,16 @@ class SignatureBlock < ApplicationRecord
     self.pub_key
   end
 
-  def fetch_pub_key
+  def fetch_pub_key(truncated=false)
     key_id = self.pub_key ? self.pub_key : new_pub_key
     @kms ||= kms
 
-    @kms.get_public_key({ key_id: key_id })
+    key = @kms.get_public_key({ key_id: key_id }).public_key
+    if truncated
+      return make_checksum(key).upcase
+    else
+      return key
+    end
   end
 
   def schedule_key_deletion(days = 7)
@@ -140,5 +146,9 @@ class SignatureBlock < ApplicationRecord
     )
     self.save!
     File.delete(local_link) if File.exist?(local_link)
+  end
+
+  def make_checksum string
+    Digest::MD5.hexdigest string
   end
 end
