@@ -53,9 +53,10 @@ class Api::SignatureBlocksController < ApplicationController
     svg_data = svg_data[start_index..-1]
     decoded = Base64.decode64(svg_data)
     decoded = decoded.gsub("width=\"600\"", "width=\"180\" x=\"20\" y=\"20\"")
-    decoded = decoded.gsub("width=\"300\"", "width=\"90\" x=\"20\" y=\"20\"")
+    decoded = decoded.gsub("width=\"300\"", "width=\"180\" x=\"20\" y=\"20\"")
     decoded = decoded.gsub("height=\"200\"", "height=\"60\"")
-    decoded = decoded.gsub("height=\"100\"", "height=\"30\"")
+    decoded = decoded.gsub("height=\"100\"", "height=\"60\"")
+    decoded = decoded.gsub("viewBox=\"0 0 300 100\"", "viewBox=\"0 0 600 200\"")
 
     @signature[:styling]["font_family"] = ''
 
