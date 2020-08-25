@@ -10,7 +10,6 @@
   },
   "scripts": {
     "postinstall": "webpack",
-    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js",
     "watch": "webpack --watch --mode=development",
     "start": "webpack-dev-server --open",
     "commit": "git-cz",
