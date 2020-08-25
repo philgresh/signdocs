@@ -22,7 +22,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { user, sig, updateSig } = this.props;
+    const { user, sig, updateSig, history } = this.props;
     if (
       !user ||
       Object.keys(user).length === 0 ||
@@ -32,7 +32,12 @@ class ProfileContainer extends Component {
       return <div />;
     return (
       <div>
-        <Profile user={user} sig={sig} updateSig={updateSig} />
+        <Profile
+          user={user}
+          sig={sig}
+          updateSig={updateSig}
+          history={history}
+        />
       </div>
     );
   }
@@ -44,6 +49,9 @@ ProfileContainer.propTypes = {
   fetchMe: PropTypes.func.isRequired,
   fetchSig: PropTypes.func.isRequired,
   updateSig: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    go: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => {

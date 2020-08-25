@@ -27,7 +27,7 @@ class SignatureBlock < ApplicationRecord
     "'Permanent Marker', cursive",
     "'Rock Salt', cursive",
   ].freeze
-  COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
+  # COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
 
   IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
@@ -48,7 +48,6 @@ class SignatureBlock < ApplicationRecord
 
     if response
       self.pub_key = response.key_metadata.key_id
-      # debugger
       self.pub_key_fingerprint = fetch_pub_key(true)
       self.save!
     end
@@ -102,11 +101,28 @@ class SignatureBlock < ApplicationRecord
 
   def gen_svg_from_name(
     font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample,
-    fill_color = COLORS.sample
+    # fill_color = COLORS.sample
+    fill_color = "#000028"
   )
-    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
     @user = self.user
     name_text = "#{@user.first_name} #{@user.last_name}"
+    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
+    svg.text(
+      name_text,
+      x: 20,
+      y: 60,
+      font_family: font_family,
+      font_size: 30,
+      fill: fill_color,
+    )
+    self.styling = { font_family: font_family, fill: fill_color }
+
+    gen_svg_wrapper(svg)
+  end
+
+  def gen_svg_wrapper(inner)
+    @user ||= self.user
+    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
 
     svg.build do
       svg.path(
@@ -134,15 +150,9 @@ class SignatureBlock < ApplicationRecord
         font_size: 12,
         fill: "#000028",
       )
-      svg.text(
-        name_text,
-        x: 20,
-        y: 60,
-        font_family: font_family,
-        font_size: 30,
-        fill: fill_color,
-      )
     end
+
+    svg << inner
     local_link = "#{IMGS_PATH}#{Time.now.to_i}.svg"
     svg.save local_link
     self.sig_image.attach(
@@ -152,7 +162,6 @@ class SignatureBlock < ApplicationRecord
       # identify: false,
     )
 
-    self.styling = { font_family: font_family, fill: fill_color }
     self.save!
     File.delete(local_link) if File.exist?(local_link)
   end

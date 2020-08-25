@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
   let isCurrent = false;
-  useEffect(() => {
-    if (!isCurrent) {
-      isCurrent = true;
-      if (currentUser.sigId) fetchSignature(currentUser.sigId);
-      fetchDocuments();
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (!isCurrent) {
+  //     isCurrent = true;
+  //     if (currentUser.sigId) fetchSignature(currentUser.sigId);
+  //     fetchDocuments();
+  //   }
+  // }, [currentUser]);
   return (
     <main>
       <h1>This is the home component</h1>

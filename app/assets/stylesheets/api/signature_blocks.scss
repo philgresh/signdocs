@@ -11,13 +11,6 @@
 // font-family: 'Rock Salt', cursive;
 // font-family: 'Titillium Web', sans-serif;
 
-.signature {
-  .sigCanvas {
-    border: 1px solid gray;
-    box-shadow: var(--box-shadow-1);
-  }
-}
-
 .button-bar button {
   width: 15px;
   height: 15px;
@@ -70,11 +63,12 @@
 
 .font-family-picker {
   display: flex;
-  width: 300px;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: auto;
 
   & div.svg-wrapper {
+    width: 300px;
     padding: 0.5rem 0;
     cursor: pointer;
 
@@ -84,10 +78,7 @@
 
     &.svg-selected {
       background-color: #c9e2f2;
-
-      &:hover {
-        background-color: #c9e2f2;
-      }
+      pointer-events: none;
     }
   }
 }
@@ -118,6 +109,7 @@
     justify-content: space-between;
     align-content: baseline;
     padding: 1rem 2rem;
+    min-height: 150px;
 
     & label {
       flex: 1 0 300px;
@@ -196,5 +188,17 @@
     & button {
       //
     }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.sig-draw-pad {
+  text-align: center;
+
+  .sig-canvas {
+    border: 1px dashed lightgray;
   }
 }
