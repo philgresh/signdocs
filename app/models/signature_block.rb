@@ -31,7 +31,7 @@ class SignatureBlock < ApplicationRecord
 
   IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
-  before_save :ensure_pub_key
+  before_create :gen_new_pub_key
   after_create :gen_svg_from_name
   validates_presence_of :user_id
   belongs_to :user
@@ -49,7 +49,6 @@ class SignatureBlock < ApplicationRecord
     if response
       self.pub_key = response.key_metadata.key_id
       self.pub_key_fingerprint = fetch_pub_key(true)
-      self.save!
     end
     self.pub_key
   end
@@ -124,6 +123,7 @@ class SignatureBlock < ApplicationRecord
     @user ||= self.user
     svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
 
+    fingerprint_text = self.pub_key_fingerprint
     svg.build do
       svg.path(
         d: "M 50 10 l -20 0 a 25 25 90 0 0 -25 25 L 5 65 a 25 25 90 0 0 25 25 L 50 90",
@@ -142,8 +142,7 @@ class SignatureBlock < ApplicationRecord
         font_weight: "700",
       )
       svg.text(
-        "423EB1DA08FE722382A115E350B522AB",
-        # self.fetch_pub_key(true),
+        fingerprint_text,
         x: 55,
         y: 94,
         font_family: "'Roboto Mono', monospace",
