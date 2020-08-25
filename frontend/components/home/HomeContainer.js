@@ -7,7 +7,7 @@ import Home from './Home';
 import Splash from '../splash';
 import { fetchDocuments } from '../../actions/document';
 import { fetchSignature } from '../../actions/signature';
-import { getCurrentUser, getCurrentUserSig } from '../../reducers/selectors';
+import { getCurrentUser } from '../../reducers/selectors';
 
 const HomeContainer = (props) => {
   document.title = `SignDocs - Share and Sign Documents`;

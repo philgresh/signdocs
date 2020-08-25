@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { UserPropTypeShape } from '../propTypes';
-import SignedInRightNavMenu from "./SignedInRightNavMenu";
+import SignedInRightNavMenu from './SignedInRightNavMenu';
 
 const splashLinksLeft = [
   {
@@ -48,17 +48,8 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const currentUserIsDemo =
-    currentUser && /^bob.*@example.com/.test(currentUser.email);
-  const greeting =
-    currentUser &&
-    (currentUserIsDemo ? (
-      <p>
-        Hello, <abbr title={currentUser.email}>{currentUser.firstName}</abbr>
-      </p>
-    ) : (
-      <Link to="/profile">Hello, {currentUser.firstName}</Link>
-    ));
+  // const currentUserIsDemo =
+  //   currentUser && /^bob.*@example.com/.test(currentUser.email);
 
   const rightNavSignedIn = currentUser && (
     <SignedInRightNavMenu currentUser={currentUser} signoutUser={signoutUser} />
