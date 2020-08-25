@@ -35,4 +35,7 @@ export const signinUser = (formUser) => (dispatch) =>
 export const signoutUser = () => (dispatch) =>
   APIUtil.deleteSession()
     .then(() => dispatch(signoutCurrentUser()))
-    .fail((err) => dispatch(receiveErrors(err.responseJSON)));
+    .fail((err) => {
+      dispatch(receiveErrors(err.responseJSON));
+      dispatch(signoutCurrentUser());
+    });

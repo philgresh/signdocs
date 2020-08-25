@@ -3,7 +3,6 @@
 require "faker"
 require "cuid"
 require "victor"
-require "byebug"
 
 NUM_USERS = 3
 NUM_DOCUMENTS = 3

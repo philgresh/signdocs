@@ -32,7 +32,8 @@ const documentsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case RECEIVE_ALL_DOCUMENTS: {
       // return { ...newState, ...payload.documents };
-      return payload.documents;
+      if (payload.documents) return payload.documents;
+      return state;
     }
     case RECEIVE_DOCUMENT: {
       const { document: doc } = payload;

@@ -20,7 +20,8 @@ const RecipientsListItem = ({
       <div className="grid-row-user">
         <div>
           <strong>
-            <Link to={`/user/${userId}`}>{userNameText}</Link>
+            {/* <Link to={`/user/${userId}`}>{userNameText}</Link> */}
+            {userNameText}
           </strong>
         </div>
         <div>

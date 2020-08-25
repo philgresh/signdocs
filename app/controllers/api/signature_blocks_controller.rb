@@ -53,9 +53,11 @@ class Api::SignatureBlocksController < ApplicationController
     svg_data = svg_data[start_index..-1]
     decoded = Base64.decode64(svg_data)
     decoded = decoded.gsub("width=\"600\"", "width=\"180\" x=\"20\" y=\"20\"")
+    decoded = decoded.gsub("width=\"300\"", "width=\"90\" x=\"20\" y=\"20\"")
     decoded = decoded.gsub("height=\"200\"", "height=\"60\"")
+    decoded = decoded.gsub("height=\"100\"", "height=\"30\"")
 
-    @signature[:styling][:font_family] = ''
+    @signature[:styling]["font_family"] = ''
 
     @signature.gen_svg_wrapper(decoded)
   end
