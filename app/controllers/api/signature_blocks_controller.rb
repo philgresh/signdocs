@@ -55,6 +55,8 @@ class Api::SignatureBlocksController < ApplicationController
     decoded = decoded.gsub("width=\"600\"", "width=\"180\" x=\"20\" y=\"20\"")
     decoded = decoded.gsub("height=\"200\"", "height=\"60\"")
 
+    @signature[:styling][:font_family] = ''
+
     @signature.gen_svg_wrapper(decoded)
   end
 end

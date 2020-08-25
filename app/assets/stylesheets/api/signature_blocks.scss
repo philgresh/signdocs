@@ -196,9 +196,25 @@
 }
 
 .sig-draw-pad {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
   .sig-canvas {
+    position: relative;
+    width: 600px;
+    height: 200px;
     border: 1px dashed lightgray;
+
+    & button.clear {
+      position: absolute;
+      top: 163px;
+      right: 2px;
+    }
+  }
+
+  .small {
+    color: var(--gray);
   }
 }

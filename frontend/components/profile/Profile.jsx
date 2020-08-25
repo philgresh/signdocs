@@ -12,7 +12,8 @@ import {
 } from './profileComponents';
 import { SigPropTypeShape, UserPropTypeShape } from '../propTypes';
 
-const Profile = ({ sig, user, updateSig, history }) => {
+const Profile = ({ sig: sigProps, user, updateSig, history }) => {
+  const [sig, setSig] = useState(sigProps);
   const [changed, setChanged] = useState(false);
   const [tab, setTab] = useState('choice');
   const sigPadRef = createRef();
@@ -44,6 +45,7 @@ const Profile = ({ sig, user, updateSig, history }) => {
           id: sig.id,
           'signature[svg_data]': svgData,
         }).then(() => history.go(0));
+        // }).then(({ signature }) => setSig(signature));
         break;
       }
       default:

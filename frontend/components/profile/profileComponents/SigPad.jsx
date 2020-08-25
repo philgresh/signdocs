@@ -6,15 +6,18 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { COLORS } from '../unused/constants';
 
 const SigPad = ({ sigPadRef, setChanged }) => {
-  const [penColor, setPenColor] = useState('#000028');
+  const [hasContent, setHasContent] = useState(false);
+  const [penColor] = useState('#000028');
 
   const sigPadClear = () => {
     sigPadRef.current.clear();
     setChanged(false);
+    setHasContent(false);
   };
 
   const onEnd = () => {
     setChanged(true);
+    setHasContent(true);
   };
 
   // React.useEffect(() => {
@@ -26,15 +29,19 @@ const SigPad = ({ sigPadRef, setChanged }) => {
 
   return (
     <div className="sig-draw-pad">
-      <SignatureCanvas
-        penColor={penColor}
-        canvasProps={{ width: 600, height: 200, className: 'sig-canvas' }}
-        ref={sigPadRef}
-        onEnd={onEnd}
-      />
-      <button type="button" className="clear" onClick={sigPadClear}>
-        <FontAwesomeIcon icon={faTrashAlt} color={penColor} />
-      </button>
+      <div className="sig-canvas">
+        <SignatureCanvas
+          penColor={penColor}
+          canvasProps={{ width: 600, height: 200 }}
+          ref={sigPadRef}
+          onEnd={onEnd}
+        />
+        {hasContent && (
+          <button type="button" className="clear flat" onClick={sigPadClear}>
+            <FontAwesomeIcon icon={faTrashAlt} color={penColor} />
+          </button>
+        )}
+      </div>
       <p className="small">Draw Signature</p>
     </div>
   );
