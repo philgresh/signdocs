@@ -2,7 +2,7 @@
 #
 # Table name: document_editors
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  is_owner    :boolean          default(FALSE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

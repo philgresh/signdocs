@@ -1,6 +1,6 @@
 class CreateDocumentEditors < ActiveRecord::Migration[5.2]
   def change
-    create_table :document_editors do |t|
+    create_table :document_editors, id: :uuid  do |t|
       t.uuid :document_id, null: false
       t.uuid :user_id, null: false
       t.boolean :is_owner, :null => false, :default => false

@@ -14,7 +14,6 @@ SENTINEL_BLOCK_TYPES = [
 
 IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
-
 def setup_demo_user
   u = User.create(
     first_name: "Bob",
@@ -56,7 +55,6 @@ def create_new_users
   users
 end
 
-
 def create_new_documents()
   destroy_all(Document)
 
@@ -89,14 +87,12 @@ def create_new_documents()
 end
 
 def create_new_sentinel_blocks(docs)
-  destroy_all(SentinelBlock)
+  # destroy_all(SentinelBlock)
 
   sentinels = docs.map do |doc|
     block_type = ["SIGNATURE", "TEXT"].sample
     SentinelBlock.create(
-      user_id: doc.owner.id,
       block_type: block_type,
-      placeholder: "This is a #{block_type} placeholder",
     )
   end
 
@@ -105,23 +101,31 @@ def create_new_sentinel_blocks(docs)
   sentinels
 end
 
-def create_new_content_fields(sentinels)
-  destroy_all(ContentField)
+def create_new_content_fields(docs, sentinels)
+  # destroy_all(ContentField)
 
-  content_fields = sentinels.map do |sentinel|
-    sentinel.content_field = ContentField.create(
- # bbox
-           # assignee_id
-           # document_id
-      )
+  (0...docs.size).each do |i|
+    doc = docs[i]
+    sentinel = sentinels[i]
+    ContentField.create(
+      bbox: {
+        x: rand(200..500),
+        y: rand(200..500),
+        width: rand(150..300),
+        height: rand(50..200),
+        page: 1,
+      },
+      assignee_id: doc.owner.id,
+      document_id: doc.id,
+      contentable: sentinel,
+    )
   end
 
   print_results(ContentField)
-  content_fields
+  
 end
-
 
 users = create_new_users() << setup_demo_user()
 docs = create_new_documents()
-# sentinels = create_new_sentinel_blocks(Document.all)
-# content_fields = create_new_content_fields(sentinels)
+sentinels = create_new_sentinel_blocks(docs)
+content_fields = create_new_content_fields(docs, sentinels)

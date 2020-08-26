@@ -1,17 +1,19 @@
-import React, { Children } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 import { useParams } from 'react-router-dom';
-import ItemTypes from './dnd/ItemTypes';
+import ItemTypes from './ItemTypes';
 
-const FieldItem = ({ currAssignee, type, id, docId, children }) => {
+const FieldItem = (props) => {
+  const { currAssignee, type, id, docId, children } = props;
+  console.log(props);
   const [, drag] = useDrag({
     item: {
       id,
       docId,
       type,
       name: 'Signature',
-      title: 'SignatureTitle',
+      title: children,
       bbox: {
         x: 0,
         y: 0,
@@ -44,7 +46,7 @@ const Fields = ({ currAssignee }) => {
       <ul>
         <FieldItem
           currAssignee={currAssignee}
-          type={ItemTypes.SIG}
+          type={ItemTypes.UNFILLED_SIGNATURE}
           id={tempId()}
           docId={docId}
         >

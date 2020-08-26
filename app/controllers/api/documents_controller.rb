@@ -1,6 +1,6 @@
 class Api::DocumentsController < ApplicationController
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
-  before_action :require_logged_in
+  # before_action :require_logged_in
   before_action :require_owner_status, only: [:destroy, :update, :signedurl]
   # before_action :require_editor_status, only: [:edit]
 
@@ -15,6 +15,7 @@ class Api::DocumentsController < ApplicationController
     if @document
       @file = @document.file
       @users = User.where(id: @document.editor_ids)
+      @contentables = @document.content_fields
       render :show
     else
       render json: {

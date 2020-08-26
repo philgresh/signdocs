@@ -8,12 +8,22 @@ import { useDrop } from 'react-dnd';
 import find from 'lodash/find';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ItemTypes from './ItemTypes';
+import ItemTypes from '../ItemTypes';
 import Box from './Box';
 import { receiveContentField } from '../../../../actions/contentFields';
 import { getArrayOfContentFieldsByDocId } from '../../../../reducers/selectors';
+import { lte } from 'lodash';
 
-const DroppableContainer = ({ children, className, thisPage }) => {
+const DroppableContainer = ({
+  children,
+  className,
+  thisPage,
+  context = 'PREPARE',
+}) => {
+  let acceptableTypes = [];
+  if (context === 'PREPARE') {
+    acceptableTypes = [ItemTypes.UNFILLED_SIGNATURE, ItemTypes.UNFILLED_TEXT];
+  }
   const { docId } = useParams();
   const dispatch = useDispatch();
   const receiveCF = (cfData) => dispatch(receiveContentField(cfData));
@@ -50,7 +60,7 @@ const DroppableContainer = ({ children, className, thisPage }) => {
   };
 
   const [, drop] = useDrop({
-    accept: [ItemTypes.BOX, ItemTypes.SIG],
+    accept: acceptableTypes,
     drop(item, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
       const x = Math.max(0, Math.round(item.bbox.x + delta.x));

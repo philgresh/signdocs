@@ -2,7 +2,7 @@
 #
 # Table name: text_blocks
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  body       :text             not null
 #  styling    :json
 #  type       :string           not null

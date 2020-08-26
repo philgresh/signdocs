@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { removeContentField } from '../../../../actions/contentFields';
-import ItemTypes from './ItemTypes';
+import ItemTypes from '../ItemTypes';
 
 const Box = ({ cfData, children }) => {
   const dispatch = useDispatch();
