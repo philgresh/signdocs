@@ -7,8 +7,6 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PDF from './PDF';
 import FieldSideBar from './FieldSideBar';
-import { Container } from './dnd/Container';
-import { CustomDragLayer } from './dnd/CustomDragLayer';
 import { fetchDocument } from '../../../actions/document';
 import {
   getDocumentById,
@@ -41,13 +39,13 @@ class SignDocContainer extends Component {
       isOwner: owner.id === currentUser.id,
     };
     return (
-      <div>
-        <DndProvider backend={HTML5Backend}>
-          <FieldSideBar />
-          <Container>
+      <div className="sign-doc-container">
+        <div className="pdf-drag-container">
+          <DndProvider backend={HTML5Backend}>
+            <FieldSideBar />
             {newDoc && <PDF doc={newDoc} currentUser={currentUser} />}
-          </Container>
-        </DndProvider>
+          </DndProvider>
+        </div>
       </div>
     );
   }

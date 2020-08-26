@@ -13,7 +13,7 @@ const styles = {
   position: 'relative',
 };
 
-export const Container = () => {
+export const Container = ({ children, className }) => {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 80, title: 'Drag me around' },
     b: { top: 180, left: 20, title: 'Drag me too' },
@@ -28,18 +28,21 @@ export const Container = () => {
     );
   };
   const [, drop] = useDrop({
-    accept: ItemTypes.BOX,
+    accept: [ItemTypes.BOX, ItemTypes.SIG],
     drop(item, monitor) {
+      // console.log(item, monitor);
+      const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
+      const left = Math.round(item.left + delta.x);
+      const top = Math.round(item.top + delta.y);
       if (item.id in boxes) {
-        const delta = monitor.getDifferenceFromInitialOffset();
-        const left = Math.round(item.left + delta.x);
-        const top = Math.round(item.top + delta.y);
         moveBox(item.id, left, top);
       } else {
         setBoxes({
           ...boxes,
           [item.id]: {
             ...item,
+            left,
+            top,
           },
         });
       }
@@ -48,7 +51,7 @@ export const Container = () => {
   });
 
   return (
-    <div ref={drop} style={styles}>
+    <div ref={drop} className={className}>
       {Object.keys(boxes).map((key) => {
         const { left, top, title } = boxes[key];
         return (
@@ -57,6 +60,7 @@ export const Container = () => {
           </Box>
         );
       })}
+      {children}
     </div>
   );
 };

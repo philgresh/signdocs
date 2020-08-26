@@ -346,45 +346,88 @@
   }
 }
 
-.pdf-document-container {
-  position: relative;
-  & .pages-buttons {
+.sign-doc-container {
+  min-height: 800px;
+  width: 100%;
+  height: calc(100% - 4.5rem);
+  $field-side-bar-width: 250px;
+
+  & .pdf-drag-container {
     display: flex;
-    flex-direction: row;
     justify-content: flex-start;
-    align-items: baseline;
-  }
 
-  & .card {
-    height: 792px;
-    width: 612px;
-    display: block;
-    user-select: none;
-    z-index: -1;
-    border: 1px solid #ddd;
-    border-radius: 0;
-    box-shadow: 0px 1px 2px 0px #ccc;
-  }
+    & .field-side-bar {
+      width: calc(250px - 2rem);
+      margin-right: 1rem;
+      position: fixed;
+      left: 0;
+      top: 80px;
+      padding-left: 2rem;
+      text-align: center;
 
-  & .react-pdf__Document {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-
-    & .react-pdf__Page {
-      border: 1px solid #ddd;
-      border-radius: 0;
-      box-shadow: 0px 1px 2px 0px #ccc;
-      margin-bottom: 1em;
+      & div.droppable {
+        padding: 0.5rem 1rem;
+        z-index: inherit;
+        cursor: move;
+      }
     }
 
-    & .react-pdf__Outline {
-      border: 1px solid red;
+    & .droppable-container {
+      & .droppable-item {
+        position: absolute;
+        border: 1px dashed gray;
+        background-color: white;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+        cursor: move;
+      }
     }
-  }
+    & .pdf-document-container {
+      position: absolute;
+      height: calc(100% - var(--footer-padding) - var(--header-padding));
+      overflow: auto;
+      left: calc(250px + 1rem);
+      top: 80px;
 
-  .pdf-droppable-canvas {
-    position: absolute;
+      & .pages-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+      }
+
+      & .card {
+        height: 792px;
+        width: 612px;
+        display: block;
+        user-select: none;
+        z-index: -1;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        box-shadow: 0px 1px 2px 0px #ccc;
+      }
+
+      & .react-pdf__Document {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        // align-items: center;
+
+        & .react-pdf__Page {
+          border: 1px solid #ddd;
+          border-radius: 0;
+          box-shadow: 0px 1px 2px 0px #ccc;
+          margin-bottom: 1em;
+        }
+
+        & .react-pdf__Outline {
+          border: 1px solid red;
+        }
+      }
+
+      & .pdf-droppable-canvas {
+        position: absolute;
+      }
+    }
   }
 }

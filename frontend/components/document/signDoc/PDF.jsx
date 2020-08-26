@@ -3,6 +3,7 @@ import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Document, Page, Outline, pdfjs } from 'react-pdf';
 import { DocPropTypeShape } from '../../propTypes';
+import { Container } from './dnd/Container';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -41,16 +42,20 @@ const PDF = ({ doc: { fileUrl } }) => {
   //   elmnt.scrollIntoView();
   // };
 
+  // <canvas className="pdf-droppable-canvas"  width="595" height="842" /> 
   return (
     <div className="pdf-document-container">
-      <canvas className="pdf-droppable-canvas"  width="595" height="842" />
       <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (_el, index) => (
-          <Fragment key={`page_${index + 1}`}>
-            <div id={`page_${index + 1}`} className="page-wrapper">
+          <Container key={`page_${index + 1}`} className="droppable-container">
+            <div
+              id={`page_${index + 1}`}
+              className="page-wrapper"
+              data-page={index + 1}
+            >
               <Page pageNumber={index + 1} />
             </div>
-          </Fragment>
+          </Container>
         ))}
       </Document>
       {!docLoadSuccess && <div className="react-pdf__Document card" />}

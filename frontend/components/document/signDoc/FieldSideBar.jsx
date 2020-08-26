@@ -5,25 +5,26 @@ import { ItemTypes } from './dnd/ItemTypes';
 import { Box } from './dnd/Box';
 
 const FieldSideBar = () => {
-  // const [collectedProps, drag] = useDrag({
-  //   item: { id: 'sig' },
-  // });
+  const [collectedProps, drag] = useDrag({
+    item: {
+      id: '321312412',
+      name: 'Signature',
+      title: 'SignatureTitle',
+      left: 0,
+      top: 0,
+      type: ItemTypes.SIG,
+      hideSourceOnDrag: true,
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
   return (
     <div className="field-side-bar">
       <h2>Fields</h2>
       <hr />
 
-      <Box
-        name="Signature"
-        title="SignatureTitle"
-        type={ItemTypes.BOX}
-        id="321312412"
-        left={0}
-        top={0}
-        hideSourceOnDrag
-      >
-        Signature
-      </Box>
+      <div ref={drag}>Signature</div>
     </div>
   );
 };
