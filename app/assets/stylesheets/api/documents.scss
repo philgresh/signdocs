@@ -148,39 +148,6 @@
     }
   }
 
-  & .pdf-document-container {
-    & .pages-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: baseline;
-    }
-
-    & .card {
-      height: 792px;
-      width: 612px;
-      display: block;
-      user-select: none;
-      z-index: -1;
-      border: 1px solid #ddd;
-      border-radius: 0;
-      box-shadow: 0px 1px 2px 0px #ccc;
-    }
-
-    & .react-pdf__Document {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-
-      & .react-pdf__Page {
-        border: 1px solid #ddd;
-        border-radius: 0;
-        box-shadow: 0px 1px 2px 0px #ccc;
-      }
-    }
-  }
-
   & .doc-attr-key {
     min-width: 200px;
     max-width: 200px;
@@ -343,6 +310,10 @@
         color: var(--light-gray);
         font-size: 90%;
       }
+
+      & .docs-index-recipients > p {
+        margin: 0;
+      }
     }
     & > div {
       padding: 0.5rem 0;
@@ -372,5 +343,48 @@
 
   & input[type='file'] {
     padding: 0.5rem;
+  }
+}
+
+.pdf-document-container {
+  position: relative;
+  & .pages-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+
+  & .card {
+    height: 792px;
+    width: 612px;
+    display: block;
+    user-select: none;
+    z-index: -1;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    box-shadow: 0px 1px 2px 0px #ccc;
+  }
+
+  & .react-pdf__Document {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    & .react-pdf__Page {
+      border: 1px solid #ddd;
+      border-radius: 0;
+      box-shadow: 0px 1px 2px 0px #ccc;
+      margin-bottom: 1em;
+    }
+
+    & .react-pdf__Outline {
+      border: 1px solid red;
+    }
+  }
+
+  .pdf-droppable-canvas {
+    position: absolute;
   }
 }
