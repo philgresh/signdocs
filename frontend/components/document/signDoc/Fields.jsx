@@ -1,19 +1,16 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 import ItemTypes from './ItemTypes';
 
 const FieldItem = (props) => {
-  const { currAssignee, type, id, docId, children } = props;
-  console.log(props);
+  const { currAssignee, children, disabled } = props;
   const [, drag] = useDrag({
+    canDrag: !disabled,
     item: {
-      id,
-      docId,
-      type,
-      name: 'Signature',
-      title: children,
+      ...props,
+      assigneeId: currAssignee,
       bbox: {
         x: 0,
         y: 0,
@@ -21,18 +18,33 @@ const FieldItem = (props) => {
         width: 100,
         height: 50,
       },
-      assigneeId: currAssignee,
       hideSourceOnDrag: true,
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
+  let classNames = 'draggable';
+  if (disabled) classNames += ' disabled-drag';
   return (
-    <li ref={drag} className="droppable">
+    <li ref={drag} className={classNames}>
       {children}
     </li>
   );
+};
+
+FieldItem.propTypes = {
+  currAssignee: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.element,
+  ]),
+  disabled: PropTypes.bool.isRequired,
+};
+
+FieldItem.defaultProps = {
+  children: null,
 };
 
 const Fields = ({ currAssignee }) => {
@@ -49,6 +61,7 @@ const Fields = ({ currAssignee }) => {
           type={ItemTypes.UNFILLED_SIGNATURE}
           id={tempId()}
           docId={docId}
+          disabled={!currAssignee}
         >
           Signature
         </FieldItem>
@@ -57,6 +70,6 @@ const Fields = ({ currAssignee }) => {
   );
 };
 
-Fields.propTypes = {};
+Fields.propTypes = { currAssignee: PropTypes.string.isRequired };
 
 export default Fields;

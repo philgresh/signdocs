@@ -10,9 +10,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ItemTypes from '../ItemTypes';
 import Box from './Box';
-import { receiveContentField } from '../../../../actions/contentFields';
-import { getArrayOfContentFieldsByDocId } from '../../../../reducers/selectors';
-import { lte } from 'lodash';
+import {
+  createContentField,
+  updateContentField,
+} from '../../../../actions/contentFields';
 
 const DroppableContainer = ({
   children,
@@ -26,35 +27,36 @@ const DroppableContainer = ({
   }
   const { docId } = useParams();
   const dispatch = useDispatch();
-  const receiveCF = (cfData) => dispatch(receiveContentField(cfData));
+  const createCF = (cfData) => dispatch(createContentField(cfData));
+  const updateCF = (cfData) => dispatch(updateContentField(cfData));
 
+  // TODO: Fix this trash
   const contentFields = useSelector((state) => {
     const allCFs = state.entities.contentFields;
     return Object.values(allCFs).filter(
       (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
     );
   });
-  // const contentFields = allContentFields.filter(
-  //   (ele) => ele.bbox?.page === thisPage,
-  // );
 
   const addCF = (cfData, x, y) => {
-    receiveCF({
+    createCF({
       ...cfData,
       bbox: {
         ...cfData.bbox,
         x,
         y,
+        page: thisPage,
       },
     });
   };
   const moveCF = (cfData, x, y) => {
-    receiveCF({
+    updateCF({
       ...cfData,
       bbox: {
         ...cfData.bbox,
         x,
         y,
+        page: thisPage,
       },
     });
   };
@@ -101,6 +103,7 @@ DroppableContainer.propTypes = {
   ]).isRequired,
   className: PropTypes.string.isRequired,
   thisPage: PropTypes.number.isRequired,
+  context: PropTypes.oneOf(['PREPARE', 'SIGN']).isRequired,
 };
 
 export default DroppableContainer;

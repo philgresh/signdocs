@@ -9,5 +9,5 @@
 #
 class SentinelBlock < ApplicationRecord
   validates :block_type, inclusion: {in: ['SIGNATURE', 'TEXT']}
-  has_one :content_field, as: :contentable, dependent: :destroy
+  has_one :content_field, as: :contentable, dependent: :nullify
 end

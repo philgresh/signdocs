@@ -3,9 +3,11 @@ import { RECEIVE_DOCUMENT } from '../actions/document';
 import {
   RECEIVE_CONTENT_FIELD,
   REMOVE_CONTENT_FIELD,
+  RECEIVE_CONTENT_FIELD_ERROR,
 } from '../actions/contentFields';
+import { SIGNOUT_CURRENT_USER } from '../actions/session';
 
-const initialState = {
+const initialState = Object.freeze({
   // a: {
   //   id: 'a',
   //   bbox: {
@@ -21,6 +23,25 @@ const initialState = {
   //   contentableType: 'signatureBlock',
   //   assignee: '444',
   // },
+});
+
+const errorsInitialState = Object.freeze({});
+
+const contentFieldErrors = (state = errorsInitialState, { type, payload }) => {
+  Object.freeze(state);
+  switch (type) {
+    case RECEIVE_CONTENT_FIELD_ERROR: {
+      return payload;
+    }
+    case RECEIVE_CONTENT_FIELD: {
+      return errorsInitialState;
+    }
+    case SIGNOUT_CURRENT_USER: {
+      return errorsInitialState;
+    }
+    default:
+      return state;
+  }
 };
 
 const contentFieldsReducer = (state = initialState, { type, payload }) => {
@@ -42,9 +63,13 @@ const contentFieldsReducer = (state = initialState, { type, payload }) => {
       delete newState[payload];
       return newState;
     }
+    case SIGNOUT_CURRENT_USER: {
+      return initialState;
+    }
     default:
       return state;
   }
 };
 
 export default contentFieldsReducer;
+export { contentFieldErrors };

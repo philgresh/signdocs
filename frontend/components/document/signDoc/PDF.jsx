@@ -27,6 +27,7 @@ const PDF = ({ doc }) => {
             key={`page_${index + 1}`}
             className="droppable-container"
             thisPage={index + 1}
+            context="PREPARE"
           >
             <div
               id={`page_${index + 1}`}

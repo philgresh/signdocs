@@ -14,7 +14,10 @@ import {
   getAssignees,
   getCurrentUser,
 } from '../../../reducers/selectors';
-import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
+import {
+  DocPropTypeShape,
+  // UserPropTypeShape
+} from '../../propTypes';
 
 class SignDocContainer extends Component {
   constructor(props) {
@@ -68,7 +71,7 @@ class SignDocContainer extends Component {
 SignDocContainer.propTypes = {
   doc: DocPropTypeShape.isRequired,
   fetchDocument: PropTypes.func.isRequired,
-  currentUser: UserPropTypeShape.isRequired,
+  // currentUser: UserPropTypeShape.isRequired,
   assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

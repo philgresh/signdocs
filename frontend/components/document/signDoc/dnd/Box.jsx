@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { removeContentField } from '../../../../actions/contentFields';
+import { deleteContentField } from '../../../../actions/contentFields';
 import ItemTypes from '../ItemTypes';
 
 const Box = ({ cfData, children }) => {
   const dispatch = useDispatch();
 
-  const onRemove = () => dispatch(removeContentField(cfData.id));
+  const onRemove = () => dispatch(deleteContentField(cfData.id));
 
   const {
     bbox: { x, y, width, height },
