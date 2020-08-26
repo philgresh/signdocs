@@ -5,11 +5,16 @@ import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
-const Box = ({ boxData, children }) => {
-  const { left, top, hideSourceOnDrag = false, type = ItemTypes.BOX } = boxData;
+const Box = ({ cfData, children, removeContentField }) => {
+  const onDelete = () => removeContentField(cfData.id);
+  const {
+    bbox: { x, y, width, height },
+    hideSourceOnDrag = false,
+    type = ItemTypes.BOX,
+  } = cfData;
 
   const [{ isDragging }, drag] = useDrag({
-    item: { ...boxData, type },
+    item: { ...cfData, type },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -18,7 +23,14 @@ const Box = ({ boxData, children }) => {
     return <div ref={drag} />;
   }
   return (
-    <div ref={drag} className="droppable-item" style={{ left, top }}>
+    <div
+      ref={drag}
+      className="droppable-item"
+      style={{ left: x, top: y, width, height }}
+    >
+      <button className="close flat" type="button" onClick={onDelete}>
+        &times;
+      </button>
       {children}
     </div>
   );

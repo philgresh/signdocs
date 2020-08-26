@@ -5,11 +5,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Document, Page, pdfjs } from 'react-pdf';
 import DroppableContainer from './dnd/DroppableContainer';
-import { DocPropTypeShape } from '../../propTypes';
+import { DocPropTypeShape, ContentFieldPropTypeShape } from '../../propTypes';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDF = ({ doc, allBoxes, setBoxes }) => {
+const PDF = ({ doc, contentFields, cfActions }) => {
   const [docLoadSuccess, setDocLoadSuccess] = useState(false);
   const [numPages, setNumPages] = useState(null);
 
@@ -19,8 +19,6 @@ const PDF = ({ doc, allBoxes, setBoxes }) => {
     setNumPages(numP);
   };
 
-  const boxesSelector = (page) =>
-    Object.values(allBoxes).filter((ele) => ele.page === page);
 
   return (
     <div className="pdf-document-container">
@@ -30,8 +28,8 @@ const PDF = ({ doc, allBoxes, setBoxes }) => {
             key={`page_${index + 1}`}
             className="droppable-container"
             thisPage={index + 1}
-            boxes={boxesSelector(index + 1)}
-            setBoxes={setBoxes}
+            contentFields={contentFields}
+            cfActions={cfActions}
           >
             <div
               id={`page_${index + 1}`}
@@ -53,8 +51,11 @@ PDF.propTypes = {
     ...DocPropTypeShape,
     fileUrl: PropTypes.string,
   }).isRequired,
-  allBoxes: PropTypes.object,
-  setBoxes: PropTypes.func.isRequired,
+  contentFields: PropTypes.arrayOf(ContentFieldPropTypeShape).isRequired,
+  cfActions: PropTypes.shape({
+    receiveContentField: PropTypes.func,
+    removeContentField: PropTypes.func,
+  }).isRequired,
 };
 
 export default PDF;

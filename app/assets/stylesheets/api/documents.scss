@@ -374,7 +374,7 @@
 
     & .droppable-container {
       position: relative;
-      
+
       & .droppable-item {
         position: absolute;
         border: 1px dashed gray;
@@ -382,6 +382,13 @@
         padding: 0.5rem 1rem;
         z-index: 2;
         cursor: move;
+
+        & button.close {
+          float: right;
+          display: block;
+          padding: 2px;
+          margin: 0;
+        }
       }
     }
     & .pdf-document-container {

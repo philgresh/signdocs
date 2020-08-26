@@ -1,31 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PDF from './PDF';
-import { DocPropTypeShape } from '../../propTypes';
+import { DocPropTypeShape, ContentFieldPropTypeShape } from '../../propTypes';
 
-const PDFContainer = ({ doc }) => {
-  const [allBoxes, setBoxes] = useState({
-    a: {
-      id: 'a',
-      bbox: {
-        top: 20,
-        left: 80,
-        width: 100,
-        height: 30,
-      },
-      top: 20,
-      left: 80,
-      title: 'Drag me around',
-      page: 1,
-      docId: '6eaed6a4-6281-4374-9ae7-0bbf7e17de19',
-      contentableId: '432',
-      contentableType: 'signatureBlock',
-      assignee: '444',
-    },
-  });
+const PDFContainer = ({
+  doc,
+  contentFields,
+  receiveContentField,
+  removeContentField,
+}) => {
+  const cfActions = { receiveContentField, removeContentField };
 
-  return <PDF doc={doc} allBoxes={allBoxes} setBoxes={setBoxes} />;
+  return <PDF doc={doc} contentFields={contentFields} cfActions={cfActions} />;
 };
 
 PDFContainer.propTypes = {
@@ -33,6 +20,9 @@ PDFContainer.propTypes = {
     ...DocPropTypeShape,
     fileUrl: PropTypes.string.isRequired,
   }).isRequired,
+  contentFields: PropTypes.arrayOf(ContentFieldPropTypeShape).isRequired,
+  receiveContentField: PropTypes.func.isRequired,
+  removeContentField: PropTypes.func.isRequired,
 };
 
 export default PDFContainer;

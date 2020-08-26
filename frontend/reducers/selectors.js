@@ -1,6 +1,10 @@
 import lodashGet from 'lodash/get';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
+import { create } from 'lodash';
+
+// ContentFields
+export const getAllContentFields = (state) => state.entities.contentFields;
 
 // Documents
 export const getAllDocuments = (state) => state.entities.documents;
@@ -70,3 +74,16 @@ export const getCurrentUserSig = () =>
     const { sigId } = currUser;
     return sigs[sigId];
   });
+
+export const getArrayOfContentFieldsByDocId = (docId) =>
+  createSelector(
+    [getAllContentFields, getAllDocuments],
+    (contentFields, docs) => {
+      const doc = docs[docId];
+      if (!doc) return [];
+      const { contentFieldIds } = doc;
+      // TODO!!!!
+      // const contentFieldIds = ['a'];
+      return contentFieldIds.map((id) => contentFields[id]);
+    },
+  );

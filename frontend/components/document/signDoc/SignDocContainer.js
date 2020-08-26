@@ -9,11 +9,20 @@ import PDFContainer from './PDFContainer';
 import FieldSideBar from './FieldSideBar';
 import { fetchDocument } from '../../../actions/document';
 import {
+  receiveContentField as receiveCF,
+  removeContentField as removeCF,
+} from '../../../actions/contentFields';
+import {
   getDocumentById,
   getAssociatedUsers,
   getCurrentUser,
+  getArrayOfContentFieldsByDocId,
 } from '../../../reducers/selectors';
-import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
+import {
+  DocPropTypeShape,
+  UserPropTypeShape,
+  ContentFieldPropTypeShape,
+} from '../../propTypes';
 
 class SignDocContainer extends Component {
   componentDidMount() {
@@ -31,6 +40,9 @@ class SignDocContainer extends Component {
       doc,
       associatedUsers: { editors, owner },
       currentUser,
+      contentFields,
+      receiveContentField,
+      removeContentField,
     } = this.props;
     const newDoc = {
       ...doc,
@@ -43,7 +55,13 @@ class SignDocContainer extends Component {
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
             <FieldSideBar />
-            <PDFContainer doc={newDoc} currentUser={currentUser} />
+            <PDFContainer
+              doc={newDoc}
+              currentUser={currentUser}
+              contentFields={contentFields}
+              receiveContentField={receiveContentField}
+              removeContentField={removeContentField}
+            />
           </DndProvider>
         </div>
       </div>
@@ -59,6 +77,9 @@ SignDocContainer.propTypes = {
   }).isRequired,
   fetchDocument: PropTypes.func.isRequired,
   currentUser: UserPropTypeShape.isRequired,
+  contentFields: PropTypes.arrayOf(ContentFieldPropTypeShape).isRequired,
+  receiveContentField: PropTypes.func.isRequired,
+  removeContentField: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -67,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
     doc: getDocumentById(docId)(state),
     associatedUsers: getAssociatedUsers(docId)(state),
     currentUser: getCurrentUser(state),
+    contentFields: getArrayOfContentFieldsByDocId(docId)(state),
   };
 };
 
@@ -74,6 +96,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const { docId } = ownProps.match.params;
   return {
     fetchDocument: () => dispatch(fetchDocument(docId)),
+    receiveContentField: (contentField) => dispatch(receiveCF(contentField)),
+    removeContentField: (contentFieldId) => dispatch(removeCF(contentFieldId)),
   };
 };
 

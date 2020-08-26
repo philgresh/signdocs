@@ -28,3 +28,16 @@ export const SigPropTypeShape = PropTypes.shape({
     color: PropTypes.string,
   }),
 });
+
+export const ContentFieldPropTypeShape = PropTypes.shape({
+  docId: PropTypes.string,
+  contentableId: PropTypes.string,
+  contentableType: PropTypes.string,
+  assigneeId: PropTypes.string,
+  bbox: PropTypes.shape({
+    x: PropTypes.number,
+    y: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
+});

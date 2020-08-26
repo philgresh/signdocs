@@ -20,8 +20,9 @@
 #  index_content_fields_on_document_id                          (document_id)
 #
 class ContentField < ApplicationRecord
-  validates_presence_of :contentable_id, :contentable_type, :assignee_id, :bbox
-  belongs_to :contentable, polymorphic: true
+  # validates_presence_of :contentable_id, :contentable_type, :assignee_id, :bbox
+  # belongs_to :contentable, polymorphic: true
+  validates_presence_of :assignee_id, :bbox
   belongs_to :document
   belongs_to :assignee,
              class_name: :User
