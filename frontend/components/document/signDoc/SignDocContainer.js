@@ -44,7 +44,6 @@ class SignDocContainer extends Component {
       <div>
         <DndProvider backend={HTML5Backend}>
           <FieldSideBar />
-          <CustomDragLayer snapToGrid={false} />
           <Container>
             {newDoc && <PDF doc={newDoc} currentUser={currentUser} />}
           </Container>

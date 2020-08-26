@@ -13,10 +13,16 @@ const FieldSideBar = () => {
       <h2>Fields</h2>
       <hr />
 
-      <Box name="Glass" type={ItemTypes.BOX} />
-      <Box name="Banana" type={ItemTypes.BOX} />
-      <Box name="Signature" type={ItemTypes.BOX}>
-        Signature Child
+      <Box
+        name="Signature"
+        title="SignatureTitle"
+        type={ItemTypes.BOX}
+        id="321312412"
+        left={0}
+        top={0}
+        hideSourceOnDrag
+      >
+        Signature
       </Box>
     </div>
   );

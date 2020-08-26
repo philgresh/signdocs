@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
@@ -29,10 +30,19 @@ export const Container = () => {
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop(item, monitor) {
-      const delta = monitor.getDifferenceFromInitialOffset();
-      const left = Math.round(item.left + delta.x);
-      const top = Math.round(item.top + delta.y);
-      moveBox(item.id, left, top);
+      if (item.id in boxes) {
+        const delta = monitor.getDifferenceFromInitialOffset();
+        const left = Math.round(item.left + delta.x);
+        const top = Math.round(item.top + delta.y);
+        moveBox(item.id, left, top);
+      } else {
+        setBoxes({
+          ...boxes,
+          [item.id]: {
+            ...item,
+          },
+        });
+      }
       return undefined;
     },
   });
