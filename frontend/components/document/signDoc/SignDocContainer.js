@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import PDF from './PDF';
+import PDFContainer from './PDFContainer';
 import FieldSideBar from './FieldSideBar';
 import { fetchDocument } from '../../../actions/document';
 import {
@@ -43,7 +43,7 @@ class SignDocContainer extends Component {
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
             <FieldSideBar />
-            {newDoc && <PDF doc={newDoc} currentUser={currentUser} />}
+            <PDFContainer doc={newDoc} currentUser={currentUser} />
           </DndProvider>
         </div>
       </div>

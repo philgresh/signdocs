@@ -373,6 +373,8 @@
     }
 
     & .droppable-container {
+      position: relative;
+      
       & .droppable-item {
         position: absolute;
         border: 1px dashed gray;

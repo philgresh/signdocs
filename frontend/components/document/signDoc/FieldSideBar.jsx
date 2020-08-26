@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from './dnd/ItemTypes';
-import { Box } from './dnd/Box';
 
 const FieldSideBar = () => {
-  const [collectedProps, drag] = useDrag({
+  const [, drag] = useDrag({
     item: {
       id: '321312412',
       name: 'Signature',
@@ -24,7 +23,9 @@ const FieldSideBar = () => {
       <h2>Fields</h2>
       <hr />
 
-      <div ref={drag}>Signature</div>
+      <div ref={drag} className="droppable">
+        Signature
+      </div>
     </div>
   );
 };
