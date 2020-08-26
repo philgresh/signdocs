@@ -5,26 +5,26 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import PDFContainer from './PDFContainer';
-import FieldSideBar from './FieldSideBar';
+import PDF from './PDF';
+import Assignees from './Assignees';
+import Fields from './Fields';
 import { fetchDocument } from '../../../actions/document';
 import {
-  receiveContentField as receiveCF,
-  removeContentField as removeCF,
-} from '../../../actions/contentFields';
-import {
   getDocumentById,
-  getAssociatedUsers,
+  getAssignees,
   getCurrentUser,
-  getArrayOfContentFieldsByDocId,
 } from '../../../reducers/selectors';
-import {
-  DocPropTypeShape,
-  UserPropTypeShape,
-  ContentFieldPropTypeShape,
-} from '../../propTypes';
+import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 
 class SignDocContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currAssignee: null,
+    };
+    this.onChangeAssignee = this.onChangeAssignee.bind(this);
+  }
+
   componentDidMount() {
     const { fetchDocument: fetchDoc, doc } = this.props;
     fetchDoc();
@@ -33,35 +33,31 @@ class SignDocContainer extends Component {
     }
   }
 
+  onChangeAssignee(assigneeId) {
+    this.setState({
+      currAssignee: assigneeId,
+    });
+  }
+
   render() {
     if (!this.props.doc || Object.keys(this.props.doc).length === 0)
       return <div />;
-    const {
-      doc,
-      associatedUsers: { editors, owner },
-      currentUser,
-      contentFields,
-      receiveContentField,
-      removeContentField,
-    } = this.props;
-    const newDoc = {
-      ...doc,
-      editors,
-      owner,
-      isOwner: owner.id === currentUser.id,
-    };
+
+    const { currAssignee } = this.state;
+    const { doc, assignees } = this.props;
     return (
       <div className="sign-doc-container">
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
-            <FieldSideBar />
-            <PDFContainer
-              doc={newDoc}
-              currentUser={currentUser}
-              contentFields={contentFields}
-              receiveContentField={receiveContentField}
-              removeContentField={removeContentField}
-            />
+            <div className="side-bar">
+              <Assignees
+                currAssignee={currAssignee}
+                assignees={assignees}
+                onChangeAssignee={this.onChangeAssignee}
+              />
+              <Fields currAssignee={currAssignee} />
+            </div>
+            {doc && <PDF doc={doc} />}
           </DndProvider>
         </div>
       </div>
@@ -71,24 +67,17 @@ class SignDocContainer extends Component {
 
 SignDocContainer.propTypes = {
   doc: DocPropTypeShape.isRequired,
-  associatedUsers: PropTypes.shape({
-    editors: PropTypes.arrayOf(UserPropTypeShape),
-    owner: UserPropTypeShape,
-  }).isRequired,
   fetchDocument: PropTypes.func.isRequired,
   currentUser: UserPropTypeShape.isRequired,
-  contentFields: PropTypes.arrayOf(ContentFieldPropTypeShape).isRequired,
-  receiveContentField: PropTypes.func.isRequired,
-  removeContentField: PropTypes.func.isRequired,
+  assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { docId } = ownProps.match.params;
   return {
     doc: getDocumentById(docId)(state),
-    associatedUsers: getAssociatedUsers(docId)(state),
     currentUser: getCurrentUser(state),
-    contentFields: getArrayOfContentFieldsByDocId(docId)(state),
+    assignees: getAssignees(docId)(state),
   };
 };
 
@@ -96,8 +85,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const { docId } = ownProps.match.params;
   return {
     fetchDocument: () => dispatch(fetchDocument(docId)),
-    receiveContentField: (contentField) => dispatch(receiveCF(contentField)),
-    removeContentField: (contentFieldId) => dispatch(removeCF(contentFieldId)),
   };
 };
 

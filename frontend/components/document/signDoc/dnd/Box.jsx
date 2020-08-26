@@ -2,11 +2,16 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { ItemTypes } from './ItemTypes';
+import { removeContentField } from '../../../../actions/contentFields';
+import ItemTypes from './ItemTypes';
 
-const Box = ({ cfData, children, removeContentField }) => {
-  const onDelete = () => removeContentField(cfData.id);
+const Box = ({ cfData, children }) => {
+  const dispatch = useDispatch();
+
+  const onRemove = () => dispatch(removeContentField(cfData.id));
+
   const {
     bbox: { x, y, width, height },
     hideSourceOnDrag = false,
@@ -28,7 +33,7 @@ const Box = ({ cfData, children, removeContentField }) => {
       className="droppable-item"
       style={{ left: x, top: y, width, height }}
     >
-      <button className="close flat" type="button" onClick={onDelete}>
+      <button className="close flat" type="button" onClick={onRemove}>
         &times;
       </button>
       {children}

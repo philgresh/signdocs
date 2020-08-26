@@ -1,4 +1,6 @@
-export const ItemTypes = {
+const ItemTypes = {
   BOX: 'box',
   SIG: 'sig',
 };
+
+export default ItemTypes;

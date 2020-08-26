@@ -1,7 +1,6 @@
 import lodashGet from 'lodash/get';
 import memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
-import { create } from 'lodash';
 
 // ContentFields
 export const getAllContentFields = (state) => state.entities.contentFields;
@@ -56,6 +55,13 @@ export const getAssociatedUsers = memoize((docId) =>
     return associatedUsers;
   }),
 );
+
+export const getAssignees = (docId) =>
+  createSelector([getAllDocuments], (docs) => {
+    const doc = docs[docId];
+    if (!doc) return [];
+    return [...doc.editorIds, doc.ownerId];
+  });
 
 export const getSignatureById = (sigId) =>
   createSelector([getAllSignatures], (sigs) => {

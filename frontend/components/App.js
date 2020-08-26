@@ -7,7 +7,7 @@ import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
 import ProfileContainer from './profile/ProfileContainer';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
-import SignDocContainer from './document/signDoc';
+import PrepareDocContainer, {PrepareDocContainerHooks} from './document/signDoc';
 import Footer from './footer';
 import FourOhFour from './_404/FourOhFour';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
@@ -38,8 +38,8 @@ const App = () => {
                 component={EditDocContainer}
               />
               <ProtectedRoute
-                path="/documents/:docId/sign"
-                component={SignDocContainer}
+                path="/documents/:docId/prepare"
+                component={PrepareDocContainer}
               />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
               <Route exact path="/" component={Home} />

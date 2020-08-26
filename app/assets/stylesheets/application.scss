@@ -132,8 +132,9 @@ label {
   }
 }
 
-input,
-textarea {
+
+textarea,
+input:not([type='radio']) {
   height: 2rem;
   width: 100%;
   border-radius: 3px;

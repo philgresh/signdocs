@@ -1,3 +1,6 @@
-import SignDocContainer from './SignDocContainer';
+import PrepareDocContainer from './PrepareDocContainer';
+import PrepareDocContainerHooks from './PrepareDocContainerHooks';
 
-export default SignDocContainer;
+export default PrepareDocContainer;
+
+export { PrepareDocContainerHooks };

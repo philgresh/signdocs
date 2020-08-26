@@ -6,21 +6,21 @@ import {
 } from '../actions/contentFields';
 
 const initialState = {
-  a: {
-    id: 'a',
-    bbox: {
-      top: 20,
-      left: 80,
-      width: 100,
-      height: 30,
-      page: 1,
-    },
-    title: 'Drag me around',
-    docId: '6eaed6a4-6281-4374-9ae7-0bbf7e17de19',
-    contentableId: '432',
-    contentableType: 'signatureBlock',
-    assignee: '444',
-  },
+  // a: {
+  //   id: 'a',
+  //   bbox: {
+  //     top: 20,
+  //     left: 80,
+  //     width: 100,
+  //     height: 30,
+  //     page: 1,
+  //   },
+  //   title: 'Drag me around',
+  //   docId: '6eaed6a4-6281-4374-9ae7-0bbf7e17de19',
+  //   contentableId: '432',
+  //   contentableType: 'signatureBlock',
+  //   assignee: '444',
+  // },
 };
 
 const contentFieldsReducer = (state = initialState, { type, payload }) => {

@@ -7,6 +7,6 @@ export const receiveContentField = (contentField) => ({
 });
 
 export const removeContentField = (contentFieldId) => ({
-  type: RECEIVE_CONTENT_FIELD,
+  type: REMOVE_CONTENT_FIELD,
   payload: contentFieldId,
 });

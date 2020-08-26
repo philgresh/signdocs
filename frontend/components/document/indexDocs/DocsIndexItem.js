@@ -47,7 +47,7 @@ const DocsIndexItem = ({ doc, currentUser }) => {
   const status = doc.status || 'Need to sign';
   let statusLink = status;
   if (status === 'Need to sign') {
-    statusLink = <Link to={`/documents/${docId}/sign`}>{status}</Link>;
+    statusLink = <Link to={`/documents/${docId}/prepare`}>{status}</Link>;
   }
 
   return (
