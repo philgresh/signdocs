@@ -5,29 +5,18 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import PDF from './PDF';
-import Assignees from './Assignees';
-import Fields from './Fields';
+import Assignees from '../shared/Assignees';
+import SignPDF from './SignPDF';
+import { DocPropTypeShape } from '../../propTypes';
+
 import { fetchDocument } from '../../../actions/document';
 import {
   getDocumentById,
   getAssignees,
   getCurrentUser,
 } from '../../../reducers/selectors';
-import {
-  DocPropTypeShape,
-  // UserPropTypeShape
-} from '../../propTypes';
 
 class SignDocContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currAssignee: null,
-    };
-    this.onChangeAssignee = this.onChangeAssignee.bind(this);
-  }
-
   componentDidMount() {
     const { fetchDocument: fetchDoc, doc } = this.props;
     fetchDoc();
@@ -36,17 +25,10 @@ class SignDocContainer extends Component {
     }
   }
 
-  onChangeAssignee(assigneeId) {
-    this.setState({
-      currAssignee: assigneeId,
-    });
-  }
-
   render() {
     if (!this.props.doc || Object.keys(this.props.doc).length === 0)
       return <div />;
 
-    const { currAssignee } = this.state;
     const { doc, assignees } = this.props;
     return (
       <div className="sign-doc-container">
@@ -54,13 +36,11 @@ class SignDocContainer extends Component {
           <DndProvider backend={HTML5Backend}>
             <div className="side-bar">
               <Assignees
-                currAssignee={currAssignee}
                 assignees={assignees}
                 onChangeAssignee={this.onChangeAssignee}
               />
-              <Fields currAssignee={currAssignee} />
             </div>
-            {doc && <PDF doc={doc} />}
+            {doc && doc.fileUrl && <SignPDF doc={doc} assignees={assignees} />}
           </DndProvider>
         </div>
       </div>

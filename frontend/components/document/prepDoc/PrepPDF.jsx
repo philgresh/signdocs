@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Document, Page, pdfjs } from 'react-pdf';
-import DroppableContainer from './dnd/DroppableContainer';
+import DroppableContainer from './DroppableContainer';
 import { DocPropTypeShape } from '../../propTypes';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -22,22 +22,22 @@ const PDF = ({ doc }) => {
   return (
     <div className="pdf-document-container">
       <Document file={doc.fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
-        {Array.from(new Array(numPages), (_el, index) => (
-          <DroppableContainer
-            key={`page_${index + 1}`}
-            className="droppable-container"
-            thisPage={index + 1}
-            context="PREPARE"
-          >
-            <div
-              id={`page_${index + 1}`}
-              className="page-wrapper"
-              data-page={index + 1}
+        {docLoadSuccess &&
+          Array.from(new Array(numPages), (_el, index) => (
+            <DroppableContainer
+              key={`page_${index + 1}`}
+              className="droppable-container"
+              thisPage={index + 1}
             >
-              <Page pageNumber={index + 1} />
-            </div>
-          </DroppableContainer>
-        ))}
+              <div
+                id={`page_${index + 1}`}
+                className="page-wrapper"
+                data-page={index + 1}
+              >
+                <Page pageNumber={index + 1} />
+              </div>
+            </DroppableContainer>
+          ))}
       </Document>
       {!docLoadSuccess && <div className="react-pdf__Document card" />}
     </div>

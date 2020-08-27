@@ -51,7 +51,6 @@ const FieldItem = (props) => {
 };
 
 FieldItem.propTypes = {
-  currAssignee: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.array,

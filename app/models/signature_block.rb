@@ -38,6 +38,10 @@ class SignatureBlock < ApplicationRecord
   has_one :content_fields, as: :contentable
   has_one_attached :sig_image
 
+  def block_type
+    "SIGNATURE"
+  end
+
   def gen_new_pub_key
     @kms ||= kms
     response = @kms.create_key({

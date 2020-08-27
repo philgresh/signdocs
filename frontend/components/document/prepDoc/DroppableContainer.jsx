@@ -5,26 +5,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDrop } from 'react-dnd';
-import find from 'lodash/find';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ItemTypes from '../ItemTypes';
-import ContentField from './PrepareContentField';
+import { ItemTypes, DraggableBox } from '../shared';
 import {
   createContentField,
   updateContentField,
-} from '../../../../actions/contentFields';
+} from '../../../actions/contentFields';
 
-const DroppableContainer = ({
-  children,
-  className,
-  thisPage,
-  context = 'PREPARE',
-}) => {
-  let acceptableTypes = [];
-  if (context === 'PREPARE') {
-    acceptableTypes = [ItemTypes.UNFILLED_SIGNATURE, ItemTypes.UNFILLED_TEXT];
-  }
+const DroppableContainer = ({ children, className, thisPage }) => {
+  const acceptableTypes = [
+    ItemTypes.UNFILLED_SIGNATURE,
+    ItemTypes.UNFILLED_TEXT,
+  ];
   const { docId } = useParams();
   const dispatch = useDispatch();
   const createCF = (cfData) => dispatch(createContentField(cfData));
@@ -79,7 +72,7 @@ const DroppableContainer = ({
       {contentFields.map((cf) => {
         return (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <ContentField key={cf.id} cfData={cf} hideSourceOnDrag />
+          <DraggableBox key={cf.id} cfData={cf} hideSourceOnDrag />
         );
       })}
       {children}
@@ -95,7 +88,6 @@ DroppableContainer.propTypes = {
   ]).isRequired,
   className: PropTypes.string.isRequired,
   thisPage: PropTypes.number.isRequired,
-  context: PropTypes.oneOf(['PREPARE', 'SIGN']).isRequired,
 };
 
 export default DroppableContainer;

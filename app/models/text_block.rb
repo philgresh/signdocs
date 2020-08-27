@@ -18,4 +18,7 @@ class TextBlock < ApplicationRecord
   validates_presence_of :body, :type, :user_id
   has_one :content_fields, as: :contentable
 
+  def block_type
+    "TEXT"
+  end
 end

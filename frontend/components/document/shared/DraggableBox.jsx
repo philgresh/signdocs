@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-// import clsx from 'clsx';
-import { getUserDetails } from '../../../../reducers/selectors';
-import { deleteContentField } from '../../../../actions/contentFields';
-import ItemTypes from '../ItemTypes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignature } from '@fortawesome/free-solid-svg-icons';
+import { getUserDetails } from '../../../reducers/selectors';
+import { deleteContentField } from '../../../actions/contentFields';
+import ItemTypes from './ItemTypes';
 
-const ContentField = ({ cfData }) => {
+const DraggableBox = ({ cfData }) => {
   const dispatch = useDispatch();
   const {
     type,
-    bbox: { x, y, width, height },
+    bbox: { x, y, widthPct, aspectRatio },
     hideSourceOnDrag = false,
     assigneeId,
     placeholder,
@@ -35,7 +34,12 @@ const ContentField = ({ cfData }) => {
   let component = null;
   switch (type) {
     case ItemTypes.UNFILLED_SIGNATURE: {
-      component = <div className="signature-box">{assigneeName}</div>;
+      component = (
+        <div className="signature-box">
+          <FontAwesomeIcon icon={faSignature} color="inherit" />
+          {assigneeName}
+        </div>
+      );
       break;
     }
     case ItemTypes.UNFILLED_TEXT: {
@@ -49,10 +53,10 @@ const ContentField = ({ cfData }) => {
   return (
     <div
       ref={drag}
-      className="draggable-item"
+      className="content-field draggable-item"
       style={{ left: x, top: y, width, height }}
     >
-      <div className="draggable-info">
+      <div className="content-field-description">
         <button className="close flat" type="button" onClick={onRemove}>
           &times;
         </button>
@@ -62,25 +66,4 @@ const ContentField = ({ cfData }) => {
   );
 };
 
-// ContentField.propTypes = {
-//   id: PropTypes.string.isRequired,
-//   children: PropTypes.oneOfType([
-//     PropTypes.func,
-//     PropTypes.array,
-//     PropTypes.element,
-//   ]),
-//   left: PropTypes.number,
-//   top: PropTypes.number,
-//   page: PropTypes.number,
-//   hideSourceOnDrag: PropTypes.bool,
-// };
-
-// ContentField.defaultProps = {
-//   left: 0,
-//   top: 0,
-//   page: 1,
-//   hideSourceOnDrag: true,
-//   children: null,
-// };
-
-export default ContentField;
+export default DraggableBox;

@@ -1,3 +1,3 @@
-import PrepareDocContainer from './PrepareDocContainer';
+import SignDocContainer from './SignDocContainer';
 
-export default PrepareDocContainer;
+export default SignDocContainer;

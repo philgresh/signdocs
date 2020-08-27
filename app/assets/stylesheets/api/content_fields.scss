@@ -2,25 +2,28 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.draggable-item {
+.content-field {
   background-color: var(--background-white);
   position: absolute;
-  border: 1px dashed gray;
+  border: 1px dashed var(--light-gray);
   border-radius: 4px;
   box-sizing: border-box;
   // padding: 0.5rem 1rem;
   z-index: 2;
-  cursor: move;
 
-  & .draggable-info {
-    & button.close.flat {
-      float: right;
-      display: block;
-      padding: 2px;
-      margin: 0;
-      background-color: transparent;
-    }
+  .draggable-item {
+    cursor: move;
   }
+
+    & .content-field-description {
+      & button.close.flat {
+        float: right;
+        display: block;
+        padding: 2px;
+        margin: 0;
+        background-color: transparent;
+      }
+    }
 }
 
 .signature-box {
@@ -32,11 +35,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
 
-  &::before {
-    content: 'X\00a0\00a0';
-    display: inline;
-    color: #fd6f6f;
-  }
 }
 
 .textbox-box {
@@ -45,5 +43,4 @@
   color: rgb(111, 111, 138);
   text-overflow: ellipsis;
   overflow: hidden;
-
 }

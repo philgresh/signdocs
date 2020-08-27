@@ -27,18 +27,34 @@ class Api::ContentFieldsController < ApplicationController
   end
 
   def update
+    @cf = ContentField.find(params[:id])
     filled, block_type = parse_type_params
     if filled === "UNFILLED"
-      @cf = ContentField.find(params[:id])
       @cf.update_attributes(:bbox => params[:content_field][:bbox])
     else
-      # Attach existing signature/text block to this content field
+      # User is "undoing" an action (e.g. removing a signature)
     end
 
     if @cf.save
       render :show
     else
       render json: @cf.errors.messages, status: :bad_request
+    end
+  end
+
+  def sign
+    @cf = ContentField.find(params[:id])
+    filled, block_type = parse_type_params
+    if block_type == "SIGNATURE"
+      sig = User.find(@cf.assignee_id).signature
+      if sig 
+        @cf.contentable.destroy
+        @cf.contentable = sig
+        @cf.save
+        render :show
+      else
+        render json: {contentFields: ["Assignee is not valid or does not have a valid signature"]}, status: :bad_request
+      end
     end
   end
 
