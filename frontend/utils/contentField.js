@@ -1,12 +1,13 @@
 const translateJStoRuby = (cfData) => {
-  const { docId, bbox, type, assigneeId } = cfData;
-  return {
+  const newCF = {
     ...cfData,
-    type,
-    bbox,
-    assignee_id: assigneeId,
-    document_id: docId,
+    assignee_id: cfData.assigneeId,
+    document_id: cfData.docId,
   };
+
+  delete newCF.children;
+  delete newCF.id;
+  return newCF;
 };
 
 export const createContentField = (cfData) => {

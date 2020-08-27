@@ -2,10 +2,11 @@
 #
 # Table name: sentinel_blocks
 #
-#  id         :uuid             not null, primary key
-#  block_type :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :uuid             not null, primary key
+#  block_type  :string           not null
+#  placeholder :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 require 'rails_helper'
 

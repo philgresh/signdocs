@@ -7,7 +7,8 @@ class Api::ContentFieldsController < ApplicationController
   def create
     filled, block_type = parse_type_params
     if filled === "UNFILLED"
-      sentinel = SentinelBlock.new(block_type: block_type)
+      placeholder = block_type == 'TEXT' ? params[:content_field][:placeholder] : nil
+      sentinel = SentinelBlock.new(block_type: block_type, placeholder: placeholder)
       @cf = ContentField.new(
         bbox: params[:content_field][:bbox],
         assignee_id: params[:content_field][:assignee_id],

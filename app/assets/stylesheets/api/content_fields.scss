@@ -1,3 +1,49 @@
 // Place all the styles related to the Api/ContentFields controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.draggable-item {
+  background-color: var(--background-white);
+  position: absolute;
+  border: 1px dashed gray;
+  border-radius: 4px;
+  box-sizing: border-box;
+  // padding: 0.5rem 1rem;
+  z-index: 2;
+  cursor: move;
+
+  & .draggable-info {
+    & button.close.flat {
+      float: right;
+      display: block;
+      padding: 2px;
+      margin: 0;
+      background-color: transparent;
+    }
+  }
+}
+
+.signature-box {
+  width: 100%;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px dashed #fd6f6f;
+  font-size: 80%;
+  color: rgb(111, 111, 138);
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  &::before {
+    content: 'X\00a0\00a0';
+    display: inline;
+    color: #fd6f6f;
+  }
+}
+
+.textbox-box {
+  width: 100%;
+  font-size: 80%;
+  color: rgb(111, 111, 138);
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+}

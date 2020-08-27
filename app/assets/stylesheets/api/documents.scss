@@ -376,11 +376,20 @@
 
       & ul {
         list-style: none;
+        padding-left: 0;
 
         & li.draggable {
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 0rem;
+          margin: 0.25rem;
+          border-radius: 5px;
+          border: 1px solid var(--light-gray);
           z-index: inherit;
           cursor: move;
+
+          & p,
+          & pre {
+            margin: 0;
+          }
 
           &.disabled-drag {
             cursor: not-allowed;
@@ -457,4 +466,3 @@
     }
   }
 }
-

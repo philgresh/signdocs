@@ -9,7 +9,7 @@ import find from 'lodash/find';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ItemTypes from '../ItemTypes';
-import Box from './Box';
+import ContentField from './PrepareContentField';
 import {
   createContentField,
   updateContentField,
@@ -31,12 +31,10 @@ const DroppableContainer = ({
   const updateCF = (cfData) => dispatch(updateContentField(cfData));
 
   // TODO: Fix this trash
-  const contentFields = useSelector((state) => {
-    const allCFs = state.entities.contentFields;
-    return Object.values(allCFs).filter(
-      (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
-    );
-  });
+  const allCFs = useSelector((state) => state.entities.contentFields);
+  const contentFields = Object.values(allCFs).filter(
+    (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
+  );
 
   const addCF = (cfData, x, y) => {
     createCF({
@@ -67,8 +65,7 @@ const DroppableContainer = ({
       const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
       const x = Math.max(0, Math.round(item.bbox.x + delta.x));
       const y = Math.max(0, Math.round(item.bbox.y + delta.y));
-
-      if (find(contentFields, (ele) => ele.id === item.id)) {
+      if (allCFs[item.id]) {
         moveCF(item, x, y);
       } else {
         addCF(item, x, y);
@@ -82,12 +79,7 @@ const DroppableContainer = ({
       {contentFields.map((cf) => {
         return (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <Box key={cf.id} cfData={cf} hideSourceOnDrag>
-            <p>
-              {/* {title} */}
-              Title
-            </p>
-          </Box>
+          <ContentField key={cf.id} cfData={cf} hideSourceOnDrag />
         );
       })}
       {children}

@@ -2,21 +2,25 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+// import clsx from 'clsx';
+import { getUserDetails } from '../../../../reducers/selectors';
 import { deleteContentField } from '../../../../actions/contentFields';
 import ItemTypes from '../ItemTypes';
 
-const Box = ({ cfData, children }) => {
+const ContentField = ({ cfData }) => {
   const dispatch = useDispatch();
-
-  const onRemove = () => dispatch(deleteContentField(cfData.id));
-
   const {
+    type,
     bbox: { x, y, width, height },
     hideSourceOnDrag = false,
-    type = ItemTypes.BOX,
+    assigneeId,
+    placeholder,
   } = cfData;
+  const onRemove = () => dispatch(deleteContentField(cfData.id));
+  const assignee = useSelector(getUserDetails(assigneeId));
+  const assigneeName = `${assignee.firstName}\u00A0${assignee.lastName}`;
 
   const [{ isDragging }, drag] = useDrag({
     item: { ...cfData, type },
@@ -27,21 +31,38 @@ const Box = ({ cfData, children }) => {
   if (isDragging && hideSourceOnDrag) {
     return <div ref={drag} />;
   }
+
+  let component = null;
+  switch (type) {
+    case ItemTypes.UNFILLED_SIGNATURE: {
+      component = <div className="signature-box">{assigneeName}</div>;
+      break;
+    }
+    case ItemTypes.UNFILLED_TEXT: {
+      component = <div className="textbox-box">{placeholder}</div>;
+      break;
+    }
+    default:
+      break;
+  }
+
   return (
     <div
       ref={drag}
-      className="droppable-item"
+      className="draggable-item"
       style={{ left: x, top: y, width, height }}
     >
-      <button className="close flat" type="button" onClick={onRemove}>
-        &times;
-      </button>
-      {children}
+      <div className="draggable-info">
+        <button className="close flat" type="button" onClick={onRemove}>
+          &times;
+        </button>
+        {component}
+      </div>
     </div>
   );
 };
 
-// Box.propTypes = {
+// ContentField.propTypes = {
 //   id: PropTypes.string.isRequired,
 //   children: PropTypes.oneOfType([
 //     PropTypes.func,
@@ -54,7 +75,7 @@ const Box = ({ cfData, children }) => {
 //   hideSourceOnDrag: PropTypes.bool,
 // };
 
-// Box.defaultProps = {
+// ContentField.defaultProps = {
 //   left: 0,
 //   top: 0,
 //   page: 1,
@@ -62,4 +83,4 @@ const Box = ({ cfData, children }) => {
 //   children: null,
 // };
 
-export default Box;
+export default ContentField;
