@@ -5,22 +5,22 @@ import { UserPropTypeShape } from '../propTypes';
 import SignedInRightNavMenu from './SignedInRightNavMenu';
 
 const splashLinksLeft = [
-  {
-    to: '/products',
-    title: 'Products',
-  },
-  {
-    to: '/solutions',
-    title: 'Solutions',
-  },
-  {
-    to: '/devs',
-    title: 'Developers',
-  },
-  {
-    to: '/pricing',
-    title: 'Pricing',
-  },
+  // {
+  //   to: '/products',
+  //   title: 'Products',
+  // },
+  // {
+  //   to: '/solutions',
+  //   title: 'Solutions',
+  // },
+  // {
+  //   to: '/devs',
+  //   title: 'Developers',
+  // },
+  // {
+  //   to: '/pricing',
+  //   title: 'Pricing',
+  // },
 ];
 
 const signedInLinksLeft = [

@@ -25,7 +25,7 @@ class Home extends React.Component {
   render() {
     const { sig } = this.state;
     return (
-      <div className="home">
+      <div className="main-container home">
         <div className="top-background-gradient" />
         <div className="home-sig-link" role="presentation">
           {sig && sig.imageUrl && (

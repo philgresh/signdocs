@@ -149,7 +149,8 @@ textarea {
 }
 
 #content-wrap {
-  padding-bottom: var(--footer-padding); /* Footer height + space */
+  // padding-bottom: var(--footer-padding); /* Footer height + space */
+  padding-bottom: 1.5rem;
 }
 
 #footer {
@@ -160,6 +161,7 @@ textarea {
   border-top: 1px solid var(--lighter-gray);
   background-color: var(--lighter-gray);
   padding-top: 0.5rem;
+  box-sizing: border-box;
 }
 
 
@@ -247,4 +249,10 @@ li.no-pointer {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.main-container {
+  max-width: 80%;
+  display: block;
+  margin-left: 2rem;
 }

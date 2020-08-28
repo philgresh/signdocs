@@ -12,8 +12,9 @@ import {
 } from './profileComponents';
 import { SigPropTypeShape, UserPropTypeShape } from '../propTypes';
 
-const Profile = ({ sig: sigProps, user, updateSig, history }) => {
-  const [sig, setSig] = useState(sigProps);
+const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
+  const [updating, setUpdating] = useState(false);
+  const [sig] = useState(sigProps);
   const [changed, setChanged] = useState(false);
   const [tab, setTab] = useState('choice');
   const sigPadRef = createRef();
@@ -27,30 +28,29 @@ const Profile = ({ sig: sigProps, user, updateSig, history }) => {
   });
 
   const onUpdate = () => {
+    setUpdating(true);
+    const sigData = {
+      id: sig.id,
+    };
     switch (tab) {
       case 'choice': {
         const { selectedFont, color } = choiceState;
-        updateSig({
-          id: sig.id,
-          'signature[styling]': {
-            font_family: selectedFont,
-            fill_color: color,
-          },
-        }).then(() => history.go(0));
+        sigData['signature[styling]'] = {
+          font_family: selectedFont,
+          fill_color: color,
+        };
         break;
       }
       case 'draw': {
         const svgData = sigPadRef.current.toDataURL('image/svg+xml');
-        updateSig({
-          id: sig.id,
-          'signature[svg_data]': svgData,
-        }).then(() => history.go(0));
-        // }).then(({ signature }) => setSig(signature));
+        sigData['signature[svg_data]'] = svgData;
         break;
       }
       default:
         break;
     }
+    updateSig(sigData).then(() => fetchMe(user.id));
+    setUpdating(false);
   };
 
   const onTabClick = (name) => () => {
@@ -81,11 +81,7 @@ const Profile = ({ sig: sigProps, user, updateSig, history }) => {
           <SigPad sigPadRef={sigPadRef} setChanged={setChanged} />
         )}
       </div>
-      <Footer
-        changed={changed}
-        onUpdate={onUpdate}
-        // onCancel={onCancel}
-      />
+      <Footer changed={changed} onUpdate={onUpdate} updating={updating} />
     </div>
   );
 };
@@ -94,6 +90,7 @@ Profile.propTypes = {
   sig: SigPropTypeShape.isRequired,
   user: UserPropTypeShape.isRequired,
   updateSig: PropTypes.func.isRequired,
+  fetchMe: PropTypes.func.isRequired,
   history: PropTypes.shape({
     go: PropTypes.func,
   }).isRequired,

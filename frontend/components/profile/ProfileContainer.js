@@ -22,7 +22,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { user, sig, updateSig, history } = this.props;
+    const { user, sig, updateSig, history, fetchMe } = this.props;
     if (
       !user ||
       Object.keys(user).length === 0 ||
@@ -31,12 +31,13 @@ class ProfileContainer extends Component {
     )
       return <div />;
     return (
-      <div>
+      <div className="main-container">
         <Profile
           user={user}
           sig={sig}
           updateSig={updateSig}
           history={history}
+          fetchMe={fetchMe}
         />
       </div>
     );

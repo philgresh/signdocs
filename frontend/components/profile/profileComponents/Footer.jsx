@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Footer = ({ changed, onUpdate, onCancel }) => {
+const Footer = ({ changed, onUpdate, updating }) => {
+  const disabled = !changed || updating;
   return (
     <>
       <div className="footer">
@@ -12,12 +13,12 @@ const Footer = ({ changed, onUpdate, onCancel }) => {
         </p>
       </div>
       <div className="actions">
-        <button disabled={!changed} type="button" onClick={onUpdate}>
+        <button disabled={disabled} type="button" onClick={onUpdate}>
           Update
         </button>
-        <button className="cancel" type="button">
+        {/* <button className="cancel" type="button">
           Cancel
-        </button>
+        </button> */}
       </div>
     </>
   );
@@ -26,11 +27,7 @@ const Footer = ({ changed, onUpdate, onCancel }) => {
 Footer.propTypes = {
   changed: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onCancel: PropTypes.func,
-};
-
-Footer.defaultProps = {
-  onCancel: () => {},
+  updating: PropTypes.bool.isRequired,
 };
 
 export default Footer;
