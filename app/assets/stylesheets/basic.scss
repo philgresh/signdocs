@@ -1,4 +1,3 @@
-
 :root {
   --default-font-family: 'Roboto';
   --header-font-family: 'Titillium Web';
@@ -133,7 +132,6 @@ textarea {
   resize: vertical;
 }
 
-
 // footer {
 //   background: #ffab62;
 //   width: 100%;
@@ -153,6 +151,14 @@ textarea {
   padding-bottom: 1.5rem;
 }
 
+main {
+  // position: absolute;
+  // width: 100%;
+  // top: 80px;
+  // left: 0;
+  padding-top: 80px;
+}
+
 #footer {
   position: absolute;
   bottom: 0;
@@ -163,7 +169,6 @@ textarea {
   padding-top: 0.5rem;
   box-sizing: border-box;
 }
-
 
 form {
   display: flex;

@@ -1,5 +1,5 @@
 nav {
-  // position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -7,9 +7,12 @@ nav {
   justify-content: space-between;
   align-content: baseline;
   padding: 0 2rem;
-  width: calc(100% - 4rem);
-  z-index: 3;
+  // width: calc(100% - 4rem);
+  // z-index: 3;
   background: var(--background-white);
+  z-index: 9999;
+  width: 100%;
+  box-sizing: border-box;
 
   & h1 {
     & a,
