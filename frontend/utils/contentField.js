@@ -29,6 +29,7 @@ export const convertBBOXtoPixels = (bbox, thisPage) => {
   const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
   const thisPageHeight = getHeightOfCurrentPage(thisPage) || 842;
   return {
+    ...bbox,
     left: leftPxls(bbox.x, thisPageWidth),
     top: topPxls(bbox.y, thisPageHeight),
     width: widthPxls(bbox.widthPct, thisPageWidth),
@@ -54,6 +55,7 @@ export const convertPixelsToBBOX = (bboxPxls, thisPage) => {
   const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
   const thisPageHeight = getHeightOfCurrentPage(thisPage) || 842;
   return {
+    ...bboxPxls,
     x: x(bboxPxls.left, thisPageWidth),
     y: y(bboxPxls.top, thisPageHeight),
     widthPct: widthPct(bboxPxls.width, thisPageWidth),

@@ -12,7 +12,11 @@ import {
   createContentField,
   updateContentField,
 } from '../../../actions/contentFields';
-import { convertBBOXtoPixels } from '../../../utils/contentField';
+import {
+  convertBBOXtoPixels,
+  getHeightOfCurrentPage,
+  getWidthOfCurrentPage,
+} from '../../../utils/contentField';
 
 const DroppableContainer = ({ children, className, thisPage }) => {
   const acceptableTypes = [
@@ -34,16 +38,21 @@ const DroppableContainer = ({ children, className, thisPage }) => {
     accept: acceptableTypes,
     drop(item, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
-      // let left = item.bbox.left || 0;
-      // let top = item.bbox.top || 0;
-      // eslint-disable-next-line prefer-const
-      let { left, top, width, height } = convertBBOXtoPixels(
-        item.bbox,
-        thisPage,
-      );
-      left = Math.round(left + delta.x);
-      top = Math.round(top + delta.y);
-      const newBBOX = { ...item.bbox, left, top, width, height };
+
+      let newBBOX = convertBBOXtoPixels(item.bbox, thisPage);
+
+      let left = Math.round(newBBOX.left + delta.x);
+      let top = Math.round(newBBOX.top + delta.y);
+      const pageWidth = getWidthOfCurrentPage(thisPage);
+      const pageHeight = getHeightOfCurrentPage(thisPage);
+
+      left = Math.min(left, pageWidth - newBBOX.width / 2);
+      left = Math.max(newBBOX.width / 2, left);
+
+      top = Math.min(top, pageHeight - newBBOX.height / 2);
+      top = Math.max(newBBOX.height / 2, top);
+
+      newBBOX = { ...newBBOX, left, top };
       if (allCFs[item.id]) {
         updateCF({ ...item, bbox: newBBOX });
       } else {

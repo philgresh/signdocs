@@ -53,7 +53,7 @@ const contentFieldsReducer = (state = initialState, action) => {
       return merge(newState, payload.contentFields);
     case RECEIVE_CONTENT_FIELD: {
       const { id } = payload;
-      if (action.oldId) {
+      if (action.oldId && newState[id]) {
         const oldCF = newState[id];
         const merged = {
           ...oldCF,
