@@ -49,6 +49,7 @@ class PrepareDocContainer extends Component {
     const { doc, assignees } = this.props;
     return (
       <div className="sign-doc-container">
+        <h2>Prepare your document for signatures</h2>
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
             <div className="side-bar">

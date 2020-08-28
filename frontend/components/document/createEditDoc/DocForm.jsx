@@ -176,7 +176,9 @@ export default class DocForm extends Component {
             <HelperText field="file" path="documents.file" />
           </>
         )}
+        <label htmlFor="assignees">Select signatories</label>
         <AssigneeSelect
+          id="assignees"
           users={filteredUsers}
           onChange={this.handleAssigneeChange}
           value={formattedAssignees}

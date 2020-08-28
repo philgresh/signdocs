@@ -8,6 +8,7 @@ import {
   faPrint,
   faEdit,
   faTrashAlt,
+  faStamp,
 } from '@fortawesome/free-solid-svg-icons';
 import { DocPropTypeShape, UserPropTypeShape } from '../../../propTypes';
 
@@ -59,6 +60,9 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
       <div className="flex-right">
         {isOwner && (
           <>
+            <Link to={`/documents/${docId}/prepare`} className="inline-link">
+              <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
+            </Link>
             <Link to={`/documents/${docId}/edit`} className="inline-link">
               <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
             </Link>

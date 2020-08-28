@@ -352,6 +352,10 @@
   height: calc(100% - 4.5rem);
   $field-side-bar-width: 250px;
 
+  & h2 {
+    margin-left: 2rem;
+  }
+
   & .pdf-drag-container {
     display: flex;
     justify-content: flex-start;
@@ -361,7 +365,7 @@
       margin-right: 1rem;
       position: fixed;
       left: 0;
-      top: 80px;
+      top: 10rem;
       padding-left: 2rem;
       text-align: center;
 
@@ -419,10 +423,16 @@
     }
     & .pdf-document-container {
       position: absolute;
-      height: calc(100% - var(--footer-padding) - var(--header-padding));
+      height: calc(100% - 10rem - 2.5rem);
       overflow: auto;
       left: calc(250px + 1rem);
-      top: 80px;
+      top: 10rem;
+      border: 1px solid var(--gray);
+      box-sizing: border-box;
+
+      & .page-wrapper {
+        position: relative;
+      }
 
       & .pages-buttons {
         display: flex;
