@@ -3,16 +3,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../../reducers/selectors';
 import ItemTypes from './ItemTypes';
+import { convertBBOXtoPixels } from '../../../utils/contentField';
 
-const FillableCF = ({ cfData }) => {
+const FillableCF = ({ cfData, thisPage }) => {
   const dispatch = useDispatch();
-  const {
-    type,
-    bbox: { x, y, width, height },
-    assigneeId,
-    placeholder,
-    body,
-  } = cfData;
+  const { type, bbox, assigneeId, placeholder, body } = cfData;
   const assignee = useSelector(getUserDetails(assigneeId));
   const assigneeName = `${assignee.firstName}\u00A0${assignee.lastName}`;
 
@@ -38,8 +33,10 @@ const FillableCF = ({ cfData }) => {
       break;
   }
 
+  const { left, top, width, height } = convertBBOXtoPixels(bbox, thisPage);
+
   return (
-    <div className="content-field" style={{ left: x, top: y, width, height }}>
+    <div className="content-field" style={{ left, top, width, height }}>
       <div className="content-field-description">{component}</div>
     </div>
   );

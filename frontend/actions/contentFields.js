@@ -4,17 +4,10 @@ export const RECEIVE_CONTENT_FIELD = 'RECEIVE_CONTENT_FIELD';
 export const REMOVE_CONTENT_FIELD = 'REMOVE_CONTENT_FIELD';
 export const RECEIVE_CONTENT_FIELD_ERROR = 'RECEIVE_CONTENT_FIELD_ERROR';
 
-// const translateBBOXtoNumbers = (bbox) => {
-//   const newBBOX = {};
-//   Object.keys(bbox).forEach((key) => {
-//     newBBOX[key] = Number.parseInt(bbox[key], 10);
-//   });
-//   return newBBOX;
-// };
-
-export const receiveContentField = (contentField) => ({
+export const receiveContentField = (contentField, oldId = null) => ({
   type: RECEIVE_CONTENT_FIELD,
   payload: contentField,
+  oldId,
 });
 
 export const removeContentField = (contentFieldId) => ({
@@ -29,16 +22,18 @@ export const receiveError = (err) => ({
 
 export const createContentField = (cfData) => (dispatch) => {
   dispatch(receiveContentField(cfData));
+  const oldId = cfData.id;
   return APIUtil.createContentField(cfData)
     .then((res) => {
       const newCF = { ...cfData, ...res };
-      dispatch(receiveContentField(newCF));
-      dispatch(removeContentField(cfData.id));
+      dispatch(receiveContentField(newCF, oldId));
+      dispatch(removeContentField(oldId));
       return res;
     })
     .fail((err) => {
       console.error(err);
       dispatch(receiveError(err));
+      dispatch(removeContentField(cfData.id));
       return err;
     });
 };

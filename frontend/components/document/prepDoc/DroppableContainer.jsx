@@ -12,6 +12,7 @@ import {
   createContentField,
   updateContentField,
 } from '../../../actions/contentFields';
+import { convertBBOXtoPixels } from '../../../utils/contentField';
 
 const DroppableContainer = ({ children, className, thisPage }) => {
   const acceptableTypes = [
@@ -29,39 +30,24 @@ const DroppableContainer = ({ children, className, thisPage }) => {
     (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
   );
 
-  const addCF = (cfData, x, y) => {
-    createCF({
-      ...cfData,
-      bbox: {
-        ...cfData.bbox,
-        x,
-        y,
-        page: thisPage,
-      },
-    });
-  };
-  const moveCF = (cfData, x, y) => {
-    updateCF({
-      ...cfData,
-      bbox: {
-        ...cfData.bbox,
-        x,
-        y,
-        page: thisPage,
-      },
-    });
-  };
-
   const [, drop] = useDrop({
     accept: acceptableTypes,
     drop(item, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
-      const x = Math.max(0, Math.round(item.bbox.x + delta.x));
-      const y = Math.max(0, Math.round(item.bbox.y + delta.y));
+      // let left = item.bbox.left || 0;
+      // let top = item.bbox.top || 0;
+      // eslint-disable-next-line prefer-const
+      let { left, top, width, height } = convertBBOXtoPixels(
+        item.bbox,
+        thisPage,
+      );
+      left = Math.round(left + delta.x);
+      top = Math.round(top + delta.y);
+      const newBBOX = { ...item.bbox, left, top, width, height };
       if (allCFs[item.id]) {
-        moveCF(item, x, y);
+        updateCF({ ...item, bbox: newBBOX });
       } else {
-        addCF(item, x, y);
+        createCF({ ...item, bbox: newBBOX });
       }
       return undefined;
     },

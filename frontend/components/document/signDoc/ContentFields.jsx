@@ -27,7 +27,7 @@ const DroppableContentFields = ({ children, className, thisPage }) => {
       {contentFields.map((cf) => {
         return (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <FillableCF cfData={cf} key={cf.id} />
+          <FillableCF cfData={cf} key={cf.id} thisPage={thisPage} />
         );
       })}
     </>

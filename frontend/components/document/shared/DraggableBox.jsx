@@ -7,12 +7,13 @@ import { faSignature } from '@fortawesome/free-solid-svg-icons';
 import { getUserDetails } from '../../../reducers/selectors';
 import { deleteContentField } from '../../../actions/contentFields';
 import ItemTypes from './ItemTypes';
+import { convertBBOXtoPixels } from '../../../utils/contentField';
 
-const DraggableBox = ({ cfData }) => {
+const DraggableBox = ({ cfData, thisPage }) => {
   const dispatch = useDispatch();
   const {
     type,
-    bbox: { x, y, width, height },
+    bbox,
     hideSourceOnDrag = false,
     assigneeId,
     placeholder,
@@ -49,12 +50,13 @@ const DraggableBox = ({ cfData }) => {
     default:
       break;
   }
+  const { left, top, width, height } = convertBBOXtoPixels(bbox, thisPage);
 
   return (
     <div
       ref={drag}
       className="content-field draggable-item"
-      style={{ left: x, top: y, width, height }}
+      style={{ left, top, width, height }}
     >
       <div className="content-field-description">
         <button className="close flat" type="button" onClick={onRemove}>

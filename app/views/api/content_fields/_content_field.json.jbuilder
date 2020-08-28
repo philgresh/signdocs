@@ -9,9 +9,9 @@ else
   json.contentable_id content_field.contentable_id
 end
 json.bbox do
-  json.x content_field.bbox["x"].to_i
-  json.y content_field.bbox["y"].to_i
-  json.width content_field.bbox["width"].to_i
-  json.height content_field.bbox["height"].to_i
+  json.x content_field.bbox["x"].to_f
+  json.y content_field.bbox["y"].to_f
+  json.widthPct content_field.bbox["width_pct"].to_f
+  json.aspectRatio content_field.bbox["aspect_ratio"].to_f
   json.page content_field.bbox["page"].to_i
 end

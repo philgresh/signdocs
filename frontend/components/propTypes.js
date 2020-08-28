@@ -37,7 +37,8 @@ export const ContentFieldPropTypeShape = PropTypes.shape({
   bbox: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
+    widthPct: PropTypes.number,
+    aspectRatio: PropTypes.number,
+    page: PropTypes.number,
   }),
 });

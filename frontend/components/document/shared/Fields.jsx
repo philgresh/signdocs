@@ -13,20 +13,26 @@ function* tempId() {
   }
 }
 
+//  x 	          decimal percent of page from left
+//  y 	          decimal percent of page from top
+//  widthPct      decimal ratio of width to page width
+//  aspectRatio 	decimal ratio of width to height
+//  page 	        page of the document (1-based index)
+
 const defaultSignatureBBOX = Object.freeze({
-  x: 0,
-  y: 0,
+  x: 0.45,
+  y: 0.5,
   page: 1,
-  width: 100,
-  height: 33,
+  widthPct: 0.17,
+  aspectRatio: 1.5,
 });
 
 const defaultTextboxBBOX = Object.freeze({
-  x: 0,
-  y: 0,
+  x: 0.45,
+  y: 0.5,
   page: 1,
-  width: 100,
-  height: 20,
+  widthPct: 0.17,
+  aspectRatio: 3,
 });
 
 const FieldItem = (props) => {

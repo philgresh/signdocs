@@ -1,4 +1,4 @@
-// import produce from 'immer';
+import merge from 'lodash/merge';
 import { RECEIVE_DOCUMENT } from '../actions/document';
 import {
   RECEIVE_CONTENT_FIELD,
@@ -44,22 +44,32 @@ const contentFieldErrors = (state = errorsInitialState, { type, payload }) => {
   }
 };
 
-const contentFieldsReducer = (state = initialState, { type, payload }) => {
+const contentFieldsReducer = (state = initialState, action) => {
+  const { type, payload } = action;
   Object.freeze(state);
+  const newState = { ...state };
   switch (type) {
     case RECEIVE_DOCUMENT:
-      return { ...state, ...payload.contentFields };
+      return merge(newState, payload.contentFields);
     case RECEIVE_CONTENT_FIELD: {
       const { id } = payload;
-      return {
-        ...state,
-        [id]: {
+      if (action.oldId) {
+        const oldCF = newState[id];
+        const merged = {
+          ...oldCF,
           ...payload,
-        },
-      };
+          bbox: { ...oldCF.bbox, ...payload.bbox },
+        };
+        return merge(newState, {
+          [id]: merged,
+        });
+      }
+
+      return merge(newState, {
+        [id]: payload,
+      });
     }
     case REMOVE_CONTENT_FIELD: {
-      const newState = { ...state };
       delete newState[payload];
       return newState;
     }

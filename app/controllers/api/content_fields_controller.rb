@@ -7,8 +7,9 @@ class Api::ContentFieldsController < ApplicationController
   def create
     filled, block_type = parse_type_params
     if filled === "UNFILLED"
-      placeholder = block_type == 'TEXT' ? params[:content_field][:placeholder] : nil
+      placeholder = block_type == "TEXT" ? params[:content_field][:placeholder] : nil
       sentinel = SentinelBlock.new(block_type: block_type, placeholder: placeholder)
+
       @cf = ContentField.new(
         bbox: params[:content_field][:bbox],
         assignee_id: params[:content_field][:assignee_id],
@@ -47,13 +48,13 @@ class Api::ContentFieldsController < ApplicationController
     filled, block_type = parse_type_params
     if block_type == "SIGNATURE"
       sig = User.find(@cf.assignee_id).signature
-      if sig 
+      if sig
         @cf.contentable.destroy
         @cf.contentable = sig
         @cf.save
         render :show
       else
-        render json: {contentFields: ["Assignee is not valid or does not have a valid signature"]}, status: :bad_request
+        render json: { contentFields: ["Assignee is not valid or does not have a valid signature"] }, status: :bad_request
       end
     end
   end
@@ -75,7 +76,7 @@ class Api::ContentFieldsController < ApplicationController
       :type,
       :document_id,
       bbox: [
-        :x, :y, :width, :height, :page,
+        :x, :y, :width_pct, :aspect_ratio, :page,
       ],
     )
   end
