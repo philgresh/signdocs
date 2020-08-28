@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserPropTypeShape } from '../../../propTypes';
 
 const RecipientsListItem = ({
@@ -15,7 +15,7 @@ const RecipientsListItem = ({
     <>
       <div className="grid-row-index">{index}</div>
       <div className="grid-row-status">
-        <FontAwesomeIcon icon={faSpinner} color="gray" />
+        {/* <FontAwesomeIcon icon={faSpinner} color="gray" /> */}
       </div>
       <div className="grid-row-user">
         <div>
@@ -29,7 +29,8 @@ const RecipientsListItem = ({
         </div>
       </div>
       <div className="grid-row-signed-icon">
-        <FontAwesomeIcon icon={faTasks} color="gray" />
+        {/* <FontAwesomeIcon icon={faTasks} color="gray" /> */}
+        <FontAwesomeIcon icon={faTimes} color="gray" />
       </div>
       <div className="grid-row-signed-at">
         <div>

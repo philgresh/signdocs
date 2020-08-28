@@ -97,10 +97,10 @@ export default class DocForm extends Component {
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
-    if (assignees.length) {
-      const assigneeIds = assignees.map((a) => a.value);
-      formData.append('doc[assignees]', JSON.stringify(assigneeIds));
-    }
+
+    const assigneeIds = assignees.map((a) => a.value);
+    formData.append('doc[assignees]', JSON.stringify(assigneeIds));
+
     if (this.props.formType === 'Create Document')
       formData.append('doc[file]', file);
     this.props

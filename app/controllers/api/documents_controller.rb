@@ -48,10 +48,11 @@ class Api::DocumentsController < ApplicationController
   end
 
   def update
+    assignee_ids = []
     if params[:doc][:assignees].present?
       assignee_ids = JSON.parse(params[:doc][:assignees])
     end
-    assignee_ids ||= []
+    
 
     if @document.update(document_params)
       @document.editor_ids = assignee_ids << current_user.id

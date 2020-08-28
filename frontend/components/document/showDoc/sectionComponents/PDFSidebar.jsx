@@ -10,7 +10,7 @@ const PDFSidebar = ({ previewImageUrl }) => {
     <div className="doc-show-pdf-sidebar">
       <div>
         <img src={previewImageUrl} alt="Document Preview" width={150} />
-        <div className="sidebar-pagecount">Page 1 of 2</div>
+        <div className="sidebar-pagecount">Preview</div>
       </div>
     </div>
   );

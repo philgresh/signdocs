@@ -17,15 +17,20 @@ const RecipientsText = ({ editorIds }) => {
 
   return (
     <div className="docs-index-recipients">
-      To:&nbsp;<span>{namify(editors.shift())}</span>
-      {editors.length &&
-        editors.map((e) => (
-          <>
-            <p key={e.id}>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{namify(e)}
-            </p>
-          </>
-        ))}
+      {editorIds.length ? (
+        <>
+          To:&nbsp;<span>{namify(editors.shift())}</span>
+          {editors.map((e) => (
+            <>
+              <p key={e.id}>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{namify(e)}
+              </p>
+            </>
+          ))}
+        </>
+      ) : (
+        <>No recipients yet</>
+      )}
     </div>
   );
 };
