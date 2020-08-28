@@ -18,9 +18,7 @@ const App = () => {
     <HashRouter>
       <div id="page-container">
         <div id="content-wrap">
-          <header>
-            <Navbar />
-          </header>
+          <Navbar />
           <main>
             <Switch>
               <ProtectedRoute
@@ -54,10 +52,10 @@ const App = () => {
               <Redirect to="/404" />
             </Switch>
           </main>
+          <footer id="footer">
+            <Footer />
+          </footer>
         </div>
-        <footer id="footer">
-          <Footer />
-        </footer>
       </div>
     </HashRouter>
   );

@@ -1,73 +1,47 @@
-.top-background-gradient {
-  height: 250px;
-  width: 100%;
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgb(0, 91, 182);
-  background: -moz-linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  background: linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005bb6",endColorstr="#4b9aaf",GradientType=1);
-}
+.home {
+  max-width: 80%;
+  display: block;
+  margin-left: 2rem;
 
-.home-sig-link {
-  width: 300px;
-  height: 100px;
-  margin: 1rem;
-  position: relative;
-
-  a {
-    position: absolute;
+  
+  .top-background-gradient {
+    height: 250px;
     width: 100%;
-    height: 100%;
-    z-index: 10;
-    cursor: pointer;
-  }
-}
-
-.right-nav-menu {
-  position: relative;
-  & > button {
-    padding: 0.75rem;
-    border-radius: 50%;
-  }
-
-  & > ul {
+    z-index: -1;
     position: absolute;
-    left: -90px;
-    top: 3.5rem;
-    background-color: var(--background-white);
-    border-radius: 4px;
-    box-shadow: var(--box-shadow-1);
-    width: 120px;
-    border: 1px solid lightgray;
-    padding: 0;
-    list-style: none;
-    text-align: center;
+    top: 0;
+    left: 0;
+    background: rgb(0, 91, 182);
+    background: -moz-linear-gradient(
+      45deg,
+      rgba(0, 91, 182, 1) 0%,
+      rgba(75, 154, 175, 1) 100%
+    );
+    background: -webkit-linear-gradient(
+      45deg,
+      rgba(0, 91, 182, 1) 0%,
+      rgba(75, 154, 175, 1) 100%
+    );
+    background: linear-gradient(
+      45deg,
+      rgba(0, 91, 182, 1) 0%,
+      rgba(75, 154, 175, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005bb6",endColorstr="#4b9aaf",GradientType=1);
+  }
 
-    & li {
+  .home-sig-link {
+    width: 300px;
+    height: 100px;
+    margin: 1rem;
+    position: relative;
+
+    a {
+      position: absolute;
       width: 100%;
-      // margin: 0.25rem 1rem;
-      box-sizing: border-box;
-      list-style: none;
-
-      & a {
-        padding: 1rem;
-      }
+      height: 100%;
+      z-index: 10;
+      cursor: pointer;
     }
   }
 }

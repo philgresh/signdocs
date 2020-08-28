@@ -88,13 +88,13 @@ const Navbar = ({ currentUser, signoutUser }) => {
 
   return (
     <nav>
-      <div className="flex-left">
+      <div className="flex-container-left">
         <h1>
           <Link to={mastheadLinkTo}>SignDocs</Link>
         </h1>
         <ul className="nav-links">{navLinksLeft}</ul>
       </div>
-      <div className="flex-right">
+      <div className="flex-container-right">
         <ul className="nav-links">{navLinksRight}</ul>
       </div>
     </nav>

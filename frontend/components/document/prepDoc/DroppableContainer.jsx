@@ -72,7 +72,7 @@ const DroppableContainer = ({ children, className, thisPage }) => {
       {contentFields.map((cf) => {
         return (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <DraggableBox key={cf.id} cfData={cf} hideSourceOnDrag />
+          <DraggableBox key={cf.id} cfData={cf} thisPage={thisPage} />
         );
       })}
       {children}

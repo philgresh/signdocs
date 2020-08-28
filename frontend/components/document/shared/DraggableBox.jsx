@@ -12,7 +12,7 @@ const DraggableBox = ({ cfData }) => {
   const dispatch = useDispatch();
   const {
     type,
-    bbox: { x, y, widthPct, aspectRatio },
+    bbox: { x, y, width, height },
     hideSourceOnDrag = false,
     assigneeId,
     placeholder,
@@ -35,7 +35,7 @@ const DraggableBox = ({ cfData }) => {
   switch (type) {
     case ItemTypes.UNFILLED_SIGNATURE: {
       component = (
-        <div className="signature-box">
+        <div className="signature-box unfilled">
           <FontAwesomeIcon icon={faSignature} color="inherit" />
           {assigneeName}
         </div>
@@ -43,7 +43,7 @@ const DraggableBox = ({ cfData }) => {
       break;
     }
     case ItemTypes.UNFILLED_TEXT: {
-      component = <div className="textbox-box">{placeholder}</div>;
+      component = <div className="textbox-box unfilled">{placeholder}</div>;
       break;
     }
     default:
