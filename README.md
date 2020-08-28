@@ -1,3 +1,5 @@
+![Splash banner](https://user-images.githubusercontent.com/46543327/91600157-530df080-e91c-11ea-85d2-0b7e10247dfb.png)
+
 [Overview](#overview) | [Features](features) | [Stack](#stack-used) | [Wiki](https://github.com/philgresh/signdocs/wiki)
 
 ### Overview
@@ -5,10 +7,20 @@
 
 ### Features
 #### Signature development
-A signature is an expression of one's personality, and demands more than choosing a dry sans-serif font to make their mark. SignDocs gives users a more diverse collection of typefaces to choose from. Alternatively, users can draw their signature directly by using a mouse or trackpad.
+##### Choose your style
+A signature is an expression of one's personality, and demands more than choosing a dry sans-serif font to make their mark. SignDocs gives users a more diverse collection of typefaces to choose from to add a personal touch.
+
+![Customize signature 1](https://user-images.githubusercontent.com/46543327/91599858-c9f6b980-e91b-11ea-9903-5a737bc33ca6.png)
+
+##### Write your own autograph
+Alternatively, users can draw their signature directly by using a mouse or trackpad.
+
+![Customize signature 2](https://user-images.githubusercontent.com/46543327/91599909-e266d400-e91b-11ea-9bac-9de9957b3537.png)
 
 #### Document preparation
 After uploading a document and adding signatories, users can drag-and-drop content fields onto the document which will later be filled with signatories' personal information. This can be their signature or text, such as the current date or their name. The content fields are assigned to specific users, so only they can fill out that information. Once they've reviewed the document, signatories can simply click the Sign button and apply their signature, and the document owner will be notified.
+
+![Screen Shot 2020-08-28 at 10 11 02 AM](https://user-images.githubusercontent.com/46543327/91599711-9156e000-e91b-11ea-941c-d3d8eb1389b0.png)
 
 ### Stack used
 #### Backend
