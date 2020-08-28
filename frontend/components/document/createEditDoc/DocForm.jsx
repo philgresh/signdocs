@@ -3,7 +3,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AssigneeSelect from './AssigneeSelect';
 import { HelperText } from '../../helperComponents';
+import { UserPropTypeShape } from '../../propTypes';
 import { createSchema, editSchema } from './validationSchema';
 
 const genErrorAction = (err) => {
@@ -23,12 +25,14 @@ export default class DocForm extends Component {
     this.state = {
       title: docState.title || '',
       description: docState.description || '',
+      assignees: docState.assignees || [],
       file: null,
       loading: false,
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAssigneeChange = this.handleAssigneeChange.bind(this);
     this.isCreate = formType === 'Create Document';
     document.title = this.isCreate
       ? `SignDocs - Create new document`
@@ -51,6 +55,10 @@ export default class DocForm extends Component {
     return (e) => {
       this.setState({ [field]: e.target.value });
     };
+  }
+
+  handleAssigneeChange(value) {
+    this.setState({ assignees: value || [] });
   }
 
   handleSubmit(e) {
@@ -84,11 +92,15 @@ export default class DocForm extends Component {
   }
 
   submitFormData() {
-    const { title, description, file } = this.state;
+    const { title, description, file, assignees } = this.state;
 
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
+    if (assignees.length) {
+      const assigneeIds = assignees.map((a) => a.value);
+      formData.append('doc[assignees]', JSON.stringify(assigneeIds));
+    }
     if (this.props.formType === 'Create Document')
       formData.append('doc[file]', file);
     this.props
@@ -102,6 +114,7 @@ export default class DocForm extends Component {
 
   render() {
     const { title, description, loading } = this.state;
+    const { users, currUserId } = this.props;
 
     let buttonText = 'Create';
     let headerText = 'Create Document';
@@ -116,6 +129,13 @@ export default class DocForm extends Component {
       // buttonSuccessText = 'Saved!';
       isCreate = false;
     }
+
+    const filteredUsers = users.filter((u) => u.id !== currUserId);
+
+    const formattedAssignees = this.state.assignees.map((user) => ({
+      value: user.value || user.id,
+      label: user.label || `${user.firstName} ${user.lastName}`,
+    }));
 
     return (
       <form onSubmit={this.handleSubmit} method="POST" className="doc-form">
@@ -156,6 +176,11 @@ export default class DocForm extends Component {
             <HelperText field="file" path="documents.file" />
           </>
         )}
+        <AssigneeSelect
+          users={filteredUsers}
+          onChange={this.handleAssigneeChange}
+          value={formattedAssignees}
+        />
         <button type="submit" disabled={loading}>
           {loading ? buttonSubmitText : buttonText}
         </button>
@@ -169,6 +194,7 @@ DocForm.propTypes = {
   docState: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
+    assignees: PropTypes.arrayOf(UserPropTypeShape),
   }),
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -176,6 +202,7 @@ DocForm.propTypes = {
   action: PropTypes.func.isRequired,
   receiveError: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
+  users: PropTypes.arrayOf(UserPropTypeShape).isRequired,
 };
 
 DocForm.defaultProps = {

@@ -9,24 +9,41 @@ import {
   updateDocument,
   receiveError as recError,
 } from '../../../actions/document';
-import { getErrors, getDocumentById } from '../../../reducers/selectors';
-import { DocPropTypeShape } from '../../propTypes';
+import { fetchUsers } from '../../../actions/user';
+import {
+  getErrors,
+  getDocumentById,
+  getUsersAsArray,
+  getAssociatedUsers,
+} from '../../../reducers/selectors';
+import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 
-class EditDocForm extends Component {
+class EditDocContainer extends Component {
   componentDidMount() {
     this.props.fetchDoc();
+    this.props.fetchAllUsers();
   }
 
   render() {
-    // DO NOT MODIFY THIS FUNCTION
-    const { action, formType, doc, errors, history, receiveError } = this.props;
+    const {
+      action,
+      formType,
+      doc,
+      errors,
+      history,
+      receiveError,
+      users,
+      assignees,
+      currUserId,
+    } = this.props;
 
-    // Hint: The report will not exist on the first render - what do we need to
-    // do to get it?
+
     if (!doc) return null;
+
     const docState = {
       title: doc.title,
       description: doc.description,
+      assignees: assignees.editors,
     };
     return (
       <DocForm
@@ -36,12 +53,14 @@ class EditDocForm extends Component {
         errors={errors}
         history={history}
         receiveError={receiveError}
+        users={users}
+        currUserId={currUserId}
       />
     );
   }
 }
 
-EditDocForm.propTypes = {
+EditDocContainer.propTypes = {
   doc: DocPropTypeShape.isRequired,
   // eslint-disable-next-line react/require-default-props
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -51,6 +70,10 @@ EditDocForm.propTypes = {
   receiveError: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
+  users: PropTypes.arrayOf(UserPropTypeShape).isRequired,
+  assignees: PropTypes.arrayOf(UserPropTypeShape).isRequired,
+  fetchAllUsers: PropTypes.func.isRequired,
+  currUserId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -62,6 +85,9 @@ const mapStateToProps = (state, ownProps) => {
     doc,
     errors: getErrors(state, 'documents'),
     formType: 'Edit Document',
+    users: getUsersAsArray(state),
+    assignees: getAssociatedUsers(docId)(state),
+    currUserId: state.session.id,
   };
 };
 
@@ -71,11 +97,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     action: (formData) => dispatch(updateDocument(docId, formData)),
     fetchDoc: () => dispatch(fetchDocument(docId)),
     receiveError: (err) => dispatch(recError(err)),
+    fetchAllUsers: () => dispatch(fetchUsers()),
   };
 };
 
-const EditDocContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditDocForm),
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditDocContainer),
 );
-
-export default EditDocContainer;

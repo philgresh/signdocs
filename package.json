@@ -43,6 +43,7 @@
     "react-redux": "^7.2.1",
     "react-resizable": "^1.10.1",
     "react-router-dom": "^5.2.0",
+    "react-select": "^3.1.0",
     "react-signature-canvas": "^1.0.3",
     "react-svgmt": "^1.1.11",
     "redux": "^4.0.5",

@@ -11,15 +11,6 @@ const SignedInRightNavMenu = ({ currentUser, signoutUser }) => {
     $('.right-nav-menu ul').toggleClass('hidden');
   };
 
-  // <div class="dropdown">
-  //   <button class="dropbtn">Dropdown</button>
-  //   <div class="dropdown-content">
-  //     <a href="#">Link 1</a>
-  //     <a href="#">Link 2</a>
-  //     <a href="#">Link 3</a>
-  //   </div>
-  // </div> 
-
   return (
     <li className="dropdown">
       <button type="button" onClick={onMenuClick} className="flat dropbtn">
