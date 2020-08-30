@@ -107,7 +107,7 @@ export default class DocForm extends Component {
       .action(formData)
       .then(({ document }) => {
         // TODO:  Modal success
-        this.props.history.push(`/documents/${document.id}`);
+        this.props.history.push(`/documents/${document.id}/prepare`);
       })
       .fail(() => this.setState({ loading: false }));
   }

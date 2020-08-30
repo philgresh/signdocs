@@ -4,6 +4,7 @@ export const RECEIVE_ALL_DOCUMENTS = 'RECEIVE_ALL_DOCUMENTS';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
 export const REMOVE_DOCUMENT = 'REMOVE_DOCUMENT';
 export const RECEIVE_DOCUMENT_ERROR = 'RECEIVE_DOCUMENT_ERROR';
+export const DOC_UPLOAD = 'DOC_UPLOAD';
 
 // Action creators
 const receiveDocuments = (docs) => ({
@@ -26,6 +27,11 @@ export const receiveError = (error) => ({
   payload: error,
 });
 
+export const receiveDocUpload = (doc) => ({
+  type: DOC_UPLOAD,
+  payload: { doc: doc.document },
+});
+
 // Thunktions
 
 export const fetchDocuments = () => (dispatch) =>
@@ -46,6 +52,7 @@ export const createDocument = (docForm) => (dispatch) =>
   APIUtil.createDocument(docForm)
     .then((doc) => {
       dispatch(receiveDocument(doc));
+      dispatch(receiveDocUpload(doc));
       return doc;
     })
     .fail((err) => dispatch(receiveError(err.responseJSON)));

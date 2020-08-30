@@ -20,9 +20,6 @@
                 lastName: "<%= current_user.last_name %>",
                 email: "<%= current_user.email %>",
                 sigId: "<%= current_user.signature.id %>",
-                <% if current_user.avatar.attached? %>
-                    imageTag: "<%= polymorphic_url(current_user.avatar)  %>",
-                <% end %>
             };
         </script>
     <% end %>

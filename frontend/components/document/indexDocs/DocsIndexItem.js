@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 import { getUserDetails } from '../../../reducers/selectors';
-// import Avatar from '../../user/avatar';
 
 const namify = (user) => `${user.firstName} ${user.lastName}`;
 const getUser = (userId) => (state) => state.entities.users[userId];
