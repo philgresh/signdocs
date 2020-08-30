@@ -64,6 +64,10 @@ class Api::DocumentsController < ApplicationController
     end
   end
 
+  def sign
+    
+  end
+
   def destroy
     @document = Document.find(params[:id])
     @document.file.purge_later
