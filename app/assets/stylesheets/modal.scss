@@ -1,0 +1,32 @@
+.modal-background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(var(--off-black-rgb), 0.3);
+  z-index: 10;
+
+  & .modal-child {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-white);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: var(--box-shadow-1);
+
+    & button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: transparent;
+      font-size: 120%;
+
+      &:hover {
+        color: var(--dark-yellow);
+      }
+    }
+  }
+}
