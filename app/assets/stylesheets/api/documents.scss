@@ -296,10 +296,10 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        color: inherit;
+        // color: inherit;
 
         &:visited {
-          color: inherit;
+          // color: inherit;
         }
         &:hover {
           color: var(--main-blue);

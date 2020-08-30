@@ -12,6 +12,9 @@ require "aws-sdk-s3"
 
 class Document < ApplicationRecord
   ACCEPTABLE_TYPES = ["application/pdf", "image/png", "image/jpg", "image/jpeg", "image/jpg", "image/svg+xml"]
+  BEING_PREPARED = "Being Prepared"
+  COMPLETE = "Complete"
+  IN_PROGRESS = "In Progress"
 
   validates_presence_of :title
   validates :file,
@@ -69,6 +72,20 @@ class Document < ApplicationRecord
       de = document_editors.find_by(user_id: user.id)
     end
     de.set_owner(true)
+  end
+
+  def status
+    cf_size = content_field_ids.size
+    case cf_size
+    when 0
+      BEING_PREPARED
+    else
+      if content_fields.where.not(contentable_type: "SentinelBlock").size == cf_size
+        COMPLETE
+      else
+        IN_PROGRESS
+      end
+    end
   end
 
   private

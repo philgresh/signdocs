@@ -13,9 +13,9 @@ const SignatoriesItem = ({
   const { id, firstName, lastName } = signatoryDetails;
   const name = `${firstName} ${lastName}`;
   const location = useLocation();
-  const isSign = !!location.pathname.match(/sign/);
+  const isPrepare = !!location.pathname.match(/prepare/);
 
-  if (isSign)
+  if (isPrepare)
     return (
       <div>
         <input
