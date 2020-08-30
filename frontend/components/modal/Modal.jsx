@@ -3,42 +3,58 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { closeModal as close } from '../../actions/modal';
+import { getModalState } from '../../reducers/selectors';
 
 const ESCAPE_KEY_CODE = 27;
 
-function Modal({ modal, closeModal, component: Component, ...rest }) {
-  if (!modal) {
+const Modal = ({ open, modalState, closeModal }) => {
+  if (!open) {
     return null;
   }
+
+  const { component: Component, props: modalProps } = modalState;
 
   const handleKeyPress = (e) => {
     // console.log(e);
     if (e.keyCode === ESCAPE_KEY_CODE) closeModal();
   };
 
+  const handleBackgroundClick = (e) => {
+    e.stopPropagation();
+    console.log('CLICK');
+    closeModal();
+  };
+
   return (
     <div className="modal-background" onClick={closeModal} role="presentation">
       <div
         className="modal-child"
-        onClick={(e) => e.stopPropagation()}
+        onClick={handleBackgroundClick}
         onKeyPress={handleKeyPress}
         role="presentation"
       >
-        <Component {...rest} />
+        <button type="button" onClick={closeModal} className="flat">
+          &times;
+        </button>
+        <Component {...modalProps} />
       </div>
     </div>
   );
-}
+};
 
 Modal.propTypes = {
-  modal: PropTypes.bool.isRequired,
+  modalState: PropTypes.shape({
+    component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+  }).isRequired,
+  open: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  component: PropTypes.element.isRequired,
 };
 
 const mapStateToProps = (state) => {
+  const modalState = getModalState(state);
   return {
-    modal: state.ui.modal,
+    modalState,
+    open: modalState.open,
   };
 };
 

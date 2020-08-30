@@ -1,5 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
@@ -9,6 +12,7 @@ import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import Footer from './footer';
 import FourOhFour from './_404/FourOhFour';
+import Modal from './modal';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
@@ -16,6 +20,7 @@ const App = () => {
     <HashRouter>
       <div id="page-container">
         <div id="content-wrap">
+          <Modal />
           <header>
             <Navbar />
           </header>

@@ -8,5 +8,4 @@ export const receiveModal = (component) => ({
 
 export const closeModal = () => ({
   type: CLOSE_MODAL,
-  payload: null,
 });

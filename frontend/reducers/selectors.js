@@ -20,6 +20,10 @@ export const signedIn = (state) => !!state.session.id;
 // Signatures
 export const getAllSignatures = (state) => state.entities.signatures;
 
+// Modal
+export const getModalOpenState = (state) => state.ui.modal.open;
+export const getModalState = (state) => state.ui.modal;
+
 //
 //
 // Reselect selectors
