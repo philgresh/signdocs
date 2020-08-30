@@ -2,7 +2,7 @@
 #
 # Table name: text_blocks
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  body       :text             not null
 #  styling    :json
 #  type       :string           not null
@@ -18,4 +18,7 @@ class TextBlock < ApplicationRecord
   validates_presence_of :body, :type, :user_id
   has_one :content_fields, as: :contentable
 
+  def block_type
+    "TEXT"
+  end
 end

@@ -34,6 +34,7 @@ DocDetails.propTypes = {
     owner: UserPropTypeShape,
     isOwner: PropTypes.bool,
     previewImageUrl: PropTypes.string,
+    id: PropTypes.string,
   }).isRequired,
   deleteDocument: PropTypes.func.isRequired,
   fetchSignedUrl: PropTypes.func.isRequired,

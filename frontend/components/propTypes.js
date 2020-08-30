@@ -21,9 +21,24 @@ export const UserPropTypeShape = PropTypes.shape({
 export const SigPropTypeShape = PropTypes.shape({
   id: PropTypes.string,
   body: PropTypes.string,
-  pub_key: PropTypes.string,
+  pubKeyFingerprint: PropTypes.string,
+  imageUrl: PropTypes.string,
   styling: PropTypes.shape({
     'font-family': PropTypes.string,
     color: PropTypes.string,
+  }),
+});
+
+export const ContentFieldPropTypeShape = PropTypes.shape({
+  docId: PropTypes.string,
+  contentableId: PropTypes.string,
+  contentableType: PropTypes.string,
+  assigneeId: PropTypes.string,
+  bbox: PropTypes.shape({
+    x: PropTypes.number,
+    y: PropTypes.number,
+    widthPct: PropTypes.number,
+    aspectRatio: PropTypes.number,
+    page: PropTypes.number,
   }),
 });

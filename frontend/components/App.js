@@ -10,6 +10,8 @@ import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
 import ProfileContainer from './profile/ProfileContainer';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
+import PrepareDocContainer from './document/prepDoc';
+import SignDocContainer from './document/signDoc';
 import Footer from './footer';
 import FourOhFour from './_404/FourOhFour';
 import Modal from './modal';
@@ -21,9 +23,7 @@ const App = () => {
       <div id="page-container">
         <div id="content-wrap">
           <Modal />
-          <header>
-            <Navbar />
-          </header>
+          <Navbar />
           <main>
             <Switch>
               <ProtectedRoute
@@ -41,6 +41,14 @@ const App = () => {
                 path="/documents/:docId/edit"
                 component={EditDocContainer}
               />
+              <ProtectedRoute
+                path="/documents/:docId/prepare"
+                component={PrepareDocContainer}
+              />
+              <ProtectedRoute
+                path="/documents/:docId/sign"
+                component={SignDocContainer}
+              />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
               <Route exact path="/" component={Home} />
               <AuthRoute exact path="/signin" component={Signin} />
@@ -49,10 +57,10 @@ const App = () => {
               <Redirect to="/404" />
             </Switch>
           </main>
+          <footer id="footer">
+            <Footer />
+          </footer>
         </div>
-        <footer id="footer">
-          <Footer />
-        </footer>
       </div>
     </HashRouter>
   );

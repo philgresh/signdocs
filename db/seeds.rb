@@ -3,7 +3,6 @@
 require "faker"
 require "cuid"
 require "victor"
-require "byebug"
 
 NUM_USERS = 3
 NUM_DOCUMENTS = 3
@@ -15,7 +14,6 @@ SENTINEL_BLOCK_TYPES = [
 
 IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
-
 def setup_demo_user
   u = User.create(
     first_name: "Bob",
@@ -23,8 +21,6 @@ def setup_demo_user
     email: "bob1@example.org",
     password: "password",
   )
-  # create_avatar(user)
-  # create_new_signature_block(user)
 end
 
 def destroy_all(klass)
@@ -52,48 +48,11 @@ def create_new_users
       first_name: f_name,
       last_name: Faker::Name.last_name,
     )
-    create_avatar(user)
-    create_new_signature_block(user)
   end
 
   print_results(User)
 
   users
-end
-
-def create_avatar(user)
-  new_avatar = Faker::Avatar.image(
-    slug: "#{user.first_name}_#{user.last_name}",
-    size: "200x200",
-    format: "png",
-  )
-  download = open(new_avatar)
-  local_link = "#{Rails.root}/app/assets/images/avatar.png"
-  IO.copy_stream(download, local_link)
-  user.avatar.attach(
-    io: File.open(local_link),
-    content_type: "image/png",
-    filename: "#{user.id}-avatar.png",
-    # identify: false,
-  )
-  user.save!
-end
-
-def create_new_signature_block(user)
-  s = SignatureBlock.create(
-    user_id: user.id,
-  )
-  # s.gen_new_pub_key
-  # s.schedule_key_deletion(30)
-  file = gen_svg_from_name(user.first_name, user.last_name)
-  s.sig_image.attach(
-    io: File.open(file),
-    content_type: "image/svg+xml",
-    filename: "#{user.id}-sig.svg",
-    # identify: false,
-  )
-  File.delete(file) if File.exist?(file)
-
 end
 
 def create_new_documents()
@@ -128,14 +87,12 @@ def create_new_documents()
 end
 
 def create_new_sentinel_blocks(docs)
-  destroy_all(SentinelBlock)
+  # destroy_all(SentinelBlock)
 
   sentinels = docs.map do |doc|
     block_type = ["SIGNATURE", "TEXT"].sample
     SentinelBlock.create(
-      user_id: doc.owner.id,
       block_type: block_type,
-      placeholder: "This is a #{block_type} placeholder",
     )
   end
 
@@ -144,22 +101,31 @@ def create_new_sentinel_blocks(docs)
   sentinels
 end
 
-def create_new_content_fields(sentinels)
-  destroy_all(ContentField)
+def create_new_content_fields(docs, sentinels)
+  # destroy_all(ContentField)
 
-  content_fields = sentinels.map do |sentinel|
-    sentinel.content_field = ContentField.create(
- # bbox
-           # assignee_id
-           # document_id
-      )
+  (0...docs.size).each do |i|
+    doc = docs[i]
+    sentinel = sentinels[i]
+    ContentField.create(
+      bbox: {
+        x: rand(200..500),
+        y: rand(200..500),
+        width: rand(150..300),
+        height: rand(50..200),
+        page: 1,
+      },
+      assignee_id: doc.owner.id,
+      document_id: doc.id,
+      contentable: sentinel,
+    )
   end
 
   print_results(ContentField)
-  content_fields
+  
 end
 
-users = create_new_users()
+users = create_new_users() << setup_demo_user()
 docs = create_new_documents()
-# sentinels = create_new_sentinel_blocks(Document.all)
-# content_fields = create_new_content_fields(sentinels)
+sentinels = create_new_sentinel_blocks(docs)
+content_fields = create_new_content_fields(docs, sentinels)

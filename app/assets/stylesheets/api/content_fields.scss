@@ -1,0 +1,58 @@
+// Place all the styles related to the Api/ContentFields controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.content-field {
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  border: 1px solid var(--off-black);
+  border-radius: 6px;
+  // padding: 0.5rem 1rem;
+  z-index: 2;
+  box-shadow: var(--box-shadow-1);
+
+  &.draggable-item {
+    cursor: move;
+  }
+
+  & .content-field-description {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--off-black);
+    font-family: var(--default-font-family);
+    font-weight: bold;
+
+    & button.close.flat {
+      float: right;
+      display: block;
+      padding: 2px;
+      margin: 0;
+      background-color: transparent;
+      position: absolute;
+      right: 5px;
+      top: 0;
+    }
+  }
+}
+
+.signature-box {
+  width: 100%;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px dashed #fd6f6f;
+  font-size: 80%;
+  color: rgb(111, 111, 138);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.textbox-box {
+  width: 100%;
+  font-size: 80%;
+  color: rgb(111, 111, 138);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

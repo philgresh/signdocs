@@ -23,3 +23,10 @@ json.signatures do
     end
   end
 end
+json.content_fields do
+  @contentables.each do |content_field|
+    json.set! content_field.id do
+      json.partial! "api/content_fields/content_field", content_field: content_field
+    end
+  end
+end

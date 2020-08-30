@@ -2,32 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.background-gradient {
-  height: 250px;
-  width: 100%;
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgb(0, 91, 182);
-  background: -moz-linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  background: linear-gradient(
-    45deg,
-    rgba(0, 91, 182, 1) 0%,
-    rgba(75, 154, 175, 1) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005bb6",endColorstr="#4b9aaf",GradientType=1);
-}
-
 .flex-col-container {
   display: flex;
   flex-direction: column;
@@ -170,39 +144,6 @@
         box-sizing: border-box;
         font-size: 80%;
         color: var(--gray);
-      }
-    }
-  }
-
-  & .pdf-document-container {
-    & .pages-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: baseline;
-    }
-
-    & .card {
-      height: 792px;
-      width: 612px;
-      display: block;
-      user-select: none;
-      z-index: -1;
-      border: 1px solid #ddd;
-      border-radius: 0;
-      box-shadow: 0px 1px 2px 0px #ccc;
-    }
-
-    & .react-pdf__Document {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-
-      & .react-pdf__Page {
-        border: 1px solid #ddd;
-        border-radius: 0;
-        box-shadow: 0px 1px 2px 0px #ccc;
       }
     }
   }
@@ -369,6 +310,10 @@
         color: var(--light-gray);
         font-size: 90%;
       }
+
+      & .docs-index-recipients > p {
+        margin: 0;
+      }
     }
     & > div {
       padding: 0.5rem 0;
@@ -398,5 +343,136 @@
 
   & input[type='file'] {
     padding: 0.5rem;
+  }
+}
+
+.sign-doc-container {
+  min-height: 800px;
+  width: 100%;
+  height: calc(100% - 4.5rem);
+  $field-side-bar-width: 250px;
+
+  & h2 {
+    margin-left: 2rem;
+  }
+
+  & .pdf-drag-container {
+    display: flex;
+    justify-content: flex-start;
+
+    & .side-bar {
+      width: calc(250px - 2rem);
+      margin-right: 1rem;
+      position: fixed;
+      left: 0;
+      top: 10rem;
+      padding-left: 2rem;
+      text-align: center;
+
+      & .assignees-list {
+        text-align: left;
+
+        & input {
+          margin-right: 1rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      & ul {
+        list-style: none;
+        padding-left: 0;
+
+        & li.draggable {
+          padding: 0.5rem 0rem;
+          margin: 0.25rem;
+          border-radius: 5px;
+          border: 1px solid var(--light-gray);
+          z-index: inherit;
+          cursor: move;
+
+          & p,
+          & pre {
+            margin: 0;
+          }
+
+          &.disabled-drag {
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    & .droppable-container {
+      position: relative;
+
+      & .droppable-item {
+        position: absolute;
+        border: 1px dashed gray;
+        background-color: white;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+        cursor: move;
+
+        & button.close {
+          float: right;
+          display: block;
+          padding: 2px;
+          margin: 0;
+        }
+      }
+    }
+    & .pdf-document-container {
+      position: absolute;
+      height: calc(100% - 10rem - 2.5rem);
+      overflow: auto;
+      left: calc(250px + 1rem);
+      top: 10rem;
+      border: 1px solid var(--gray);
+      box-sizing: border-box;
+
+      & .page-wrapper {
+        position: relative;
+      }
+
+      & .pages-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+      }
+
+      & .card {
+        height: 792px;
+        width: 612px;
+        display: block;
+        user-select: none;
+        z-index: -1;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        box-shadow: 0px 1px 2px 0px #ccc;
+      }
+
+      & .react-pdf__Document {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        // align-items: center;
+
+        & .react-pdf__Page {
+          border: 1px solid #ddd;
+          border-radius: 0;
+          box-shadow: 0px 1px 2px 0px #ccc;
+          margin-bottom: 1em;
+        }
+
+        & .react-pdf__Outline {
+          border: 1px solid red;
+        }
+      }
+
+      & .pdf-droppable-canvas {
+        position: absolute;
+      }
+    }
   }
 }

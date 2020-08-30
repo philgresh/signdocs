@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_182755) do
+ActiveRecord::Schema.define(version: 2020_08_27_051207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -37,11 +37,11 @@ ActiveRecord::Schema.define(version: 2020_08_14_182755) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "content_fields", force: :cascade do |t|
+  create_table "content_fields", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "document_id", null: false
     t.uuid "assignee_id", null: false
+    t.uuid "contentable_id"
     t.string "contentable_type"
-    t.bigint "contentable_id"
     t.json "bbox", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_182755) do
     t.index ["document_id"], name: "index_content_fields_on_document_id"
   end
 
-  create_table "document_editors", force: :cascade do |t|
+  create_table "document_editors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "document_id", null: false
     t.uuid "user_id", null: false
     t.boolean "is_owner", default: false, null: false
@@ -67,25 +67,24 @@ ActiveRecord::Schema.define(version: 2020_08_14_182755) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sentinel_blocks", force: :cascade do |t|
-    t.uuid "user_id", null: false
+  create_table "sentinel_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "block_type", null: false
-    t.string "placeholder", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_sentinel_blocks_on_user_id"
+    t.string "placeholder"
   end
 
   create_table "signature_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.json "styling"
     t.string "pub_key"
+    t.string "pub_key_fingerprint"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_signature_blocks_on_user_id", unique: true
   end
 
-  create_table "text_blocks", force: :cascade do |t|
+  create_table "text_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "type", null: false
     t.text "body", null: false

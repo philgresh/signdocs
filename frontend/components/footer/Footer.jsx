@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <div className="flex-row-container flex-center small">
+    <div className="flex-row-container flex-center small smallest">
       <div>
         <a href="https://github.com/philgresh/signdocs">GitHub repo</a>
         &nbsp;|&nbsp;

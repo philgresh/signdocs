@@ -1,51 +1,99 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable camelcase */
-import React from 'react';
+import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { SvgLoader, SvgProxy } from 'react-svgmt';
-import FontFamilySelection from './signature/FontFamilySelection';
+import {
+  NameHeader,
+  SigTabsList,
+  FontFamilySelection,
+  SigPad,
+  Footer,
+} from './profileComponents';
+import { SigPropTypeShape, UserPropTypeShape } from '../propTypes';
 
-const SVG = ({ svgUrl }) => (
-  <SvgLoader path={svgUrl}>
-    {/* Important! this proxy will reset the color to black,
-          otherwise old elements would still be shown in red
-          because this library doesn't store previous states */}
-    {/* <SvgProxy selector={'path'} fill="white" /> */}
-    {/* {countryCodes.map(code => (
-          <SvgProxy
-            key={code}
-            selector={"#" + code + ",#" + code + " path"}
-            fill="red"
-          />
-        ))} */}
-  </SvgLoader>
-);
+const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
+  const [updating, setUpdating] = useState(false);
+  const [sig] = useState(sigProps);
+  const [changed, setChanged] = useState(false);
+  const [tab, setTab] = useState('choice');
+  const sigPadRef = createRef();
 
-const Profile = ({ sig, user, updateSig }) => {
-  const onUpdate = (font_family, fill_color) => {
-    console.log(font_family, fill_color);
-    updateSig({
+  const { pubKeyFingerprint, styling } = sig;
+
+  const [choiceState, setChoiceState] = useState({
+    pubKeyFingerprint,
+    selectedFont: styling?.font_family,
+    color: styling?.fill_color || '#000028',
+  });
+
+  const onUpdate = () => {
+    setUpdating(true);
+    const sigData = {
       id: sig.id,
-      'signature[styling]': {
-        font_family,
-        fill_color,
-      },
-    }).then(() => history.go(0))
+    };
+    switch (tab) {
+      case 'choice': {
+        const { selectedFont, color } = choiceState;
+        sigData['signature[styling]'] = {
+          font_family: selectedFont,
+          fill_color: color,
+        };
+        break;
+      }
+      case 'draw': {
+        const svgData = sigPadRef.current.toDataURL('image/svg+xml');
+        sigData['signature[svg_data]'] = svgData;
+        break;
+      }
+      default:
+        break;
+    }
+    updateSig(sigData).then(() => fetchMe(user.id));
+    setUpdating(false);
   };
 
+  const onTabClick = (name) => () => {
+    setTab(name);
+  };
+
+  const fullName = `${user.firstName} ${user.lastName}`;
   return (
-    <>
-      <div className="sig-svg">
-        {sig && user && sig.imageUrl && user.firstName && (
-          <>
-            <SVG svgUrl={sig.imageUrl} />
-            <FontFamilySelection sig={sig} user={user} onUpdate={onUpdate} />
-          </>
+    <div className="signature-create-container">
+      <h2>Create Your Signature</h2>
+      <NameHeader fullName={fullName} sig={sig} />
+      <SigTabsList tab={tab} onTabClick={onTabClick} />
+      <div className="sig-tab">
+        {tab === 'choice' ? (
+          <div className="sig-choice">
+            {sig && user && sig.imageUrl && fullName && (
+              <>
+                <FontFamilySelection
+                  fullName={fullName}
+                  choiceState={choiceState}
+                  setChoiceState={setChoiceState}
+                  setChanged={setChanged}
+                />
+              </>
+            )}
+          </div>
+        ) : (
+          <SigPad sigPadRef={sigPadRef} setChanged={setChanged} />
         )}
       </div>
-    </>
+      <Footer changed={changed} onUpdate={onUpdate} updating={updating} />
+    </div>
   );
 };
 
-Profile.propTypes = {};
+Profile.propTypes = {
+  sig: SigPropTypeShape.isRequired,
+  user: UserPropTypeShape.isRequired,
+  updateSig: PropTypes.func.isRequired,
+  fetchMe: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    go: PropTypes.func,
+  }).isRequired,
+};
 
 export default Profile;

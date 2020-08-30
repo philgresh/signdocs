@@ -2,13 +2,13 @@
 #
 # Table name: content_fields
 #
-#  id               :bigint           not null, primary key
+#  id               :uuid             not null, primary key
 #  bbox             :json             not null
 #  contentable_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  assignee_id      :uuid             not null
-#  contentable_id   :bigint
+#  contentable_id   :uuid
 #  document_id      :uuid             not null
 #
 # Indexes

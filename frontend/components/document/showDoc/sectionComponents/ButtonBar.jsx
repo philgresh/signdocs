@@ -3,7 +3,13 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faPrint } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDownload,
+  faPrint,
+  faEdit,
+  faTrashAlt,
+  faStamp,
+} from '@fortawesome/free-solid-svg-icons';
 import { DocPropTypeShape, UserPropTypeShape } from '../../../propTypes';
 
 const ButtonBar = ({ doc, deleteDocument, history }) => {
@@ -39,7 +45,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
           className="inline-link"
           aria-label="Download this document"
         >
-          <FontAwesomeIcon icon={faDownload} color="inherit" />
+          <FontAwesomeIcon icon={faDownload} color="inherit" title="Download" />
         </a>
         <a
           href={fileUrl}
@@ -48,14 +54,17 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
           className="inline-link"
           aria-label="Open this document to print"
         >
-          <FontAwesomeIcon icon={faPrint} color="inherit" />
+          <FontAwesomeIcon icon={faPrint} color="inherit" title="Print" />
         </a>
       </div>
       <div className="flex-right">
         {isOwner && (
           <>
+            <Link to={`/documents/${docId}/prepare`} className="inline-link">
+              <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
+            </Link>
             <Link to={`/documents/${docId}/edit`} className="inline-link">
-              Edit
+              <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
             </Link>
             <button
               className="flat"
@@ -64,7 +73,11 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
               onClick={onDelete}
               disabled={deleting}
             >
-              {deleting ? 'Deleting...' : 'Delete'}
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                color="inherit"
+                title="Delete"
+              />
             </button>
           </>
         )}

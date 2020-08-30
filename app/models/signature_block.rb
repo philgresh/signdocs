@@ -2,12 +2,13 @@
 #
 # Table name: signature_blocks
 #
-#  id         :uuid             not null, primary key
-#  pub_key    :string
-#  styling    :json
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :uuid             not null
+#  id                  :uuid             not null, primary key
+#  pub_key             :string
+#  pub_key_fingerprint :string
+#  styling             :json
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :uuid             not null
 #
 # Indexes
 #
@@ -26,16 +27,20 @@ class SignatureBlock < ApplicationRecord
     "'Permanent Marker', cursive",
     "'Rock Salt', cursive",
   ].freeze
-  COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
+  # COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
 
   IMGS_PATH = "#{Rails.root}/app/assets/images/"
 
-  before_save :ensure_pub_key
+  before_create :gen_new_pub_key
   after_create :gen_svg_from_name
   validates_presence_of :user_id
   belongs_to :user
   has_one :content_fields, as: :contentable
   has_one_attached :sig_image
+
+  def block_type
+    "SIGNATURE"
+  end
 
   def gen_new_pub_key
     @kms ||= kms
@@ -47,7 +52,7 @@ class SignatureBlock < ApplicationRecord
 
     if response
       self.pub_key = response.key_metadata.key_id
-      self.save!
+      self.pub_key_fingerprint = fetch_pub_key(true)
     end
     self.pub_key
   end
@@ -99,12 +104,30 @@ class SignatureBlock < ApplicationRecord
 
   def gen_svg_from_name(
     font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample,
-    fill_color = COLORS.sample
+    # fill_color = COLORS.sample
+    fill_color = "#000028"
   )
-    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
     @user = self.user
     name_text = "#{@user.first_name} #{@user.last_name}"
+    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
+    svg.text(
+      name_text,
+      x: 20,
+      y: 60,
+      font_family: font_family,
+      font_size: 30,
+      fill: fill_color,
+    )
+    self.styling = { font_family: font_family, fill: fill_color }
 
+    gen_svg_wrapper(svg)
+  end
+
+  def gen_svg_wrapper(inner)
+    @user ||= self.user
+    svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
+
+    fingerprint_text = self.pub_key_fingerprint
     svg.build do
       svg.path(
         d: "M 50 10 l -20 0 a 25 25 90 0 0 -25 25 L 5 65 a 25 25 90 0 0 25 25 L 50 90",
@@ -123,23 +146,16 @@ class SignatureBlock < ApplicationRecord
         font_weight: "700",
       )
       svg.text(
-        "423EB1DA08FE722382A115E350B522AB",
-        # self.fetch_pub_key(true),
+        fingerprint_text,
         x: 55,
         y: 94,
         font_family: "'Roboto Mono', monospace",
         font_size: 12,
         fill: "#000028",
       )
-      svg.text(
-        name_text,
-        x: 20,
-        y: 60,
-        font_family: font_family,
-        font_size: 30,
-        fill: fill_color,
-      )
     end
+
+    svg << inner
     local_link = "#{IMGS_PATH}#{Time.now.to_i}.svg"
     svg.save local_link
     self.sig_image.attach(
@@ -149,7 +165,6 @@ class SignatureBlock < ApplicationRecord
       # identify: false,
     )
 
-    self.styling = { font_family: font_family, fill: fill_color }
     self.save!
     File.delete(local_link) if File.exist?(local_link)
   end

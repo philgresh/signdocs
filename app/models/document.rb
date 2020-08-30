@@ -52,6 +52,10 @@ class Document < ApplicationRecord
     d_owner.user unless d_owner.nil?
   end
 
+  # def editors << (user)
+  #       self.editors << unless document_editors.find_by(user_id: user.id)
+  # end
+
   def owner=(user)
     de = document_editor_owner
     if de
@@ -59,7 +63,12 @@ class Document < ApplicationRecord
       de.set_owner(false)
     end
 
-    document_editors.find_by(user_id: user.id).set_owner(true)
+    de = document_editors.find_by(user_id: user.id)
+    if de.nil?
+      self.editors << user
+      de = document_editors.find_by(user_id: user.id)
+    end
+    de.set_owner(true)
   end
 
   private

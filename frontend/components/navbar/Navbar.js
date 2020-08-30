@@ -2,24 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import { UserPropTypeShape } from '../propTypes';
+import SignedInRightNavMenu from './SignedInRightNavMenu';
 
 const splashLinksLeft = [
-  {
-    to: '/products',
-    title: 'Products',
-  },
-  {
-    to: '/solutions',
-    title: 'Solutions',
-  },
-  {
-    to: '/devs',
-    title: 'Developers',
-  },
-  {
-    to: '/pricing',
-    title: 'Pricing',
-  },
+  // {
+  //   to: '/products',
+  //   title: 'Products',
+  // },
+  // {
+  //   to: '/solutions',
+  //   title: 'Solutions',
+  // },
+  // {
+  //   to: '/devs',
+  //   title: 'Developers',
+  // },
+  // {
+  //   to: '/pricing',
+  //   title: 'Pricing',
+  // },
 ];
 
 const signedInLinksLeft = [
@@ -47,25 +48,11 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  const currentUserIsDemo =
-    currentUser && /^bob.*@example.com/.test(currentUser.email);
-  const greeting =
-    currentUser &&
-    (currentUserIsDemo ? (
-      <p>
-        Hello, <abbr title={currentUser.email}>{currentUser.firstName}</abbr>
-      </p>
-    ) : (
-      <Link to="/profile">Hello, {currentUser.firstName}</Link>
-    ));
+  // const currentUserIsDemo =
+  //   currentUser && /^bob.*@example.com/.test(currentUser.email);
 
   const rightNavSignedIn = currentUser && (
-    <li className="no-pointer">
-      {greeting}
-      <button onClick={signoutUser} type="button" className="signout flat">
-        Sign Out
-      </button>
-    </li>
+    <SignedInRightNavMenu currentUser={currentUser} signoutUser={signoutUser} />
   );
 
   const rightNavSignedOut = navBarLinksRight.map(({ to, title, className }) => (
@@ -101,13 +88,13 @@ const Navbar = ({ currentUser, signoutUser }) => {
 
   return (
     <nav>
-      <div className="flex-left">
+      <div className="flex-container-left">
         <h1>
           <Link to={mastheadLinkTo}>SignDocs</Link>
         </h1>
         <ul className="nav-links">{navLinksLeft}</ul>
       </div>
-      <div className="flex-right">
+      <div className="flex-container-right">
         <ul className="nav-links">{navLinksRight}</ul>
       </div>
     </nav>

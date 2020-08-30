@@ -1,6 +1,6 @@
 class Api::DocumentsController < ApplicationController
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
-  before_action :require_logged_in
+  # before_action :require_logged_in
   before_action :require_owner_status, only: [:destroy, :update, :signedurl]
   # before_action :require_editor_status, only: [:edit]
 
@@ -15,6 +15,7 @@ class Api::DocumentsController < ApplicationController
     if @document
       @file = @document.file
       @users = User.where(id: @document.editor_ids)
+      @contentables = @document.content_fields
       render :show
     else
       render json: {
@@ -25,10 +26,11 @@ class Api::DocumentsController < ApplicationController
   end
 
   def create
+    assignee_ids = JSON.parse(params[:doc][:assignees])
     @document = Document.new(document_params)
 
     if @document.valid? && @document.save
-      @document.editors << current_user
+      @document.editor_ids = assignee_ids << current_user.id
       @document.owner = current_user
       @preview_image = @document.file.preview(resize: "200x200>").processed.image
       # @document[''] = blob.preview(thumbnail: "300").processed.image
@@ -46,7 +48,15 @@ class Api::DocumentsController < ApplicationController
   end
 
   def update
+    assignee_ids = []
+    if params[:doc][:assignees].present?
+      assignee_ids = JSON.parse(params[:doc][:assignees])
+    end
+    
+
     if @document.update(document_params)
+      @document.editor_ids = assignee_ids << current_user.id
+      @document.save
       # render "api/documents/document", document: @document
       show
     else
@@ -96,5 +106,9 @@ class Api::DocumentsController < ApplicationController
     if !@document.editors.include?(current_user)
       render json: { document: ["You must be an editor to do that."] }, status: :unauthorized
     end
+  end
+
+  def remove_all_other_editors
+
   end
 end

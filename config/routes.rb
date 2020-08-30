@@ -15,6 +15,7 @@
 #                           PATCH  /api/documents/:id(.:format)                                                             api/documents#update {:format=>:json}
 #                           PUT    /api/documents/:id(.:format)                                                             api/documents#update {:format=>:json}
 #                           DELETE /api/documents/:id(.:format)                                                             api/documents#destroy {:format=>:json}
+#    sign_api_content_field POST   /api/content_fields/:id/sign(.:format)                                                   api/content_fields#sign {:format=>:json}
 #        api_content_fields POST   /api/content_fields(.:format)                                                            api/content_fields#create {:format=>:json}
 #         api_content_field PATCH  /api/content_fields/:id(.:format)                                                        api/content_fields#update {:format=>:json}
 #                           PUT    /api/content_fields/:id(.:format)                                                        api/content_fields#update {:format=>:json}
@@ -48,7 +49,11 @@ Rails.application.routes.draw do
         post "final"
       end
     end
-    resources :content_fields, only: [:create, :update, :destroy]
+    resources :content_fields, only: [:create, :update, :destroy] do
+      member do
+        post "sign"
+      end
+    end
     resources :sentinel_blocks, only: [:show, :update]
     resources :signature_blocks, only: [:show, :update]
     resources :text_blocks, only: [:show, :update]
