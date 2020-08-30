@@ -12,6 +12,7 @@ const Modal = ({ open, modalState, closeModal }) => {
     return null;
   }
 
+  // eslint-disable-next-line react/prop-types
   const { component: Component, props: modalProps } = modalState;
 
   const handleKeyPress = (e) => {
@@ -21,7 +22,6 @@ const Modal = ({ open, modalState, closeModal }) => {
 
   const handleBackgroundClick = (e) => {
     e.stopPropagation();
-    console.log('CLICK');
     closeModal();
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { UserPropTypeShape } from '../propTypes';
 
 const FirstSignin = ({ user }) => {
   return (
@@ -16,6 +16,8 @@ const FirstSignin = ({ user }) => {
   );
 };
 
-FirstSignin.propTypes = {};
+FirstSignin.propTypes = {
+  user: UserPropTypeShape.isRequired,
+};
 
 export default FirstSignin;

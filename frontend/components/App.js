@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
 import Navbar from './navbar';
 import Home from './home';
 import { Signin, Signup } from './session';
