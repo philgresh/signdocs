@@ -60,7 +60,7 @@ export const getAssociatedUsers = memoize((docId) =>
   }),
 );
 
-export const getAssignees = (docId) =>
+export const getSignatories = (docId) =>
   createSelector([getAllDocuments], (docs) => {
     const doc = docs[docId];
     if (!doc) return [];

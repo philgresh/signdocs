@@ -33,17 +33,16 @@ class EditDocContainer extends Component {
       history,
       receiveError,
       users,
-      assignees,
+      signatories,
       currUserId,
     } = this.props;
-
 
     if (!doc) return null;
 
     const docState = {
       title: doc.title,
       description: doc.description,
-      assignees: assignees.editors,
+      signatories: signatories.editors,
     };
     return (
       <DocForm
@@ -71,7 +70,7 @@ EditDocContainer.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   users: PropTypes.arrayOf(UserPropTypeShape).isRequired,
-  assignees: PropTypes.arrayOf(UserPropTypeShape).isRequired,
+  signatories: PropTypes.arrayOf(UserPropTypeShape).isRequired,
   fetchAllUsers: PropTypes.func.isRequired,
   currUserId: PropTypes.string.isRequired,
 };
@@ -86,7 +85,7 @@ const mapStateToProps = (state, ownProps) => {
     errors: getErrors(state, 'documents'),
     formType: 'Edit Document',
     users: getUsersAsArray(state),
-    assignees: getAssociatedUsers(docId)(state),
+    signatories: getAssociatedUsers(docId)(state),
     currUserId: state.session.id,
   };
 };

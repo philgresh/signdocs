@@ -33,7 +33,7 @@ export const ContentFieldPropTypeShape = PropTypes.shape({
   docId: PropTypes.string,
   contentableId: PropTypes.string,
   contentableType: PropTypes.string,
-  assigneeId: PropTypes.string,
+  signatoryId: PropTypes.string,
   bbox: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,

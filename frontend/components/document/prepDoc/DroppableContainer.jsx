@@ -41,8 +41,8 @@ const DroppableContainer = ({ children, className, thisPage }) => {
 
       let newBBOX = convertBBOXtoPixels(item.bbox, thisPage);
 
-      let left = Math.round(newBBOX.left + delta.x);
-      let top = Math.round(newBBOX.top + delta.y);
+      let left = newBBOX.left + delta.x;
+      let top = newBBOX.top + delta.y;
       const pageWidth = getWidthOfCurrentPage(thisPage);
       const pageHeight = getHeightOfCurrentPage(thisPage);
 

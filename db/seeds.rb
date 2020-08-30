@@ -115,14 +115,13 @@ def create_new_content_fields(docs, sentinels)
         height: rand(50..200),
         page: 1,
       },
-      assignee_id: doc.owner.id,
+      signatory_id: doc.owner.id,
       document_id: doc.id,
       contentable: sentinel,
     )
   end
 
   print_results(ContentField)
-  
 end
 
 users = create_new_users() << setup_demo_user()

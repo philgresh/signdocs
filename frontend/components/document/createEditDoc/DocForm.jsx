@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AssigneeSelect from './AssigneeSelect';
+import SignatoriesSelect from './SignatoriesSelect';
 import { HelperText } from '../../helperComponents';
 import { UserPropTypeShape } from '../../propTypes';
 import { createSchema, editSchema } from './validationSchema';
@@ -25,14 +25,14 @@ export default class DocForm extends Component {
     this.state = {
       title: docState.title || '',
       description: docState.description || '',
-      assignees: docState.assignees || [],
+      signatories: docState.signatories || [],
       file: null,
       loading: false,
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleAssigneeChange = this.handleAssigneeChange.bind(this);
+    this.handleSignatoryChange = this.handleSignatoryChange.bind(this);
     this.isCreate = formType === 'Create Document';
     document.title = this.isCreate
       ? `SignDocs - Create new document`
@@ -57,8 +57,8 @@ export default class DocForm extends Component {
     };
   }
 
-  handleAssigneeChange(value) {
-    this.setState({ assignees: value || [] });
+  handleSignatoryChange(value) {
+    this.setState({ signatories: value || [] });
   }
 
   handleSubmit(e) {
@@ -92,14 +92,14 @@ export default class DocForm extends Component {
   }
 
   submitFormData() {
-    const { title, description, file, assignees } = this.state;
+    const { title, description, file, signatories } = this.state;
 
     const formData = new FormData();
     formData.append('doc[title]', title);
     formData.append('doc[description]', description);
 
-    const assigneeIds = assignees.map((a) => a.value);
-    formData.append('doc[assignees]', JSON.stringify(assigneeIds));
+    const signatoryIds = signatories.map((a) => a.value);
+    formData.append('doc[signatories]', JSON.stringify(signatoryIds));
 
     if (this.props.formType === 'Create Document')
       formData.append('doc[file]', file);
@@ -132,7 +132,7 @@ export default class DocForm extends Component {
 
     const filteredUsers = users.filter((u) => u.id !== currUserId);
 
-    const formattedAssignees = this.state.assignees.map((user) => ({
+    const formattedSignatories = this.state.signatories.map((user) => ({
       value: user.value || user.id,
       label: user.label || `${user.firstName} ${user.lastName}`,
     }));
@@ -176,12 +176,12 @@ export default class DocForm extends Component {
             <HelperText field="file" path="documents.file" />
           </>
         )}
-        <label htmlFor="assignees">Select signatories</label>
-        <AssigneeSelect
-          id="assignees"
+        <label htmlFor="signatories">Select signatories</label>
+        <SignatoriesSelect
+          id="signatories"
           users={filteredUsers}
-          onChange={this.handleAssigneeChange}
-          value={formattedAssignees}
+          onChange={this.handleSignatoryChange}
+          value={formattedSignatories}
         />
         <button type="submit" disabled={loading}>
           {loading ? buttonSubmitText : buttonText}
@@ -196,7 +196,7 @@ DocForm.propTypes = {
   docState: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
-    assignees: PropTypes.arrayOf(UserPropTypeShape),
+    signatories: PropTypes.arrayOf(UserPropTypeShape),
   }),
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -205,6 +205,7 @@ DocForm.propTypes = {
   receiveError: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(UserPropTypeShape).isRequired,
+  currUserId: PropTypes.string.isRequired,
 };
 
 DocForm.defaultProps = {

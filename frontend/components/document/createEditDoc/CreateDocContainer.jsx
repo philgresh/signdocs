@@ -40,7 +40,7 @@ const mapStateToProps = (state) => ({
   docState: {
     title: '',
     description: '',
-    assignees: [],
+    signatories: [],
   },
   errors: getErrors(state, 'documents'),
   formType: 'Create Document',

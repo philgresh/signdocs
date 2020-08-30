@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const editSchema = yup.object().shape({
   title: yup.string().trim().max(255, 'is too long.').required('is required.'),
   description: yup.string().trim().max(2000, 'is too long.'),
-  assignees: yup.array().of(
+  signatories: yup.array().of(
     yup.object().shape({
       id: yup.string(),
     }),

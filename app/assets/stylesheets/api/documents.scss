@@ -353,7 +353,7 @@
   height: calc(100% - 4.5rem);
   $field-side-bar-width: 250px;
 
-  & h2 {
+  & > h2 {
     margin-left: 2rem;
   }
 
@@ -370,7 +370,7 @@
       padding-left: 2rem;
       text-align: center;
 
-      & .assignees-list {
+      & .signatories-list {
         text-align: left;
 
         & input {

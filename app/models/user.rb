@@ -42,7 +42,7 @@ class User < ApplicationRecord
   has_many :sentinel_blocks,
            dependent: :destroy
   has_many :content_fields,
-           foreign_key: :assignee_id
+           foreign_key: :signatory_id
 
   def self.find_by_credentials(email, password)
     downcase_email = email.downcase

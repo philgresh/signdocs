@@ -5,7 +5,6 @@ class CreateContentFields < ActiveRecord::Migration[5.2]
     create_table :content_fields, id: :uuid  do |t|
       t.uuid :document_id, null: false
       t.uuid :assignee_id, null: false
-      # t.references :contentable, polymorphic: true
       t.uuid :contentable_id
       t.string :contentable_type
       t.json :bbox, null: false

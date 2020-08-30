@@ -21,7 +21,7 @@ const initialState = Object.freeze({
   //   docId: '6eaed6a4-6281-4374-9ae7-0bbf7e17de19',
   //   contentableId: '432',
   //   contentableType: 'signatureBlock',
-  //   assignee: '444',
+  //   signatory: '444',
   // },
 });
 

@@ -12,7 +12,7 @@ class Api::ContentFieldsController < ApplicationController
 
       @cf = ContentField.new(
         bbox: params[:content_field][:bbox],
-        assignee_id: params[:content_field][:assignee_id],
+        signatory_id: params[:content_field][:signatory_id],
         document_id: params[:content_field][:document_id],
         :contentable => sentinel,
       )
@@ -47,14 +47,14 @@ class Api::ContentFieldsController < ApplicationController
     @cf = ContentField.find(params[:id])
     filled, block_type = parse_type_params
     if block_type == "SIGNATURE"
-      sig = User.find(@cf.assignee_id).signature
+      sig = User.find(@cf.signatory_id).signature
       if sig
         @cf.contentable.destroy
         @cf.contentable = sig
         @cf.save
         render :show
       else
-        render json: { contentFields: ["Assignee is not valid or does not have a valid signature"] }, status: :bad_request
+        render json: { contentFields: ["Signatory is not valid or does not have a valid signature"] }, status: :bad_request
       end
     end
   end
@@ -72,7 +72,7 @@ class Api::ContentFieldsController < ApplicationController
 
   def content_field_params
     params.require(:content_field).permit(
-      :assignee_id,
+      :signatory_id,
       :type,
       :document_id,
       bbox: [

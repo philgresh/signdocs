@@ -46,6 +46,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
           aria-label="Download this document"
         >
           <FontAwesomeIcon icon={faDownload} color="inherit" title="Download" />
+          &nbsp;&nbsp;Download
         </a>
         <a
           href={fileUrl}
@@ -55,6 +56,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
           aria-label="Open this document to print"
         >
           <FontAwesomeIcon icon={faPrint} color="inherit" title="Print" />
+          &nbsp;&nbsp;Print
         </a>
       </div>
       <div className="flex-right">
@@ -62,9 +64,11 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
           <>
             <Link to={`/documents/${docId}/prepare`} className="inline-link">
               <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
+              &nbsp;&nbsp;Prepare
             </Link>
             <Link to={`/documents/${docId}/edit`} className="inline-link">
               <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
+              &nbsp;&nbsp;Edit
             </Link>
             <button
               className="flat"
@@ -78,6 +82,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
                 color="inherit"
                 title="Delete"
               />
+              &nbsp;&nbsp;Delete
             </button>
           </>
         )}

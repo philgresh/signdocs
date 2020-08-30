@@ -26,11 +26,11 @@ class Api::DocumentsController < ApplicationController
   end
 
   def create
-    assignee_ids = JSON.parse(params[:doc][:assignees])
+    signatory_ids = JSON.parse(params[:doc][:signatories])
     @document = Document.new(document_params)
 
     if @document.valid? && @document.save
-      @document.editor_ids = assignee_ids << current_user.id
+      @document.editor_ids = signatory_ids << current_user.id
       @document.owner = current_user
       @preview_image = @document.file.preview(resize: "200x200>").processed.image
       # @document[''] = blob.preview(thumbnail: "300").processed.image
@@ -48,14 +48,14 @@ class Api::DocumentsController < ApplicationController
   end
 
   def update
-    assignee_ids = []
-    if params[:doc][:assignees].present?
-      assignee_ids = JSON.parse(params[:doc][:assignees])
+    signatory_ids = []
+    if params[:doc][:signatories].present?
+      signatory_ids = JSON.parse(params[:doc][:signatories])
     end
     
 
     if @document.update(document_params)
-      @document.editor_ids = assignee_ids << current_user.id
+      @document.editor_ids = signatory_ids << current_user.id
       @document.save
       # render "api/documents/document", document: @document
       show

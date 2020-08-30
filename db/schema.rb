@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_051207) do
+ActiveRecord::Schema.define(version: 2020_08_30_185021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -39,15 +39,15 @@ ActiveRecord::Schema.define(version: 2020_08_27_051207) do
 
   create_table "content_fields", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "document_id", null: false
-    t.uuid "assignee_id", null: false
+    t.uuid "signatory_id", null: false
     t.uuid "contentable_id"
     t.string "contentable_type"
     t.json "bbox", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assignee_id"], name: "index_content_fields_on_assignee_id"
     t.index ["contentable_type", "contentable_id"], name: "index_content_fields_on_contentable_type_and_contentable_id"
     t.index ["document_id"], name: "index_content_fields_on_document_id"
+    t.index ["signatory_id"], name: "index_content_fields_on_signatory_id"
   end
 
   create_table "document_editors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import Assignees from '../shared/Assignees';
+import Signatories from '../shared/Signatories';
 import SignPDF from './SignPDF';
 import { DocPropTypeShape } from '../../propTypes';
 
 import { fetchDocument } from '../../../actions/document';
 import {
   getDocumentById,
-  getAssignees,
+  getSignatories,
   getCurrentUser,
 } from '../../../reducers/selectors';
 
@@ -29,19 +29,21 @@ class SignDocContainer extends Component {
     if (!this.props.doc || Object.keys(this.props.doc).length === 0)
       return <div />;
 
-    const { doc, assignees } = this.props;
+    const { doc, signatories } = this.props;
     return (
       <div className="sign-doc-container">
         <h2>Sign your document</h2>
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
             <div className="side-bar">
-              <Assignees
-                assignees={assignees}
-                onChangeAssignee={this.onChangeAssignee}
+              <Signatories
+                signatories={signatories}
+                onChangeSignatory={this.onChangeSignatory}
               />
             </div>
-            {doc && doc.fileUrl && <SignPDF doc={doc} assignees={assignees} />}
+            {doc && doc.fileUrl && (
+              <SignPDF doc={doc} signatories={signatories} />
+            )}
           </DndProvider>
         </div>
       </div>
@@ -53,7 +55,7 @@ SignDocContainer.propTypes = {
   doc: DocPropTypeShape.isRequired,
   fetchDocument: PropTypes.func.isRequired,
   // currentUser: UserPropTypeShape.isRequired,
-  assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
+  signatories: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -61,7 +63,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     doc: getDocumentById(docId)(state),
     currentUser: getCurrentUser(state),
-    assignees: getAssignees(docId)(state),
+    signatories: getSignatories(docId)(state),
   };
 };
 

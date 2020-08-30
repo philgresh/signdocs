@@ -7,14 +7,14 @@ import { convertBBOXtoPixels } from '../../../utils/contentField';
 
 const FillableCF = ({ cfData, thisPage }) => {
   const dispatch = useDispatch();
-  const { type, bbox, assigneeId, placeholder, body } = cfData;
-  const assignee = useSelector(getUserDetails(assigneeId));
-  const assigneeName = `${assignee.firstName}\u00A0${assignee.lastName}`;
+  const { type, bbox, signatoryId, placeholder, body } = cfData;
+  const signatory = useSelector(getUserDetails(signatoryId));
+  const signatoryName = `${signatory.firstName}\u00A0${signatory.lastName}`;
 
   let component = null;
   switch (type) {
     case ItemTypes.UNFILLED_SIGNATURE: {
-      component = <div className="signature-box">{assigneeName}</div>;
+      component = <div className="signature-box">{signatoryName}</div>;
       break;
     }
     case ItemTypes.UNFILLED_TEXT: {

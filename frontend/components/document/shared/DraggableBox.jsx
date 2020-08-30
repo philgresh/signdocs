@@ -15,12 +15,12 @@ const DraggableBox = ({ cfData, thisPage }) => {
     type,
     bbox,
     hideSourceOnDrag = false,
-    assigneeId,
+    signatoryId,
     placeholder,
   } = cfData;
   const onRemove = () => dispatch(deleteContentField(cfData.id));
-  const assignee = useSelector(getUserDetails(assigneeId));
-  const assigneeName = `${assignee.firstName}\u00A0${assignee.lastName}`;
+  const signatory = useSelector(getUserDetails(signatoryId));
+  const signatoryName = `${signatory.firstName}\u00A0${signatory.lastName}`;
 
   const [{ isDragging }, drag] = useDrag({
     item: { ...cfData, type },
@@ -38,7 +38,7 @@ const DraggableBox = ({ cfData, thisPage }) => {
       component = (
         <div className="signature-box unfilled">
           <FontAwesomeIcon icon={faSignature} color="inherit" />
-          {assigneeName}
+          {signatoryName}
         </div>
       );
       break;

@@ -9,21 +9,21 @@ export const getWidthOfCurrentPage = (thisPage) =>
 export const getHeightOfCurrentPage = (thisPage) =>
   getCurrentCanvas(thisPage).height();
 
-export const twoDecimalPrecision = (val) => Math.floor(val * 100) / 100;
+export const threeDecimalPrecision = (val) => Math.floor(val * 1000) / 1000;
 
 // ************ percent to pixels
 
 export const widthPxls = (widthPct, thisPageWidth) =>
-  twoDecimalPrecision(widthPct * thisPageWidth);
+  threeDecimalPrecision(widthPct * thisPageWidth);
 
 export const heightPxls = (widthPct, thisPageWidth, aspectRatio) =>
-  twoDecimalPrecision(widthPxls(widthPct, thisPageWidth) / aspectRatio);
+  threeDecimalPrecision(widthPxls(widthPct, thisPageWidth) / aspectRatio);
 
 export const leftPxls = (x, thisPageWidth) =>
-  twoDecimalPrecision(x * thisPageWidth);
+  threeDecimalPrecision(x * thisPageWidth);
 
 export const topPxls = (y, thisPageHeight) =>
-  twoDecimalPrecision(y * thisPageHeight);
+  threeDecimalPrecision(y * thisPageHeight);
 
 export const convertBBOXtoPixels = (bbox, thisPage) => {
   const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
@@ -41,14 +41,15 @@ export const convertBBOXtoPixels = (bbox, thisPage) => {
 // ************ pixels to percent
 
 export const widthPct = (wPxls, thisPageWidth) =>
-  twoDecimalPrecision(wPxls / thisPageWidth);
+  threeDecimalPrecision(wPxls / thisPageWidth);
 export const heightPct = (hPxls, thisPageHeight) =>
-  twoDecimalPrecision(hPxls / thisPageHeight);
+  threeDecimalPrecision(hPxls / thisPageHeight);
 export const x = (left, thisPageWidth) =>
-  twoDecimalPrecision(left / thisPageWidth);
+  threeDecimalPrecision(left / thisPageWidth);
 export const y = (top, thisPageHeight) =>
-  twoDecimalPrecision(top / thisPageHeight);
-export const aspectRatio = (wPxls, hPxls) => twoDecimalPrecision(wPxls / hPxls);
+  threeDecimalPrecision(top / thisPageHeight);
+export const aspectRatio = (wPxls, hPxls) =>
+  threeDecimalPrecision(wPxls / hPxls);
 
 export const convertPixelsToBBOX = (bboxPxls, thisPage) => {
   // debugger;
@@ -72,7 +73,7 @@ const translateJStoRuby = (cfData) => {
   };
   const newCF = {
     ...cfData,
-    assignee_id: cfData.assigneeId,
+    signatory_id: cfData.signatoryId,
     document_id: cfData.docId,
     bbox: {
       ...newBBOX,

@@ -70,7 +70,7 @@ FieldItem.defaultProps = {
   children: null,
 };
 
-const Fields = ({ currAssignee }) => {
+const Fields = ({ currSignatory }) => {
   const { docId } = useParams();
   // const tempId = () => `${new Date().valueOf()}`;
 
@@ -82,32 +82,32 @@ const Fields = ({ currAssignee }) => {
       <hr />
       <ul>
         <FieldItem
-          assigneeId={currAssignee}
+          signatoryId={currSignatory}
           type={ItemTypes.UNFILLED_SIGNATURE}
           id={idGenerator.next().value}
           docId={docId}
-          disabled={!currAssignee}
+          disabled={!currSignatory}
           bbox={defaultSignatureBBOX}
         >
           Signature
         </FieldItem>
         <FieldItem
-          assigneeId={currAssignee}
+          signatoryId={currSignatory}
           type={ItemTypes.UNFILLED_TEXT}
           id={idGenerator.next().value}
           docId={docId}
-          disabled={!currAssignee}
+          disabled={!currSignatory}
           placeholder="CURRENT_DATE"
           bbox={defaultTextboxBBOX}
         >
           <p>Date of Signature</p>
         </FieldItem>
         <FieldItem
-          assigneeId={currAssignee}
+          signatoryId={currSignatory}
           type={ItemTypes.UNFILLED_TEXT}
           id={idGenerator.next().value}
           docId={docId}
-          disabled={!currAssignee}
+          disabled={!currSignatory}
           placeholder="SIGNEE_NAME"
           bbox={defaultTextboxBBOX}
         >
@@ -118,6 +118,6 @@ const Fields = ({ currAssignee }) => {
   );
 };
 
-Fields.propTypes = { currAssignee: PropTypes.string.isRequired };
+Fields.propTypes = { currSignatory: PropTypes.string.isRequired };
 
 export default Fields;

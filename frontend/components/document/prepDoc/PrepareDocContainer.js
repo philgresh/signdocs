@@ -6,11 +6,11 @@ import { withRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PrepPDF from './PrepPDF';
-import { Fields, Assignees } from '../shared';
+import { Fields, Signatories } from '../shared';
 import { fetchDocument } from '../../../actions/document';
 import {
   getDocumentById,
-  getAssignees,
+  getSignatories,
   getCurrentUser,
 } from '../../../reducers/selectors';
 import {
@@ -22,9 +22,9 @@ class PrepareDocContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currAssignee: null,
+      currSignatory: null,
     };
-    this.onChangeAssignee = this.onChangeAssignee.bind(this);
+    this.onChangeSignatory = this.onChangeSignatory.bind(this);
   }
 
   componentDidMount() {
@@ -35,9 +35,9 @@ class PrepareDocContainer extends Component {
     }
   }
 
-  onChangeAssignee(assigneeId) {
+  onChangeSignatory(signatoryId) {
     this.setState({
-      currAssignee: assigneeId,
+      currSignatory: signatoryId,
     });
   }
 
@@ -45,20 +45,20 @@ class PrepareDocContainer extends Component {
     if (!this.props.doc || Object.keys(this.props.doc).length === 0)
       return <div />;
 
-    const { currAssignee } = this.state;
-    const { doc, assignees } = this.props;
+    const { currSignatory } = this.state;
+    const { doc, signatories } = this.props;
     return (
       <div className="sign-doc-container">
         <h2>Prepare your document for signatures</h2>
         <div className="pdf-drag-container">
           <DndProvider backend={HTML5Backend}>
             <div className="side-bar">
-              <Assignees
-                currAssignee={currAssignee}
-                assignees={assignees}
-                onChangeAssignee={this.onChangeAssignee}
+              <Signatories
+                currSignatory={currSignatory}
+                signatories={signatories}
+                onChangeSignatory={this.onChangeSignatory}
               />
-              <Fields currAssignee={currAssignee} />
+              <Fields currSignatory={currSignatory} />
             </div>
             {doc && doc.fileUrl && <PrepPDF doc={doc} />}
           </DndProvider>
@@ -72,7 +72,7 @@ PrepareDocContainer.propTypes = {
   doc: DocPropTypeShape.isRequired,
   fetchDocument: PropTypes.func.isRequired,
   // currentUser: UserPropTypeShape.isRequired,
-  assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
+  signatories: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -80,7 +80,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     doc: getDocumentById(docId)(state),
     currentUser: getCurrentUser(state),
-    assignees: getAssignees(docId)(state),
+    signatories: getSignatories(docId)(state),
   };
 };
 
