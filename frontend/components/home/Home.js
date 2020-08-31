@@ -1,44 +1,38 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SvgLoader } from 'react-svgmt';
 import { Link } from 'react-router-dom';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sig: {},
+const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
+  const [sig, setSig] = useState({});
+  const [docs, setDocs] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentUser.sigId) {
+        const sigResult = await fetchSignature(currentUser.sigId);
+        setSig(sigResult.signature);
+      }
+      const docsResult = await fetchDocuments();
+      setDocs(docsResult);
     };
-  }
 
-  componentDidMount() {
-    const { currentUser, fetchDocuments, fetchSignature } = this.props;
-    if (currentUser.sigId) {
-      fetchSignature(currentUser.sigId).then((res) => {
-        this.setState({ sig: res.signature });
-      });
-    }
-    fetchDocuments();
-  }
+    fetchData();
+  }, []);
 
-  render() {
-    const { sig } = this.state;
-    return (
-      <div className="main-container home">
-        <div className="top-background-gradient" />
-        <div className="home-sig-link" role="presentation">
-          {sig && sig.imageUrl && (
-            <Link to="profile">
-              <SvgLoader path={sig.imageUrl} />
-            </Link>
-          )}
-        </div>
-        <h1>This is the home component</h1>
+  return (
+    <div className="main-container home">
+      <div className="top-background-gradient" />
+      <div className="home-sig-link" role="presentation">
+        {sig && sig.imageUrl && (
+          <Link to="profile">
+            <SvgLoader path={sig.imageUrl} />
+          </Link>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Home.propTypes = {
   currentUser: PropTypes.object.isRequired,

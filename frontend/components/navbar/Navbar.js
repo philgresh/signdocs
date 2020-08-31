@@ -24,13 +24,17 @@ const splashLinksLeft = [
 ];
 
 const signedInLinksLeft = [
-  {
-    to: '/',
-    title: 'Home',
-  },
+  // {
+  //   to: '/',
+  //   title: 'Home',
+  // },
   {
     to: '/documents',
     title: 'Documents',
+  },
+  {
+    to: '/profile',
+    title: 'Profile',
   },
 ];
 

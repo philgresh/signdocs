@@ -48,7 +48,7 @@ const App = () => {
                 component={SignDocContainer}
               />
               <ProtectedRoute path="/documents/:docId" component={DocDetails} />
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={DocsIndex} />
               <AuthRoute exact path="/signin" component={Signin} />
               <AuthRoute exact path="/signup" component={Signup} />
               <Route path="/404" component={FourOhFour} />
