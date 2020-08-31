@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SvgLoader } from 'react-svgmt';
 import { Link } from 'react-router-dom';
+import RecentActivity from './RecentActivity';
 
 const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
+  const [loading, setLoading] = useState(true);
   const [sig, setSig] = useState({});
-  const [docs, setDocs] = useState({});
+  const [docs, setDocs] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser.sigId) {
@@ -14,7 +16,10 @@ const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
         setSig(sigResult.signature);
       }
       const docsResult = await fetchDocuments();
-      setDocs(docsResult);
+      const arrayifiedDocs = Object.values(docsResult.documents);
+
+      setDocs(arrayifiedDocs);
+      setLoading(false);
     };
 
     fetchData();
@@ -30,6 +35,7 @@ const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
           </Link>
         )}
       </div>
+      {loading ? <h2>Loading data...</h2> : <RecentActivity docs={docs} />}
     </div>
   );
 };

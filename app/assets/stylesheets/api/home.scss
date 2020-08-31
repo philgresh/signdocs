@@ -1,6 +1,4 @@
 .home {
-
-
   .top-background-gradient {
     height: 250px;
     width: 100%;
@@ -39,6 +37,37 @@
       height: 100%;
       z-index: 10;
       cursor: pointer;
+    }
+  }
+}
+
+.recent-activity {
+  & h2 {
+    margin-top: 4rem;
+    text-align: center;
+  }
+
+  & .recent-docs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    & .card {
+      flex: 1 0 250px;
+      line-height: 1.5;
+
+      & > a {
+        color: inherit;
+      }
+
+      & .title {
+        font-weight: bold;
+      }
+
+      & .updated-at {
+        font-weight: lighter;
+        color: var(--gray);
+      }
     }
   }
 }
