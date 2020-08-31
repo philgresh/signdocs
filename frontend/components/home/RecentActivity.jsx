@@ -15,9 +15,9 @@ const RecentActivity = ({ docs }) => {
     <div className="recent-activity">
       <h2>Recent Activity</h2>
       <div className="recent-docs">
-      {sortedDocs(docs).map((doc) => {
-        return <RecentActivityCard key={doc.id} doc={doc} />;
-      })}
+        {sortedDocs(docs).map((doc) => {
+          return <RecentActivityCard key={doc.id} doc={doc} />;
+        })}
       </div>
     </div>
   );

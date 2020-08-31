@@ -298,9 +298,9 @@
         overflow: hidden;
         // color: inherit;
 
-        &:visited {
-          // color: inherit;
-        }
+        // &:visited {
+        //   // color: inherit;
+        // }
         &:hover {
           color: var(--main-blue);
         }
@@ -476,4 +476,9 @@
       }
     }
   }
+}
+
+.call-to-create {
+  text-align: center;
+  margin-top: 4rem;
 }

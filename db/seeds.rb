@@ -124,7 +124,8 @@ def create_new_content_fields(docs, sentinels)
   print_results(ContentField)
 end
 
-users = create_new_users() << setup_demo_user()
-docs = create_new_documents()
-sentinels = create_new_sentinel_blocks(docs)
-content_fields = create_new_content_fields(docs, sentinels)
+demo_user = setup_demo_user()
+# users = create_new_users() << demo_user
+# docs = create_new_documents()
+# sentinels = create_new_sentinel_blocks(docs)
+# content_fields = create_new_content_fields(docs, sentinels)

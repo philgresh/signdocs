@@ -69,9 +69,9 @@ ActiveRecord::Schema.define(version: 2020_08_30_185021) do
 
   create_table "sentinel_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "block_type", null: false
+    t.string "placeholder"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "placeholder"
   end
 
   create_table "signature_blocks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

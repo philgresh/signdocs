@@ -19,10 +19,10 @@ const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
       const arrayifiedDocs = Object.values(docsResult.documents);
 
       setDocs(arrayifiedDocs);
-      setLoading(false);
     };
 
     fetchData();
+    setLoading(false);
   }, []);
 
   return (
