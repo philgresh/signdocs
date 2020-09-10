@@ -17,6 +17,7 @@
 require "aws-sdk-s3"
 require "victor"
 require "digest/md5"
+require "cuid"
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
@@ -43,17 +44,19 @@ class SignatureBlock < ApplicationRecord
   end
 
   def gen_new_pub_key
-    @kms ||= kms
-    response = @kms.create_key({
-      key_usage: "SIGN_VERIFY",
-      customer_master_key_spec: "RSA_3072",
-      tags: [{ tag_key: "user_id", tag_value: self.user_id }],
-    })
+    self.pub_key = Cuid::generate
+    self.pub_key_fingerprint = self.pub_key
+    # @kms ||= kms
+    # response = @kms.create_key({
+    #   key_usage: "SIGN_VERIFY",
+    #   customer_master_key_spec: "RSA_3072",
+    #   tags: [{ tag_key: "user_id", tag_value: self.user_id }],
+    # })
 
-    if response
-      self.pub_key = response.key_metadata.key_id
-      self.pub_key_fingerprint = fetch_pub_key(true)
-    end
+    # if response
+    #   self.pub_key = response.key_metadata.key_id
+    #   self.pub_key_fingerprint = fetch_pub_key(true)
+    # end
     self.pub_key
   end
 
