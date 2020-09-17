@@ -9,6 +9,8 @@
 #  first_name      :string           not null
 #  last_name       :string           not null
 #  password_digest :string           not null
+#  reset_token     :string
+#  reset_token_exp :integer
 #  session_token   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -21,7 +23,12 @@
 class User < ApplicationRecord
   validates :email, :session_token, presence: true, uniqueness: true
   validates :password_digest, :first_name, :last_name, presence: true
-  validates :password, length: { minimum: 6, maximum: 64, allow_nil: true }
+  validates :password, length: {
+                         minimum: 6,
+                         maximum: 64,
+                         allow_nil: true,
+                         too_long: "%{count} characters is the maximum allowed",
+                       }
 
   attr_reader :password
   before_validation :ensure_session_token
@@ -68,7 +75,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{@user.first_name} #{@user.last_name}"
+    "#{self.first_name} #{self.last_name}"
   end
 
   private

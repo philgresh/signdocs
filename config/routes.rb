@@ -61,6 +61,7 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy] do
       member do
         post "reset"
+        post "forgotten"
       end
     end
   end

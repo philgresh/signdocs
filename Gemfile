@@ -28,6 +28,7 @@ gem "jbuilder", "~> 2.5"
 gem "bcrypt"
 gem "jquery-rails"
 gem "aws-sdk-s3", require: false
+gem 'sendgrid-ruby'
 
 # Use ActiveStorage variant
 gem 'active_storage_validations'
