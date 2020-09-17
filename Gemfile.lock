@@ -281,6 +281,7 @@ GEM
     ruby-vips (2.0.17)
       ffi (~> 1.9)
     ruby_dep (1.5.0)
+    ruby_http_client (3.5.1)
     rubyzip (2.3.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -296,6 +297,8 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sendgrid-ruby (6.3.4)
+      ruby_http_client (~> 3.4)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
     spring (2.1.0)
@@ -366,6 +369,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
+  sendgrid-ruby
   shoulda-matchers
   spring
   spring-watcher-listen (~> 2.0.0)
