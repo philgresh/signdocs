@@ -67,6 +67,10 @@ class User < ApplicationRecord
     new_st
   end
 
+  def full_name
+    "#{@user.first_name} #{@user.last_name}"
+  end
+
   private
 
   def downcase_fields
@@ -80,6 +84,4 @@ class User < ApplicationRecord
   def create_signature
     self.signature = SignatureBlock.create(user_id: self.id)
   end
-
-
 end
