@@ -71,11 +71,11 @@ class Api::SessionsController < ApplicationController
         render @user.errors.full_messages, status: 400
       end
     else
-      # @user.reset_token = nil
-      # @user.reset_token_exp = nil
-      # @user.reset_token_exp = nil
-      # @user.reset_token_verifier = nil
-      # @user.save
+      @user.reset_token = nil
+      @user.reset_token_exp = nil
+      @user.reset_token_exp = nil
+      @user.reset_token_verifier = nil
+      @user.save
       render json: { reset: "That link is invalid or has expired. Please try to reset again." }, status: 400
     end
   end
