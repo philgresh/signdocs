@@ -1,3 +1,6 @@
+require "digest/sha256"
+require "securerandom"
+
 class Api::SessionsController < ApplicationController
   # include ForgottenPasswordMailer
   # before_action :require_logged_in, only: [:destroy]
@@ -36,14 +39,9 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by(email: @email)
 
     if @user && !example_email
-      reset_token = SecureRandom.random_bytes(20)
-      reset_token_verifier = SecureRandom.random_bytes(20)
-      reset_string = Base64.urlsafe_encode64(reset_token + reset_token_verifier)
+      reset_string = @user.create_password_reset_token
       url = "https://signdocs.herokuapp.com/#/reset/#{reset_string}"
 
-      @user.reset_token = Base64.urlsafe_encode64(reset_token, padding: false)
-      @user.reset_token_verifier = Digest::SHA256.hexdigest reset_token_verifier
-      @user.reset_token_exp = 36.hours.from_now.to_i
       if @user.save
         ForgottenPasswordMailer.send_password_reset_token(@user, url).deliver
       else
@@ -62,19 +60,15 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by(reset_token: reset_token)
     if @user && @user.reset_token_exp >= Time.now.to_i && reset_token_verified(reset_token_verifier)
       @user.password = reset_params[:password]
-      @user.reset_token = nil
-      @user.reset_token_exp = nil
-      @user.reset_token_verifier = nil
       if (@user.save)
         render json: { reset: "Password successfully reset!" }
+        @user.clear_password_reset_token
+        @user.save
       else
         render @user.errors.full_messages, status: 400
       end
     else
-      @user.reset_token = nil
-      @user.reset_token_exp = nil
-      @user.reset_token_exp = nil
-      @user.reset_token_verifier = nil
+      @user.clear_password_reset_token
       @user.save
       render json: { reset: "That link is invalid or has expired. Please try to reset again." }, status: 400
     end

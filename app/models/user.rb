@@ -22,6 +22,10 @@
 #  index_users_on_reset_token    (reset_token)
 #  index_users_on_session_token  (session_token) UNIQUE
 #
+
+require "digest"
+require "securerandom"
+
 class User < ApplicationRecord
   validates :email, :session_token, presence: true, uniqueness: true
   validates :password_digest, :first_name, :last_name, presence: true
@@ -72,12 +76,30 @@ class User < ApplicationRecord
   def reset_session_token!
     new_st = SecureRandom.urlsafe_base64
     self.session_token = new_st
-    save
+    self.save
     new_st
   end
 
   def full_name
     "#{self.first_name} #{self.last_name}"
+  end
+
+  def create_password_reset_token
+    reset_token = SecureRandom.random_bytes(20)
+    reset_token_verifier = SecureRandom.random_bytes(20)
+    reset_string = Base64.urlsafe_encode64(reset_token + reset_token_verifier)
+    # url = "https://signdocs.herokuapp.com/#/reset/#{reset_string}"
+
+    self.reset_token = Base64.urlsafe_encode64(reset_token, padding: false)
+    self.reset_token_verifier = Digest::SHA256.hexdigest reset_token_verifier
+    self.reset_token_exp = 36.hours.from_now.to_i
+    return reset_string
+  end
+
+  def clear_password_reset_token
+    self.reset_token = nil
+    self.reset_token_exp = nil
+    self.reset_token_verifier = nil
   end
 
   private
