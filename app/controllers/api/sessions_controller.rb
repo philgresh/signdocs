@@ -1,4 +1,4 @@
-require "digest/sha256"
+require "digest"
 require "securerandom"
 
 class Api::SessionsController < ApplicationController
@@ -40,7 +40,9 @@ class Api::SessionsController < ApplicationController
 
     if @user && !example_email
       reset_string = @user.create_password_reset_token
-      url = "https://signdocs.herokuapp.com/#/reset/#{reset_string}"
+      url_base = Rails.env.production? ? "https://signdocs.herokuapp.com" : "http://localhost:3000"
+
+      url = "#{url_base}/#/reset/#{reset_string}"
 
       if @user.save
         ForgottenPasswordMailer.send_password_reset_token(@user, url).deliver
@@ -51,6 +53,10 @@ class Api::SessionsController < ApplicationController
   end
 
   def reset
+    if reset_params[:password] != reset_params[:password_confirmation]
+      render json: { reset: "Passwords must match!" }
+    end
+
     reset_string_bytes = Base64.urlsafe_decode64 reset_params[:reset_token]
     reset_token_bytes = reset_string_bytes.byteslice(0...20)
     reset_token_verifier = reset_string_bytes.slice(20..-1)
@@ -68,8 +74,6 @@ class Api::SessionsController < ApplicationController
         render @user.errors.full_messages, status: 400
       end
     else
-      @user.clear_password_reset_token
-      @user.save
       render json: { reset: "That link is invalid or has expired. Please try to reset again." }, status: 400
     end
   end
@@ -94,6 +98,6 @@ class Api::SessionsController < ApplicationController
   end
 
   def reset_params
-    params.require(:reset).permit(:reset_token, :password)
+    params.require(:reset).permit(:reset_token, :password_confirmation, :password)
   end
 end
