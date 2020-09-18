@@ -1,4 +1,5 @@
 import * as APIUtil from '../utils/session';
+// import { receiveError } from './document';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const SIGNOUT_CURRENT_USER = 'SIGNOUT_CURRENT_USER';
@@ -46,3 +47,19 @@ export const signoutUser = () => (dispatch) =>
       dispatch(receiveErrors(err.responseJSON));
       dispatch(signoutCurrentUser());
     });
+
+export const forgottenPassword = (email) => (dispatch) =>
+  APIUtil.forgottenPassword(email)
+    .then((res) => res)
+    .fail((err) => {
+      dispatch(receiveErrors(err.responseJSON));
+    });
+
+export const resetPassword = (reset) => (dispatch) =>
+  APIUtil.resetPassword(reset)
+    .then((res) => res)
+    .fail((err) => {
+      dispatch(receiveErrors(err.responseJSON));
+    });
+
+export const clearErrors = () => (dispatch) => dispatch(receiveErrors({}));

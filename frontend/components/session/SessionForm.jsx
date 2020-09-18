@@ -11,6 +11,7 @@ import { HelperText } from '../helperComponents';
 
 const SessionForm = (props) => {
   const {
+    clearErrors,
     formType,
     processForm,
     history,
@@ -28,7 +29,7 @@ const SessionForm = (props) => {
 
   useEffect(() => {
     return () => {
-      receiveErrors({});
+      clearErrors();
     };
   }, []);
 
@@ -99,7 +100,7 @@ const SessionForm = (props) => {
             <Link to="/signup">Sign up for free</Link>
           </p>
           <p>
-            <Link to="/signin">Forgot my password</Link>
+            <Link to="/forgotpassword">Forgot my password</Link>
           </p>
         </>
       )}
@@ -154,6 +155,7 @@ const SessionForm = (props) => {
 };
 
 SessionForm.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   processForm: PropTypes.func.isRequired,
   receiveErrors: PropTypes.func.isRequired,

@@ -297,6 +297,9 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sendgrid-actionmailer (3.1.0)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.0)
     sendgrid-ruby (6.3.4)
       ruby_http_client (~> 3.4)
     shoulda-matchers (4.3.0)
@@ -369,6 +372,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
+  sendgrid-actionmailer
   sendgrid-ruby
   shoulda-matchers
   spring
