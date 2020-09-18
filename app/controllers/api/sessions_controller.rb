@@ -1,7 +1,5 @@
-require "sendgrid-ruby"
-
 class Api::SessionsController < ApplicationController
-  include SendGrid
+  # include ForgottenPasswordMailer
   # before_action :require_logged_in, only: [:destroy]
   # before_action :require_logged_out, only: [:create]
   # skip_before_action :verify_authenticity_token, only: [:reset]
@@ -38,47 +36,48 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by(email: @email)
 
     if @user && !example_email
-      reset_token = SecureRandom.urlsafe_base64(24)
-      url = "https://signdocs.herokuapp.com/#/reset/#{reset_token}"
+      reset_token = SecureRandom.random_bytes(20)
+      reset_token_verifier = SecureRandom.random_bytes(20)
+      reset_string = Base64.urlsafe_encode64(reset_token + reset_token_verifier)
+      url = "https://signdocs.herokuapp.com/#/reset/#{reset_string}"
 
-      
-      @user.reset_token = reset_token
+      @user.reset_token = Base64.urlsafe_encode64(reset_token, padding: false)
+      @user.reset_token_verifier = Digest::SHA256.hexdigest reset_token_verifier
       @user.reset_token_exp = 36.hours.from_now.to_i
-      send_password_reset_token(@user, url) if @user.save
+      if @user.save
+        ForgottenPasswordMailer.send_password_reset_token(@user, url).deliver
+      else
+        puts "Some kind of error: #{@user.errors.full_messages}"
+      end
     end
   end
 
   def reset
-    @token = reset_params[:reset_token]
-    @user = User.find_by(reset_token: @token)
-    if @user && @user.reset_token_exp >= Time.now.to_i
+    reset_string_bytes = Base64.urlsafe_decode64 reset_params[:reset_token]
+    reset_token_bytes = reset_string_bytes.byteslice(0...20)
+    reset_token_verifier = reset_string_bytes.slice(20..-1)
+
+    reset_token = Base64.urlsafe_encode64(reset_token_bytes, padding: false)
+
+    @user = User.find_by(reset_token: reset_token)
+    if @user && @user.reset_token_exp >= Time.now.to_i && reset_token_verified(reset_token_verifier)
       @user.password = reset_params[:password]
       @user.reset_token = nil
       @user.reset_token_exp = nil
+      @user.reset_token_verifier = nil
       if (@user.save)
         render json: { reset: "Password successfully reset!" }
       else
         render @user.errors.full_messages, status: 400
       end
     else
+      @user.reset_token = nil
+      @user.reset_token_exp = nil
+      @user.reset_token_exp = nil
+      @user.reset_token_verifier = nil
+      @user.save
       render json: { reset: "That link has expired. Please try to reset again." }, status: 400
     end
-  end
-
-  
-
-  def send_password_reset_token(user, url)
-    from = Email.new(email: "phil@gresham.dev")
-    to = Email.new(email: user.email)
-    subject = "Your password reset token for SignDocs"
-    content = Content.new(type: "text/plain", value: "and easy to do anywhere, even with Ruby")
-    mail = Mail.new(from, subject, to, content)
-
-    sg = SendGrid::API.new(api_key: ENV["SENDGRID_API_KEY"])
-    response = sg.client.mail._("send").post(request_body: mail.to_json)
-    puts response.status_code
-    puts response.body
-    puts response.headers
   end
 
   private
@@ -90,6 +89,10 @@ class Api::SessionsController < ApplicationController
 
   def session_params
     params.require(:user).permit(:email, :password)
+  end
+
+  def reset_token_verified(reset_token_verifier)
+    Digest::SHA256.hexdigest(reset_token_verifier) == @user.reset_token_verifier
   end
 
   def email_param

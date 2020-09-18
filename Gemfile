@@ -29,6 +29,7 @@ gem "bcrypt"
 gem "jquery-rails"
 gem "aws-sdk-s3", require: false
 gem 'sendgrid-ruby'
+gem 'sendgrid-actionmailer'
 
 # Use ActiveStorage variant
 gem 'active_storage_validations'
