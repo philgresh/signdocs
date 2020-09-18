@@ -99,7 +99,7 @@ const SessionForm = (props) => {
             <Link to="/signup">Sign up for free</Link>
           </p>
           <p>
-            <Link to="/signin">Forgot my password</Link>
+            <Link to="/forgotpassword">Forgot my password</Link>
           </p>
         </>
       )}
