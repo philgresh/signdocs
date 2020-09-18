@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SessionForm from './SessionForm';
-import { createNewUser, receiveErrors } from '../../actions/session';
+import {
+  createNewUser,
+  receiveErrors,
+  clearErrors as clrErrors,
+} from '../../actions/session';
 
 const generateBob = () => {
   const now = Math.floor(Date.now() / 1000);
@@ -23,6 +27,7 @@ const mapStateToProps = (_state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   processForm: (formUser) => dispatch(createNewUser(formUser)),
   receiveErrors: (errs) => dispatch(receiveErrors(errs)),
+  clearErrors: () => dispatch(clrErrors()),
 });
 
 const SignupFormContainer = withRouter(

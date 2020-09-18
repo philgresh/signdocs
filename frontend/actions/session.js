@@ -55,4 +55,11 @@ export const forgottenPassword = (email) => (dispatch) =>
       dispatch(receiveErrors(err.responseJSON));
     });
 
+export const resetPassword = (reset) => (dispatch) =>
+  APIUtil.resetPassword(reset)
+    .then((res) => res)
+    .fail((err) => {
+      dispatch(receiveErrors(err.responseJSON));
+    });
+
 export const clearErrors = () => (dispatch) => dispatch(receiveErrors({}));

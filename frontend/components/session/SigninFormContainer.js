@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SessionForm from './SessionForm';
-import { signinUser, receiveErrors } from '../../actions/session';
+import {
+  signinUser,
+  receiveErrors,
+  clearErrors as clrErrors,
+} from '../../actions/session';
 import { onlySignInFields } from '../../utils/session';
 
 const mapStateToProps = () => ({
@@ -11,6 +15,7 @@ const mapStateToProps = () => ({
 const mapDispatchToProps = (dispatch) => ({
   processForm: (formUser) => dispatch(signinUser(onlySignInFields(formUser))),
   receiveErrors: (errs) => dispatch(receiveErrors(errs)),
+  clearErrors: () => dispatch(clrErrors()),
 });
 
 const SigninFormContainer = withRouter(

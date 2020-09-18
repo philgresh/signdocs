@@ -7,8 +7,8 @@ class Api::SessionsController < ApplicationController
 
   def create
     @user = User.find_by_credentials(
-      session_params.email,
-      session_params.password
+      session_params[:email],
+      session_params[:password]
     )
     if @user
       cookies[:user_id] = { :value => @user.id, :expires => 2.weeks.from_now }
@@ -71,12 +71,12 @@ class Api::SessionsController < ApplicationController
         render @user.errors.full_messages, status: 400
       end
     else
-      @user.reset_token = nil
-      @user.reset_token_exp = nil
-      @user.reset_token_exp = nil
-      @user.reset_token_verifier = nil
-      @user.save
-      render json: { reset: "That link has expired. Please try to reset again." }, status: 400
+      # @user.reset_token = nil
+      # @user.reset_token_exp = nil
+      # @user.reset_token_exp = nil
+      # @user.reset_token_verifier = nil
+      # @user.save
+      render json: { reset: "That link is invalid or has expired. Please try to reset again." }, status: 400
     end
   end
 
@@ -100,6 +100,6 @@ class Api::SessionsController < ApplicationController
   end
 
   def reset_params
-    params.permit(:reset_token, :password)
+    params.require(:reset).permit(:reset_token, :password)
   end
 end

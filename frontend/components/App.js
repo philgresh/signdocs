@@ -3,7 +3,12 @@ import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './navbar';
 import Home from './home';
-import { Signin, Signup, ForgottenPasswordContainer } from './session';
+import {
+  Signin,
+  Signup,
+  ForgottenPasswordContainer,
+  ResetPasswordContainer,
+} from './session';
 import { CreateDocContainer, EditDocContainer } from './document/createEditDoc';
 import ProfileContainer from './profile/ProfileContainer';
 import DocsIndex from './document/indexDocs';
@@ -55,6 +60,11 @@ const App = () => {
                 exact
                 path="/forgotpassword"
                 component={ForgottenPasswordContainer}
+              />
+              <Route
+                exact
+                path="/reset/:resetToken"
+                component={ResetPasswordContainer}
               />
               <Route path="/404" component={FourOhFour} />
               <Redirect to="/404" />

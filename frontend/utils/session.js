@@ -28,14 +28,11 @@ export const forgottenPassword = (email) =>
     },
   });
 
-export const resetPassword = ({ password, resetToken }) =>
+export const resetPassword = (reset) =>
   $.ajax({
     url: '/api/session/reset',
     method: 'POST',
-    data: {
-      password,
-      resetToken,
-    },
+    data: { reset },
   });
 
 export const onlySignInFields = (formUser) => ({
