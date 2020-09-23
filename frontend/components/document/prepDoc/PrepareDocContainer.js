@@ -1,96 +1,60 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { withRouter, useParams } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PrepPDF from './PrepPDF';
 import { Fields, Signatories } from '../shared';
 import { fetchDocument } from '../../../actions/document';
-import {
-  getDocumentById,
-  getSignatories,
-  getCurrentUser,
-} from '../../../reducers/selectors';
-import {
-  DocPropTypeShape,
-  // UserPropTypeShape
-} from '../../propTypes';
+import { getSignatories, getDocumentById } from '../../../reducers/selectors';
 
-class PrepareDocContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currSignatory: null,
+const PrepareDocContainer = () => {
+  const dispatch = useDispatch();
+  const { docId } = useParams();
+
+  const [loading, setLoading] = useState(true);
+  const [doc, setDoc] = useState(null);
+  const [currSignatory, setCurrSignatory] = useState('');
+
+  const signatories = useSelector((state) => getSignatories(docId)(state));
+  const staleDocData = useSelector((state) => getDocumentById(docId)(state));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchDocument(docId)).then((res) => {
+        setDoc(res.document);
+        setLoading(false);
+
+        document.title = `SignDocs - Sign ${res.document.title}`;
+      });
     };
-    this.onChangeSignatory = this.onChangeSignatory.bind(this);
-  }
 
-  componentDidMount() {
-    const { fetchDocument: fetchDoc, doc } = this.props;
-    fetchDoc();
-    if (doc) {
-      document.title = `SignDocs - Sign ${doc.title}`;
-    }
-  }
+    if (staleDocData) {
+      setDoc(staleDocData);
+    } else fetchData();
+  }, []);
 
-  onChangeSignatory(signatoryId) {
-    this.setState({
-      currSignatory: signatoryId,
-    });
-  }
-
-  render() {
-    if (!this.props.doc || Object.keys(this.props.doc).length === 0)
-      return <div />;
-
-    const { currSignatory } = this.state;
-    const { doc, signatories } = this.props;
-    return (
-      <div className="sign-doc-container">
-        <h2>Prepare your document for signatures</h2>
-        <div className="pdf-drag-container">
-          <DndProvider backend={HTML5Backend}>
-            <div className="side-bar">
-              <Signatories
-                currSignatory={currSignatory}
-                signatories={signatories}
-                onChangeSignatory={this.onChangeSignatory}
-              />
-              <Fields currSignatory={currSignatory} />
-            </div>
-            {doc && doc.fileUrl && <PrepPDF doc={doc} />}
-          </DndProvider>
-        </div>
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
+    <div className="sign-doc-container">
+      <h2>Prepare your document for signatures</h2>
+      <div className="pdf-drag-container">
+        <DndProvider backend={HTML5Backend}>
+          <div className="side-bar">
+            <Signatories
+              currSignatory={currSignatory}
+              signatories={signatories}
+              onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+            />
+            <Fields currSignatory={currSignatory} />
+          </div>
+          {doc && doc.fileUrl && <PrepPDF doc={doc} />}
+        </DndProvider>
       </div>
-    );
-  }
-}
-
-PrepareDocContainer.propTypes = {
-  doc: DocPropTypeShape.isRequired,
-  fetchDocument: PropTypes.func.isRequired,
-  // currentUser: UserPropTypeShape.isRequired,
-  signatories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    </div>
+  );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { docId } = ownProps.match.params;
-  return {
-    doc: getDocumentById(docId)(state),
-    currentUser: getCurrentUser(state),
-    signatories: getSignatories(docId)(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { docId } = ownProps.match.params;
-  return {
-    fetchDocument: () => dispatch(fetchDocument(docId)),
-  };
-};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PrepareDocContainer),
-);
+export default withRouter(PrepareDocContainer);
