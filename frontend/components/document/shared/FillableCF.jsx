@@ -7,7 +7,7 @@ import { convertBBOXtoPixels } from '../../../utils/contentField';
 
 const FillableCF = ({ cfData, thisPage }) => {
   const dispatch = useDispatch();
-  const { type, bbox, signatoryId, placeholder, body } = cfData;
+  const { id, type, bbox, signatoryId, placeholder, body } = cfData;
   const signatory = useSelector(getUserDetails(signatoryId));
   const signatoryName = `${signatory.firstName}\u00A0${signatory.lastName}`;
 
@@ -36,7 +36,11 @@ const FillableCF = ({ cfData, thisPage }) => {
   const { left, top, width, height } = convertBBOXtoPixels(bbox, thisPage);
 
   return (
-    <div className="content-field" style={{ left, top, width, height }}>
+    <div
+      className="content-field"
+      style={{ left, top, width, height }}
+      onClick={() => console.log(id)}
+    >
       <div className="content-field-description">{component}</div>
     </div>
   );
