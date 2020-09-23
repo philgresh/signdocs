@@ -111,3 +111,9 @@ export const deleteContentField = (cfId) =>
     url: `/api/content_fields/${cfId}`,
     method: 'DELETE',
   });
+
+export const signContentField = (cfId) =>
+  $.ajax({
+    url: `/api/content_fields/${cfId}/sign`,
+    method: 'POST',
+  });

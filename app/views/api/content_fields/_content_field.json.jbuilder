@@ -6,7 +6,11 @@ if content_field.contentable_type == "SentinelBlock"
   json.placeholder content_field.contentable.placeholder
 else
   json.type "FILLED_#{content_field.contentable.block_type}"
-  json.contentable_id content_field.contentable_id
+  json.contentable_id content_field.contentable.id
+  if content_field.contentable.block_type != "SIGNATURE"
+    json.placeholder content_field.contentable.text_type
+    json.body content_field.contentable.body
+  end
 end
 json.bbox do
   json.x content_field.bbox["x"].to_f

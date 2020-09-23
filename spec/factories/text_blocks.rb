@@ -5,7 +5,7 @@
 #  id         :uuid             not null, primary key
 #  body       :text             not null
 #  styling    :json
-#  type       :string           not null
+#  text_type  :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :uuid             not null

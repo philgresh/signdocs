@@ -1,27 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { ItemTypes, FillableCF } from '../shared';
-import { updateContentField } from '../../../actions/contentFields';
+import { FillableCF } from '../shared';
+import { signContentField } from '../../../actions/contentFields';
 
 const ContentFields = ({ thisPage }) => {
   const { docId } = useParams();
   const dispatch = useDispatch();
-  const updateCF = (cfData) => dispatch(updateContentField(cfData));
+  const signCF = (cfId) => dispatch(signContentField(cfId));
 
   // TODO: Fix this ugliness
   const allCFs = useSelector((state) => state.entities.contentFields);
-  const contentFields = Object.values(allCFs).filter(
-    (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
-  );
+  const contentFields = Object.values(allCFs).filter((ele) => {
+    return ele.docId === docId && ele.bbox?.page === thisPage;
+  });
+
+  const signField = (id) => {
+    signCF(id).then((res) => console.log(res));
+  };
 
   return (
     <>
       {contentFields.map((cf) => {
         return (
-          <FillableCF cfData={cf} key={cf.id} thisPage={thisPage} />
+          <FillableCF
+            key={cf.id}
+            cfData={cf}
+            thisPage={thisPage}
+            signField={signField}
+          />
         );
       })}
     </>
@@ -29,17 +37,7 @@ const ContentFields = ({ thisPage }) => {
 };
 
 ContentFields.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.array,
-    PropTypes.element,
-  ]).isRequired,
-  className: PropTypes.string,
   thisPage: PropTypes.number.isRequired,
-};
-
-ContentFields.defaultProps = {
-  className: 'droppable-container',
 };
 
 export default ContentFields;

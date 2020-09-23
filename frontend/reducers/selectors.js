@@ -15,9 +15,7 @@ export const getAllUsers = (state) => state.entities.users;
 export const getErrors = (state) => state.errors;
 
 // Session
-export const getCurrentUser = memoize(
-  (state) => state.entities.users[state.session.id],
-);
+export const getCurrentUser = (state) => state.entities.users[state.session.id];
 export const signedIn = (state) => !!state.session.id;
 
 // Signatures
