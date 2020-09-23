@@ -14,7 +14,8 @@ const documentsErrors = (state = initialState, { type, payload }) => {
   Object.freeze(state);
   switch (type) {
     case RECEIVE_DOCUMENT_ERROR:
-      return payload;
+      if (payload) return payload;
+      return initialState;
     case RECEIVE_DOCUMENT:
       return initialState;
     case RECEIVE_ALL_DOCUMENTS:
