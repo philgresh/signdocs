@@ -45,7 +45,8 @@ class Api::ContentFieldsController < ApplicationController
 
   def sign
     @cf = ContentField.find(params[:id])
-    filled, block_type = parse_type_params
+    debugger
+    block_type = @cf.contentable.block_type
     if block_type == "SIGNATURE"
       sig = User.find(@cf.signatory_id).signature
       if sig

@@ -60,3 +60,14 @@ export const deleteContentField = (cfId) => (dispatch) =>
       console.error(err);
       dispatch(receiveError(err));
     });
+
+export const signContentField = (cfId) => (dispatch) =>
+  APIUtil.signContentField(cfId)
+    .then((cf) => {
+      dispatch(receiveContentField(cf));
+      return cf;
+    })
+    .fail((err) => {
+      console.error(err);
+      dispatch(receiveError(err));
+    });
