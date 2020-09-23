@@ -1,15 +1,14 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Document, Page, pdfjs } from 'react-pdf';
 import DroppableContainer from './DroppableContainer';
-import { DocPropTypeShape } from '../../propTypes';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDF = ({ doc }) => {
+const PrepPDF = ({ doc }) => {
   const [docLoadSuccess, setDocLoadSuccess] = useState(false);
   const [numPages, setNumPages] = useState(null);
 
@@ -44,11 +43,4 @@ const PDF = ({ doc }) => {
   );
 };
 
-PDF.propTypes = {
-  doc: PropTypes.shape({
-    ...DocPropTypeShape,
-    fileUrl: PropTypes.string,
-  }).isRequired,
-};
-
-export default PDF;
+export default PrepPDF;
