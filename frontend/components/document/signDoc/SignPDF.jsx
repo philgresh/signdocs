@@ -1,11 +1,6 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/require-default-props */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Document, Page, pdfjs } from 'react-pdf';
 import ContentFields from './ContentFields';
-import { DocPropTypeShape } from '../../propTypes';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -41,13 +36,6 @@ const SignPDF = ({ doc }) => {
       {!docLoadSuccess && <div className="react-pdf__Document card" />}
     </div>
   );
-};
-
-SignPDF.propTypes = {
-  doc: PropTypes.shape({
-    ...DocPropTypeShape,
-    fileUrl: PropTypes.string,
-  }).isRequired,
 };
 
 export default SignPDF;

@@ -1,79 +1,61 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { withRouter, useParams } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Signatories from '../shared/Signatories';
 import SignPDF from './SignPDF';
-import { DocPropTypeShape } from '../../propTypes';
 
 import { fetchDocument } from '../../../actions/document';
-import {
-  getDocumentById,
-  getSignatories,
-  getCurrentUser,
-} from '../../../reducers/selectors';
+import { getDocumentById, getSignatories } from '../../../reducers/selectors';
 
-class SignDocContainer extends Component {
-  componentDidMount() {
-    const { fetchDocument: fetchDoc, doc } = this.props;
-    fetchDoc();
-    if (doc) {
-      document.title = `SignDocs - Sign ${doc.title}`;
-    }
-  }
+const SignDocContainer = () => {
+  const dispatch = useDispatch();
+  const { docId } = useParams();
 
-  render() {
-    if (!this.props.doc || Object.keys(this.props.doc).length === 0)
-      return <div />;
+  const [loading, setLoading] = useState(true);
+  const [doc, setDoc] = useState(null);
+  const [_currSignatory, setCurrSignatory] = useState('');
 
-    const { doc, signatories } = this.props;
-    return (
-      <div className="sign-doc-container">
-        <h2>Sign your document</h2>
-        <div className="pdf-drag-container">
-          <DndProvider backend={HTML5Backend}>
-            <div className="side-bar">
-              <Signatories
-                signatories={signatories}
-                onChangeSignatory={this.onChangeSignatory}
-              />
-            </div>
-            {doc && doc.fileUrl && (
-              <SignPDF doc={doc} signatories={signatories} />
-            )}
-          </DndProvider>
-        </div>
+  const signatories = useSelector((state) => getSignatories(docId)(state));
+  const staleDocData = useSelector((state) => getDocumentById(docId)(state));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchDocument(docId)).then((res) => {
+        setDoc(res.document);
+        setLoading(false);
+
+        document.title = `SignDocs - Sign ${res.document.title}`;
+      });
+    };
+
+    if (staleDocData) {
+      setDoc(staleDocData);
+    } else fetchData();
+  }, []);
+
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
+    <div className="sign-doc-container">
+      <h2>Sign your document</h2>
+      <div className="pdf-drag-container">
+        <DndProvider backend={HTML5Backend}>
+          <div className="side-bar">
+            <Signatories
+              signatories={signatories}
+              onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+            />
+          </div>
+          {doc && doc.fileUrl && (
+            <SignPDF doc={doc} signatories={signatories} />
+          )}
+        </DndProvider>
       </div>
-    );
-  }
-}
-
-SignDocContainer.propTypes = {
-  doc: DocPropTypeShape.isRequired,
-  fetchDocument: PropTypes.func.isRequired,
-  // currentUser: UserPropTypeShape.isRequired,
-  signatories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    </div>
+  );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { docId } = ownProps.match.params;
-  return {
-    doc: getDocumentById(docId)(state),
-    currentUser: getCurrentUser(state),
-    signatories: getSignatories(docId)(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { docId } = ownProps.match.params;
-  return {
-    fetchDocument: () => dispatch(fetchDocument(docId)),
-  };
-};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SignDocContainer),
-);
+export default withRouter(SignDocContainer);
