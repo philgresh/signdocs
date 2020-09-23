@@ -4,7 +4,7 @@ import {
   RECEIVE_SIGNATURE,
   RECEIVE_SIGNATURE_ERROR,
 } from '../actions/signature';
-import { SIGNOUT_CURRENT_USER } from '../actions/session';
+import { SIGNOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from '../actions/session';
 import { RECEIVE_DOCUMENT } from '../actions/document';
 
 const initialState = Object.freeze({});
@@ -29,6 +29,10 @@ const signaturesReducer = (state = initialState, { type, payload }) => {
   Object.freeze(state);
   const newState = { ...state };
   switch (type) {
+    case RECEIVE_CURRENT_USER: {
+      const { signature: sig } = payload;
+      return merge(newState, { [sig.id]: sig });
+    }
     case RECEIVE_ALL_SIGNATURES: {
       return { ...newState, ...payload.signatures };
     }

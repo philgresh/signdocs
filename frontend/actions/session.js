@@ -7,8 +7,8 @@ export const RECEIVE_SESSION_ERROR = 'RECEIVE_SESSION_ERROR';
 export const FIRST_SIGN_IN = 'FIRST_SIGN_IN';
 
 // Action creators
-const receiveCurrentUser = (user) => ({
-  payload: user,
+const receiveCurrentUser = (payload) => ({
+  payload,
   type: RECEIVE_CURRENT_USER,
 });
 

@@ -16,6 +16,8 @@ class Api::SessionsController < ApplicationController
     if @user
       cookies[:user_id] = { :value => @user.id, :expires => 2.weeks.from_now }
       login!(@user)
+      @documents = @user.documents
+      @editors = User.joins(:documents).where(documents: { id: @documents })
       render "api/users/show"
     else
       render json: { password: [["Invalid email or password"]] }, status: 403

@@ -6,7 +6,7 @@ import {
   REMOVE_DOCUMENT,
   RECEIVE_DOCUMENT_ERROR,
 } from '../actions/document';
-import { SIGNOUT_CURRENT_USER } from '../actions/session';
+import { SIGNOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from '../actions/session';
 
 const initialState = Object.freeze({});
 
@@ -30,9 +30,12 @@ const documentsReducer = (state = initialState, { type, payload }) => {
   Object.freeze(state);
   const newState = { ...state };
   switch (type) {
+    case RECEIVE_CURRENT_USER: {
+      if (payload?.documents) return { ...newState, ...payload.documents };
+      break;
+    }
     case RECEIVE_ALL_DOCUMENTS: {
-      // return { ...newState, ...payload.documents };
-      if (payload.documents) return payload.documents;
+      if (payload?.documents) return payload.documents;
       return state;
     }
     case RECEIVE_DOCUMENT: {
@@ -50,6 +53,7 @@ const documentsReducer = (state = initialState, { type, payload }) => {
     default:
       return state;
   }
+  return state;
 };
 
 export default documentsReducer;

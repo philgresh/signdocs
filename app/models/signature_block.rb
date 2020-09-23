@@ -45,7 +45,7 @@ class SignatureBlock < ApplicationRecord
 
   def gen_new_pub_key
     self.pub_key = Cuid::generate
-    self.pub_key_fingerprint = self.pub_key
+    self.pub_key_fingerprint = self.pub_key.upcase
     # @kms ||= kms
     # response = @kms.create_key({
     #   key_usage: "SIGN_VERIFY",

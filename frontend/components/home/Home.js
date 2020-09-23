@@ -16,9 +16,11 @@ const Home = ({ currentUser, fetchDocuments, fetchSignature }) => {
         setSig(sigResult.signature);
       }
       const docsResult = await fetchDocuments();
-      const arrayifiedDocs = Object.values(docsResult.documents);
+      if (docsResult?.documents) {
+        const arrayifiedDocs = Object.values(docsResult.documents);
 
-      setDocs(arrayifiedDocs);
+        setDocs(arrayifiedDocs);
+      }
     };
 
     fetchData();
