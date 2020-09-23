@@ -1,10 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
+// import PropTypes from 'prop-types';
+// import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 import { TitleBar, RecipientsList, PDFSidebar } from './sectionComponents';
 
-const DocDetails = ({ doc, deleteDocument, fetchSignedUrl, history }) => {
+const DocDetails = ({ doc, deleteDocument, history }) => {
   // eslint-disable-next-line react/prop-types
   const { title, fileUrl, editors, owner, previewImageUrl } = doc;
   return (
@@ -13,7 +13,6 @@ const DocDetails = ({ doc, deleteDocument, fetchSignedUrl, history }) => {
         doc={doc}
         actions={{
           deleteDocument,
-          fetchSignedUrl,
         }}
         history={history}
       />
@@ -27,20 +26,19 @@ const DocDetails = ({ doc, deleteDocument, fetchSignedUrl, history }) => {
   );
 };
 
-DocDetails.propTypes = {
-  doc: PropTypes.shape({
-    ...DocPropTypeShape,
-    editors: PropTypes.arrayOf(UserPropTypeShape),
-    owner: UserPropTypeShape,
-    isOwner: PropTypes.bool,
-    previewImageUrl: PropTypes.string,
-    id: PropTypes.string,
-  }).isRequired,
-  deleteDocument: PropTypes.func.isRequired,
-  fetchSignedUrl: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
-  // eslint-disable-next-line react/require-default-props
-  history: PropTypes.object,
-};
+// DocDetails.propTypes = {
+//   doc: PropTypes.shape({
+//     ...DocPropTypeShape,
+//     editors: PropTypes.arrayOf(UserPropTypeShape),
+//     owner: UserPropTypeShape,
+//     isOwner: PropTypes.bool,
+//     previewImageUrl: PropTypes.string,
+//     id: PropTypes.string,
+//   }).isRequired,
+//   deleteDocument: PropTypes.func.isRequired,
+//   // eslint-disable-next-line react/no-unused-prop-types
+//   // eslint-disable-next-line react/require-default-props
+//   history: PropTypes.object,
+// };
 
 export default DocDetails;

@@ -11,7 +11,6 @@ const FilledSignature = ({ signatory, bbox }) => {
   return (
     <SvgLoader
       path={sig.imageUrl}
-      onSVGReady={onSVGReady}
       height={bbox.height}
       width={bbox.width}
       viewBox="0 0 300 100"
