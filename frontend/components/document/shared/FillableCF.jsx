@@ -16,13 +16,17 @@ const FillableCF = ({ cfData, thisPage, signField }) => {
   const currUser = useSelector(getCurrentUser);
   const signatory = useSelector(getUserDetails(signatoryId));
   const signatoryName = `${signatory.firstName}\u00A0${signatory.lastName}`;
+  const signable = currUser.id === signatoryId;
+  const filled = /^FILLED/.test(type);
 
-  const onClick = () => signField(id);
+  const onClick = () => {
+    if (signable && !filled) signField(id);
+  };
 
   let component = null;
   let fillable = false;
   const newBBOX = convertBBOXtoPixels(bbox, thisPage);
-  const { left, top, width, height } = newBBOX
+  const { left, top, width, height } = newBBOX;
 
   switch (type) {
     case ItemTypes.UNFILLED_SIGNATURE: {
@@ -58,8 +62,6 @@ const FillableCF = ({ cfData, thisPage, signField }) => {
     default:
       break;
   }
-
-  const signable = currUser.id === signatoryId;
 
   const containerClasses = clsx({
     'content-field': true,
