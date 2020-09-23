@@ -29,7 +29,7 @@ After uploading a document and adding signatories, users can drag-and-drop conte
  - AWS S3 (document and image storage)
  - AWS Key Management Service (cryptographic public key repository)
  ### Frontend
- - React with Redux
+ - React with Redux for local state management
  
  ### Select libraries used
  
