@@ -80,7 +80,6 @@ const DocsIndexItem = ({ doc, currentUser }) => {
 
 DocsIndexItem.propTypes = {
   doc: DocPropTypeShape.isRequired,
-  // deleteDocument: PropTypes.func.isRequired,
   currentUser: UserPropTypeShape.isRequired,
   // // eslint-disable-next-line react/forbid-prop-types
   // history: PropTypes.object,

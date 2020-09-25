@@ -82,6 +82,7 @@
 
     & button.flat {
       margin-left: 0;
+      background-color: transparent;
     }
 
     & div:last-child {
@@ -111,6 +112,10 @@
         margin: 0.25rem 0 0 0;
         font-size: 80%;
         color: var(--gray);
+      }
+
+      & .grid-row-signed-icon .svg-inline--fa {
+        padding-left: 0.5rem;
       }
     }
   }

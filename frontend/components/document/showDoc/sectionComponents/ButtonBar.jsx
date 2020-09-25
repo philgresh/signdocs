@@ -1,6 +1,6 @@
-/* eslint-disable react/require-default-props */
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,9 +11,12 @@ import {
   faStamp,
 } from '@fortawesome/free-solid-svg-icons';
 import { DocPropTypeShape, UserPropTypeShape } from '../../../propTypes';
+import { deleteDocument } from '../../../../actions/document';
 
-const ButtonBar = ({ doc, deleteDocument, history }) => {
+const ButtonBar = ({ doc, history }) => {
   const [deleting, setDeleting] = useState(false);
+  const dispatch = useDispatch();
+
   // eslint-disable-next-line react/prop-types
   const { fileUrl, downloadUrl, id: docId, isOwner } = doc;
 
@@ -24,7 +27,7 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
       'Are you sure you want to delete this document?',
     );
     if (confirmed) {
-      deleteDocument()
+      dispatch(deleteDocument(doc.id))
         .then(() => {
           history.push('/documents');
         })
@@ -94,10 +97,10 @@ const ButtonBar = ({ doc, deleteDocument, history }) => {
 ButtonBar.propTypes = {
   doc: PropTypes.shape({
     ...DocPropTypeShape,
+    id: PropTypes.string,
     editors: PropTypes.arrayOf(UserPropTypeShape),
     owner: UserPropTypeShape,
   }).isRequired,
-  deleteDocument: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

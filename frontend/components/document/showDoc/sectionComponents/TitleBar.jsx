@@ -1,16 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import moment from 'moment';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import ButtonBar from './ButtonBar';
 
-const TitleBar = ({
-  doc,
-  history,
-  actions: {
-    deleteDocument,
-    // fetchSignedUrl
-  },
-}) => {
+const TitleBar = ({ doc, history }) => {
   const {
     title,
     description,
@@ -34,40 +28,35 @@ const TitleBar = ({
           Message to recipients:&nbsp;{description}
         </p>
       )}
+      <p className="flex-item flex-item-left status">Status:&nbsp;{status}</p>
       <p className="flex-item flex-item-left">
         Last change on&nbsp;{updatedAtText}
       </p>
       {sent && <p className="flex-item flex-item-left">Sent on&nbsp;{sent}</p>}
-      <p className="flex-item flex-item-left status">{status}</p>
       <div className="action-buttons">
-        <ButtonBar
-          doc={doc}
-          isOwner={isOwner}
-          deleteDocument={deleteDocument}
-          history={history}
-        />
+        <ButtonBar doc={doc} isOwner={isOwner} history={history} />
       </div>
     </div>
   );
 };
 
-TitleBar.propTypes = {
-  doc: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    isOwner: PropTypes.bool,
-    owner: PropTypes.string,
-    status: PropTypes.string,
-    sent: PropTypes.string,
-    updatedAt: PropTypes.string,
-  }).isRequired,
-  actions: PropTypes.shape({
-    deleteDocument: PropTypes.func,
-    fetchSignedUrl: PropTypes.func,
-  }).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object.isRequired,
-};
+// TitleBar.propTypes = {
+//   doc: PropTypes.shape({
+//     id: PropTypes.string,
+//     title: PropTypes.string,
+//     description: PropTypes.string,
+//     isOwner: PropTypes.bool,
+//     owner: PropTypes.string,
+//     status: PropTypes.string,
+//     sent: PropTypes.string,
+//     updatedAt: PropTypes.string,
+//   }).isRequired,
+//   actions: PropTypes.shape({
+//     deleteDocument: PropTypes.func,
+//     fetchSignedUrl: PropTypes.func,
+//   }).isRequired,
+//   // eslint-disable-next-line react/forbid-prop-types
+//   history: PropTypes.object.isRequired,
+// };
 
 export default TitleBar;
