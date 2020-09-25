@@ -1,34 +1,44 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DocsIndex from './DocsIndex';
 import Sidebar from './Sidebar';
 import NoDocsCallToCreate from '../shared/NoDocsCallToCreate';
-import { fetchDocuments, deleteDocument } from '../../../actions/document';
+import { fetchDocuments } from '../../../actions/document';
 import {
-  getDocumentsAsArray,
+  getAllDocuments,
   getCurrentUser,
+  getErrorsAt,
 } from '../../../reducers/selectors';
-import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
 
-const DocsIndexContainer = (props) => {
-  const { fetchDocs, currentUser, deleteDoc } = props;
-  // eslint-disable-next-line react/destructuring-assignment
-  const [docs, setDocs] = useState(props.docs);
+const useFetchDocs = () => {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const docs = useSelector(getAllDocuments, shallowEqual);
+  const docErrors = useSelector(getErrorsAt('documents'), shallowEqual);
+
   useEffect(() => {
-    document.title = `SignDocs - Documents`;
+    if (!docs || !Object.keys(docs).length) {
+      setLoading(true);
+      dispatch(fetchDocuments()).done(() => setLoading(false));
+    } else setLoading(false);
+  }, [docs]);
 
-    const fetchData = async () => {
-      const docsResult = await fetchDocs();
-      const arrayifiedDocs = Object.values(docsResult.documents);
-      setDocs(arrayifiedDocs);
-    };
+  const docsArray = docs && Object.keys(docs) ? Object.values(docs) : [];
+  return [docErrors, docsArray, loading];
+};
 
-    fetchData();
-  }, []);
+const DocsIndexContainer = () => {
+  const [_docErrors, docs, loading] = useFetchDocs();
+  const currentUser = useSelector(getCurrentUser, shallowEqual);
+
+  const DocsIndexOrNoDocs = () =>
+    docs.length > 0 ? (
+      <DocsIndex docs={docs} currentUser={currentUser} />
+    ) : (
+      <NoDocsCallToCreate />
+    );
 
   return (
     <div className="index-container">
@@ -37,42 +47,10 @@ const DocsIndexContainer = (props) => {
         <div className="search-bar">
           <h2>Inbox</h2>
         </div>
-
-        {docs.length > 0 ? (
-          <DocsIndex
-            docs={docs}
-            currentUser={currentUser}
-            deleteDocument={deleteDoc}
-          />
-        ) : (
-          <NoDocsCallToCreate />
-        )}
+        {loading ? <div>Loading...</div> : <DocsIndexOrNoDocs />}
       </div>
     </div>
   );
 };
 
-DocsIndexContainer.propTypes = {
-  docs: PropTypes.arrayOf(DocPropTypeShape),
-  fetchDocs: PropTypes.func.isRequired,
-  deleteDoc: PropTypes.func.isRequired,
-  currentUser: UserPropTypeShape.isRequired,
-};
-
-DocsIndexContainer.defaultProps = {
-  docs: [],
-};
-
-const mapStateToProps = (state) => ({
-  docs: getDocumentsAsArray(state),
-  currentUser: getCurrentUser(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchDocs: () => dispatch(fetchDocuments()),
-  deleteDoc: (docId) => dispatch(deleteDocument(docId)),
-});
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DocsIndexContainer),
-);
+export default withRouter(DocsIndexContainer);
