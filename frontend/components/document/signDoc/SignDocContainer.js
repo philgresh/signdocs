@@ -1,24 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { withRouter, useParams, useHistory } from 'react-router-dom';
-import isEqual from 'lodash/isEqual';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import FourOhFour from '../../_404';
-import { fetchDocument } from '../../../actions/document';
 import Signatories from '../shared/Signatories';
 import SignPDF from './SignPDF';
 
-import {
-  getDocumentById,
-  getSignatories,
-  getErrorsAt,
-  getAssociatedUsers,
-  getCurrentUser,
-} from '../../../reducers/selectors';
-import { useFetchDoc } from '../shared/hooks';
+import { getSignatories } from '../../../reducers/selectors';
+import { useFetchDoc } from '../../../utils/hooks';
 
 const SignDocContainer = () => {
   const [_currSignatory, setCurrSignatory] = useState('');

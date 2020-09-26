@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import { fetchDocument, fetchDocuments } from '../../../actions/document';
+import { fetchDocument, fetchDocuments } from '../actions/document';
 import {
   getDocumentById,
   getAssociatedUsers,
   getCurrentUser,
   getErrorsAt,
   getAllDocuments,
-} from '../../../reducers/selectors';
+} from '../reducers/selectors';
 
 const useFetchDoc = ({ docId }) => {
   const [loading, setLoading] = useState(true);
@@ -39,10 +39,6 @@ const useFetchDoc = ({ docId }) => {
   return { errors: docErrors, doc: fullDoc, loading };
 };
 
-useFetchDoc.propTypes = {
-  docId: PropTypes.string.isRequired,
-};
-
 const useFetchDocs = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -61,5 +57,12 @@ const useFetchDocs = () => {
   return { errors: docErrors, docs: docsArray, loading };
 };
 
-// eslint-disable-next-line import/prefer-default-export
+useFetchDoc.propTypes = {
+  docId: PropTypes.string.isRequired,
+};
+
+useFetchDocs.propTypes = {
+  docId: PropTypes.string.isRequired,
+};
+
 export { useFetchDoc, useFetchDocs };

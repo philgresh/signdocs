@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faDownload,
-  faPrint,
-  faEdit,
-  faTrashAlt,
-  faStamp,
-} from '@fortawesome/free-solid-svg-icons';
 import { DocPropTypeShape, UserPropTypeShape } from '../../../propTypes';
 import { deleteDocument } from '../../../../actions/document';
+import {
+  DownloadButton,
+  PrintButton,
+  PrepareButton,
+  EditButton,
+  DeleteButton,
+} from './Buttons';
 
 const ButtonBar = ({ doc, history }) => {
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react/prop-types
-  const { fileUrl, downloadUrl, id: docId, isOwner } = doc;
+  const { fileUrl, downloadUrl, id: docId, isOwner, status } = doc;
 
   const onDelete = () => {
     setDeleting(true);
@@ -40,57 +39,21 @@ const ButtonBar = ({ doc, history }) => {
   };
 
   return (
-    <>
+    <div className="action-buttons">
       <div className="flex-item-left">
-        <a
-          href={downloadUrl}
-          download
-          className="inline-link"
-          aria-label="Download this document"
-        >
-          <FontAwesomeIcon icon={faDownload} color="inherit" title="Download" />
-          &nbsp;&nbsp;Download
-        </a>
-        <a
-          href={fileUrl}
-          title="Print"
-          rel="noreferrer nofollow"
-          className="inline-link"
-          aria-label="Open this document to print"
-        >
-          <FontAwesomeIcon icon={faPrint} color="inherit" title="Print" />
-          &nbsp;&nbsp;Print
-        </a>
+        <DownloadButton downloadUrl={downloadUrl} />
+        <PrintButton fileUrl={fileUrl} />
       </div>
       <div className="flex-right">
         {isOwner && (
           <>
-            <Link to={`/documents/${docId}/prepare`} className="inline-link">
-              <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
-              &nbsp;&nbsp;Prepare
-            </Link>
-            <Link to={`/documents/${docId}/edit`} className="inline-link">
-              <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
-              &nbsp;&nbsp;Edit
-            </Link>
-            <button
-              className="flat"
-              type="button"
-              title="Delete document"
-              onClick={onDelete}
-              disabled={deleting}
-            >
-              <FontAwesomeIcon
-                icon={faTrashAlt}
-                color="inherit"
-                title="Delete"
-              />
-              &nbsp;&nbsp;Delete
-            </button>
+            <PrepareButton docId={docId} status={status} />
+            <EditButton docId={docId} status={status} />
+            <DeleteButton onDelete={onDelete} deleting={deleting} />
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

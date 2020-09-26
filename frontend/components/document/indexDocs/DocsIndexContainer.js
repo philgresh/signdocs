@@ -5,7 +5,7 @@ import DocsIndex from './DocsIndex';
 import Sidebar from './Sidebar';
 import NoDocsCallToCreate from '../shared/NoDocsCallToCreate';
 import { getCurrentUser } from '../../../reducers/selectors';
-import { useFetchDocs } from '../shared/hooks';
+import { useFetchDocs } from '../../../utils/hooks';
 
 const DocsIndexContainer = () => {
   const { docs, loading } = useFetchDocs();

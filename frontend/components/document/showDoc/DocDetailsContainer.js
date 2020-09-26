@@ -1,19 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { withRouter, useParams, useHistory } from 'react-router-dom';
-import isEqual from 'lodash/isEqual';
 import DocDetails from './DocDetails';
 import FourOhFour from '../../_404';
-import { fetchDocument } from '../../../actions/document';
-import {
-  getDocumentById,
-  getAssociatedUsers,
-  getCurrentUser,
-  getErrorsAt,
-} from '../../../reducers/selectors';
-import { useFetchDoc } from '../shared/hooks';
+import { useFetchDoc } from '../../../utils/hooks';
 
 const DocDetailsContainer = () => {
   const history = useHistory();
