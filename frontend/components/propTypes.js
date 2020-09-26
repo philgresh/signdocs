@@ -10,6 +10,16 @@ export const DocPropTypeShape = PropTypes.shape({
   ownerId: PropTypes.string,
 });
 
+export const DocDefaultProps = {
+  id: '',
+  editorIds: [],
+  title: '',
+  description: '',
+  fileUrl: '',
+  downloadUrl: '',
+  ownerId: '',
+};
+
 export const UserPropTypeShape = PropTypes.shape({
   id: PropTypes.string,
   firstName: PropTypes.string,

@@ -1,0 +1,15 @@
+.fourohfour-container {
+  margin-left: 2rem;
+  text-align: center;
+
+  .actions {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+
+    & > a {
+      margin: 0 2rem;
+    }
+  }
+}

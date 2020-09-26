@@ -23,8 +23,11 @@
     "cache": true
   },
   "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["_"] }],
-    "no-unused-variable": [true, { "ignore-pattern": "^_" }],
+    "no-underscore-dangle": "off",
+    "no-unused-vars": [
+      "warn",
+      { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+    ],
     "jsx-a11y/href-no-hash": ["off"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],

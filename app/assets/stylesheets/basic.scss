@@ -58,6 +58,14 @@ a {
   &.inline-link {
     margin: 0 1rem;
   }
+
+  & .disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    display: inline-block;  /* For IE11/ MS Edge bug */
+    pointer-events: none;
+  }
 }
 
 button,
@@ -260,4 +268,11 @@ li.no-pointer {
   max-width: 80%;
   display: block;
   margin-left: 2rem;
+}
+
+circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: translateY(-20%) rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke: var(--teal);
 }
