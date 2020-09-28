@@ -26,8 +26,8 @@ export const topPxls = (y, thisPageHeight) =>
   threeDecimalPrecision(y * thisPageHeight);
 
 export const convertBBOXtoPixels = (bbox, thisPage) => {
-  const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
-  const thisPageHeight = getHeightOfCurrentPage(thisPage) || 842;
+  const thisPageWidth = getWidthOfCurrentPage(thisPage) || 612;
+  const thisPageHeight = getHeightOfCurrentPage(thisPage) || 792;
   return {
     ...bbox,
     page: thisPage,

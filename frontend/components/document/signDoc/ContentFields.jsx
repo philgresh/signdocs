@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { FillableCF } from '../shared';
+import FillableCF from '../shared/FillableCF';
 import { signContentField } from '../../../actions/contentFields';
 
 const ContentFields = ({ thisPage }) => {
@@ -17,6 +17,7 @@ const ContentFields = ({ thisPage }) => {
   });
 
   const signField = (id) => {
+    // eslint-disable-next-line no-console
     signCF(id).then((res) => console.log(res));
   };
 

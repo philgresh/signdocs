@@ -27,7 +27,7 @@ const SignPDF = ({ doc }) => {
               data-page={thisPage}
               key={key}
             >
-              <ContentFields thisPage={thisPage} />
+              {docLoadSuccess && <ContentFields thisPage={thisPage} />}
               <Page pageNumber={thisPage} />
             </div>
           );

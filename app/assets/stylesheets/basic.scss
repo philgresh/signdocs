@@ -23,7 +23,7 @@
   // --off-black: #1e1e1e;
   --off-black: #000028;
   --off-black-rgb: 0, 0, 40;
-  --box-shadow-1: 0px 3px 4px -1px var(--gray);
+  --box-shadow-1: 0px 2px 5px 0px var(--gray);
   --rounded-corners: 4px;
   --footer-padding: 4rem;
   --header-padding: 4rem;
@@ -63,7 +63,7 @@ a {
     cursor: not-allowed;
     opacity: 0.5;
     text-decoration: none;
-    display: inline-block;  /* For IE11/ MS Edge bug */
+    display: inline-block; /* For IE11/ MS Edge bug */
     pointer-events: none;
   }
 }

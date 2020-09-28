@@ -16,11 +16,11 @@ const DocDetails = ({ doc }) => {
     <div className="flex-col-container doc-show">
       <TitleBar doc={doc} />
       <RecipientsList editors={editors} owner={owner} />
-      {/* <PDFSidebar
+      <PDFSidebar
         fileUrl={fileUrl}
         title={title}
         previewImageUrl={previewImageUrl}
-      /> */}
+      />
     </div>
   );
 };

@@ -76,15 +76,15 @@ class Document < ApplicationRecord
 
   def status
     cf_size = content_field_ids.size
-    case cf_size
+    return BEING_PREPARED if cf_size == 0
+
+    case content_fields.where.not(contentable_type: "SentinelBlock").size
     when 0
-      BEING_PREPARED
+      COMPLETE
+    when (1...cf_size)
+      IN_PROGRESS
     else
-      if content_fields.where.not(contentable_type: "SentinelBlock").size == cf_size
-        COMPLETE
-      else
-        IN_PROGRESS
-      end
+      BEING_PREPARED
     end
   end
 

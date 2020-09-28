@@ -2,13 +2,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import {
-  getUserDetails,
-  getCurrentUser,
-  getSignatureById,
-} from '../../../reducers/selectors';
+import { getUserDetails, getCurrentUser } from '../../../reducers/selectors';
 import ItemTypes from './ItemTypes';
-import { FilledSignature } from '../shared';
+import FilledSignature from './FilledSignature';
 import { convertBBOXtoPixels } from '../../../utils/contentField';
 
 const FillableCF = ({ cfData, thisPage, signField }) => {
@@ -65,7 +61,7 @@ const FillableCF = ({ cfData, thisPage, signField }) => {
 
   const containerClasses = clsx({
     'content-field': true,
-    fillable: fillable,
+    fillable,
     signable: fillable && signable,
   });
 
@@ -74,6 +70,7 @@ const FillableCF = ({ cfData, thisPage, signField }) => {
       className={containerClasses}
       style={{ left, top, width, height }}
       onClick={onClick}
+      role="presentation"
     >
       {component}
     </div>

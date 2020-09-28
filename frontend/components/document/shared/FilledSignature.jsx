@@ -1,9 +1,9 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { SvgLoader } from 'react-svgmt';
 import { useSelector } from 'react-redux';
 import { getSignatureById } from '../../../reducers/selectors';
-
-import PropTypes from 'prop-types';
 
 const FilledSignature = ({ signatory, bbox }) => {
   const sig = useSelector(getSignatureById(signatory.sigId));
