@@ -78,7 +78,7 @@ class Document < ApplicationRecord
     cf_size = content_field_ids.size
     return BEING_PREPARED if cf_size == 0
 
-    case content_fields.where.not(contentable_type: "SentinelBlock").size
+    case content_fields.where(contentable_type: "SentinelBlock").size
     when 0
       COMPLETE
     when (1...cf_size)

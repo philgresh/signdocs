@@ -52,35 +52,35 @@ const DownloadButton = ({ downloadUrl }) => (
 );
 const EditButton = ({ docId, status }) => {
   const url = `/documents/${docId}/edit`;
-  if (status === 'In Progress')
+  if (status === 'Being Prepared')
     return (
-      <DisabledInline>
+      <InlineLink url={url}>
         <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
         &nbsp;&nbsp;Edit
-      </DisabledInline>
+      </InlineLink>
     );
   return (
-    <InlineLink url={url}>
+    <DisabledInline>
       <FontAwesomeIcon icon={faEdit} color="inherit" title="Edit" />
       &nbsp;&nbsp;Edit
-    </InlineLink>
+    </DisabledInline>
   );
 };
 
 const PrepareButton = ({ docId, status }) => {
   const url = `/documents/${docId}/prepare`;
-  if (status === 'In Progress')
+  if (status === 'Being Prepared')
     return (
-      <DisabledInline>
+      <InlineLink url={url}>
         <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
         &nbsp;&nbsp;Prepare
-      </DisabledInline>
+      </InlineLink>
     );
   return (
-    <InlineLink url={url}>
+    <DisabledInline>
       <FontAwesomeIcon icon={faStamp} color="inherit" title="Prepare" />
       &nbsp;&nbsp;Prepare
-    </InlineLink>
+    </DisabledInline>
   );
 };
 

@@ -8,7 +8,7 @@
 #                           PUT    /api/users/:id(.:format)                                                                 api/users#update {:format=>:json}
 #    signedurl_api_document GET    /api/documents/:id/signedurl(.:format)                                                   api/documents#signedurl {:format=>:json}
 #        final_api_document GET    /api/documents/:id/final(.:format)                                                       api/documents#final {:format=>:json}
-#                           POST   /api/documents/:id/final(.:format)                                                       api/documents#final {:format=>:json}
+#                           POST   /api/documents/:id/final(.:format)                                                       api/documents#finalize {:format=>:json}
 #             api_documents GET    /api/documents(.:format)                                                                 api/documents#index {:format=>:json}
 #                           POST   /api/documents(.:format)                                                                 api/documents#create {:format=>:json}
 #              api_document GET    /api/documents/:id(.:format)                                                             api/documents#show {:format=>:json}
@@ -29,9 +29,10 @@
 #            api_text_block GET    /api/text_blocks/:id(.:format)                                                           api/text_blocks#show {:format=>:json}
 #                           PATCH  /api/text_blocks/:id(.:format)                                                           api/text_blocks#update {:format=>:json}
 #                           PUT    /api/text_blocks/:id(.:format)                                                           api/text_blocks#update {:format=>:json}
+#         reset_api_session POST   /api/session/reset(.:format)                                                             api/sessions#reset {:format=>:json}
+#     forgotten_api_session POST   /api/session/forgotten(.:format)                                                         api/sessions#forgotten {:format=>:json}
 #               api_session DELETE /api/session(.:format)                                                                   api/sessions#destroy {:format=>:json}
 #                           POST   /api/session(.:format)                                                                   api/sessions#create {:format=>:json}
-#                           POST   /api/session/reset(.:format)                                                             api/sessions#reset {:format=>:json}
 #                      root GET    /                                                                                        static_pages#root
 #        rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 # rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
@@ -45,9 +46,9 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :create, :update]
     resources :documents, only: [:index, :show, :create, :update, :destroy] do
       member do
-        get 'signedurl'
+        get "signedurl"
         get "final"
-        post "final"
+        post "final", to: "documents#finalize"
       end
     end
     resources :content_fields, only: [:create, :update, :destroy] do
