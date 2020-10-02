@@ -5,8 +5,8 @@
     "url": "https://github.com/philgresh/signdocs.git"
   },
   "engines": {
-    "node": "12.5.0",
-    "npm": "6.9.0"
+    "node": "12.18.4",
+    "npm": "6.14.8"
   },
   "scripts": {
     "postinstall": "webpack",
@@ -19,6 +19,7 @@
   },
   "private": true,
   "dependencies": {
+    "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
@@ -59,19 +60,19 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
-    "@babel/preset-env": "^7.11.5",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "clean-webpack-plugin": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.10.0",
+    "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.2",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "mini-css-extract-plugin": "^0.11.2",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "prettier": "^2.1.2",
