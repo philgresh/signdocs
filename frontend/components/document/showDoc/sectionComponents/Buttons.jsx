@@ -50,6 +50,7 @@ const DownloadButton = ({ downloadUrl }) => (
     &nbsp;&nbsp;Download
   </a>
 );
+
 const EditButton = ({ docId, status }) => {
   const url = `/documents/${docId}/edit`;
   if (status === 'Being Prepared')

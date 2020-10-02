@@ -11,6 +11,7 @@
 require "aws-sdk-s3"
 
 class Document < ApplicationRecord
+  IMGS_PATH = "#{Rails.root}/app/assets/images/"
   ACCEPTABLE_TYPES = ["application/pdf", "image/png", "image/jpg", "image/jpeg", "image/jpg", "image/svg+xml"]
   BEING_PREPARED = "Being Prepared"
   COMPLETE = "Complete"
@@ -42,6 +43,24 @@ class Document < ApplicationRecord
   has_many :signatures,
            through: :editors,
            source: :signature
+
+  def self.setup_default(user)
+    title = "Addendum to Contract"
+    description = "Backup contract for property at 123 Main St., Anytown, TX"
+    path = "#{IMGS_PATH}/backup.pdf"
+
+    @document = Document.new(title: title, description: description)
+
+    @document.file.attach(
+      io: File.open(path),
+      filename: "backup.pdf",
+      content_type: "application/pdf",
+    )
+    @document.save
+    @document.editor_ids = [user.id]
+    @document.owner = user
+    @document
+  end
 
   def blob
     file.blob if file && file.blob
