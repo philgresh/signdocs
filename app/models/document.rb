@@ -51,7 +51,6 @@ class Document < ApplicationRecord
     path = "#{IMGS_PATH}/backup.pdf"
 
     @document = Document.new(title: title, description: description)
-    debugger
     @document.file.attach(
       io: open("https://signdocs-ckdpd50m50000map7rw28508g.s3-us-west-2.amazonaws.com/assets/backup.pdf"),
       filename: "backup.pdf",
