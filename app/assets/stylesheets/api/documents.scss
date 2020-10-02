@@ -250,6 +250,8 @@
   top: 80px;
   padding: 1rem 0;
   width: 100%;
+  overflow: scroll;
+  height: calc(100% - 5.5rem - 4rem);
 
   & .search-bar {
     max-height: 80px;

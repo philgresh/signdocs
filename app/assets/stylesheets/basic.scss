@@ -167,17 +167,6 @@ main {
   padding-top: 80px;
 }
 
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem; /* Footer height */
-  border-top: 1px solid var(--lighter-gray);
-  background-color: var(--lighter-gray);
-  padding-top: 0.5rem;
-  box-sizing: border-box;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -275,4 +264,35 @@ circle {
   transform: translateY(-20%) rotate(-90deg);
   transform-origin: 50% 50%;
   stroke: var(--teal);
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem; /* Footer height */
+  border-top: 1px solid var(--lighter-gray);
+  background-color: var(--lighter-gray);
+  padding-top: 0.5rem;
+  box-sizing: border-box;
+
+  & .footer-links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    font-size: 1.5rem;
+    color: var(--teal);
+
+    & a {
+      margin: 0 1rem;
+      color: inherit;
+      animation: 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
 }
