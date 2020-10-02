@@ -69,14 +69,18 @@ const EditButton = ({ docId, status }) => {
   );
 };
 
-const FinalizeButton = ({ docId, status }) => {
-  const url = `/documents/${docId}/finalize`;
+const FinalizeButton = ({ status, onFinalize }) => {
   if (status === 'Complete')
     return (
-      <InlineLink url={url}>
+      <button
+        className="flat"
+        type="button"
+        title="Finalize document"
+        onClick={onFinalize}
+      >
         <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
         &nbsp;&nbsp;Finalize
-      </InlineLink>
+      </button>
     );
   return (
     <DisabledInline>
@@ -128,7 +132,7 @@ EditButton.propTypes = {
   status: PropTypes.string.isRequired,
 };
 FinalizeButton.propTypes = {
-  docId: PropTypes.string.isRequired,
+  onFinalize: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
 };
 PrepareButton.propTypes = {
@@ -140,17 +144,17 @@ PrintButton.propTypes = {
 };
 InlineLink.propTypes = {
   url: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
 };
 DisabledInline.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
 };
 
-export { 
+export {
   DeleteButton,
-  DownloadButton, 
-  EditButton, 
+  DownloadButton,
+  EditButton,
   FinalizeButton,
-  PrintButton, 
-  PrepareButton, 
-}
+  PrintButton,
+  PrepareButton,
+};

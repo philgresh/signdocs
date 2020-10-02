@@ -17,6 +17,7 @@ class Document < ApplicationRecord
   BEING_PREPARED = "Being Prepared"
   COMPLETE = "Complete"
   IN_PROGRESS = "In Progress"
+  FINAL = "Final"
 
   validates_presence_of :title
   validates :file,
@@ -95,6 +96,7 @@ class Document < ApplicationRecord
   end
 
   def status
+    return FINAL if self.final.attached?
     cf_size = content_field_ids.size
     return BEING_PREPARED if cf_size == 0
 

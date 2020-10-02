@@ -36,3 +36,9 @@ export const fetchSignedUrl = (docId) =>
     url: `/api/documents/${docId}/signedurl`,
     method: 'GET',
   });
+
+export const finalizeDocument = (docId) =>
+  $.ajax({
+    url: `/api/documents/${docId}/finalize`,
+    method: 'POST',
+  });
