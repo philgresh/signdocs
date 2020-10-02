@@ -9,6 +9,7 @@
 #  updated_at  :datetime         not null
 #
 require "aws-sdk-s3"
+require "open-uri"
 
 class Document < ApplicationRecord
   IMGS_PATH = "#{Rails.root}/app/assets/images/"
@@ -50,9 +51,9 @@ class Document < ApplicationRecord
     path = "#{IMGS_PATH}/backup.pdf"
 
     @document = Document.new(title: title, description: description)
-
+    debugger
     @document.file.attach(
-      io: File.open(path),
+      io: open("https://signdocs-ckdpd50m50000map7rw28508g.s3-us-west-2.amazonaws.com/assets/backup.pdf"),
       filename: "backup.pdf",
       content_type: "application/pdf",
     )

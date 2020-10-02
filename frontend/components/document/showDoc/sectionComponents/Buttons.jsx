@@ -8,6 +8,7 @@ import {
   faEdit,
   faTrashAlt,
   faStamp,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 
 const InlineLink = ({ url, children }) => (
@@ -68,6 +69,23 @@ const EditButton = ({ docId, status }) => {
   );
 };
 
+const FinalizeButton = ({ docId, status }) => {
+  const url = `/documents/${docId}/finalize`;
+  if (status === 'Complete')
+    return (
+      <InlineLink url={url}>
+        <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
+        &nbsp;&nbsp;Finalize
+      </InlineLink>
+    );
+  return (
+    <DisabledInline>
+      <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
+      &nbsp;&nbsp;Finalize
+    </DisabledInline>
+  );
+};
+
 const PrepareButton = ({ docId, status }) => {
   const url = `/documents/${docId}/prepare`;
   if (status === 'Being Prepared')
@@ -109,6 +127,10 @@ EditButton.propTypes = {
   docId: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 };
+FinalizeButton.propTypes = {
+  docId: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+};
 PrepareButton.propTypes = {
   docId: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -124,4 +146,11 @@ DisabledInline.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export { DownloadButton, PrintButton, PrepareButton, EditButton, DeleteButton };
+export { 
+  DeleteButton,
+  DownloadButton, 
+  EditButton, 
+  FinalizeButton,
+  PrintButton, 
+  PrepareButton, 
+}

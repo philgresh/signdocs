@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import { DocPropTypeShape, UserPropTypeShape } from '../../../propTypes';
 import { deleteDocument } from '../../../../actions/document';
 import {
-  DownloadButton,
-  PrintButton,
-  PrepareButton,
-  EditButton,
   DeleteButton,
+  DownloadButton,
+  EditButton,
+  FinalizeButton,
+  PrepareButton,
+  PrintButton,
 } from './Buttons';
 
 const ButtonBar = ({ doc, history }) => {
@@ -49,6 +50,7 @@ const ButtonBar = ({ doc, history }) => {
           <>
             <PrepareButton docId={docId} status={status} />
             <EditButton docId={docId} status={status} />
+            <FinalizeButton docId={docId} status={status} />
             <DeleteButton onDelete={onDelete} deleting={deleting} />
           </>
         )}

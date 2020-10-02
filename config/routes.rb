@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       member do
         get "signedurl"
         get "final"
-        post "final", to: "documents#finalize"
+        post "finalize"
       end
     end
     resources :content_fields, only: [:create, :update, :destroy] do
