@@ -18,7 +18,7 @@ const ContentFields = ({ thisPage }) => {
 
   const signField = (id) => {
     // eslint-disable-next-line no-console
-    signCF(id).then((res) => console.log(res));
+    signCF(id);
   };
 
   return (

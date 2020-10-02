@@ -2,6 +2,10 @@ require "hexapdf"
 require "tempfile"
 
 class Api::DocumentsController < ApplicationController
+  TEXTBOX_FONT = "Times"
+  TEXTBOX_VARIANT = :bold
+  TEXTBOX_SIZE = 12
+
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
   # before_action :require_owner_status, only: [:destroy, :update, :signedurl, :finalize]
   skip_before_action :verify_authenticity_token
@@ -73,7 +77,7 @@ class Api::DocumentsController < ApplicationController
              status: :not_found
     end
 
-    @cfs = Hash.new { |h,k| h[k]=[] }
+    @cfs = Hash.new { |h, k| h[k] = [] }
     @document.content_fields.each do |cf|
       @cfs[cf[:bbox]["page"].to_i] << cf
     end
@@ -91,22 +95,25 @@ class Api::DocumentsController < ApplicationController
     source_path = source_file.path
 
     doc = HexaPDF::Document.new
+    doc.fonts.add("Times")
     source.pages.each.with_index do |page, i|
       page_width = page.box.width
       page_height = page.box.height
-      
+
       page_content = page.contents
       canvas = doc.pages.add([0, 0, page_width, page_height]).canvas
-      
+
       # Duplicate source contents
       form = doc.import(page.to_form_xobject)
-      canvas.xobject(form, at: [0,0])
+      canvas.xobject(form, at: [0, 0])
 
       # Add content_fields
-      write_text_blocks_to_canvas(canvas, @cfs[i])
-      
+      text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
       debugger
 
+      write_text_blocks_to_canvas(
+        canvas, text_blocks, page_width, page_height, doc.fonts
+      )
     end
     doc.write(dest_path)
     puts dest_path
@@ -177,7 +184,39 @@ class Api::DocumentsController < ApplicationController
     end
   end
 
-  def write_text_blocks_to_canvas(canvas, cfs)
-    
+  def write_text_blocks_to_canvas(canvas, cfs, width, height, fonts)
+    cfs.each do |cf|
+      cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
+        "width", "height", "top", "left"
+      ).map(&:to_f)
+      cf_top = height - cf_top # HexaPDF sets up [0,0] at the bottom-left corner of a page
+      cf_body = cf.contentable.body
+
+      canvas.font(
+        TEXTBOX_FONT,
+        size: TEXTBOX_SIZE,
+        variant: TEXTBOX_VARIANT,
+      )
+      canvas.text(cf_body, at: [cf_left, cf_top])
+
+      # items = [
+      #   HexaPDF::Layout::TextFragment.create(
+      #     cf.contentable.body,
+      #     font: fonts.configured_fonts["Times"][1], # bold
+      #   )
+      # ]
+      # layouter = HexaPDF::Layout::TextLayouter.new
+      # layouter.style.align = :justify
+      # result = layouter.fit(items, cf_width, cf_height)
+      # # canvas
+      # #   .translate(cf['bbox']["left"], cf['bbox']["top"])
+      # #   .stroke_color(255,0,0)
+      # result.draw(canvas, cf_left, cf_top)
+    end
+  end
+
+  def translate_bbox_to_pxls(bbox, width, height)
+    width_pxls = bbox["width"] * width
+    height_pxls = bbox["height"] * height / bbox["aspect_ratio"]
   end
 end
