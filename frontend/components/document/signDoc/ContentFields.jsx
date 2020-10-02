@@ -16,11 +16,6 @@ const ContentFields = ({ thisPage }) => {
     return ele.docId === docId && ele.bbox?.page === thisPage;
   });
 
-  const signField = (id) => {
-    // eslint-disable-next-line no-console
-    signCF(id);
-  };
-
   return (
     <>
       {contentFields.map((cf) => {
@@ -29,7 +24,7 @@ const ContentFields = ({ thisPage }) => {
             key={cf.id}
             cfData={cf}
             thisPage={thisPage}
-            signField={signField}
+            signField={signCF}
           />
         );
       })}
