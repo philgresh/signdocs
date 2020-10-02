@@ -79,3 +79,9 @@ export const fetchSignedUrl = (docId) => (dispatch) =>
     dispatch(receiveDocument(res));
     return res;
   });
+
+export const finalizeDocument = (docId) => (dispatch) =>
+  APIUtil.finalizeDocument(docId).then((res) => {
+    dispatch(receiveDocument(res));
+    return res;
+  });

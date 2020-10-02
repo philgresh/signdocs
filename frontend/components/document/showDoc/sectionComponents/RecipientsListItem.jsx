@@ -9,6 +9,7 @@ import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   getCurrentUser,
   getArrayOfContentFieldsByDocId,
+  getDocumentById,
 } from '../../../../reducers/selectors';
 import ProgressCircle from '../../../helperComponents/ProgressCircle';
 
@@ -18,6 +19,7 @@ const RecipientsListItem = ({
 }) => {
   const userNameText = fullName;
   const { docId } = useParams();
+  const doc = useSelector(getDocumentById(docId));
   const currentUser = useSelector(getCurrentUser);
   const cfs = useSelector(getArrayOfContentFieldsByDocId(docId));
   const isMe = currentUser.id === userId;
@@ -28,11 +30,13 @@ const RecipientsListItem = ({
     return acc;
   }, 0);
 
+  const isFinal = doc.status === 'Final';
   const anySigned = countSigned > 0;
   const allSigned = anySigned && countSigned === userCFs.length;
   const signedPercent = (countSigned / userCFs.length) * 100;
 
   const StatusText = () => {
+    if (isFinal) return 'Signed';
     if (allSigned)
       return isMe ? (
         <Link to={`/documents/${docId}/sign`}>Signed</Link>
