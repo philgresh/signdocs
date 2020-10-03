@@ -11,11 +11,12 @@
 require "aws-sdk-s3"
 
 class Document < ApplicationRecord
+  IMGS_PATH = "#{Rails.root}/app/assets/images/"
   ACCEPTABLE_TYPES = ["application/pdf", "image/png", "image/jpg", "image/jpeg", "image/jpg", "image/svg+xml"]
   BEING_PREPARED = "Being Prepared"
   COMPLETE = "Complete"
   IN_PROGRESS = "In Progress"
-  IMGS_PATH = "#{Rails.root}/app/assets/images/"
+  FINAL = "Final"
 
   validates_presence_of :title
   validates :file,
@@ -95,6 +96,7 @@ class Document < ApplicationRecord
   end
 
   def status
+    return FINAL if self.final.attached?
     cf_size = content_field_ids.size
     return BEING_PREPARED if cf_size == 0
 

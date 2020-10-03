@@ -8,6 +8,7 @@ import {
   faEdit,
   faTrashAlt,
   faStamp,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 
 const InlineLink = ({ url, children }) => (
@@ -67,6 +68,27 @@ const EditButton = ({ docId, status }) => {
   );
 };
 
+const FinalizeButton = ({ status, onFinalize }) => {
+  if (status === 'Complete')
+    return (
+      <button
+        className="flat"
+        type="button"
+        title="Finalize document"
+        onClick={onFinalize}
+      >
+        <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
+        &nbsp;&nbsp;Finalize
+      </button>
+    );
+  return (
+    <DisabledInline>
+      <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
+      &nbsp;&nbsp;Finalize
+    </DisabledInline>
+  );
+};
+
 const PrepareButton = ({ docId, status }) => {
   const url = `/documents/${docId}/prepare`;
   if (status === 'Being Prepared')
@@ -108,6 +130,10 @@ EditButton.propTypes = {
   docId: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 };
+FinalizeButton.propTypes = {
+  onFinalize: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+};
 PrepareButton.propTypes = {
   docId: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -117,10 +143,17 @@ PrintButton.propTypes = {
 };
 InlineLink.propTypes = {
   url: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
 };
 DisabledInline.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
 };
 
-export { DownloadButton, PrintButton, PrepareButton, EditButton, DeleteButton };
+export {
+  DeleteButton,
+  DownloadButton,
+  EditButton,
+  FinalizeButton,
+  PrintButton,
+  PrepareButton,
+};
