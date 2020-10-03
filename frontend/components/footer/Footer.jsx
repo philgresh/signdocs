@@ -1,17 +1,51 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Obfuscate from 'react-obfuscate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {
+  faEnvelope,
+  faCodeBranch,
+  faHome,
+} from '@fortawesome/free-solid-svg-icons';
+
+const EmailObfuscation = ({ children }) => (
+  <Obfuscate
+    email="phil@gresham.dev"
+    headers={{
+      subject: 'SignDocs',
+    }}
+  >
+    {children}
+  </Obfuscate>
+);
 
 const Footer = () => {
   return (
     <div className="flex-row-container flex-center small smallest">
-      <div>
-        <a href="https://github.com/philgresh/signdocs">GitHub repo</a>
-        &nbsp;|&nbsp;
-        <a href="&#109;&#97;&#105;l&#116;o&#58;phi&#37;6C&#37;&#54;7resham&#64;&#103;%&#54;D&#97;i&#108;&#46;c&#111;m">
-          Email the author
+      <div className="footer-links">
+        <a href="https://github.com/philgresh/">
+          <FontAwesomeIcon icon={faGithub} color="inherit" />
+        </a>
+        <a href="https://www.linkedin.com/in/philgresham">
+          <FontAwesomeIcon icon={faLinkedin} color="inherit" />
+        </a>
+        <a href="https://gresham.dev">
+          <FontAwesomeIcon icon={faHome} color="inherit" />
+        </a>
+        <EmailObfuscation>
+          <FontAwesomeIcon icon={faEnvelope} color="inherit" />
+        </EmailObfuscation>
+        <a href="https://github.com/philgresh/signdocs">
+          <FontAwesomeIcon icon={faCodeBranch} color="inherit" />
         </a>
       </div>
     </div>
   );
+};
+
+EmailObfuscation.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
 };
 
 export default Footer;

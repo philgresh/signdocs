@@ -49,13 +49,12 @@ class Document < ApplicationRecord
   def self.setup_default(user)
     title = "Addendum to Contract"
     description = "Backup contract for property at 123 Main St., Anytown, TX"
-    path = "#{IMGS_PATH}/backup.pdf"
 
     @document = Document.new(title: title, description: description)
 
     @document.file.attach(
       io: open("https://signdocs-ckdpd50m50000map7rw28508g.s3-us-west-2.amazonaws.com/assets/backup.pdf"),
-            filename: "backup.pdf",
+      filename: "backup.pdf",
       content_type: "application/pdf",
     )
     @document.save

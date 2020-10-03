@@ -17,11 +17,11 @@ const InlineLink = ({ url, children }) => (
   </Link>
 );
 
-const DisabledInline = ({ children }) => (
+const DisabledInline = ({ children, tooltip }) => (
   <button
     type="button"
     className="flat inline-link disabled tooltip-bottom"
-    data-tooltip="Document has already been signed by at least one signatory."
+    data-tooltip={tooltip}
   >
     {children}
   </button>
@@ -82,7 +82,7 @@ const FinalizeButton = ({ status, onFinalize }) => {
       </button>
     );
   return (
-    <DisabledInline>
+    <DisabledInline tooltip="You can finalize the document after all signatories have signed.">
       <FontAwesomeIcon icon={faPaperPlane} color="inherit" title="Finalize" />
       &nbsp;&nbsp;Finalize
     </DisabledInline>
@@ -147,6 +147,11 @@ InlineLink.propTypes = {
 };
 DisabledInline.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
+  tooltip: PropTypes.string,
+};
+
+DisabledInline.defaultProps = {
+  tooltip: 'Document has already been signed by at least one signatory.',
 };
 
 export {
