@@ -109,10 +109,13 @@ class Api::DocumentsController < ApplicationController
 
       # Add content_fields
       text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
-      debugger
+      sig_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "SignatureBlock" }
 
       write_text_blocks_to_canvas(
         canvas, text_blocks, page_width, page_height, doc.fonts
+      )
+      write_signature_blocks_to_canvas(
+        canvas, sig_blocks, page_width, page_height
       )
     end
     doc.write(dest_path)
@@ -198,20 +201,34 @@ class Api::DocumentsController < ApplicationController
         variant: TEXTBOX_VARIANT,
       )
       canvas.text(cf_body, at: [cf_left, cf_top])
+    end
+  end
 
-      # items = [
-      #   HexaPDF::Layout::TextFragment.create(
-      #     cf.contentable.body,
-      #     font: fonts.configured_fonts["Times"][1], # bold
-      #   )
-      # ]
-      # layouter = HexaPDF::Layout::TextLayouter.new
-      # layouter.style.align = :justify
-      # result = layouter.fit(items, cf_width, cf_height)
-      # # canvas
-      # #   .translate(cf['bbox']["left"], cf['bbox']["top"])
-      # #   .stroke_color(255,0,0)
-      # result.draw(canvas, cf_left, cf_top)
+  def write_signature_blocks_to_canvas(canvas, cfs, width, height)
+    cfs.each do |cf|
+      cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
+        "width", "height", "top", "left"
+      ).map(&:to_f)
+      blob = cf.contentable.sig_image.blob
+      filename = blob.filename.base
+
+      svg_file = Tempfile.new [filename, ".svg"]
+      svg_file.write(blob.download)
+      png_file = Tempfile.new [filename, ".png"]
+
+      sig = MiniMagick::Image.open(blob.service_url)
+      sig.format "png"
+      sig.combine_options do |cmd|
+        cmd.background "#ffffff00"
+        cmd.transparent "white"
+      end
+      sig.write(png_file)
+
+      canvas.image(
+        png_file,
+        at: [cf_left, cf_top],
+        height: cf_height,
+      )
     end
   end
 
