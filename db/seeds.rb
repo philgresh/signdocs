@@ -23,6 +23,15 @@ def setup_demo_user
   )
 end
 
+def setup_phil_user
+  User.create(
+    first_name: "Phil",
+    last_name: "Gresham",
+    email: "phil@gresham.dev",
+    password: Cuid::generate,
+  )
+end
+
 def destroy_all(klass)
   names = klass.name.underscore.pluralize
   if klass.count > 0
@@ -125,6 +134,7 @@ def create_new_content_fields(docs, sentinels)
 end
 
 demo_user = setup_demo_user()
+phil = setup_phil_user()
 # users = create_new_users() << demo_user
 # docs = create_new_documents()
 # sentinels = create_new_sentinel_blocks(docs)

@@ -40,6 +40,7 @@ class User < ApplicationRecord
   before_validation :ensure_session_token
   before_create :downcase_fields
   after_create :create_signature
+  after_create :setup_walkthrough
 
   # ActiveStorage associations
 
@@ -114,5 +115,83 @@ class User < ApplicationRecord
 
   def create_signature
     self.signature = SignatureBlock.create(user_id: self.id)
+  end
+
+  def setup_walkthrough
+    doc = Document.setup_default(self)
+    sentinel1 = SentinelBlock.setup_default("SIGNATURE")
+    sentinel2 = SentinelBlock.setup_default("TEXT")
+    phil_user = User.find_by(email: "phil@gresham.dev")
+
+    cfs = [
+      {
+        bbox: { "x" => "0.176",
+                "y" => "0.568",
+                "page" => "1",
+                "left" => "108.204",
+                "top" => "450.271",
+                "width" => "104.04",
+                "height" => "34.68",
+                "aspect_ratio" => "3",
+                "width_pct" => "0.17" },
+        document_id: doc.id,
+        signatory_id: self.id,
+        :contentable => sentinel1,
+      },
+      {
+        bbox: { "x" => "0.176",
+                "y" => "0.59",
+                "page" => "1",
+                "left" => "107.936",
+                "top" => "467.736",
+                "width" => "104.04",
+                "height" => "69.36",
+                "aspect_ratio" => "1.5",
+                "width_pct" => "0.17" },
+        document_id: doc.id,
+        signatory_id: self.id,
+        :contentable => sentinel2,
+      },
+    ]
+
+    if phil_user
+      doc.editors << phil_user
+      sentinel3 = SentinelBlock.setup_default("SIGNATURE")
+      sentinel4 = SentinelBlock.setup_default("TEXT")
+      cfs.concat([
+        {
+          bbox: { "x" => "0.599",
+                  "y" => "0.569",
+                  "page" => "1",
+                  "left" => "367.02",
+                  "top" => "451.439",
+                  "width" => "104.04",
+                  "height" => "34.68",
+                  "aspect_ratio" => "3",
+                  "width_pct" => "0.17" },
+          document_id: doc.id,
+          signatory_id: phil_user.id,
+          :contentable => sentinel3,
+        },
+        {
+          bbox: { "x" => "0.628",
+                  "y" => "0.588",
+                  "page" => "1",
+                  "left" => "384.916",
+                  "top" => "465.904",
+                  "width" => "104.04",
+                  "height" => "69.36",
+                  "aspect_ratio" => "1.5",
+                  "width_pct" => "0.17" },
+          document_id: doc.id,
+          signatory_id: phil_user.id,
+          :contentable => sentinel4,
+        },
+      ])
+    end
+
+    cfs = cfs.map do |cf|
+      ContentField.create(cf)
+    end
   end
 end

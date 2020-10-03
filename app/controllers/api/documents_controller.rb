@@ -39,18 +39,11 @@ class Api::DocumentsController < ApplicationController
       @document.editor_ids = signatory_ids << current_user.id
       @document.owner = current_user
       @preview_image = @document.file.preview(resize: "200x200>").processed.image
-      # @document[''] = blob.preview(thumbnail: "300").processed.image
       show
     else
       @document.destroy
       render json: @document.errors.messages, status: :bad_request
     end
-    # CreateDocument.call(@document) do |success, failure|
-    #   success.call { render json: :show, notice: "Successfully created document." }
-    #   failure.call do
-    #     render json: { document: "Cannot create document" }, status: 400
-    #   end
-    # end
   end
 
   def update
@@ -187,12 +180,13 @@ class Api::DocumentsController < ApplicationController
     end
   end
 
-  def write_text_blocks_to_canvas(canvas, cfs, width, height, fonts)
+  def write_text_blocks_to_canvas(canvas, cfs, page_width, page_height, fonts)
     cfs.each do |cf|
       cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
         "width", "height", "top", "left"
       ).map(&:to_f)
-      cf_top = height - cf_top # HexaPDF sets up [0,0] at the bottom-left corner of a page
+      cf_top = page_height - cf_top - cf_height / 2  # TODO: Fix positioning
+      # HexaPDF sets up [0,0] at the bottom-left corner of a page
       cf_body = cf.contentable.body
 
       canvas.font(
