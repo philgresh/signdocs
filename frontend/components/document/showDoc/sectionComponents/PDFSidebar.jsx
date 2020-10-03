@@ -8,10 +8,12 @@ import PropTypes from 'prop-types';
 const PDFSidebar = ({ previewImageUrl }) => {
   return (
     <div className="doc-show-pdf-sidebar">
-      <div>
-        <img src={previewImageUrl} alt="Document Preview" width={150} />
-        <div className="sidebar-pagecount">Preview</div>
-      </div>
+      {previewImageUrl !== '' && (
+        <div>
+          <img src={previewImageUrl} alt="Document Preview" width={150} />
+          <div className="sidebar-pagecount">Preview</div>
+        </div>
+      )}
     </div>
   );
 };
