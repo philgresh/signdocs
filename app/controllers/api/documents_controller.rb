@@ -19,7 +19,7 @@ class Api::DocumentsController < ApplicationController
   def show
     @document = @document || Document.find_by(id: params[:id])
     if @document
-      @file = @document.file
+      @file = @document.final.attached? ? @document.final : @document.file
       @users = User.where(id: @document.editor_ids)
       @contentables = @document.content_fields
       render :show
@@ -119,12 +119,12 @@ class Api::DocumentsController < ApplicationController
       )
     end
     doc.write(dest_path)
-    puts dest_path
 
-    @document.file.purge_later
-    @document.file.attach(
+    new_filename = "#{@document.file.filename.base}-final.#{@document.file.filename.extension}"
+
+    @document.final.attach(
       io: File.open(dest_path),
-      filename: @document.file.filename.to_s,
+      filename: new_filename,
       content_type: @document.file.content_type,
     )
 
@@ -206,9 +206,12 @@ class Api::DocumentsController < ApplicationController
 
   def write_signature_blocks_to_canvas(canvas, cfs, width, height)
     cfs.each do |cf|
-      cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
-        "width", "height", "top", "left"
+      cf_width, cf_height, cf_top, cf_left, cf_aspect_ratio = cf.bbox.values_at(
+        "width", "height", "top", "left", "aspect_ratio"
       ).map(&:to_f)
+      cf_top = height - cf_top - cf_height / 2  # TODO: Fix positioning
+      # HexaPDF sets up [0,0] at the bottom-left corner of a page
+
       blob = cf.contentable.sig_image.blob
       filename = blob.filename.base
 
@@ -219,15 +222,15 @@ class Api::DocumentsController < ApplicationController
       sig = MiniMagick::Image.open(blob.service_url)
       sig.format "png"
       sig.combine_options do |cmd|
-        cmd.background "#ffffff00"
+        cmd.background "none"
         cmd.transparent "white"
       end
       sig.write(png_file)
 
-      canvas.image(
+      canvas.xobject(
         png_file,
         at: [cf_left, cf_top],
-        height: cf_height,
+        width: cf_width,
       )
     end
   end

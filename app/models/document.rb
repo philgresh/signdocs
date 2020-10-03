@@ -29,6 +29,7 @@ class Document < ApplicationRecord
 
   # ActiveStorage association
   has_one_attached :file
+  has_one_attached :final
 
   # ActiveRecord associations
   has_many :content_fields,
