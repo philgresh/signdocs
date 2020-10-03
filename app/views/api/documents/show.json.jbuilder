@@ -3,9 +3,9 @@ json.key_format! camelize: :lower
 json.document do
   json.partial! "api/documents/document", document: @document
   json.file_url @file.attached? ? polymorphic_url(@file) : nil
-  if @file
-    json.download_url @file.attached? ? rails_blob_url(@file, disposition: "attachment") : nil
-    json.preview_image_url rails_blob_url(@file.preview(thumbnail: "300").processed.image)
+  if @file && @file.attached?
+    json.download_url rails_blob_url(@file, disposition: "attachment")
+    json.preview_image_url @file.previewable? ? rails_blob_url(@file.preview(thumbnail: "300").processed.image) : ""
   end
   json.content_fields_count @document.content_fields.size
 end
