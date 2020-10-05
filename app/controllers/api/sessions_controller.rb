@@ -57,26 +57,26 @@ class Api::SessionsController < ApplicationController
   def reset
     if reset_params[:password] != reset_params[:password_confirmation]
       render json: { reset: "Passwords must match!" }
-    end
-
-    reset_string_bytes = Base64.urlsafe_decode64 reset_params[:reset_token]
-    reset_token_bytes = reset_string_bytes.byteslice(0...20)
-    reset_token_verifier = reset_string_bytes.slice(20..-1)
-
-    reset_token = Base64.urlsafe_encode64(reset_token_bytes, padding: false)
-
-    @user = User.find_by(reset_token: reset_token)
-    if @user && @user.reset_token_exp >= Time.now.to_i && reset_token_verified(reset_token_verifier)
-      @user.password = reset_params[:password]
-      if (@user.save)
-        render json: { reset: "Password successfully reset!" }
-        @user.clear_password_reset_token
-        @user.save
-      else
-        render @user.errors.full_messages, status: 400
-      end
     else
-      render json: { reset: "That link is invalid or has expired. Please try to reset again." }, status: 400
+      reset_string_bytes = Base64.urlsafe_decode64 reset_params[:reset_token]
+      reset_token_bytes = reset_string_bytes.byteslice(0...20)
+      reset_token_verifier = reset_string_bytes.slice(20..-1)
+
+      reset_token = Base64.urlsafe_encode64(reset_token_bytes, padding: false)
+
+      @user = User.find_by(reset_token: reset_token)
+      if @user && @user.reset_token_exp >= Time.now.to_i && reset_token_verified(reset_token_verifier)
+        @user.password = reset_params[:password]
+        if (@user.save)
+          render json: { reset: "Password successfully reset!" }
+          @user.clear_password_reset_token
+        else
+          render @user.errors.full_messages, status: 400
+        end
+      else
+        render json: { reset: ["That link is invalid or has expired. Please try to reset again."] }, status: 400
+        @user.clear_password_reset_token if @user
+      end
     end
   end
 

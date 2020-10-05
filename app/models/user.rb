@@ -101,6 +101,7 @@ class User < ApplicationRecord
     self.reset_token = nil
     self.reset_token_exp = nil
     self.reset_token_verifier = nil
+    self.save
   end
 
   private

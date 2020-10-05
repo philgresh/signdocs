@@ -10,7 +10,7 @@ function genErrorMessages(errors, fieldName) {
     if (err instanceof Array) {
       errorMessages = [...errorMessages, ...err];
     } else {
-      const message = `${fieldName} ${err}`;
+      const message = `${fieldName}: ${err}`;
       errorMessages.push(message);
     }
   });

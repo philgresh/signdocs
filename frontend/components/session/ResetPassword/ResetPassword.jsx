@@ -86,7 +86,6 @@ const ResetPassword = (props) => {
             required
           />
         </label>
-        <HelperText field="password" path="session.password" />
         <label htmlFor="passwordConfirmation">
           Confirm Password
           <input
@@ -98,10 +97,7 @@ const ResetPassword = (props) => {
             required
           />
         </label>
-        <HelperText
-          field="passwordConfirmation"
-          path="session.passwordConfirmation"
-        />
+        <HelperText field="Password Reset" path="session.reset" />
         <button type="submit" disabled={submitting}>
           {submitting ? buttonTextSubmitting : buttonText}
         </button>
