@@ -40,7 +40,7 @@ class Api::SessionsController < ApplicationController
     @email = email_param[:email].downcase
     @user = User.find_by(email: @email)
 
-    if @user && !example_email
+    if @user && !@user.example_email
       reset_string = @user.create_password_reset_token
       url_base = Rails.env.production? ? "https://signdocs.herokuapp.com" : "http://localhost:3000"
 
@@ -81,11 +81,6 @@ class Api::SessionsController < ApplicationController
   end
 
   private
-
-  def example_email
-    /example\.org$/ =~ @user.email ||
-    /example\.com$/ =~ @user.email
-  end
 
   def session_params
     params.require(:user).permit(:email, :password)
