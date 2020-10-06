@@ -68,63 +68,69 @@ class Api::DocumentsController < ApplicationController
                document: [["That document does not exist or has been deleted."]],
              },
              status: :not_found
-    end
+    else
+      @cfs = Hash.new { |h, k| h[k] = [] }
+      @document.content_fields.each do |cf|
+        @cfs[cf[:bbox]["page"].to_i] << cf
+      end
+      # Set up tempfiles
+      # Iterate over source pages
+      #   Write dest << source_contents
+      #   Write dest << contentfields
+      # Close dest
+      # Upload dest in place of source
+      # Delete both
+      # Send back URL of dest
 
-    @cfs = Hash.new { |h, k| h[k] = [] }
-    @document.content_fields.each do |cf|
-      @cfs[cf[:bbox]["page"].to_i] << cf
-    end
-    # Set up tempfiles
-    # Iterate over source pages
-    #   Write dest << source_contents
-    #   Write dest << contentfields
-    # Close dest
-    # Upload dest in place of source
-    # Delete both
-    # Send back URL of dest
+      source, dest, source_file = set_up_tempfiles(@document.file.blob)
+      dest_path = dest.path
+      source_path = source_file.path
 
-    source, dest, source_file = set_up_tempfiles(@document.file.blob)
-    dest_path = dest.path
-    source_path = source_file.path
+      doc = HexaPDF::Document.new
+      doc.fonts.add("Times")
+      source.pages.each.with_index do |page, i|
+        page_width = page.box.width
+        page_height = page.box.height
 
-    doc = HexaPDF::Document.new
-    doc.fonts.add("Times")
-    source.pages.each.with_index do |page, i|
-      page_width = page.box.width
-      page_height = page.box.height
+        page_content = page.contents
+        canvas = doc.pages.add([0, 0, page_width, page_height]).canvas
 
-      page_content = page.contents
-      canvas = doc.pages.add([0, 0, page_width, page_height]).canvas
+        # Duplicate source contents
+        form = doc.import(page.to_form_xobject)
+        canvas.xobject(form, at: [0, 0])
 
-      # Duplicate source contents
-      form = doc.import(page.to_form_xobject)
-      canvas.xobject(form, at: [0, 0])
+        # Add content_fields
+        text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
+        sig_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "SignatureBlock" }
 
-      # Add content_fields
-      text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
-      sig_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "SignatureBlock" }
+        write_text_blocks_to_canvas(
+          canvas, text_blocks, page_width, page_height, doc.fonts
+        )
+        write_signature_blocks_to_canvas(
+          canvas, sig_blocks, page_width, page_height
+        )
+      end
+      doc.write(dest_path)
 
-      write_text_blocks_to_canvas(
-        canvas, text_blocks, page_width, page_height, doc.fonts
+      new_filename = "#{@document.file.filename.base}-final.#{@document.file.filename.extension}"
+
+      @document.final.attach(
+        io: File.open(dest_path),
+        filename: new_filename,
+        content_type: @document.file.content_type,
       )
-      write_signature_blocks_to_canvas(
-        canvas, sig_blocks, page_width, page_height
-      )
+
+      @document.save!
+      File.delete(dest_path) if File.exist?(dest_path)
+      File.delete(source_path) if File.exist?(source_path)
+
+      @users = @document.editors.where.not(email: "phil@gresham.dev")
+      @users = @users.reject(&:example_email)
+
+      FinalizeMailer.send_finalized_pdf(@users, @document).deliver if @users.size > 0
+
+      show
     end
-    doc.write(dest_path)
-
-    new_filename = "#{@document.file.filename.base}-final.#{@document.file.filename.extension}"
-
-    @document.final.attach(
-      io: File.open(dest_path),
-      filename: new_filename,
-      content_type: @document.file.content_type,
-    )
-
-    @document.save!
-    File.delete(dest_path) if File.exist?(dest_path)
-    File.delete(source_path) if File.exist?(source_path)
-    show
   end
 
   def destroy

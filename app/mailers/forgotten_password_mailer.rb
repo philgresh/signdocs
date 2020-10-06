@@ -11,18 +11,15 @@ class ForgottenPasswordMailer < ApplicationMailer
       email: user.email,
     }
 
+    sendgrid_template_id = Rails.application.credentials.sendgrid[:template_forgotten_password]
+    sendgrid_asm_id = Rails.application.credentials.sendgrid[:asm_id]
+    sendgrid_api_password = Rails.env.production? ? ENV["SENDGRID_API_KEY"] : Rails.application.credentials.sendgrid[:api_password]
+
     mail = SendGrid::Mail.new
     mail.from = Email.new(email: "phil@gresham.dev", name: "Phil Gresham")
-    mail.asm = ASM.new(group_id: 14296)
+    mail.asm = ASM.new(group_id: sendgrid_asm_id)
 
-    resume_content = open("https://drive.google.com/uc?export=download&id=1Vh4ArxgnH9nS7z1-57lXq4G_8J6g2BKZ") { |io| io.read }
-
-    attachment = Attachment.new
-    attachment.content = Base64.strict_encode64(resume_content)
-    attachment.type = "application/pdf"
-    attachment.filename = "Gresham-Phil_Resume"
-    attachment.disposition = "attachment"
-    mail.add_attachment(attachment)
+    mail.add_attachment(attach_resume)
 
     personalization = Personalization.new
     personalization.add_to(Email.new(email: @user[:email], name: @user[:full_name]))
@@ -33,12 +30,11 @@ class ForgottenPasswordMailer < ApplicationMailer
     })
 
     mail.add_personalization(personalization)
-    mail.template_id = Rails.application.credentials.dig(:sendgrid_template_forgotten_password)
+    mail.template_id = sendgrid_template_id
 
-    key = Rails.env.production? ? ENV["SENDGRID_API_KEY"] : Rails.application.credentials.dig(:sendgrid_api_password)
     puts mail.to_json
 
-    sg = SendGrid::API.new(api_key: key)
+    sg = SendGrid::API.new(api_key: sendgrid_api_password)
     begin
       response = sg.client.mail._("send").post(request_body: mail.to_json)
     rescue Exception => e

@@ -1,0 +1,19 @@
+{
+  "rules": [
+    {
+      "filter": "\\.js$",
+      "nonBlocking": "true",
+      "message": "You’ve got leftover `console.log`",
+      "regex": "console\\.log"
+    },
+    {
+      "message": "You’ve got leftover conflict markers",
+      "regex": "/^[<>|=]{4,}/m"
+    },
+    {
+      "filter": "\\.rb$",
+      "message": "You’ve got leftover `debugger`s",
+      "regex": "debugger"
+    }
+  ]
+}

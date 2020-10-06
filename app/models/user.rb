@@ -104,6 +104,12 @@ class User < ApplicationRecord
     self.save
   end
 
+
+  def example_email
+    /example\.org$/ =~ self.email ||
+    /example\.com$/ =~ self.email
+  end
+
   private
 
   def downcase_fields

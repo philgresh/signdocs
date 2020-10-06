@@ -77,6 +77,8 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
+    "git-precommit-checks": "^3.0.6",
+    "husky": "^4.3.0",
     "mini-css-extract-plugin": "^0.10.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^2.0.5",
@@ -87,6 +89,20 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "git-precommit-checks"
+    }
+  },
+  "git-precommit-checks": {
+    "display": {
+      "notifications": true,
+      "offendingContent": true,
+      "rulesSummary": true,
+      "shortStats": true,
+      "verbose": true
     }
   }
 }
