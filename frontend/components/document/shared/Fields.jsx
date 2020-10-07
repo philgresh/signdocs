@@ -20,23 +20,25 @@ function* tempId() {
 //  page 	        page of the document (1-based index)
 
 const defaultSignatureBBOX = Object.freeze({
-  x: 0.45,
-  y: 0.5,
+  x: 0,
+  y: 0,
   page: 1,
   widthPct: 0.17,
   aspectRatio: 1.5,
+  initial: true,
 });
 
 const defaultTextboxBBOX = Object.freeze({
-  x: 0.45,
-  y: 0.5,
+  x: 0,
+  y: 0,
   page: 1,
   widthPct: 0.17,
   aspectRatio: 3,
+  initial: true,
 });
 
 const FieldItem = (props) => {
-  const { children, disabled } = props;
+  const { children, disabled, type } = props;
   const [, drag] = useDrag({
     canDrag: !disabled,
     item: {
@@ -50,7 +52,7 @@ const FieldItem = (props) => {
   let classNames = 'draggable';
   if (disabled) classNames += ' disabled-drag';
   return (
-    <li ref={drag} className={classNames}>
+    <li ref={drag} className={classNames} id={`FIELD-${type}`}>
       {children}
     </li>
   );
@@ -64,6 +66,7 @@ FieldItem.propTypes = {
     PropTypes.string,
   ]),
   disabled: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 FieldItem.defaultProps = {

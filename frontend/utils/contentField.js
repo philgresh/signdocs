@@ -51,9 +51,14 @@ export const y = (top, thisPageHeight) =>
 export const aspectRatio = (wPxls, hPxls) =>
   threeDecimalPrecision(wPxls / hPxls);
 
-export const convertPixelsToBBOX = (bboxPxls, thisPage) => {
-  const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
-  const thisPageHeight = getHeightOfCurrentPage(thisPage) || 842;
+export const convertPixelsToBBOX = (
+  bboxPxls,
+  thisPage,
+  pageWidth,
+  pageHeight,
+) => {
+  const thisPageWidth = pageWidth || getWidthOfCurrentPage(thisPage);
+  const thisPageHeight = pageHeight || getHeightOfCurrentPage(thisPage);
   return {
     ...bboxPxls,
     x: x(bboxPxls.left, thisPageWidth),
