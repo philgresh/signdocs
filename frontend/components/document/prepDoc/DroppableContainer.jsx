@@ -84,7 +84,6 @@ const DroppableContainer = ({ children, className, thisPage }) => {
       // const containerFromOrigin = getContainerFromOrigin(item.type);
       const diff = monitor.getDifferenceFromInitialOffset();
       let delta = diff;
-      debugger;
       if (item.bbox.initial) {
         delta = getDiff(item.type, diff, thisPage);
       }
