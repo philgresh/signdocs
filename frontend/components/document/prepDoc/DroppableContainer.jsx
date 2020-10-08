@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-undef */
 /* eslint-disable import/prefer-default-export */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';

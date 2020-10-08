@@ -1,9 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignature } from '@fortawesome/free-solid-svg-icons';
 import { getUserDetails } from '../../../reducers/selectors';
 import { deleteContentField } from '../../../actions/contentFields';
 import ItemTypes from './ItemTypes';

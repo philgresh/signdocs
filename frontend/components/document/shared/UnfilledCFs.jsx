@@ -2,14 +2,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSignature,
-  faTimesCircle,
-  faArrowsAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { getUserDetails } from '../../../reducers/selectors';
-import { deleteContentField } from '../../../actions/contentFields';
-import ItemTypes from './ItemTypes';
+import { faTimesCircle, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { SigSeal } from '../../helperComponents';
 
 const UnfilledCF = forwardRef(({ onRemove, children }, dragRef) => {
@@ -79,15 +72,15 @@ UnfilledSignature.defaultProps = {
 UnfilledTextBox.propTypes = {
   placeholder: PropTypes.string,
   onRemove: PropTypes.func,
-  height: PropTypes.number,
-  width: PropTypes.number,
+  // height: PropTypes.number,
+  // width: PropTypes.number,
 };
 
 UnfilledTextBox.defaultProps = {
   placeholder: '',
   onRemove: () => {},
-  height: 16,
-  width: 104.04,
+  // height: 16,
+  // width: 104.04,
 };
 
 UnfilledCF.displayName = 'UnfilledCF';

@@ -11,7 +11,6 @@ export const getHeightOfCurrentPage = (thisPage) =>
 
 export const threeDecimalPrecision = (val) => Math.floor(val * 1000) / 1000;
 
-
 export const getOriginCoords = (type) =>
   document.getElementById(`FIELD-${type}`).getBoundingClientRect();
 
