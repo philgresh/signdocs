@@ -16,47 +16,8 @@ import {
   convertBBOXtoPixels,
   getHeightOfCurrentPage,
   getWidthOfCurrentPage,
+  getDelta,
 } from '../../../utils/contentField';
-
-const getOriginCoords = (type) =>
-  document.getElementById(`FIELD-${type}`).getBoundingClientRect();
-
-const getPageCoords = (thisPage) =>
-  document
-    .querySelector(`[data-page-number="${thisPage}"]`)
-    .getBoundingClientRect();
-
-const getContainerCoords = () =>
-  document.getElementById('pdf-document-container').getBoundingClientRect();
-
-const getPageDiff = (thisPage) => {
-  const pageCoords = getPageCoords(thisPage);
-  const containerCoords = getContainerCoords();
-  return {
-    x: pageCoords.x - containerCoords.x,
-    y: pageCoords.y - containerCoords.y,
-  };
-};
-
-const getContainerFromOrigin = (type) => {
-  const originCoords = getOriginCoords(type);
-  const containerCoords = getContainerCoords();
-
-  return {
-    x: containerCoords.x - originCoords.x,
-    y: containerCoords.y - originCoords.y,
-  };
-};
-
-const getDiff = (type, diff, thisPage) => {
-  const pageDiff = getPageDiff(thisPage);
-  const containerFromOrigin = getContainerFromOrigin(type);
-
-  return {
-    x: diff.x - pageDiff.x - containerFromOrigin.x,
-    y: diff.y - pageDiff.y - containerFromOrigin.y,
-  };
-};
 
 const DroppableContainer = ({ children, className, thisPage }) => {
   const acceptableTypes = [
@@ -85,7 +46,7 @@ const DroppableContainer = ({ children, className, thisPage }) => {
       const diff = monitor.getDifferenceFromInitialOffset();
       let delta = diff;
       if (item.bbox.initial) {
-        delta = getDiff(item.type, diff, thisPage);
+        delta = getDelta(item.type, diff, thisPage);
       }
 
       const pageWidth = getWidthOfCurrentPage(thisPage);
@@ -97,8 +58,8 @@ const DroppableContainer = ({ children, className, thisPage }) => {
         pageHeight,
       );
 
-      let left = newBBOX.left + delta.x;
-      let top = newBBOX.top + delta.y;
+      let left = newBBOX.left + delta.x + 8;
+      let top = newBBOX.top + delta.y + 8;
 
       left = Math.min(left, pageWidth - newBBOX.width / 2);
       left = Math.max(newBBOX.width / 2, left);

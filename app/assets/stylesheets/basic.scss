@@ -3,6 +3,7 @@
   --header-font-family: 'Titillium Web';
   --monospace-font-family: 'Roboto Mono';
   --main-blue: #005cb9;
+  --dark-main-blue: #004386;
   --call-to-action-blue: #006ff9;
   --bright-blue: #0bc6ff;
   --teal: #277cb2;
@@ -15,6 +16,7 @@
   --yellow: #f6b610;
   --dark-yellow: #e1a205;
   --yellow-hover: #1951b8;
+  --warning-red: #ea1212;
   --gray: #737373;
   --light-gray: #bebfc0;
   --lighter-gray: #f4f4f4;
@@ -27,6 +29,7 @@
   --rounded-corners: 4px;
   --footer-padding: 4rem;
   --header-padding: 4rem;
+  --transition: transition: 0.1s all ease-in;
 }
 
 h1,
@@ -80,6 +83,7 @@ a.a-as-button {
   margin: 0.25rem;
   cursor: pointer;
   box-shadow: var(--box-shadow-1);
+  transition: var(--transition);
 
   &:hover {
     background-color: var(--yellow);
@@ -274,7 +278,7 @@ circle {
     justify-content: center;
     align-items: baseline;
     font-size: 1.5rem;
-    color: var(--teal);
+    color: var(--dark-main-blue);
 
     & a {
       margin: 0 1rem;

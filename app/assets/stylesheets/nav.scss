@@ -60,8 +60,7 @@ nav {
       &.active {
         color: var(--main-blue);
         border-bottom: 3px solid var(--main-blue);
-        pointer-events: none;
-        cursor: none;
+        // pointer-events: none;
       }
     }
 

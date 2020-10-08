@@ -191,9 +191,12 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
         "width", "height", "top", "left"
       ).map(&:to_f)
-      cf_top = page_height - cf_top - cf_height / 2  # TODO: Fix positioning
+      cf_top = page_height - cf_top - 8 # TODO: Fix positioning
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
       cf_body = cf.contentable.body
+
+      # Add 5px since the draggable container was padded by 5px
+      cf_left += 5
 
       canvas.font(
         TEXTBOX_FONT,
@@ -209,7 +212,7 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left, cf_aspect_ratio = cf.bbox.values_at(
         "width", "height", "top", "left", "aspect_ratio"
       ).map(&:to_f)
-      cf_top = height - cf_top - cf_height / 2  # TODO: Fix positioning
+      cf_top = height - cf_top - 8 # TODO: Fix positioning
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
 
       blob = cf.contentable.sig_image.blob

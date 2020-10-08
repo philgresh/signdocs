@@ -5,19 +5,19 @@ import { FONT_FAMILIES, COLORS } from './constants';
 const defaultFont = FONT_FAMILIES[0];
 const defaultColor = COLORS[0];
 
-const SigSeal = ({ pubKey, name, font, color }) => {
+const SigSeal = ({ pubKey, name, font, color, height, width }) => {
   return (
     <>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         style={{ background: '#ffffff00' }}
-        height="100"
-        width="300"
+        height={height}
+        width={width}
         viewBox="0 0 300 100"
       >
         <path
           d="M 50 10 l -20 0 a 25 25 90 0 0 -25 25 L 5 65 a 25 25 90 0 0 25 25 L 50 90"
-          stroke="#000028"
+          stroke={color}
           fill="transparent"
           strokeWidth="4"
           strokeLinecap="round"
@@ -27,7 +27,7 @@ const SigSeal = ({ pubKey, name, font, color }) => {
           y="15"
           fontFamily="'Roboto', sans-serif"
           fontSize="15"
-          fill="#000028"
+          fill={color}
           fontWeight="700"
         >
           SignDocked by:
@@ -54,6 +54,8 @@ SigSeal.propTypes = {
   pubKey: PropTypes.string,
   font: PropTypes.string,
   color: PropTypes.string,
+  height: PropTypes.number,
+  width: PropTypes.number,
 };
 
 SigSeal.defaultProps = {
@@ -61,6 +63,8 @@ SigSeal.defaultProps = {
   pubKey: '',
   font: defaultFont,
   color: defaultColor,
+  height: 100,
+  width: 300,
 };
 
 export default SigSeal;

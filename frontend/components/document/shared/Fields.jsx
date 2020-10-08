@@ -23,8 +23,8 @@ const defaultSignatureBBOX = Object.freeze({
   x: 0,
   y: 0,
   page: 1,
-  widthPct: 0.17,
-  aspectRatio: 1.5,
+  widthPct: 0.162,
+  aspectRatio: 3,
   initial: true,
 });
 
@@ -32,8 +32,8 @@ const defaultTextboxBBOX = Object.freeze({
   x: 0,
   y: 0,
   page: 1,
-  widthPct: 0.17,
-  aspectRatio: 3,
+  widthPct: 0.162,
+  aspectRatio: 6.25,
   initial: true,
 });
 

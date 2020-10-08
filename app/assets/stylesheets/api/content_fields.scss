@@ -5,15 +5,12 @@
 .content-field {
   position: absolute;
   z-index: 2;
-
-  &.draggable-item {
-    cursor: move;
-  }
+  border: 1px solid transparent;
 
   &.fillable {
-    background-color: rgba(255, 255, 255, 0.7);
-    border: 1px solid var(--off-black);
-    border-radius: 6px;
+    border: 1px solid var(--light-gray);
+    border-radius: 0.25rem;
+    background-color: #fff8;
     box-shadow: var(--box-shadow-1);
 
     &.signable {
@@ -27,39 +24,43 @@
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--off-black);
+    justify-content: flex-start;
+    align-items: baseline;
+    color: var(--dark-main-blue);
     font-family: var(--default-font-family);
     font-weight: bold;
+    font-size: 0.8rem;
+    // text-overflow: ellipsis;
+    //   overflow: hidden;
+    padding: 0 5px;
+
+    & .drag-handle {
+      position: absolute;
+      top: -7px;
+      left: -7px;
+      z-index: 3;
+      color: inherit;
+      cursor: pointer;
+      font-size: inherit;
+
+      &:hover {
+        color: var(--call-to-action-blue);
+        // transform: translate(-1rem, -1rem);  // Nice idea but screws up positioning
+        // padding: 0.5rem;
+      }
+    }
 
     & button.close.flat {
-      float: right;
-      display: block;
-      padding: 2px;
-      margin: 0;
       background-color: transparent;
       position: absolute;
-      right: 5px;
-      top: 0;
+      right: -17px;
+      top: -15px;
+      color: inherit;
+      font-size: inherit;
+
+      &:hover {
+        color: var(--warning-red);
+      }
     }
   }
-}
-
-.signature-box {
-  width: 100%;
-  padding-bottom: 0.15rem;
-  border-bottom: 2px dashed #fd6f6f;
-  font-size: 80%;
-  color: rgb(111, 111, 138);
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.textbox-box {
-  width: 100%;
-  font-size: 80%;
-  color: rgb(111, 111, 138);
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
