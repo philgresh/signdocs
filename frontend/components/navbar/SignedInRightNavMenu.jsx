@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { UserPropTypeShape } from '../propTypes';
 
@@ -18,7 +18,7 @@ const SignedInRightNavMenu = ({ currentUser, signoutUser }) => {
       </button>
       <ul className="dropdown-content">
         <li>
-          <Link to="/profile">Profile</Link>
+          <NavLink to="/profile">Profile</NavLink>
         </li>
         <li>
           <button type="button" onClick={signoutUser} className="flat">

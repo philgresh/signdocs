@@ -439,7 +439,7 @@
         }
       }
     }
-    & .pdf-document-container {
+    & #pdf-document-container {
       position: absolute;
       height: calc(100% - 10rem - 2.5rem);
       overflow: auto;

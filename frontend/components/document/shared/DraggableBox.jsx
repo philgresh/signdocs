@@ -1,13 +1,13 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignature } from '@fortawesome/free-solid-svg-icons';
 import { getUserDetails } from '../../../reducers/selectors';
 import { deleteContentField } from '../../../actions/contentFields';
 import ItemTypes from './ItemTypes';
 import { convertBBOXtoPixels } from '../../../utils/contentField';
+import { UnfilledSignature, UnfilledTextBox } from './UnfilledCFs';
 
 const DraggableBox = ({ cfData, thisPage }) => {
   const dispatch = useDispatch();
@@ -20,52 +20,53 @@ const DraggableBox = ({ cfData, thisPage }) => {
   } = cfData;
   const onRemove = () => dispatch(deleteContentField(cfData.id));
   const signatory = useSelector(getUserDetails(signatoryId));
-  const signatoryName = `${signatory.firstName}\u00A0${signatory.lastName}`;
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging, opacity }, drag, preview] = useDrag({
     item: { ...cfData, type },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.4 : 1,
     }),
   });
   if (isDragging && hideSourceOnDrag) {
     return <div ref={drag} />;
   }
 
-  let component = null;
-  switch (type) {
-    case ItemTypes.UNFILLED_SIGNATURE: {
-      component = (
-        <div className="signature-box unfilled">
-          <FontAwesomeIcon icon={faSignature} color="inherit" />
-          {signatoryName}
-        </div>
-      );
-      break;
-    }
-    case ItemTypes.UNFILLED_TEXT: {
-      component = <div className="textbox-box unfilled">{placeholder}</div>;
-      break;
-    }
-    default:
-      break;
-  }
-  const { left, top, width, height } = convertBBOXtoPixels(bbox, thisPage);
+  const style = convertBBOXtoPixels(bbox, thisPage);
 
-  return (
-    <div
-      ref={drag}
-      className="content-field draggable-item"
-      style={{ left, top, width, height }}
-    >
-      <div className="content-field-description">
-        <button className="close flat" type="button" onClick={onRemove}>
-          &times;
-        </button>
-        {component}
+  if (type === ItemTypes.UNFILLED_SIGNATURE)
+    return (
+      <div
+        ref={preview}
+        className="content-field draggable-item"
+        style={{ ...style, opacity }}
+      >
+        <UnfilledSignature
+          onRemove={onRemove}
+          signatoryName={signatory.fullName}
+          width={style.width}
+          height={style.height}
+          ref={drag}
+        />
       </div>
-    </div>
-  );
+    );
+
+  if (type === ItemTypes.UNFILLED_TEXT)
+    return (
+      <div
+        ref={preview}
+        className="content-field draggable-item fillable"
+        style={{ ...style, opacity }}
+      >
+        <UnfilledTextBox
+          placeholder={placeholder}
+          onRemove={onRemove}
+          width={style.width}
+          height={style.height}
+          ref={drag}
+        />
+      </div>
+    );
 };
 
 export default DraggableBox;

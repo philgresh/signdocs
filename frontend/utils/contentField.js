@@ -11,6 +11,46 @@ export const getHeightOfCurrentPage = (thisPage) =>
 
 export const threeDecimalPrecision = (val) => Math.floor(val * 1000) / 1000;
 
+export const getOriginCoords = (type) =>
+  document.getElementById(`FIELD-${type}`).getBoundingClientRect();
+
+export const getPageCoords = (thisPage) =>
+  document
+    .querySelector(`[data-page-number="${thisPage}"]`)
+    .getBoundingClientRect();
+
+export const getContainerCoords = () =>
+  document.getElementById('pdf-document-container').getBoundingClientRect();
+
+export const getPageDiff = (thisPage) => {
+  const pageCoords = getPageCoords(thisPage);
+  const containerCoords = getContainerCoords();
+  return {
+    x: pageCoords.x - containerCoords.x,
+    y: pageCoords.y - containerCoords.y,
+  };
+};
+
+export const getContainerFromOrigin = (type) => {
+  const originCoords = getOriginCoords(type);
+  const containerCoords = getContainerCoords();
+
+  return {
+    x: containerCoords.x - originCoords.x,
+    y: containerCoords.y - originCoords.y,
+  };
+};
+
+export const getDelta = (type, diff, thisPage) => {
+  const pageDiff = getPageDiff(thisPage);
+  const containerFromOrigin = getContainerFromOrigin(type);
+
+  return {
+    x: diff.x - pageDiff.x - containerFromOrigin.x,
+    y: diff.y - pageDiff.y - containerFromOrigin.y,
+  };
+};
+
 // ************ percent to pixels
 
 export const widthPxls = (widthPct, thisPageWidth) =>
@@ -51,9 +91,14 @@ export const y = (top, thisPageHeight) =>
 export const aspectRatio = (wPxls, hPxls) =>
   threeDecimalPrecision(wPxls / hPxls);
 
-export const convertPixelsToBBOX = (bboxPxls, thisPage) => {
-  const thisPageWidth = getWidthOfCurrentPage(thisPage) || 595;
-  const thisPageHeight = getHeightOfCurrentPage(thisPage) || 842;
+export const convertPixelsToBBOX = (
+  bboxPxls,
+  thisPage,
+  pageWidth,
+  pageHeight,
+) => {
+  const thisPageWidth = pageWidth || getWidthOfCurrentPage(thisPage);
+  const thisPageHeight = pageHeight || getHeightOfCurrentPage(thisPage);
   return {
     ...bboxPxls,
     x: x(bboxPxls.left, thisPageWidth),

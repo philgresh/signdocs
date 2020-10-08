@@ -15,7 +15,7 @@ const SignPDF = ({ doc }) => {
   };
 
   return (
-    <div className="pdf-document-container">
+    <div id="pdf-document-container">
       <Document file={doc.fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (_el, index) => {
           const thisPage = index + 1;

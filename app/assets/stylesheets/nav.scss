@@ -13,6 +13,7 @@ nav {
   z-index: 9999;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: var(--box-shadow-1);
 
   & h1 {
     & a,
@@ -49,10 +50,17 @@ nav {
       color: inherit;
       cursor: pointer;
       box-sizing: border-box;
+      border: 3px solid transparent;
 
       &:hover {
         background-color: rgba(240, 240, 240, 0.61);
-        border-bottom: 2px solid lightgray;
+        border-bottom: 3px solid lightgray;
+      }
+
+      &.active {
+        color: var(--main-blue);
+        border-bottom: 3px solid var(--main-blue);
+        // pointer-events: none;
       }
     }
 

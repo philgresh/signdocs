@@ -19,7 +19,7 @@ const PrepPDF = ({ doc }) => {
   };
 
   return (
-    <div className="pdf-document-container">
+    <div id="pdf-document-container">
       <Document file={doc.fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {docLoadSuccess &&
           Array.from(new Array(numPages), (_el, index) => (

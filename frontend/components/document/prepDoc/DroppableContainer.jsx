@@ -16,6 +16,7 @@ import {
   convertBBOXtoPixels,
   getHeightOfCurrentPage,
   getWidthOfCurrentPage,
+  getDelta,
 } from '../../../utils/contentField';
 
 const DroppableContainer = ({ children, className, thisPage }) => {
@@ -34,17 +35,31 @@ const DroppableContainer = ({ children, className, thisPage }) => {
     (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
   );
 
-  const [, drop] = useDrop({
+  const [_collectedProps, drop] = useDrop({
     accept: acceptableTypes,
     drop(item, monitor) {
-      const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 };
+      // const origin = getOriginCoords(item.type);
+      // const pageCoords = getPageCoords(thisPage);
+      // const containerCoords = getContainerCoords();
+      // const pageDiff = getPageDiff(thisPage);
+      // const containerFromOrigin = getContainerFromOrigin(item.type);
+      const diff = monitor.getDifferenceFromInitialOffset();
+      let delta = diff;
+      if (item.bbox.initial) {
+        delta = getDelta(item.type, diff, thisPage);
+      }
 
-      let newBBOX = convertBBOXtoPixels(item.bbox, thisPage);
-
-      let left = newBBOX.left + delta.x;
-      let top = newBBOX.top + delta.y;
       const pageWidth = getWidthOfCurrentPage(thisPage);
       const pageHeight = getHeightOfCurrentPage(thisPage);
+      let newBBOX = convertBBOXtoPixels(
+        item.bbox,
+        thisPage,
+        pageWidth,
+        pageHeight,
+      );
+
+      let left = newBBOX.left + delta.x + 8;
+      let top = newBBOX.top + delta.y + 8;
 
       left = Math.min(left, pageWidth - newBBOX.width / 2);
       left = Math.max(newBBOX.width / 2, left);
