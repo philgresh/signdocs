@@ -21,12 +21,28 @@ require "cuid"
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
+  FONT_ASSETS_PATH = Rails.root.to_s + "app/assets/fonts".freeze
   SIGNATURE_STYLE_FONT_FAMILIES = [
-    "'Caveat', cursive",
-    "'Dancing Script', cursive",
-    "'Homemade Apple', cursive",
-    "'Permanent Marker', cursive",
-    "'Rock Salt', cursive",
+    {
+      style: "'Caveat', cursive",
+      file: "#{FONT_ASSETS_PATH}/Caveat-Regular.ttf",
+    },
+    {
+      style: "'Dancing Script', cursive",
+      file: "#{FONT_ASSETS_PATH}/DancingScript-Regular.ttf",
+    },
+    {
+      style: "'Homemade Apple', cursive",
+      file: "#{FONT_ASSETS_PATH}/HomemadeApple-Regular.ttf",
+    },
+    {
+      style: "'Permanent Marker', cursive",
+      file: "#{FONT_ASSETS_PATH}/PermanentMarker-Regular.ttf",
+    },
+    {
+      style: "'Rock Salt', cursive",
+      file: "#{FONT_ASSETS_PATH}/RockSalt-Regular.ttf",
+    },
   ].freeze
   # COLORS = %w[darkgreen #000028 midnightblue royalblue darkslategray teal].freeze
 
@@ -106,7 +122,7 @@ class SignatureBlock < ApplicationRecord
   end
 
   def gen_svg_from_name(
-    font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample,
+    font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample[:style],
     # fill_color = COLORS.sample
     fill_color = "#000028"
   )
