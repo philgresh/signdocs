@@ -243,7 +243,6 @@ class Api::DocumentsController < ApplicationController
       sig.combine_options do |cmd|
         cmd.background "none"
         cmd.transparent "white"
-        cmd.font sig_font
       end
       sig.write(png_file)
 
