@@ -5,6 +5,7 @@ class Api::DocumentsController < ApplicationController
   TEXTBOX_FONT = "Times"
   TEXTBOX_VARIANT = :bold
   TEXTBOX_SIZE = 12
+  TEXTBOX_PADDING_LEFT = 8
 
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
   # before_action :require_owner_status, only: [:destroy, :update, :signedurl, :finalize]
@@ -88,6 +89,12 @@ class Api::DocumentsController < ApplicationController
 
       doc = HexaPDF::Document.new
       doc.fonts.add("Times")
+      SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.each do |font|
+        font_family, file = font.values_at(:font_family, :file)
+
+        doc.fonts.add(file)
+      end
+
       source.pages.each.with_index do |page, i|
         page_width = page.box.width
         page_height = page.box.height
@@ -191,12 +198,12 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
         "width", "height", "top", "left"
       ).map(&:to_f)
-      cf_top = page_height - cf_top - 8 # TODO: Fix positioning
+      cf_top = page_height - cf_top - cf_height 
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
       cf_body = cf.contentable.body
 
-      # Add 5px since the draggable container was padded by 5px
-      cf_left += 5
+      cf_top += TEXTBOX_PADDING_LEFT / 2
+      cf_left += TEXTBOX_PADDING_LEFT
 
       canvas.font(
         TEXTBOX_FONT,
@@ -212,21 +219,31 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left, cf_aspect_ratio = cf.bbox.values_at(
         "width", "height", "top", "left", "aspect_ratio"
       ).map(&:to_f)
-      cf_top = height - cf_top - 8 # TODO: Fix positioning
+      cf_top = height - cf_top - cf_height 
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
 
-      blob = cf.contentable.sig_image.blob
+      cf_left += TEXTBOX_PADDING_LEFT
+
+      signature_block = cf.contentable
+      blob = signature_block.sig_image.blob
       filename = blob.filename.base
 
-      svg_file = Tempfile.new [filename, ".svg"]
-      svg_file.write(blob.download)
+      # svg_file = Tempfile.new [filename, ".svg"]
+      # svg_file.write(blob.download)
       png_file = Tempfile.new [filename, ".png"]
 
       sig = MiniMagick::Image.open(blob.service_url)
+      sig_font = nil
+      if signature_block.styling["font_family"] != ''
+        font_family = signature_block.styling["font_family"]
+        sig_font = signature_block.get_font_file_from_family(font_family)
+      end
+
       sig.format "png"
       sig.combine_options do |cmd|
         cmd.background "none"
         cmd.transparent "white"
+        cmd.font sig_font
       end
       sig.write(png_file)
 

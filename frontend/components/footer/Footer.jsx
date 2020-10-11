@@ -45,7 +45,11 @@ const Footer = () => {
 };
 
 EmailObfuscation.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default Footer;

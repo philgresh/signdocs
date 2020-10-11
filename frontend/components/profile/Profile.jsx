@@ -18,6 +18,7 @@ const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
   const [changed, setChanged] = useState(false);
   const [tab, setTab] = useState('choice');
   const sigPadRef = createRef();
+  window.sigPadRef = sigPadRef;
 
   const { pubKeyFingerprint, styling } = sig;
 
@@ -32,23 +33,17 @@ const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
     const sigData = {
       id: sig.id,
     };
-    switch (tab) {
-      case 'choice': {
-        const { selectedFont, color } = choiceState;
-        sigData['signature[styling]'] = {
-          font_family: selectedFont,
-          fill_color: color,
-        };
-        break;
-      }
-      case 'draw': {
-        const svgData = sigPadRef.current.toDataURL('image/svg+xml');
-        sigData['signature[svg_data]'] = svgData;
-        break;
-      }
-      default:
-        break;
+    if (tab === 'choice') {
+      const { selectedFont, color } = choiceState;
+      sigData['signature[styling]'] = {
+        font_family: selectedFont,
+        fill_color: color,
+      };
+    } else if (tab === 'draw') {
+      const svgData = sigPadRef.current.toDataURL('image/svg+xml');
+      sigData['signature[svg_data]'] = svgData;
     }
+
     updateSig(sigData).then(() => fetchMe(user.id));
     setUpdating(false);
   };
