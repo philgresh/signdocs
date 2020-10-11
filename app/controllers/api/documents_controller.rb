@@ -1,5 +1,6 @@
 require "hexapdf"
 require "tempfile"
+require "RMagick"
 
 class Api::DocumentsController < ApplicationController
   TEXTBOX_FONT = "Times"
@@ -198,7 +199,7 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left = cf.bbox.values_at(
         "width", "height", "top", "left"
       ).map(&:to_f)
-      cf_top = page_height - cf_top - cf_height 
+      cf_top = page_height - cf_top - cf_height
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
       cf_body = cf.contentable.body
 
@@ -219,7 +220,7 @@ class Api::DocumentsController < ApplicationController
       cf_width, cf_height, cf_top, cf_left, cf_aspect_ratio = cf.bbox.values_at(
         "width", "height", "top", "left", "aspect_ratio"
       ).map(&:to_f)
-      cf_top = height - cf_top - cf_height 
+      cf_top = height - cf_top - cf_height
       # HexaPDF sets up [0,0] at the bottom-left corner of a page
 
       cf_left += TEXTBOX_PADDING_LEFT
@@ -228,23 +229,24 @@ class Api::DocumentsController < ApplicationController
       blob = signature_block.sig_image.blob
       filename = blob.filename.base
 
-      # svg_file = Tempfile.new [filename, ".svg"]
-      # svg_file.write(blob.download)
       png_file = Tempfile.new [filename, ".png"]
+      svg_file = Tempfile.new [filename, ".svg"]
+      svg_file.write(blob.download)
+      svg_file.close
 
-      sig = MiniMagick::Image.open(blob.service_url)
-      sig_font = nil
-      if signature_block.styling["font_family"] != ''
-        font_family = signature_block.styling["font_family"]
-        sig_font = signature_block.get_font_file_from_family(font_family)
-      end
+      svg = Magick::Image.read(svg_file.to_path).first
+      svg.transparent("white")
 
-      sig.format "png"
-      sig.combine_options do |cmd|
-        cmd.background "none"
-        cmd.transparent "white"
-      end
-      sig.write(png_file)
+      svg.format = "SVG"
+      svg.write png_file.to_path
+
+      png = Magick::Image.read(png_file.to_path).first
+      png.fuzz = "20%"
+      png.background_color = "transparent"
+      png.transparent("white")
+      png.alpha(Magick::ActivateAlphaChannel)
+      png.alpha(Magick::BackgroundAlphaChannel)
+      png.write png_file.to_path
 
       canvas.xobject(
         png_file,

@@ -254,6 +254,7 @@ GEM
     rb-readline (0.5.5)
     regexp_parser (1.7.1)
     rexml (3.2.4)
+    rmagick (4.1.2)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -374,6 +375,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   rails-controller-testing
   rb-readline
+  rmagick
   rspec-rails (~> 3.5)
   rubocop
   sass-rails (~> 5.0)
