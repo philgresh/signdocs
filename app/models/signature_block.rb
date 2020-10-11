@@ -60,6 +60,22 @@ class SignatureBlock < ApplicationRecord
   has_one :content_fields, as: :contentable
   has_one_attached :sig_image
 
+  def self.get_font_object_from_family(family)
+    SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.find { |font| font[:style] == family }
+  end
+
+  def self.get_font_file_from_family(family)
+    font_obj = get_font_object_from_family(family)
+    return nil unless font_obj
+    font_obj[:file]
+  end
+
+  def self.get_font_name_from_family(family)
+    font_obj = get_font_object_from_family(family)
+    font_family = font_obj[:font_family]
+    font_family[/[\'\"]?([A-Za-z ]*)[\'\"]?/, 1]
+  end
+
   def block_type
     "SIGNATURE"
   end
@@ -193,21 +209,6 @@ class SignatureBlock < ApplicationRecord
 
     self.save!
     File.delete(local_link) if File.exist?(local_link)
-  end
-
-  def get_font_object_from_family(family)
-    SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.find { |font| font[:style] == family }
-  end
-
-  def get_font_file_from_family(family)
-    font_obj = get_font_object_from_family(family)
-    font_obj[:file]
-  end
-
-  def get_font_name_from_family(family)
-    font_obj = get_font_object_from_family(family)
-    font_family = font_obj[:font_family]
-    font_family[/[\'\"]?([A-Za-z ]*)[\'\"]?/, 1]
   end
 
   private

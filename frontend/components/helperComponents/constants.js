@@ -1,9 +1,9 @@
 export const FONT_FAMILIES = Object.freeze([
-  "'Caveat', cursive",
-  "'Dancing Script', cursive",
-  "'Homemade Apple', cursive",
-  "'Permanent Marker', cursive",
-  "'Rock Salt', cursive",
+  'Caveat',
+  'Dancing Script',
+  'Homemade Apple',
+  'Permanent Marker',
+  'Rock Salt',
 ]);
 
 export const COLORS = Object.freeze([
