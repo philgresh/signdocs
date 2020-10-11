@@ -25,27 +25,27 @@ class SignatureBlock < ApplicationRecord
   SIGNATURE_STYLE_FONT_FAMILIES = [
     {
       font_family: "Caveat",
-      style: "'Caveat', cursive",
+      style: "Caveat",
       file: "#{FONT_ASSETS_PATH}/Caveat-Regular.ttf",
     },
     {
       font_family: "Dancing Script",
-      style: "'Dancing Script', cursive",
+      style: "Dancing Script",
       file: "#{FONT_ASSETS_PATH}/DancingScript-Regular.ttf",
     },
     {
       font_family: "Homemade Apple",
-      style: "'Homemade Apple', cursive",
+      style: "Homemade Apple",
       file: "#{FONT_ASSETS_PATH}/HomemadeApple-Regular.ttf",
     },
     {
       font_family: "Permanent Marker",
-      style: "'Permanent Marker', cursive",
+      style: "Permanent Marker",
       file: "#{FONT_ASSETS_PATH}/PermanentMarker-Regular.ttf",
     },
     {
       font_family: "Rock Salt",
-      style: "'Rock Salt', cursive",
+      style: "Rock Salt",
       file: "#{FONT_ASSETS_PATH}/RockSalt-Regular.ttf",
     },
   ].freeze
