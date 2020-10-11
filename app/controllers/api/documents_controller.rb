@@ -1,6 +1,6 @@
 require "hexapdf"
 require "tempfile"
-require "RMagick"
+require "rmagick"
 
 class Api::DocumentsController < ApplicationController
   TEXTBOX_FONT = "Times"
