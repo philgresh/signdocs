@@ -241,7 +241,7 @@ class Api::DocumentsController < ApplicationController
         self.fuzz = "20%"
         self.transparent_color = "white"
         self.background_color = "transparent"
-        self.font = "Times"
+        self.font = "DejaVu-Sans"
       }.first
       # svg.alpha(Magick::ActivateAlphaChannel)
       # svg.alpha(Magick::BackgroundAlphaChannel)
