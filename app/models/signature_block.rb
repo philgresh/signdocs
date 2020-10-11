@@ -162,7 +162,7 @@ class SignatureBlock < ApplicationRecord
         "SignDocked by:",
         x: 55,
         y: 15,
-        font_family: "'Roboto', sans-serif",
+        font_family: "Roboto",
         font_size: 15,
         fill: "#000028",
         font_weight: "700",
@@ -171,7 +171,7 @@ class SignatureBlock < ApplicationRecord
         fingerprint_text,
         x: 55,
         y: 94,
-        font_family: "'Roboto Mono', monospace",
+        font_family: "Roboto Mono",
         font_size: 12,
         fill: "#000028",
       )

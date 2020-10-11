@@ -234,18 +234,30 @@ class Api::DocumentsController < ApplicationController
       svg_file.write(blob.download)
       svg_file.close
 
-      svg = Magick::Image.read(svg_file.to_path).first
-      svg.transparent("white")
+      svg = Magick::Image.read(svg_file.to_path) {
+        # self.alpha(Magick::ActivateAlphaChannel)
+        # self.alpha(Magick::BackgroundAlphaChannel)
+        self.format = "SVG"
+        self.fuzz = "20%"
+        self.transparent_color = "white"
+        self.background_color = "transparent"
+        self.font = "Roboto"
+      }.first
+      # svg.alpha(Magick::ActivateAlphaChannel)
+      # svg.alpha(Magick::BackgroundAlphaChannel)
+      # svg.fuzz = "20%"
+      # svg.background_color = "transparent"
+      # svg.transparent("white")
 
-      svg.format = "SVG"
+      # svg.format = "SVG"
       svg.write png_file.to_path
 
       png = Magick::Image.read(png_file.to_path).first
+      png.alpha(Magick::ActivateAlphaChannel)
+      png.alpha(Magick::BackgroundAlphaChannel)
       png.fuzz = "20%"
       png.background_color = "transparent"
       png.transparent("white")
-      png.alpha(Magick::ActivateAlphaChannel)
-      png.alpha(Magick::BackgroundAlphaChannel)
       png.write png_file.to_path
 
       canvas.xobject(
