@@ -21,25 +21,30 @@ require "cuid"
 
 class SignatureBlock < ApplicationRecord
   SIGNING_ALGORITHM = "RSASSA_PSS_SHA_256"
-  FONT_ASSETS_PATH = Rails.root.to_s + "app/assets/fonts".freeze
+  FONT_ASSETS_PATH = Rails.root.join("app", "assets", "fonts")
   SIGNATURE_STYLE_FONT_FAMILIES = [
     {
+      font_family: "Caveat",
       style: "'Caveat', cursive",
       file: "#{FONT_ASSETS_PATH}/Caveat-Regular.ttf",
     },
     {
+      font_family: "Dancing Script",
       style: "'Dancing Script', cursive",
       file: "#{FONT_ASSETS_PATH}/DancingScript-Regular.ttf",
     },
     {
+      font_family: "Homemade Apple",
       style: "'Homemade Apple', cursive",
       file: "#{FONT_ASSETS_PATH}/HomemadeApple-Regular.ttf",
     },
     {
+      font_family: "Permanent Marker",
       style: "'Permanent Marker', cursive",
       file: "#{FONT_ASSETS_PATH}/PermanentMarker-Regular.ttf",
     },
     {
+      font_family: "Rock Salt",
       style: "'Rock Salt', cursive",
       file: "#{FONT_ASSETS_PATH}/RockSalt-Regular.ttf",
     },
@@ -121,11 +126,9 @@ class SignatureBlock < ApplicationRecord
     })
   end
 
-  def gen_svg_from_name(
-    font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample[:style],
-    # fill_color = COLORS.sample
-    fill_color = "#000028"
-  )
+  def gen_svg_from_name(font_family, fill_color)
+    font_family ||= SIGNATURE_STYLE_FONT_FAMILIES.sample[:style]
+    fill_color ||= "#000028"
     @user = self.user
     name_text = "#{@user.first_name} #{@user.last_name}"
     svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
@@ -142,7 +145,7 @@ class SignatureBlock < ApplicationRecord
     gen_svg_wrapper(svg)
   end
 
-  def gen_svg_wrapper(inner)
+  def svg_wrapper
     @user ||= self.user
     svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
 
@@ -173,7 +176,11 @@ class SignatureBlock < ApplicationRecord
         fill: "#000028",
       )
     end
+    svg
+  end
 
+  def gen_svg_wrapper(inner)
+    svg = svg_wrapper
     svg << inner
     local_link = "#{IMGS_PATH}#{Time.now.to_i}.svg"
     svg.save local_link
@@ -186,6 +193,21 @@ class SignatureBlock < ApplicationRecord
 
     self.save!
     File.delete(local_link) if File.exist?(local_link)
+  end
+
+  def get_font_object_from_family(family)
+    SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.find { |font| font[:style] == family }
+  end
+
+  def get_font_file_from_family(family)
+    font_obj = get_font_object_from_family(family)
+    font_obj[:file]
+  end
+
+  def get_font_name_from_family(family)
+    font_obj = get_font_object_from_family(family)
+    font_family = font_obj[:font_family]
+    font_family[/[\'\"]?([A-Za-z ]*)[\'\"]?/, 1]
   end
 
   private

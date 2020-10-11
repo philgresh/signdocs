@@ -11,7 +11,7 @@
     <link rel="manifest" href="<%= asset_path '/site.webmanifest' %>">
     <%= stylesheet_link_tag 'application', media: 'all' %> 
     <%= javascript_include_tag 'application' %>
-    <% if current_user %>
+    <% if logged_in? %>
         <!-- TODO: Fix preloadedState using Ruby partial -->
         <script>
             window.currentUser = {
