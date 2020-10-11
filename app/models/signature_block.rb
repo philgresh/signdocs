@@ -146,7 +146,7 @@ class SignatureBlock < ApplicationRecord
     font_family ||= SIGNATURE_STYLE_FONT_FAMILIES.sample[:style]
     fill_color ||= "#000028"
     @user = self.user
-    name_text = "#{@user.first_name} #{@user.last_name}"
+    name_text = @user.full_name
     svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
     svg.text(
       name_text,
@@ -178,7 +178,7 @@ class SignatureBlock < ApplicationRecord
         "SignDocked by:",
         x: 55,
         y: 15,
-        # font_family: "'Roboto'",
+        font_family: "Roboto",
         font_size: 15,
         fill: "#000028",
         font_weight: "700",
@@ -187,7 +187,7 @@ class SignatureBlock < ApplicationRecord
         fingerprint_text,
         x: 55,
         y: 94,
-        # font_family: "'Roboto Mono'",
+        font_family: "Roboto Mono",
         font_size: 12,
         fill: "#000028",
       )

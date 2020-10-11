@@ -236,25 +236,16 @@ class Api::DocumentsController < ApplicationController
 
       sig_font_family = signature_block.styling["font_family"]
       sig_font = SignatureBlock.get_font_file_from_family(sig_font_family)
-      sig_font = "DejaVu-Sans" if sig_font.nil?
-        
+      sig_font = "Roboto" if sig_font.nil?
 
       svg = Magick::Image.read(svg_file.to_path) {
-        # self.alpha(Magick::ActivateAlphaChannel)
-        # self.alpha(Magick::BackgroundAlphaChannel)
         self.format = "SVG"
         self.fuzz = "20%"
         self.transparent_color = "white"
         self.background_color = "transparent"
         self.font = sig_font
       }.first
-      # svg.alpha(Magick::ActivateAlphaChannel)
-      # svg.alpha(Magick::BackgroundAlphaChannel)
-      # svg.fuzz = "20%"
-      # svg.background_color = "transparent"
-      # svg.transparent("white")
 
-      # svg.format = "SVG"
       svg.write png_file.to_path
 
       png = Magick::Image.read(png_file.to_path).first

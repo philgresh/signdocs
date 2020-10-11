@@ -35,6 +35,8 @@ const SigPad = ({ sigPadRef, setChanged }) => {
           canvasProps={{ width: 600, height: 200 }}
           ref={sigPadRef}
           onEnd={onEnd}
+          minWidth={2}
+          maxWidth={5}
         />
         {hasContent && (
           <button type="button" className="clear flat" onClick={sigPadClear}>
