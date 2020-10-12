@@ -32,39 +32,44 @@ nav {
     height: 100%;
     margin: 0;
 
+    & li,
+    & a {
+      transition-duration: 0.2s;
+    }
+
     & > li {
       list-style: none;
       height: 100%;
       display: flex;
       align-items: center;
       cursor: pointer;
+
+      & > a {
+        display: block;
+        height: 100%;
+        margin: 0;
+        padding: 24px 10px;
+        background: transparent;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        box-sizing: border-box;
+        border: 3px solid transparent;
+
+        &:hover {
+          background-color: rgba(240, 240, 240, 0.61);
+          border-bottom: 3px solid lightgray;
+        }
+
+        &.active {
+          color: var(--main-blue);
+          border-bottom: 3px solid var(--main-blue);
+          // pointer-events: none;
+        }
+      }
     }
 
-    & a {
-      display: block;
-      height: 100%;
-      margin: 0;
-      padding: 24px 10px;
-      background: transparent;
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-      box-sizing: border-box;
-      border: 3px solid transparent;
-
-      &:hover {
-        background-color: rgba(240, 240, 240, 0.61);
-        border-bottom: 3px solid lightgray;
-      }
-
-      &.active {
-        color: var(--main-blue);
-        border-bottom: 3px solid var(--main-blue);
-        // pointer-events: none;
-      }
-    }
-
-    & .dropdown {
+    & li.dropdown {
       position: relative;
       display: inline-block;
 
@@ -83,14 +88,34 @@ nav {
       & .dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
         right: 27px;
         margin-top: -10px;
+        background-color: var(--lighter-gray);
+        box-shadow: var(--box-shadow-1);
+        z-index: 2;
+        padding: 0;
+        min-width: 8rem;
+        text-align: center;
         list-style: none;
-        padding: 0.5rem;
+
+        & > li {
+          padding: 1rem;
+          margin: 0;
+          color: inherit;
+
+          & > a {
+            color: inherit;
+
+            &:visited {
+              color: inherit;
+            }
+          }
+
+          &:hover {
+            background-color: var(--teal);
+            color: var(--background-white);
+          }
+        }
       }
     }
 

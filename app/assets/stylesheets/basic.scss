@@ -213,6 +213,11 @@ li.no-pointer {
   margin: 1rem;
   padding: 1rem;
   position: relative;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: #eee;
+  }
 }
 
 .small {
@@ -249,7 +254,7 @@ li.no-pointer {
 }
 
 .main-container {
-  max-width: 80%;
+  max-width: 800px;
   display: block;
   margin: 0 auto;
   height: calc(100vh - 7.5rem);
@@ -272,6 +277,7 @@ circle {
   background-color: var(--lighter-gray);
   padding-top: 0.5rem;
   box-sizing: border-box;
+  box-shadow: var(--box-shadow-1);
 
   & .footer-links {
     display: flex;

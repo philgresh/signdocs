@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -5,28 +7,28 @@ import { UserPropTypeShape } from '../propTypes';
 
 const SignedInRightNavMenu = ({ currentUser, signoutUser }) => {
   const { firstName, lastName } = currentUser;
-  const initials = firstName[0] + lastName[0];
+  const initials = `${firstName[0]}${lastName[0]}`;
 
   const onMenuClick = () => {
     $('.right-nav-menu ul').toggleClass('hidden');
   };
 
   return (
-    <li className="dropdown">
-      <button type="button" onClick={onMenuClick} className="flat dropbtn">
-        {initials}
-      </button>
-      <ul className="dropdown-content">
-        <li>
-          <NavLink to="/profile">Profile</NavLink>
-        </li>
-        <li>
-          <button type="button" onClick={signoutUser} className="flat">
+    <ul className="nav-links">
+      <li className="dropdown">
+        <button type="button" onClick={onMenuClick} className="flat dropbtn">
+          {initials}
+        </button>
+        <ul className="dropdown-content">
+          <li>
+            <NavLink to="/profile">Profile</NavLink>
+          </li>
+          <li onClick={signoutUser} role="button">
             Sign out
-          </button>
-        </li>
-      </ul>
-    </li>
+          </li>
+        </ul>
+      </li>
+    </ul>
   );
 };
 

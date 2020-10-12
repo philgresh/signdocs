@@ -4,30 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { UserPropTypeShape } from '../propTypes';
 import SignedInRightNavMenu from './SignedInRightNavMenu';
 
-const splashLinksLeft = [
-  // {
-  //   to: '/products',
-  //   title: 'Products',
-  // },
-  // {
-  //   to: '/solutions',
-  //   title: 'Solutions',
-  // },
-  // {
-  //   to: '/devs',
-  //   title: 'Developers',
-  // },
-  // {
-  //   to: '/pricing',
-  //   title: 'Pricing',
-  // },
-];
-
 const signedInLinksLeft = [
-  // {
-  //   to: '/',
-  //   title: 'Home',
-  // },
   {
     to: '/documents',
     title: 'Documents',
@@ -52,42 +29,30 @@ const navBarLinksRight = [
 ];
 
 const Navbar = ({ currentUser, signoutUser }) => {
-  // const currentUserIsDemo =
-  //   currentUser && /^bob.*@example.com/.test(currentUser.email);
-
-  const rightNavSignedIn = currentUser && (
-    <SignedInRightNavMenu currentUser={currentUser} signoutUser={signoutUser} />
+  const RightNavSignedOut = () => (
+    <ul className="nav-links">
+      {navBarLinksRight.map(({ to, title, className }) => (
+        <li key={to}>
+          <NavLink to={to} className={className}>
+            {title}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
   );
 
-  const rightNavSignedOut = navBarLinksRight.map(({ to, title, className }) => (
-    <li key={to}>
-      <NavLink to={to} className={className}>
-        {title}
-      </NavLink>
-    </li>
-  ));
-
-  const leftNavSignedIn =
-    currentUser &&
-    signedInLinksLeft.map((link) => (
+  const LeftLinks = ({ links }) =>
+    links.map((link) => (
       <li key={link.to}>
         <NavLink to={link.to}>{link.title}</NavLink>
       </li>
     ));
 
-  const leftNavSignedOut = splashLinksLeft.map(({ to, title }) => (
-    <li key={to}>
-      <NavLink to={to}>{title}</NavLink>
-    </li>
-  ));
-
-  let navLinksRight = rightNavSignedOut;
-  let navLinksLeft = leftNavSignedOut;
+  let navLinksLeft = [];
   let mastheadLinkTo = '/';
   if (currentUser) {
-    navLinksRight = rightNavSignedIn;
-    navLinksLeft = leftNavSignedIn;
     mastheadLinkTo = '/';
+    navLinksLeft = signedInLinksLeft;
   }
 
   return (
@@ -96,10 +61,19 @@ const Navbar = ({ currentUser, signoutUser }) => {
         <h1>
           <Link to={mastheadLinkTo}>SignDocs</Link>
         </h1>
-        <ul className="nav-links">{navLinksLeft}</ul>
+        <ul className="nav-links">
+          <LeftLinks links={navLinksLeft} />
+        </ul>
       </div>
       <div className="flex-container-right">
-        <ul className="nav-links">{navLinksRight}</ul>
+        {currentUser ? (
+          <SignedInRightNavMenu
+            currentUser={currentUser}
+            signoutUser={signoutUser}
+          />
+        ) : (
+          <RightNavSignedOut />
+        )}
       </div>
     </nav>
   );
