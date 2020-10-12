@@ -3,8 +3,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SvgLoader } from 'react-svgmt';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import RecentActivity from './RecentActivity';
 import Summary from './Summary';
+import {
+  getCurrentUserSig,
+  getDocumentsAsArray,
+  getSummary,
+} from '../../reducers/selectors';
 
 const Home = ({
   currentUser,
@@ -13,26 +19,21 @@ const Home = ({
   fetchSummary,
 }) => {
   const [loading, setLoading] = useState(true);
-  const [sig, setSig] = useState({});
-  const [docs, setDocs] = useState([]);
-  const [summary, setSummary] = useState({});
+
+  const sig = useSelector((state) => getCurrentUserSig()(state));
+  const docs = useSelector(getDocumentsAsArray);
+  const summary = useSelector(getSummary);
 
   useEffect(() => {
     const fetchData = async () => {
       return Promise.all([
-        fetchSignature(currentUser.sigId).then(({ signature }) => signature),
-        fetchDocuments().then(({ documents }) => Object.values(documents)),
-        fetchSummary().then((res) => res.summary),
+        fetchSignature(currentUser.sigId),
+        fetchDocuments(),
+        fetchSummary(),
       ]);
     };
 
-    fetchData()
-      .then(([s, ds, sum]) => {
-        setSig(s);
-        setDocs(ds);
-        setSummary(sum);
-      })
-      .finally(() => setLoading(false));
+    fetchData().finally(() => setLoading(false));
   }, []);
 
   return (

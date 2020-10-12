@@ -25,6 +25,9 @@ export const getAllSignatures = (state) => state.entities.signatures;
 export const getModalOpenState = (state) => state.ui.modal.open;
 export const getModalState = (state) => state.ui.modal;
 
+// Summary
+export const getSummary = (state) => state.entities.summary;
+
 //
 //
 // Reselect selectors

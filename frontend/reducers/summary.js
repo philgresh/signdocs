@@ -8,7 +8,7 @@ const summaryReducer = (state = initialState, { type, payload }) => {
   const newState = { ...state };
   switch (type) {
     case RECEIVE_SUMMARY: {
-      return { ...newState, ...payload };
+      return { ...newState, ...payload.summary };
     }
     case SIGNOUT_CURRENT_USER: {
       return initialState;
