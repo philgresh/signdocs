@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "babel-loader": "^8.1.0",
     "clsx": "^1.1.1",
+    "faker": "^5.1.0",
     "immer": "^7.0.8",
     "immutability-helper": "^3.1.1",
     "lodash": "^4.17.20",

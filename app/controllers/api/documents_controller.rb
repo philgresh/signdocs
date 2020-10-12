@@ -78,6 +78,7 @@ class Api::DocumentsController < ApplicationController
 
     waiting_on_others = Document
       .select(:id)
+      .group(:id)
       .joins(:document_editors, :content_fields)
       .where(document_editors: {
                user_id: @user.id,

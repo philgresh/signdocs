@@ -15,7 +15,7 @@ const SessionForm = (props) => {
     formType,
     processForm,
     history,
-    generateBob,
+    generateDemo,
     email: propsEmail,
     receiveErrors,
   } = props;
@@ -61,9 +61,9 @@ const SessionForm = (props) => {
     setSubmitting(true);
     e.preventDefault();
     e.persist();
-    const bob = generateBob();
-    setState({ ...bob });
-    setTimeout(() => handleSubmit(e, bob), 1000);
+    const demo = generateDemo();
+    setState({ ...demo });
+    setTimeout(() => handleSubmit(e, demo), 750);
   };
 
   let buttonText = 'Sign in';
@@ -163,12 +163,11 @@ SessionForm.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   email: PropTypes.string,
-  generateBob: PropTypes.func,
+  generateDemo: PropTypes.func.isRequired,
 };
 
 SessionForm.defaultProps = {
   email: '',
-  generateBob: () => {},
 };
 
 export default SessionForm;

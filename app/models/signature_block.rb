@@ -142,9 +142,10 @@ class SignatureBlock < ApplicationRecord
     })
   end
 
-  def gen_svg_from_name(font_family, fill_color)
-    font_family ||= SIGNATURE_STYLE_FONT_FAMILIES.sample[:style]
-    fill_color ||= "#000028"
+  def gen_svg_from_name(
+    font_family = SIGNATURE_STYLE_FONT_FAMILIES.sample[:style],
+    fill_color = "#000028"
+  )
     @user = self.user
     name_text = "#{@user.first_name} #{@user.last_name}"
     svg = Victor::SVG.new width: 300, height: 100, style: { background: "#ffffff00" }
