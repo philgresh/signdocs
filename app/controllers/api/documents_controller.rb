@@ -88,8 +88,8 @@ class Api::DocumentsController < ApplicationController
 
     render json: {
              summary: {
-               docs_to_sign: docs_to_sign,
-               waiting_on_others: waiting_on_others,
+               docIdsToSign: docs_to_sign,
+               docIdsWaitingOnOthers: waiting_on_others,
              },
            }
   end

@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Home from './Home';
 import Splash from '../splash';
-import { fetchDocuments } from '../../actions/document';
+import { fetchDocuments, fetchSummary } from '../../actions/document';
 import { fetchSignature } from '../../actions/signature';
 import { getCurrentUser } from '../../reducers/selectors';
 
@@ -21,5 +21,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchDocuments: () => dispatch(fetchDocuments()),
   fetchSignature: (sigId) => dispatch(fetchSignature(sigId)),
+  fetchSummary: () => dispatch(fetchSummary()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

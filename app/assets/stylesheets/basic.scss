@@ -251,7 +251,9 @@ li.no-pointer {
 .main-container {
   max-width: 80%;
   display: block;
-  margin-left: 2rem;
+  margin: 0 auto;
+  height: calc(100vh - 7.5rem);
+  padding:0 1rem;
 }
 
 circle {

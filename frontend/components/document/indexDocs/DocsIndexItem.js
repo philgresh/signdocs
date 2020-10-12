@@ -20,11 +20,9 @@ const RecipientsText = ({ editorIds }) => {
         <>
           To:&nbsp;<span>{namify(editors.shift())}</span>
           {editors.map((e) => (
-            <>
-              <p key={e.id}>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{namify(e)}
-              </p>
-            </>
+            <p key={e.id}>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{namify(e)}
+            </p>
           ))}
         </>
       ) : (
