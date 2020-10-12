@@ -5,6 +5,7 @@ export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
 export const REMOVE_DOCUMENT = 'REMOVE_DOCUMENT';
 export const RECEIVE_DOCUMENT_ERROR = 'RECEIVE_DOCUMENT_ERROR';
 export const DOC_UPLOAD = 'DOC_UPLOAD';
+export const RECEIVE_SUMMARY = 'RECEIVE_SUMMARY';
 
 // Action creators
 const receiveDocuments = (docs) => ({
@@ -30,6 +31,11 @@ export const receiveError = (error) => ({
 export const receiveDocUpload = (doc) => ({
   type: DOC_UPLOAD,
   payload: { doc: doc.document },
+});
+
+export const receiveSummary = (payload) => ({
+  type: RECEIVE_SUMMARY,
+  payload,
 });
 
 // Thunktions
@@ -83,5 +89,11 @@ export const fetchSignedUrl = (docId) => (dispatch) =>
 export const finalizeDocument = (docId) => (dispatch) =>
   APIUtil.finalizeDocument(docId).then((res) => {
     dispatch(receiveDocument(res));
+    return res;
+  });
+
+export const fetchSummary = () => (dispatch) =>
+  APIUtil.getSummary().then((res) => {
+    dispatch(receiveSummary(res));
     return res;
   });

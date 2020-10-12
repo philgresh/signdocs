@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
 
-  # before_action :require_logged_in, only: [:show, :index]
+  before_action :require_logged_in, only: [:show, :index, :summary]
   # before_action :require_logged_out, only: [:create]
   def create
     new_params = user_params

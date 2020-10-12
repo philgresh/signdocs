@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
 import App from './components/App';
-import { createNewUser, signinUser, signoutUser } from './actions/session';
+// import { createNewUser, signinUser, signoutUser } from './actions/session';
 import * as serviceWorker from './serviceWorker';
 
 function setPreloadedState(currentUser) {
@@ -28,11 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const store = configureStore(preloadedState);
 
   // TESTING
-  window.dispatch = store.dispatch;
-  window.getState = store.getState;
-  window.createNewUser = createNewUser;
-  window.signinUser = signinUser;
-  window.signoutUser = signoutUser;
+  // window.dispatch = store.dispatch;
+  // window.getState = store.getState;
+  // window.createNewUser = createNewUser;
+  // window.signinUser = signinUser;
+  // window.signoutUser = signoutUser;
   // TESTING
 
   ReactDOM.render(
