@@ -51,6 +51,7 @@ Rails.application.routes.draw do
         post "finalize"
       end
     end
+    get "summary", to: "documents#summary", as: :summary
     resources :content_fields, only: [:create, :update, :destroy] do
       member do
         post "sign"

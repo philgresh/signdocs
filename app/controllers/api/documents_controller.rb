@@ -9,7 +9,7 @@ class Api::DocumentsController < ApplicationController
   TEXTBOX_PADDING_LEFT = 8
 
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
-  # before_action :require_owner_status, only: [:destroy, :update, :signedurl, :finalize]
+  before_action :require_owner_status, only: [:destroy, :update, :signedurl, :finalize]
   skip_before_action :verify_authenticity_token
 
   def index
@@ -61,6 +61,37 @@ class Api::DocumentsController < ApplicationController
     else
       render json: { document: @document.errors.messages }, status: 418
     end
+  end
+
+  def summary
+    @user ||= current_user
+
+    docs_to_sign = Document
+      .select(:id)
+      .group(:id)
+      .joins(:content_fields)
+      .where(content_fields: {
+               signatory_id: @user.id,
+               contentable_type: "SentinelBlock",
+             })
+      .pluck(:id)
+
+    waiting_on_others = Document
+      .select(:id)
+      .joins(:document_editors, :content_fields)
+      .where(document_editors: {
+               user_id: @user.id,
+               is_owner: true,
+             })
+      .where("content_fields.contentable_type = 'SentinelBlock' AND content_fields.signatory_id != ?", @user.id)
+      .pluck(:id)
+
+    render json: {
+             summary: {
+               docs_to_sign: docs_to_sign,
+               waiting_on_others: waiting_on_others,
+             },
+           }
   end
 
   def finalize
@@ -237,7 +268,6 @@ class Api::DocumentsController < ApplicationController
       sig_font_family = signature_block.styling["font_family"]
       sig_font = SignatureBlock.get_font_file_from_family(sig_font_family)
       sig_font = "DejaVu-Sans" if sig_font.nil?
-        
 
       svg = Magick::Image.read(svg_file.to_path) {
         # self.alpha(Magick::ActivateAlphaChannel)
