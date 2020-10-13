@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { SigSeal } from '../../helperComponents';

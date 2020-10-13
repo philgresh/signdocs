@@ -125,3 +125,30 @@ nav {
     }
   }
 }
+
+ol.breadcrumbs {
+  display: flex;
+  margin: 2rem;
+  padding: 0;
+  list-style: none;
+  color: inherit;
+
+  & > li {
+    padding: 0 0.5rem;
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:first-of-type {
+      padding-left: 0;
+
+      & a {
+        color: inherit;
+        &:visited {
+          color: inherit;
+        }
+      }
+    }
+  }
+}

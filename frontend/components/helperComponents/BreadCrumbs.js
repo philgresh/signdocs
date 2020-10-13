@@ -1,27 +1,47 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const BREADCRUMB_SEPARATOR = '/';
+const Home = () => (
+  <li key="home">
+    <Link to="/">
+      <FontAwesomeIcon icon={faHome} color="inherit" />
+    </Link>
+  </li>
+);
 
-export default function BreadCrumbs({ history }) {
-  const crumbs = history.map(({ to, title }, index) => {
-    return (
-      <>
-        <li key={title}>
-          <Link to={to}>{title}</Link>
-        </li>
-        {index !== 0 ? (
-          <li key={`breadcrumb-sep-${index}`} className="breadcrumbs-sep">
-            {BREADCRUMB_SEPARATOR}
-          </li>
-        ) : null}
-      </>
-    );
-  });
-  return <ol className="breadcrumbs">{crumbs}</ol>;
-}
+const Current = ({ title }) => <li key="home">{title}</li>;
+
+const Separator = ({ index }) => (
+  <li key={`breadcrumb-sep-${index}`} className="breadcrumbs-sep">
+    <FontAwesomeIcon icon={faChevronRight} color="inherit" />
+  </li>
+);
+
+const BreadCrumbs = ({ history }) => {
+  if (!history.length) return null;
+  return (
+    <ol className="breadcrumbs">
+      <Home />
+      <Separator index={-1} />
+      {history.map(({ title, to }, index) => {
+        if (index === history.length - 1) return <Current title={title} />;
+
+        return (
+          <>
+            <li key={title}>
+              <Link to={to}>{title}</Link>
+            </li>
+            <Separator />
+          </>
+        );
+      })}
+    </ol>
+  );
+};
 
 BreadCrumbs.propTypes = {
   history: PropTypes.arrayOf(
@@ -35,3 +55,5 @@ BreadCrumbs.propTypes = {
 BreadCrumbs.defaultProps = {
   history: [],
 };
+
+export default BreadCrumbs;

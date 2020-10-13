@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,6 +8,7 @@ import { createDocument, receiveError } from '../../../actions/document';
 import { fetchUsers } from '../../../actions/user';
 import { getErrors, getUsersAsArray } from '../../../reducers/selectors';
 import { UserPropTypeShape } from '../../propTypes';
+import { BreadCrumbs } from '../../helperComponents';
 
 class CreateDocContainer extends Component {
   componentDidMount() {
@@ -15,8 +17,22 @@ class CreateDocContainer extends Component {
   }
 
   render() {
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    return <CreateDocForm {...this.props} />;
+    const history = [
+      {
+        to: '/documents',
+        title: 'Documents',
+      },
+      {
+        to: '/documents/new',
+        title: 'Create',
+      },
+    ];
+    return (
+      <>
+        <BreadCrumbs history={history} />
+        <CreateDocForm {...this.props} />
+      </>
+    );
   }
 }
 

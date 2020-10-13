@@ -17,6 +17,7 @@ import {
   getAssociatedUsers,
 } from '../../../reducers/selectors';
 import { DocPropTypeShape, UserPropTypeShape } from '../../propTypes';
+import { BreadCrumbs } from '../../helperComponents';
 
 class EditDocContainer extends Component {
   componentDidMount() {
@@ -44,17 +45,35 @@ class EditDocContainer extends Component {
       description: doc.description,
       signatories: signatories.editors,
     };
+
+    const breadCrumbsHistory = [
+      {
+        to: '/documents',
+        title: 'Documents',
+      },
+      {
+        to: `/documents/${doc.id}`,
+        title: doc.title,
+      },
+      {
+        to: '/documents/edit',
+        title: 'Edit',
+      },
+    ];
     return (
-      <DocForm
-        action={action}
-        formType={formType}
-        docState={docState}
-        errors={errors}
-        history={history}
-        receiveError={receiveError}
-        users={users}
-        currUserId={currUserId}
-      />
+      <>
+        <BreadCrumbs history={breadCrumbsHistory} />
+        <DocForm
+          action={action}
+          formType={formType}
+          docState={docState}
+          errors={errors}
+          history={history}
+          receiveError={receiveError}
+          users={users}
+          currUserId={currUserId}
+        />
+      </>
     );
   }
 }

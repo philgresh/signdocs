@@ -18,6 +18,7 @@ import SignDocContainer from './document/signDoc';
 import Footer from './footer';
 import FourOhFour from './_404/FourOhFour';
 import Modal from './modal';
+import { BreadCrumbs } from './helperComponents';
 import { AuthRoute, ProtectedRoute } from '../utils/route';
 
 const App = () => {
