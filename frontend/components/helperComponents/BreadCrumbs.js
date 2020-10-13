@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -54,6 +54,14 @@ BreadCrumbs.propTypes = {
 
 BreadCrumbs.defaultProps = {
   history: [],
+};
+
+Current.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
+Separator.propTypes = {
+  index: PropTypes.number.isRequired,
 };
 
 export default BreadCrumbs;
