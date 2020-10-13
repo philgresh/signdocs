@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => (
-  <li key="home">
+  <li>
     <Link to="/">
       <FontAwesomeIcon icon={faHome} color="inherit" />
     </Link>
@@ -15,8 +15,8 @@ const Home = () => (
 
 const Current = ({ title }) => <li key="home">{title}</li>;
 
-const Separator = ({ index }) => (
-  <li key={`breadcrumb-sep-${index}`} className="breadcrumbs-sep">
+const Separator = () => (
+  <li className="breadcrumbs-sep">
     <FontAwesomeIcon icon={faChevronRight} color="inherit" />
   </li>
 );
@@ -25,18 +25,19 @@ const BreadCrumbs = ({ history }) => {
   if (!history.length) return null;
   return (
     <ol className="breadcrumbs">
-      <Home />
-      <Separator index={-1} />
+      <Home key="home" />
+      <Separator key={`breadcrumb-sep-${-1}`} />
       {history.map(({ title, to }, index) => {
-        if (index === history.length - 1) return <Current title={title} />;
+        if (index === history.length - 1)
+          return <Current title={title} key="current" />;
 
         return (
-          <>
-            <li key={title}>
+          <Fragment key={`${to}-${title}`}>
+            <li>
               <Link to={to}>{title}</Link>
             </li>
-            <Separator />
-          </>
+            <Separator key={`breadcrumb-sep-${index}`} />
+          </Fragment>
         );
       })}
     </ol>
@@ -58,10 +59,6 @@ BreadCrumbs.defaultProps = {
 
 Current.propTypes = {
   title: PropTypes.string.isRequired,
-};
-
-Separator.propTypes = {
-  index: PropTypes.number.isRequired,
 };
 
 export default BreadCrumbs;
