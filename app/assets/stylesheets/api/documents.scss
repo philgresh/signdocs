@@ -134,7 +134,7 @@
     position: absolute;
     right: 0;
     padding: 1rem;
-    height: calc(100% - 5.25rem);
+    height: calc(100% - 2.5rem);
     box-sizing: border-box;
     border-left: 1px solid var(--light-gray);
     background-color: var(--lighter-gray);
@@ -361,6 +361,7 @@
   }
 }
 
+#prep-doc-container,
 #sign-doc-container {
   width: 100%;
   $field-side-bar-width: 250px;

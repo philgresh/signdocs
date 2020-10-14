@@ -39,7 +39,7 @@ const PrepareDocContainer = () => {
   if (docErrors?.status === 404)
     return <FourOhFour from={history.location.pathname} errors={docErrors} />;
   return (
-    <div id="sign-doc-container">
+    <div id="prep-doc-container">
       <BreadCrumbs history={breadCrumbsHistory} />
 
       <h1>Prepare your document for signatures</h1>
