@@ -364,13 +364,13 @@
   }
 }
 
-.sign-doc-container {
-  min-height: 800px;
+#sign-doc-container {
+  // min-height: 800px;
   width: 100%;
-  height: calc(100% - 4.5rem);
+  // height: calc(100% - 4.5rem);
   $field-side-bar-width: 250px;
 
-  & > h2 {
+  > h1 {
     margin-left: 2rem;
   }
 
@@ -378,14 +378,37 @@
     display: flex;
     justify-content: flex-start;
 
+    & .droppable-container {
+      position: relative;
+
+      & .droppable-item {
+        position: absolute;
+        border: 1px dashed gray;
+        background-color: white;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+        cursor: move;
+
+        & button.close {
+          float: right;
+          display: block;
+          padding: 2px;
+          margin: 0;
+        }
+      }
+    }
+
     & .side-bar {
-      width: calc(250px - 2rem);
-      margin-right: 1rem;
-      position: fixed;
-      left: 0;
-      top: 10rem;
-      padding-left: 2rem;
+      min-width: $field-side-bar-width;
+      padding: 0 2rem;
       text-align: center;
+
+      & h2 {
+        margin-top: 2rem;
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
 
       & .signatories-list {
         text-align: left;
@@ -420,32 +443,12 @@
       }
     }
 
-    & .droppable-container {
-      position: relative;
-
-      & .droppable-item {
-        position: absolute;
-        border: 1px dashed gray;
-        background-color: white;
-        padding: 0.5rem 1rem;
-        z-index: 2;
-        cursor: move;
-
-        & button.close {
-          float: right;
-          display: block;
-          padding: 2px;
-          margin: 0;
-        }
-      }
-    }
     & #pdf-document-container {
-      position: absolute;
-      height: calc(100% - 10rem - 2.5rem);
+      // position: absolute;
+      // height: calc(100% - 10rem - 2.5rem);
       overflow: auto;
-      left: calc(250px + 1rem);
-      top: 10rem;
-      border: 1px solid var(--gray);
+      // left: calc($field-side-bar-width + 1rem);
+      // top: 14rem;
       box-sizing: border-box;
 
       & .page-wrapper {

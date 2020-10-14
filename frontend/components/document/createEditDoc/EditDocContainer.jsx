@@ -56,7 +56,7 @@ class EditDocContainer extends Component {
         title: doc.title,
       },
       {
-        to: '/documents/edit',
+        to: `/documents/${doc.id}/edit`,
         title: 'Edit',
       },
     ];
