@@ -43,25 +43,25 @@ const PrepareDocContainer = () => {
       <BreadCrumbs history={breadCrumbsHistory} />
 
       <h1>Prepare your document for signatures</h1>
-      <div className="wrapper">
-        <div className="wrapper-2">
-          <div className="sidebar">Sidebar</div>
-          <div className="main-content">Main content</div>
+      <div className="scroll-container">
+        <div className="pdf-drag-container">
+          <DndProvider backend={HTML5Backend}>
+            <div className="side-bar">
+              <Signatories
+                currSignatory={currSignatory}
+                signatories={signatories}
+                onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+              />
+              <Fields currSignatory={currSignatory} />
+            </div>
+            {doc && doc.fileUrl && (
+              <div id="pdf-document-container">
+                <PrepPDF doc={doc} />
+              </div>
+            )}
+          </DndProvider>
         </div>
       </div>
-      {/* <div className="pdf-drag-container">
-        <DndProvider backend={HTML5Backend}>
-          <div className="side-bar sticky">
-            <Signatories
-              currSignatory={currSignatory}
-              signatories={signatories}
-              onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
-            />
-            <Fields currSignatory={currSignatory} />
-          </div>
-          {doc && doc.fileUrl && <PrepPDF doc={doc} />}
-        </DndProvider>
-      </div> */}
     </div>
   );
 };

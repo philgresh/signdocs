@@ -361,47 +361,6 @@
   }
 }
 
-.sticky {
-  position: sticky;
-  position: -webkit-sticky;
-  top: 4rem;
-}
-
-.wrapper {
-  position: absolute;
-  height: 100%;
-  z-index: 4;
-  width: 100%;
-  overflow: scroll;
-
-  & .wrapper-2 {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    overflow: auto;
-
-    & .sidebar,
-    & .main-content {
-      border: 3px solid black;
-      padding: 15px;
-      background-color: #fff;
-    }
-
-    & .main-content {
-      width: 60%;
-      height: 150vh;
-    }
-
-    & .sidebar {
-      width: 25%;
-      height: 25vh;
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0;
-    }
-  }
-}
-
 #sign-doc-container {
   width: 100%;
   $field-side-bar-width: 250px;
@@ -410,126 +369,139 @@
     margin-left: 2rem;
   }
 
-  & .pdf-drag-container {
-    display: flex;
-    justify-content: flex-start;
+  & .scroll-container {
+    position: absolute;
+    z-index: 4;
+    width: 100%;
+    overflow: auto;
+    height: calc(100% - 11rem);
 
-    & .droppable-container {
-      position: relative;
-
-      & .droppable-item {
-        position: absolute;
-        border: 1px dashed gray;
-        background-color: white;
-        padding: 0.5rem 1rem;
-        z-index: 2;
-        cursor: move;
-
-        & button.close {
-          float: right;
-          display: block;
-          padding: 2px;
-          margin: 0;
-        }
-      }
-    }
-
-    & .side-bar {
-      min-width: $field-side-bar-width;
-      padding: 0 2rem;
-      text-align: center;
+    & .pdf-drag-container {
+      display: flex;
+      justify-content: flex-start;
       height: 100%;
 
-      & h2 {
-        margin-top: 2rem;
-        &:first-of-type {
-          margin-top: 0;
-        }
-      }
+      & .droppable-container {
+        position: relative;
 
-      & .signatories-list {
-        text-align: left;
-
-        & input {
-          margin-right: 1rem;
-          margin-bottom: 0.5rem;
-        }
-      }
-
-      & ul {
-        list-style: none;
-        padding-left: 0;
-
-        & li.draggable {
-          padding: 0.5rem 0rem;
-          margin: 0.25rem;
-          border-radius: 5px;
-          border: 1px solid var(--light-gray);
-          z-index: inherit;
+        & .droppable-item {
+          position: absolute;
+          border: 1px dashed gray;
+          background-color: white;
+          padding: 0.5rem 1rem;
+          z-index: 2;
           cursor: move;
 
-          & p,
-          & pre {
+          & button.close {
+            float: right;
+            display: block;
+            padding: 2px;
             margin: 0;
-          }
-
-          &.disabled-drag {
-            cursor: not-allowed;
           }
         }
       }
-    }
 
-    & #pdf-document-container {
-      // position: absolute;
-      // height: calc(100% - 10rem - 2.5rem);
-      overflow: auto;
-      // left: calc($field-side-bar-width + 1rem);
-      // top: 14rem;
-      box-sizing: border-box;
+      & .side-bar {
+        min-width: $field-side-bar-width;
+        padding: 0 2rem;
+        text-align: center;
+        min-height: 25vh;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
 
-      & .page-wrapper {
-        position: relative;
+        & h2 {
+          margin-top: 2rem;
+          &:first-of-type {
+            margin-top: 0;
+          }
+        }
+
+        & .signatories-list {
+          text-align: left;
+
+          & input {
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+
+        & ul {
+          list-style: none;
+          padding-left: 0;
+
+          & li.draggable {
+            padding: 0.5rem 0rem;
+            margin: 0.25rem;
+            border-radius: 5px;
+            border: 1px solid var(--light-gray);
+            z-index: inherit;
+            cursor: move;
+
+            & p,
+            & pre {
+              margin: 0;
+            }
+
+            &.disabled-drag {
+              cursor: not-allowed;
+            }
+          }
+        }
       }
 
-      & .pages-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: baseline;
-      }
+      & #pdf-document-container {
+        overflow: auto;
+        box-sizing: border-box;
+        border: 1px inset lightgray;
 
-      & .card {
-        height: 792px;
-        width: 612px;
-        display: block;
-        user-select: none;
-        z-index: -1;
-        border: 1px solid #ddd;
-        border-radius: 0;
-        box-shadow: 0px 1px 2px 0px #ccc;
-      }
+        & .page-wrapper {
+          position: relative;
+        }
 
-      & .react-pdf__Document {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        // align-items: center;
+        & .pages-buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: baseline;
+        }
 
-        & .react-pdf__Page {
+        & .card {
+          height: 792px;
+          width: 612px;
+          display: block;
+          user-select: none;
+          z-index: -1;
           border: 1px solid #ddd;
           border-radius: 0;
           box-shadow: 0px 1px 2px 0px #ccc;
-          margin-bottom: 1em;
         }
 
-        & .react-pdf__Outline {
-          border: 1px solid red;
-        }
-      }
+        & .react-pdf__Document {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          // align-items: center;
 
-      & .pdf-droppable-canvas {
-        position: absolute;
+          & .react-pdf__Page {
+            border: 1px solid #ddd;
+            border-radius: 0;
+            box-shadow: 0px 1px 2px 0px #ccc;
+            margin-bottom: 1em;
+
+            &:last-of-type {
+              margin-bottom: 0;
+            }
+          }
+
+          & .react-pdf__Outline {
+            border: 1px solid red;
+          }
+        }
+
+        & .pdf-droppable-canvas {
+          position: absolute;
+        }
       }
     }
   }

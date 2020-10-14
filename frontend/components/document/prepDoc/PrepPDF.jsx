@@ -19,7 +19,7 @@ const PrepPDF = ({ doc }) => {
   };
 
   return (
-    <div id="pdf-document-container">
+    <>
       <Document file={doc.fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {docLoadSuccess &&
           Array.from(new Array(numPages), (_el, index) => (
@@ -39,7 +39,7 @@ const PrepPDF = ({ doc }) => {
           ))}
       </Document>
       {!docLoadSuccess && <div className="react-pdf__Document card" />}
-    </div>
+    </>
   );
 };
 
