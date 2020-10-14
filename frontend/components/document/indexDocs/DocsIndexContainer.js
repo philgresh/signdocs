@@ -19,7 +19,7 @@ const DocsIndexContainer = () => {
     );
 
   return (
-    <div className="index-container">
+    <div id="index-container">
       <Sidebar />
       <div className="index-inbox">
         <div className="search-bar">

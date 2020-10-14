@@ -27,6 +27,7 @@ const App = () => {
         <div id="content-wrap">
           <Modal />
           <Navbar />
+          <div id="spacer" />
           <main>
             <Switch>
               <ProtectedRoute
