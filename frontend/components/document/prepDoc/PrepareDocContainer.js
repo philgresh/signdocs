@@ -39,26 +39,30 @@ const PrepareDocContainer = () => {
   if (docErrors?.status === 404)
     return <FourOhFour from={history.location.pathname} errors={docErrors} />;
   return (
-    <>
+    <div id="sign-doc-container">
       <BreadCrumbs history={breadCrumbsHistory} />
 
-      <div id="sign-doc-container">
-        <h1>Prepare your document for signatures</h1>
-        <div className="pdf-drag-container">
-          <DndProvider backend={HTML5Backend}>
-            <div className="side-bar">
-              <Signatories
-                currSignatory={currSignatory}
-                signatories={signatories}
-                onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
-              />
-              <Fields currSignatory={currSignatory} />
-            </div>
-            {doc && doc.fileUrl && <PrepPDF doc={doc} />}
-          </DndProvider>
+      <h1>Prepare your document for signatures</h1>
+      <div className="wrapper">
+        <div className="wrapper-2">
+          <div className="sidebar">Sidebar</div>
+          <div className="main-content">Main content</div>
         </div>
       </div>
-    </>
+      {/* <div className="pdf-drag-container">
+        <DndProvider backend={HTML5Backend}>
+          <div className="side-bar sticky">
+            <Signatories
+              currSignatory={currSignatory}
+              signatories={signatories}
+              onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+            />
+            <Fields currSignatory={currSignatory} />
+          </div>
+          {doc && doc.fileUrl && <PrepPDF doc={doc} />}
+        </DndProvider>
+      </div> */}
+    </div>
   );
 };
 

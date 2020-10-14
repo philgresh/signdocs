@@ -210,7 +210,7 @@
 #index-container {
   position: absolute;
   width: 100%;
-  height:  calc(100% - 2.5rem);
+  height: calc(100% - 2.5rem);
   display: flex;
 
   & .index-sidebar {
@@ -242,7 +242,6 @@
   }
 
   & .index-inbox {
- 
     padding: 1rem 0;
     width: 100%;
     overflow: scroll;
@@ -362,10 +361,49 @@
   }
 }
 
-#sign-doc-container {
-  // min-height: 800px;
+.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 4rem;
+}
+
+.wrapper {
+  position: absolute;
+  height: 100%;
+  z-index: 4;
   width: 100%;
-  // height: calc(100% - 4.5rem);
+  overflow: scroll;
+
+  & .wrapper-2 {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    overflow: auto;
+
+    & .sidebar,
+    & .main-content {
+      border: 3px solid black;
+      padding: 15px;
+      background-color: #fff;
+    }
+
+    & .main-content {
+      width: 60%;
+      height: 150vh;
+    }
+
+    & .sidebar {
+      width: 25%;
+      height: 25vh;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+    }
+  }
+}
+
+#sign-doc-container {
+  width: 100%;
   $field-side-bar-width: 250px;
 
   > h1 {
@@ -400,6 +438,7 @@
       min-width: $field-side-bar-width;
       padding: 0 2rem;
       text-align: center;
+      height: 100%;
 
       & h2 {
         margin-top: 2rem;
