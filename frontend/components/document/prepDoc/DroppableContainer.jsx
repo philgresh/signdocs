@@ -19,6 +19,8 @@ import {
   getDelta,
 } from '../../../utils/contentField';
 
+const isUnfilled = (cf) => !!cf.type.match(/^UNFILLED/);
+
 const DroppableContainer = ({ children, className, thisPage }) => {
   const acceptableTypes = [
     ItemTypes.UNFILLED_SIGNATURE,
@@ -77,13 +79,12 @@ const DroppableContainer = ({ children, className, thisPage }) => {
     },
   });
 
+  const unsignedCfs = contentFields.filter(isUnfilled);
+
   return (
     <div ref={drop} className={className}>
-      {contentFields.map((cf) => {
-        return (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <DraggableBox key={cf.id} cfData={cf} thisPage={thisPage} />
-        );
+      {unsignedCfs.map((cf) => {
+        return <DraggableBox key={cf.id} cfData={cf} thisPage={thisPage} />;
       })}
       {children}
     </div>
