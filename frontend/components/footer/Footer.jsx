@@ -22,25 +22,27 @@ const EmailObfuscation = ({ children }) => (
 
 const Footer = () => {
   return (
-    <div className="flex-row-container flex-center small smallest">
-      <div className="footer-links">
-        <a href="https://github.com/philgresh/">
-          <FontAwesomeIcon icon={faGithub} color="inherit" />
-        </a>
-        <a href="https://www.linkedin.com/in/philgresham">
-          <FontAwesomeIcon icon={faLinkedin} color="inherit" />
-        </a>
-        <a href="https://gresham.dev">
-          <FontAwesomeIcon icon={faHome} color="inherit" />
-        </a>
-        <EmailObfuscation>
-          <FontAwesomeIcon icon={faEnvelope} color="inherit" />
-        </EmailObfuscation>
-        <a href="https://github.com/philgresh/signdocs">
-          <FontAwesomeIcon icon={faCodeBranch} color="inherit" />
-        </a>
+    <footer id="footer">
+      <div className="flex-row-container flex-center small smallest">
+        <div className="footer-links">
+          <a href="https://github.com/philgresh/">
+            <FontAwesomeIcon icon={faGithub} color="inherit" />
+          </a>
+          <a href="https://www.linkedin.com/in/philgresham">
+            <FontAwesomeIcon icon={faLinkedin} color="inherit" />
+          </a>
+          <a href="https://gresham.dev">
+            <FontAwesomeIcon icon={faHome} color="inherit" />
+          </a>
+          <EmailObfuscation>
+            <FontAwesomeIcon icon={faEnvelope} color="inherit" />
+          </EmailObfuscation>
+          <a href="https://github.com/philgresh/signdocs">
+            <FontAwesomeIcon icon={faCodeBranch} color="inherit" />
+          </a>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

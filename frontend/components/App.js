@@ -71,9 +71,7 @@ const App = () => {
               <Redirect to="/404" />
             </Switch>
           </main>
-          <footer id="footer">
-            <Footer />
-          </footer>
+          <Footer />
         </div>
       </div>
     </HashRouter>

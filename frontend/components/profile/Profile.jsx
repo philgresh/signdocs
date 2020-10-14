@@ -52,7 +52,9 @@ const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
     setTab(name);
   };
 
-  const fullName = `${user.firstName} ${user.lastName}`;
+  const { fullName } = user;
+  const currFont = sig?.styling?.font_family || '';
+
   return (
     <div className="signature-create-container">
       <h2>Create Your Signature</h2>
@@ -60,18 +62,18 @@ const Profile = ({ sig: sigProps, user, updateSig, fetchMe }) => {
       <SigTabsList tab={tab} onTabClick={onTabClick} />
       <div className="sig-tab">
         {tab === 'choice' ? (
-          <div className="sig-choice">
-            {sig && user && sig.imageUrl && fullName && (
-              <>
-                <FontFamilySelection
-                  fullName={fullName}
-                  choiceState={choiceState}
-                  setChoiceState={setChoiceState}
-                  setChanged={setChanged}
-                />
-              </>
-            )}
-          </div>
+          sig &&
+          user &&
+          sig.imageUrl &&
+          fullName && (
+            <FontFamilySelection
+              fullName={fullName}
+              choiceState={choiceState}
+              setChoiceState={setChoiceState}
+              setChanged={setChanged}
+              currFont={currFont}
+            />
+          )
         ) : (
           <SigPad sigPadRef={sigPadRef} setChanged={setChanged} />
         )}
