@@ -13,6 +13,7 @@ const FontFamilySelection = ({
   setChoiceState,
   fullName,
   setChanged,
+  currFont,
 }) => {
   const { pubKeyFingerprint, selectedFont, color } = choiceState;
 
@@ -25,10 +26,11 @@ const FontFamilySelection = ({
   };
 
   return (
-    <>
+    <div className="sig-choice">
       <div className="font-family-picker">
         {FONT_FAMILIES.map((font) => {
           const isSelected = selectedFont === font;
+          const isCurrent = currFont === font;
           return (
             <FontFamilyOption
               key={font}
@@ -38,17 +40,19 @@ const FontFamilySelection = ({
               pubKey={pubKeyFingerprint}
               handleChange={handleChange}
               isSelected={isSelected}
+              isCurrent={isCurrent}
             />
           );
         })}
       </div>
       {/* <ColorButtonBar penColor={color} setPenColor={setColor} /> */}
-    </>
+    </div>
   );
 };
 
 FontFamilySelection.propTypes = {
   fullName: PropTypes.string.isRequired,
+  currFont: PropTypes.string.isRequired,
   choiceState: PropTypes.shape({
     pubKeyFingerprint: PropTypes.string,
     selectedFont: PropTypes.string,

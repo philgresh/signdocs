@@ -10,6 +10,7 @@ import SignPDF from './SignPDF';
 
 import { getSignatories } from '../../../reducers/selectors';
 import { useFetchDoc } from '../../../utils/hooks';
+import { BreadCrumbs } from '../../helperComponents';
 
 const SignDocContainer = () => {
   const [_currSignatory, setCurrSignatory] = useState('');
@@ -19,76 +20,49 @@ const SignDocContainer = () => {
   const { docErrors, doc, loading } = useFetchDoc({ docId });
   const signatories = useSelector(getSignatories(docId));
 
+  const breadCrumbsHistory = [
+    {
+      to: '/documents',
+      title: 'Documents',
+    },
+    {
+      to: `/documents/${docId}`,
+      title: doc.title,
+    },
+    {
+      to: `/documents/${docId}/sign`,
+      title: 'Sign',
+    },
+  ];
+
   if (loading || !doc || doc === undefined) return <div>Loading...</div>;
   if (docErrors?.status === 404)
     return <FourOhFour from={history.location.pathname} errors={docErrors} />;
 
   return (
-    <div className="sign-doc-container">
-      <h2>Sign your document</h2>
-      <div className="pdf-drag-container">
-        <DndProvider backend={HTML5Backend}>
-          <div className="side-bar">
-            <Signatories
-              signatories={signatories}
-              onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
-            />
-          </div>
-          {doc && doc.fileUrl && (
-            <SignPDF doc={doc} signatories={signatories} />
-          )}
-        </DndProvider>
+    <div id="sign-doc-container">
+      <BreadCrumbs history={breadCrumbsHistory} />
+
+      <h1>Sign your document</h1>
+      <div className="scroll-container">
+        <div className="pdf-drag-container">
+          <DndProvider backend={HTML5Backend}>
+            <div className="side-bar">
+              <Signatories
+                signatories={signatories}
+                onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+              />
+            </div>
+            {doc && doc.fileUrl && (
+              <div id="pdf-document-container">
+                <SignPDF doc={doc} signatories={signatories} />
+              </div>
+            )}
+          </DndProvider>
+        </div>
       </div>
     </div>
   );
 };
-
-// const SignDocContainer = () => {
-//   const dispatch = useDispatch();
-//   const { docId } = useParams();
-
-//   const [loading, setLoading] = useState(true);
-//   const [doc, setDoc] = useState(null);
-//   const [_currSignatory, setCurrSignatory] = useState('');
-
-//   const signatories = useSelector((state) => getSignatories(docId)(state));
-//   const staleDocData = useSelector((state) => getDocumentById(docId)(state));
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       dispatch(fetchDocument(docId)).then((res) => {
-//         setDoc(res.document);
-//         setLoading(false);
-
-//         document.title = `SignDocs - Sign ${res.document.title}`;
-//       });
-//     };
-
-//     if (staleDocData) {
-//       setDoc(staleDocData);
-//     } else fetchData();
-//   }, []);
-
-//   return loading ? (
-//     <div>Loading...</div>
-//   ) : (
-//     <div className="sign-doc-container">
-//       <h2>Sign your document</h2>
-//       <div className="pdf-drag-container">
-//         <DndProvider backend={HTML5Backend}>
-//           <div className="side-bar">
-//             <Signatories
-//               signatories={signatories}
-//               onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
-//             />
-//           </div>
-//           {doc && doc.fileUrl && (
-//             <SignPDF doc={doc} signatories={signatories} />
-//           )}
-//         </DndProvider>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default withRouter(SignDocContainer);

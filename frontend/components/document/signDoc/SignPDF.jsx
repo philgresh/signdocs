@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import ContentFields from './ContentFields';
@@ -15,7 +16,7 @@ const SignPDF = ({ doc }) => {
   };
 
   return (
-    <div id="pdf-document-container">
+    <>
       <Document file={doc.fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (_el, index) => {
           const thisPage = index + 1;
@@ -34,7 +35,7 @@ const SignPDF = ({ doc }) => {
         })}
       </Document>
       {!docLoadSuccess && <div className="react-pdf__Document card" />}
-    </div>
+    </>
   );
 };
 

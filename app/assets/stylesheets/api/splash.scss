@@ -1,10 +1,5 @@
 .splash {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
+
 
   & .no-matter-what {
     background-image: linear-gradient(
@@ -14,7 +9,7 @@
         rgba(0, 0, 40, 1) 100%
       ),
       url(asset_path('tina-witherspoon-ePu9rM_ud7g-unsplash.jpg'));
-    height: calc(100vh - 80px - 4rem);
+    height: calc(100vh - 5rem - 2.5rem);
     object-fit: contain;
     background-position: 10% 44%;
     text-align: center;
@@ -22,11 +17,14 @@
     & .headline {
       color: var(--powder-blue);
       text-shadow: 0 0 15px var(--off-black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
       & h1 {
         line-height: 0.9;
         font-size: 10vh;
-        padding-top: 30%;
       }
       & h2 {
         font-size: 5vh;

@@ -1,0 +1,217 @@
+.signature-create-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: stretch;
+  max-width: 900px;
+
+  & > * {
+    padding: 2rem;
+    border-bottom: 1px solid gray;
+  }
+
+  & > h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  & div.name-header {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: baseline;
+    padding: 1rem 2rem;
+    min-height: 150px;
+
+    & label {
+      flex: 1 0 300px;
+
+      & input {
+        width: 250px;
+        margin-left: 2rem;
+        margin-top: 0;
+      }
+    }
+
+    & .current-sig {
+      width: 50%;
+      flex: 1 0;
+
+      & svg {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  .sig-tabs-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    & li {
+      $border-width: 3px;
+      $border-color: lightgray;
+      $background-color-hover: rgba(240, 240, 240, 0.61);
+      list-style: none;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      display: block;
+      height: 100%;
+      margin: 0;
+      padding: 24px 10px;
+      background-color: transparent;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: $border-width solid transparent;
+
+      &:hover {
+        background-color: $background-color-hover;
+        border-bottom: $border-width solid $border-color;
+      }
+
+      &.current {
+        color: var(--main-blue);
+        border-bottom: $border-width solid var(--main-blue);
+        pointer-events: none;
+      }
+    }
+  }
+
+  & .sig-choice {
+    & .font-family-picker {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: auto;
+
+      & div.svg-wrapper {
+        width: 300px;
+        padding: 0.5rem 0;
+        cursor: pointer;
+
+        &:hover,
+        &.svg-current {
+          background-color: #e8e8e2;
+        }
+
+        &.svg-selected {
+          background-color: #c9e2f2;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  & .sig-draw-pad {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .sig-canvas {
+      position: relative;
+      width: 600px;
+      height: 200px;
+      border: 1px dashed lightgray;
+
+      & button.clear {
+        position: absolute;
+        top: 163px;
+        right: 2px;
+      }
+    }
+
+    .small {
+      color: var(--gray);
+    }
+  }
+
+  .button-bar button {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid darkgrey;
+    box-shadow: var(--box-shadow-1);
+
+    &:hover {
+      filter: brightness(85%);
+    }
+
+    background-color: #000028;
+    &.darkslategray {
+      background-color: darkslategray;
+    }
+    &.darkgreen {
+      background-color: darkgreen;
+    }
+    &.midnightblue {
+      background-color: midnightblue;
+    }
+    &.royalblue {
+      background-color: royalblue;
+    }
+    &.teal {
+      background-color: teal;
+    }
+
+    &.clear,
+    &.update {
+      width: auto;
+      height: auto;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    &.current {
+      box-shadow: 2px 2px 15px 1px var(--yellow),
+        -2px -2px 10px 1px var(--yellow);
+      opacity: 1;
+    }
+  }
+
+  & .footer {
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    color: gray;
+    font-weight: 300;
+
+    & .actions {
+      position: fixed;
+      bottom: 5rem;
+      right: 5rem;
+      border: 0;
+
+      & button {
+        border-radius: 50%;
+        height: 4rem;
+        width: 4rem;
+        margin: auto;
+        padding: 0;
+        background-color: var(--yellow);
+
+        &:disabled,
+        &[disabled] {
+          display: none;
+        }
+
+        &:hover {
+          filter: brightness(90%);
+        }
+      }
+    }
+  }
+}

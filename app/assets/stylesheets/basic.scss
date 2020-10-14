@@ -146,20 +146,19 @@ textarea {
 
 #page-container {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
 }
 
 #content-wrap {
-  // padding-bottom: var(--footer-padding); /* Footer height + space */
-  padding-bottom: 1.5rem;
+  padding-bottom: 2.5rem;
+}
+
+#spacer {
+  margin-top: 80px;
 }
 
 main {
-  // position: absolute;
-  // width: 100%;
-  // top: 80px;
-  // left: 0;
-  padding-top: 80px;
+  overflow-y: scroll;
 }
 
 form {
@@ -270,6 +269,7 @@ circle {
 
 #footer {
   position: absolute;
+  z-index: 10;
   bottom: 0;
   width: 100%;
   height: 2.5rem; /* Footer height */
