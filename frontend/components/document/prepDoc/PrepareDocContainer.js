@@ -1,7 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { withRouter, useParams, useHistory } from 'react-router-dom';
+import { withRouter, useParams, useHistory, Link } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PrepPDF from './PrepPDF';
@@ -10,6 +11,17 @@ import { Fields, Signatories } from '../shared';
 import { BreadCrumbs } from '../../helperComponents';
 import { getSignatories } from '../../../reducers/selectors';
 import { useFetchDoc } from '../../../utils/hooks';
+
+const CallToSignDoc = ({ docId, status }) => {
+  if (status !== 'Being Prepared') return <div />;
+  return (
+    <div className="call-to-sign-doc">
+      <hr />
+      <h3>You&apos;ve successfully added content fields</h3>
+      <Link to={`/documents/${docId}/sign`}>Sign this document</Link>
+    </div>
+  );
+};
 
 const PrepareDocContainer = () => {
   const [currSignatory, setCurrSignatory] = useState('');
@@ -38,6 +50,7 @@ const PrepareDocContainer = () => {
   if (loading || !doc || doc === undefined) return <div>Loading...</div>;
   if (docErrors?.status === 404)
     return <FourOhFour from={history.location.pathname} errors={docErrors} />;
+
   return (
     <div id="prep-doc-container">
       <BreadCrumbs history={breadCrumbsHistory} />
@@ -45,7 +58,7 @@ const PrepareDocContainer = () => {
       <h1>Prepare your document for signatures</h1>
       <div className="scroll-container">
         <div className="pdf-drag-container">
-          <DndProvider backend={HTML5Backend}>
+          <DndProvider backend={HTML5Backend} displayName="DndProvider">
             <div className="side-bar">
               <Signatories
                 currSignatory={currSignatory}
@@ -53,6 +66,7 @@ const PrepareDocContainer = () => {
                 onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
               />
               <Fields currSignatory={currSignatory} />
+              <CallToSignDoc docId={doc.id} status={doc.status} />
             </div>
             {doc && doc.fileUrl && (
               <div id="pdf-document-container">
@@ -64,6 +78,11 @@ const PrepareDocContainer = () => {
       </div>
     </div>
   );
+};
+
+CallToSignDoc.propTypes = {
+  docId: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default withRouter(PrepareDocContainer);

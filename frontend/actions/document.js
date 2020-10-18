@@ -1,4 +1,6 @@
 import * as APIUtil from '../utils/document';
+import { Spinner } from '../components/modal';
+import { receiveModal, closeModal } from './modal';
 
 export const RECEIVE_ALL_DOCUMENTS = 'RECEIVE_ALL_DOCUMENTS';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
@@ -86,11 +88,14 @@ export const fetchSignedUrl = (docId) => (dispatch) =>
     return res;
   });
 
-export const finalizeDocument = (docId) => (dispatch) =>
-  APIUtil.finalizeDocument(docId).then((res) => {
+export const finalizeDocument = (docId) => (dispatch) => {
+  dispatch(receiveModal(Spinner, false));
+  return APIUtil.finalizeDocument(docId).then((res) => {
     dispatch(receiveDocument(res));
+    dispatch(closeModal());
     return res;
   });
+};
 
 export const fetchSummary = () => (dispatch) =>
   APIUtil.getSummary().then((res) => {

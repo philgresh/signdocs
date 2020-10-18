@@ -28,5 +28,14 @@
         color: var(--dark-yellow);
       }
     }
+
+    &.no-child {
+      background: transparent;
+      box-shadow: none;
+
+      & button {
+        display: none;
+      }
+    }
   }
 }

@@ -39,11 +39,6 @@ const SignatoriesItem = ({
 };
 
 const Signatories = ({ signatories, currSignatory, onChangeSignatory }) => {
-  // const addAttention = () => {
-  //   const firstInput = document.querySelector('.signatories-list div input');
-  //   firstInput.classList.add('attention');
-  // };
-
   const removeAttention = () => {
     const allElesWithAttention = Array.from(
       document.querySelectorAll('.attention'),

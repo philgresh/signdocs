@@ -404,6 +404,7 @@
 
       & .side-bar {
         min-width: $field-side-bar-width;
+        max-width: 400px;
         padding: 0 2rem;
         text-align: center;
         min-height: 25vh;
@@ -411,7 +412,7 @@
         position: sticky;
         top: 0;
 
-        & h2 {
+        & > h2 {
           margin-top: 2rem;
           &:first-of-type {
             margin-top: 0;
@@ -446,6 +447,7 @@
 
             &.disabled-drag {
               cursor: not-allowed;
+              color: gray;
             }
           }
         }
@@ -511,4 +513,27 @@
 .call-to-create {
   text-align: center;
   margin-top: 4rem;
+}
+
+.call-to-finalize {
+  & h2 {
+    color: var(--success-green);
+    font-weight: bold;
+  }
+
+  & p button {
+    border: none;
+    background-color: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--call-to-action-blue);
+    display: inline;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+
+    &:hover {
+      text-decoration: 1px underline dotted currentColor;
+    }
+  }
 }

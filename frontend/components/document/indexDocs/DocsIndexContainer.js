@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
 import DocsIndex from './DocsIndex';
 import Sidebar from './Sidebar';
 import NoDocsCallToCreate from '../shared/NoDocsCallToCreate';
 import { fetchDocuments } from '../../../actions/document';
-import {
-  getCurrentUser,
-  getErrorsAt,
-  getAllDocuments,
-} from '../../../reducers/selectors';
+import { getCurrentUser, getAllDocuments } from '../../../reducers/selectors';
 
 const DocsIndexContainer = () => {
   const [loading, setLoading] = useState(true);
