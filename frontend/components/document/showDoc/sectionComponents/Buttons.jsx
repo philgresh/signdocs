@@ -40,7 +40,7 @@ const DeleteButton = ({ onDelete, deleting }) => (
   </button>
 );
 
-const DownloadButton = ({ downloadUrl }) => (
+const DownloadButton = ({ downloadUrl, status }) => (
   <a
     href={downloadUrl}
     download
@@ -48,7 +48,7 @@ const DownloadButton = ({ downloadUrl }) => (
     aria-label="Download this document"
   >
     <FontAwesomeIcon icon={faDownload} color="inherit" title="Download" />
-    &nbsp;&nbsp;Download
+    &nbsp;&nbsp;{status === 'Final' ? 'Download Final' : 'Download'}
   </a>
 );
 const EditButton = ({ docId, status }) => {
@@ -106,7 +106,7 @@ const PrepareButton = ({ docId, status }) => {
   );
 };
 
-const PrintButton = ({ fileUrl }) => (
+const PrintButton = ({ fileUrl, status }) => (
   <a
     href={fileUrl}
     title="Print"
@@ -115,7 +115,7 @@ const PrintButton = ({ fileUrl }) => (
     aria-label="Open this document to print"
   >
     <FontAwesomeIcon icon={faPrint} color="inherit" title="Print" />
-    &nbsp;&nbsp;Print
+    &nbsp;&nbsp;{status === 'Final' ? 'Print Final' : 'Print'}
   </a>
 );
 
@@ -125,6 +125,7 @@ DeleteButton.propTypes = {
 };
 DownloadButton.propTypes = {
   downloadUrl: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 EditButton.propTypes = {
   docId: PropTypes.string.isRequired,
@@ -140,6 +141,7 @@ PrepareButton.propTypes = {
 };
 PrintButton.propTypes = {
   fileUrl: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 InlineLink.propTypes = {
   url: PropTypes.string.isRequired,
