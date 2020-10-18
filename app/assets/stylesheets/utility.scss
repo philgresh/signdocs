@@ -1,1 +1,18 @@
+.attention {
+  animation: attention 1s infinite;
+  animation-delay: 2s;
+}
 
+@keyframes attention {
+  0% {
+    box-shadow: 0 0 0 0 #ffff;
+  }
+
+  75% {
+    box-shadow: 0 0 0 5px rgba(var(--call-to-action-blue-rgb), 0.2);
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 #ffff;
+  }
+}

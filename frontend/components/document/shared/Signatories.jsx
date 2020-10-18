@@ -8,6 +8,7 @@ const SignatoriesItem = ({
   signatoryId,
   currSignatory,
   handleOptionChange,
+  index,
 }) => {
   const signatoryDetails = useSelector(getUserDetails(signatoryId));
   const { id, firstName, lastName } = signatoryDetails;
@@ -22,6 +23,7 @@ const SignatoriesItem = ({
           type="radio"
           id={id}
           name="signatories"
+          className={index === 0 ? 'attention' : ''}
           value={id}
           checked={currSignatory === id}
           onChange={handleOptionChange}
@@ -37,7 +39,20 @@ const SignatoriesItem = ({
 };
 
 const Signatories = ({ signatories, currSignatory, onChangeSignatory }) => {
+  // const addAttention = () => {
+  //   const firstInput = document.querySelector('.signatories-list div input');
+  //   firstInput.classList.add('attention');
+  // };
+
+  const removeAttention = () => {
+    const allElesWithAttention = Array.from(
+      document.querySelectorAll('.attention'),
+    );
+    allElesWithAttention.forEach((el) => el.classList.remove('attention'));
+  };
+
   const handleOptionChange = (e) => {
+    removeAttention();
     onChangeSignatory(e.target.value);
   };
   return (
@@ -45,12 +60,13 @@ const Signatories = ({ signatories, currSignatory, onChangeSignatory }) => {
       <h2>Signatories</h2>
       <hr />
       <div className="signatories-list">
-        {signatories.map((signatoryId) => (
+        {signatories.map((signatoryId, index) => (
           <SignatoriesItem
             signatoryId={signatoryId}
             key={signatoryId}
             currSignatory={currSignatory}
             handleOptionChange={handleOptionChange}
+            index={index}
           />
         ))}
       </div>
