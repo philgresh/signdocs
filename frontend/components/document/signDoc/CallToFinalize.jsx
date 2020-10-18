@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { finalizeDocument } from '../../../actions/document';
 
-const CallToFinalize = ({ docId, allCFsAreSigned }) => {
+const CallToFinalize = ({ docId, allCFsAreSigned, isOwner }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ const CallToFinalize = ({ docId, allCFsAreSigned }) => {
     <div className="call-to-finalize">
       <h2>Congratulations!</h2>
       <p>All of your document&apos;s fields have been signed.</p>
-      {allCFsAreSigned && (
+      {isOwner && allCFsAreSigned && (
         <p>
           Click&nbsp;
           <button type="button" onClick={onClick}>
@@ -40,6 +40,7 @@ const CallToFinalize = ({ docId, allCFsAreSigned }) => {
 CallToFinalize.propTypes = {
   docId: PropTypes.string.isRequired,
   allCFsAreSigned: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default CallToFinalize;

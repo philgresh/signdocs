@@ -31,6 +31,8 @@ const SignDocContainer = () => {
   const myCFs = allCFs.filter((cf) => cf.signatoryId === currentUser.id);
   const allMyCFsAreSigned = myCFs.every((cf) => !!cf.type.match(/^FILLED/));
 
+  const isOwner = doc?.ownerId === currentUser.id;
+
   const breadCrumbsHistory = [
     {
       to: '/documents',
@@ -67,6 +69,7 @@ const SignDocContainer = () => {
                 <CallToFinalize
                   docId={docId}
                   allCFsAreSigned={allCFsAreSigned}
+                  isOwner={isOwner}
                 />
               )}
             </div>
