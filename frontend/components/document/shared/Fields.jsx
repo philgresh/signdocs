@@ -32,8 +32,8 @@ const defaultTextboxBBOX = Object.freeze({
   x: 0,
   y: 0,
   page: 1,
-  widthPct: 0.162,
-  aspectRatio: 6.25,
+  widthPct: 0.277,
+  aspectRatio: 11.33,
   initial: true,
 });
 

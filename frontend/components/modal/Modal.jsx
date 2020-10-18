@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { closeModal as close } from '../../actions/modal';
 import { getModalState } from '../../reducers/selectors';
@@ -12,11 +14,13 @@ const Modal = ({ open, modalState, closeModal }) => {
     return null;
   }
 
-  // eslint-disable-next-line react/prop-types
-  const { component: Component, props: modalProps } = modalState;
+  const {
+    component: Component,
+    props: modalProps,
+    hasBackground = true,
+  } = modalState;
 
   const handleKeyPress = (e) => {
-    // console.log(e);
     if (e.keyCode === ESCAPE_KEY_CODE) closeModal();
   };
 
@@ -25,10 +29,12 @@ const Modal = ({ open, modalState, closeModal }) => {
     closeModal();
   };
 
+  const modalChildClasses = clsx('modal-child', !hasBackground && 'no-child');
+
   return (
     <div className="modal-background" onClick={closeModal} role="presentation">
       <div
-        className="modal-child"
+        className={modalChildClasses}
         onClick={handleBackgroundClick}
         onKeyPress={handleKeyPress}
         role="presentation"
@@ -45,6 +51,7 @@ const Modal = ({ open, modalState, closeModal }) => {
 Modal.propTypes = {
   modalState: PropTypes.shape({
     component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    hasBackground: PropTypes.bool,
   }).isRequired,
   open: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,

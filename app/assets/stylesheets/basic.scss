@@ -5,6 +5,7 @@
   --main-blue: #005cb9;
   --dark-main-blue: #004386;
   --call-to-action-blue: #006ff9;
+  --call-to-action-blue-rgb: rgb(0,111,249);
   --bright-blue: #0bc6ff;
   --teal: #277cb2;
   --dark-blue: #000028;
@@ -235,22 +236,6 @@ li.no-pointer {
   font-size: 70%;
 }
 
-.modal-background {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background: rgba(var(--off-black-rgb), 0.7);
-  z-index: 10;
-}
-
-.modal-child {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .main-container {
   max-width: 800px;

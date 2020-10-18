@@ -31,7 +31,6 @@ const DroppableContainer = ({ children, className, thisPage }) => {
   const createCF = (cfData) => dispatch(createContentField(cfData));
   const updateCF = (cfData) => dispatch(updateContentField(cfData));
 
-  // TODO: Fix this trash
   const allCFs = useSelector((state) => state.entities.contentFields);
   const contentFields = Object.values(allCFs).filter(
     (ele) => ele.docId === docId && ele.bbox?.page === thisPage,
@@ -40,11 +39,6 @@ const DroppableContainer = ({ children, className, thisPage }) => {
   const [_collectedProps, drop] = useDrop({
     accept: acceptableTypes,
     drop(item, monitor) {
-      // const origin = getOriginCoords(item.type);
-      // const pageCoords = getPageCoords(thisPage);
-      // const containerCoords = getContainerCoords();
-      // const pageDiff = getPageDiff(thisPage);
-      // const containerFromOrigin = getContainerFromOrigin(item.type);
       const diff = monitor.getDifferenceFromInitialOffset();
       let delta = diff;
       if (item.bbox.initial) {

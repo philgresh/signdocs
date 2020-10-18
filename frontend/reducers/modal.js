@@ -3,6 +3,7 @@ import { FIRST_SIGN_IN } from '../actions/session';
 import { DOC_UPLOAD } from '../actions/document';
 import FirstSignin from '../components/session/FirstSignin';
 import DocUpload from '../components/document/createEditDoc/DocUpload';
+import { Spinner } from '../components/modal';
 
 const initialState = Object.freeze({
   open: false,
@@ -10,13 +11,17 @@ const initialState = Object.freeze({
 
 export default (state = initialState, { type, payload }) => {
   Object.freeze(state);
+  const component = payload?.component || Spinner;
+  const hasBackground = payload?.hasBackground ?? true;
+
   switch (type) {
     case CLOSE_MODAL:
       return initialState;
     case OPEN_MODAL:
       return {
+        component,
         open: true,
-        component: payload.component,
+        hasBackground,
       };
     case FIRST_SIGN_IN: {
       return {

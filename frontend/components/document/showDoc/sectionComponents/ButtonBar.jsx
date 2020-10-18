@@ -49,8 +49,8 @@ const ButtonBar = ({ doc, history }) => {
   return (
     <div className="action-buttons">
       <div className="flex-item-left">
-        <DownloadButton downloadUrl={downloadUrl} />
-        <PrintButton fileUrl={fileUrl} />
+        <DownloadButton downloadUrl={downloadUrl} status={status} />
+        <PrintButton fileUrl={fileUrl} status={status} />
       </div>
       <div className="flex-right">
         {isOwner && notFinal && (

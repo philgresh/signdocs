@@ -7,10 +7,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import FourOhFour from '../../_404';
 import Signatories from '../shared/Signatories';
 import SignPDF from './SignPDF';
-
-import { getSignatories } from '../../../reducers/selectors';
+import {
+  getSignatories,
+  getArrayOfContentFieldsByDocId,
+  getCurrentUser,
+} from '../../../reducers/selectors';
 import { useFetchDoc } from '../../../utils/hooks';
 import { BreadCrumbs } from '../../helperComponents';
+import CallToFinalize from './CallToFinalize';
 
 const SignDocContainer = () => {
   const [_currSignatory, setCurrSignatory] = useState('');
@@ -19,6 +23,13 @@ const SignDocContainer = () => {
 
   const { docErrors, doc, loading } = useFetchDoc({ docId });
   const signatories = useSelector(getSignatories(docId));
+  const currentUser = useSelector(getCurrentUser);
+
+  const allCFs = useSelector(getArrayOfContentFieldsByDocId(docId));
+  const allCFsAreSigned = allCFs.every((cf) => !!cf.type.match(/^FILLED/));
+
+  const myCFs = allCFs.filter((cf) => cf.signatoryId === currentUser.id);
+  const allMyCFsAreSigned = myCFs.every((cf) => !!cf.type.match(/^FILLED/));
 
   const breadCrumbsHistory = [
     {
@@ -52,6 +63,12 @@ const SignDocContainer = () => {
                 signatories={signatories}
                 onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
               />
+              {allMyCFsAreSigned && (
+                <CallToFinalize
+                  docId={docId}
+                  allCFsAreSigned={allCFsAreSigned}
+                />
+              )}
             </div>
             {doc && doc.fileUrl && (
               <div id="pdf-document-container">
