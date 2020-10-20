@@ -3,15 +3,12 @@ class Api::UsersController < ApplicationController
   before_action :require_logged_in, only: [:show, :index, :summary]
   # before_action :require_logged_out, only: [:create]
   def create
-    new_params = user_params
-    new_params[:email] = user_params[:email].downcase
     @user = User.new(user_params)
 
     if @user.save
       login!(@user)
       render :show
     else
-      # flash[:errors] = @user.errors.full_messages
       errors = @user.errors.messages
       render json: errors, status: 403
     end
