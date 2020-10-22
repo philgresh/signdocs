@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "sourceMap": true,
+      "target": "es5",
+      "jsx": "react",
+      "declaration": true,
+      "outDir": "lib"
+    },
+    "include": [
+      "frontend"
+    ]
+  }

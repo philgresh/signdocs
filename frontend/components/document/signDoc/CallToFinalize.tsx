@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { finalizeDocument } from '../../../actions/document';
 
-const CallToFinalize = ({ docId, allCFsAreSigned, isOwner }) => {
+const CallToFinalize: React.FunctionComponent<{
+  docId: string;
+  allCFsAreSigned: boolean;
+  isOwner: boolean;
+}> = ({ docId, allCFsAreSigned, isOwner }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onClick = (e) => {
+  const onClick = (e: React.SyntheticEvent<HTMLButtonElement>):void => {
     e.preventDefault();
     dispatch(finalizeDocument(docId)).then((res) => {
       if (res.document) {
@@ -35,12 +38,6 @@ const CallToFinalize = ({ docId, allCFsAreSigned, isOwner }) => {
       )}
     </div>
   );
-};
-
-CallToFinalize.propTypes = {
-  docId: PropTypes.string.isRequired,
-  allCFsAreSigned: PropTypes.bool.isRequired,
-  isOwner: PropTypes.bool.isRequired,
 };
 
 export default CallToFinalize;
