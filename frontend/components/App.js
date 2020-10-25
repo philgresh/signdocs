@@ -14,7 +14,7 @@ import ProfileContainer from './profile/ProfileContainer';
 import DocsIndex from './document/indexDocs';
 import DocDetails from './document/showDoc';
 import PrepareDocContainer from './document/prepDoc';
-import SignDocContainer from './document/signDoc';
+import SignDocContainer from './document/signDoc/index.ts';
 import Footer from './footer';
 import FourOhFour from './_404/FourOhFour';
 import Modal from './modal';

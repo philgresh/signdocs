@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import * as React from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import ContentFields from './ContentFields';
+import { DocProps } from '../../tsProps';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const SignPDF = ({ doc }) => {
-  const [docLoadSuccess, setDocLoadSuccess] = useState(false);
-  const [numPages, setNumPages] = useState(null);
+type SignPDFProps = {
+  doc: DocProps;
+};
 
-  const onDocumentLoadSuccess = (_pdf) => {
-    const { numPages: numP } = _pdf;
+const SignPDF = ({ doc }: SignPDFProps) => {
+  const [docLoadSuccess, setDocLoadSuccess] = React.useState(false);
+  const [numPages, setNumPages] = React.useState(null);
+
+  const onDocumentLoadSuccess = (pdf) => {
+    const { numPages: numP } = pdf;
     setDocLoadSuccess(true);
     setNumPages(numP);
   };

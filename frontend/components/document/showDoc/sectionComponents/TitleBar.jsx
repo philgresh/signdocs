@@ -42,7 +42,8 @@ TitleBar.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     isOwner: PropTypes.bool,
-    owner: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    owner: PropTypes.object,
     status: PropTypes.string,
     sent: PropTypes.string,
     updatedAt: PropTypes.string,

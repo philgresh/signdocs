@@ -19,10 +19,15 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.tsx?$/,
+        use: ['ts-loader'],
+        exclude: /node_modules/,
+      },
     ],
   },
   devtool: 'source-map',
   resolve: {
-    extensions: ['.js', '.jsx', '*'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx', '*'],
   },
 };

@@ -3,15 +3,21 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { finalizeDocument } from '../../../actions/document';
 
-const CallToFinalize: React.FunctionComponent<{
+type CallToFinalizeProps = {
   docId: string;
   allCFsAreSigned: boolean;
   isOwner: boolean;
-}> = ({ docId, allCFsAreSigned, isOwner }) => {
+};
+
+const CallToFinalize = ({
+  docId,
+  allCFsAreSigned,
+  isOwner,
+}: CallToFinalizeProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onClick = (e: React.SyntheticEvent<HTMLButtonElement>):void => {
+  const onClick = (e: React.SyntheticEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     dispatch(finalizeDocument(docId)).then((res) => {
       if (res.document) {

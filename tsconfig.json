@@ -1,12 +1,19 @@
 {
-    "compilerOptions": {
-      "sourceMap": true,
-      "target": "es5",
-      "jsx": "react",
-      "declaration": true,
-      "outDir": "lib"
-    },
-    "include": [
-      "frontend"
-    ]
-  }
+  "compilerOptions": {
+    "module": "CommonJS",
+    "sourceMap": true,
+    "target": "es6",
+    "jsx": "react",
+    "declaration": true,
+  },
+  "include": ["frontend/**/*"],
+  "exclude": [
+    "node_modules",
+    "log",
+    "public",
+    "tmp",
+    "test",
+    "vendor",
+    "storage"
+  ]
+}

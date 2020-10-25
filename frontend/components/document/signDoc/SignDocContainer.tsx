@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useState } from 'react';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter, useParams, useHistory } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
@@ -14,10 +14,11 @@ import {
 } from '../../../reducers/selectors';
 import { useFetchDoc } from '../../../utils/hooks';
 import { BreadCrumbs } from '../../helperComponents';
+import { CFProps } from '../../tsProps';
 import CallToFinalize from './CallToFinalize';
 
 const SignDocContainer = () => {
-  const [_currSignatory, setCurrSignatory] = useState('');
+  const [_currSignatory, setCurrSignatory] = React.useState('');
   const history = useHistory();
   const { docId } = useParams();
 
@@ -26,10 +27,16 @@ const SignDocContainer = () => {
   const currentUser = useSelector(getCurrentUser);
 
   const allCFs = useSelector(getArrayOfContentFieldsByDocId(docId));
-  const allCFsAreSigned = allCFs.every((cf) => !!cf.type.match(/^FILLED/));
+  const allCFsAreSigned = allCFs.every(
+    (cf: CFProps) => !!cf.type.match(/^FILLED/),
+  );
 
-  const myCFs = allCFs.filter((cf) => cf.signatoryId === currentUser.id);
-  const allMyCFsAreSigned = myCFs.every((cf) => !!cf.type.match(/^FILLED/));
+  const myCFs = allCFs.filter(
+    (cf: CFProps) => cf.signatoryId === currentUser.id,
+  );
+  const allMyCFsAreSigned = myCFs.every(
+    (cf: CFProps) => !!cf.type.match(/^FILLED/),
+  );
 
   const isOwner = doc?.ownerId === currentUser.id;
 
@@ -63,7 +70,7 @@ const SignDocContainer = () => {
             <div className="side-bar">
               <Signatories
                 signatories={signatories}
-                onChangeSignatory={(sigId) => setCurrSignatory(sigId)}
+                onChangeSignatory={(sigId: string) => setCurrSignatory(sigId)}
               />
               {allMyCFsAreSigned && (
                 <CallToFinalize
@@ -75,7 +82,7 @@ const SignDocContainer = () => {
             </div>
             {doc && doc.fileUrl && (
               <div id="pdf-document-container">
-                <SignPDF doc={doc} signatories={signatories} />
+                <SignPDF doc={doc} />
               </div>
             )}
           </DndProvider>
