@@ -1,45 +1,22 @@
-# https://itnext.io/refactoring-ruby-on-rails-controllers-using-blocks-bf78b1b292ca
+# https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
+
 class DocumentCreator < ApplicationService
-  attr_reader :document
-
-  # def self.call(document, &block)
-  #   new(document).call(&block)
-  # end
-
-  def initialize(document)
-    @document = document
+  def initialize(document_params, signatory_ids, current_user)
+    @signatory_ids = signatory_ids
+    @document = Document.new(document_params)
+    @current_user ||= current_user
   end
-  private_class_method :new
 
-  def call(&block)
-    if document.save
-      send_email
-      track_activity
-      yield(Trigger, NoTrigger)
+  def call
+    errors = nil
+    if @document.save
+      @document.editor_ids = @signatory_ids << @current_user.id
+      @document.owner = @current_user
+      @preview_image = @document.file.preview(resize: "200x200>").processed.image
     else
-      yield(NoTrigger, Trigger)
+      errors = @document.errors.messages
+      @document.destroy
     end
-  end
-
-  def send_email
-    # Send email to all followers
-  end
-
-  def track_activity
-    # Track in activity feed
-  end
-end
-
-# app/services/trigger.rb
-class Trigger
-  def self.call
-    yield
-  end
-end
-
-# app/services/no_trigger.rb
-class NoTrigger
-  def self.call
-    # Do nothing
+    return [@document, errors]
   end
 end

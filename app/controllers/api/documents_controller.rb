@@ -34,26 +34,18 @@ class Api::DocumentsController < ApplicationController
   end
 
   def create
-    signatory_ids = JSON.parse(params[:doc][:signatories])
-    @document = Document.new(document_params)
+    @document, errors = DocumentCreator.call(
+      document_params, signatory_ids, current_user
+    )
 
-    if @document.valid? && @document.save
-      @document.editor_ids = signatory_ids << current_user.id
-      @document.owner = current_user
-      @preview_image = @document.file.preview(resize: "200x200>").processed.image
+    if @document
       show
     else
-      @document.destroy
-      render json: @document.errors.messages, status: :bad_request
+      render json: errors, status: :bad_request
     end
   end
 
   def update
-    signatory_ids = []
-    if params[:doc][:signatories].present?
-      signatory_ids = JSON.parse(params[:doc][:signatories])
-    end
-
     if @document.update(document_params)
       @document.editor_ids = signatory_ids << current_user.id
       @document.save
@@ -307,5 +299,13 @@ class Api::DocumentsController < ApplicationController
   def translate_bbox_to_pxls(bbox, width, height)
     width_pxls = bbox["width"] * width
     height_pxls = bbox["height"] * height / bbox["aspect_ratio"]
+  end
+
+  def signatory_ids
+    ids = []
+    if params[:doc][:signatories].present?
+      ids = JSON.parse(params[:doc][:signatories])
+    end
+    return ids
   end
 end
