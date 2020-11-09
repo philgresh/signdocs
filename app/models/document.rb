@@ -53,11 +53,12 @@ class Document < ApplicationRecord
     @document = Document.new(title: title, description: description)
 
     @document.file.attach(
-      io: open("https://signdocs-ckdpd50m50000map7rw28508g.s3-us-west-2.amazonaws.com/assets/backup.pdf"),
+      io: open("https://signdocs-public.s3-us-west-2.amazonaws.com/backup.pdf"),
       filename: "backup.pdf",
       content_type: "application/pdf",
     )
     @document.save
+    @document.final.detach #  I don't understand why it's necessary to do this. Stupid.
     @document.editor_ids = [user.id]
     @document.owner = user
     @document
