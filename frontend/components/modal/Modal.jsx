@@ -1,16 +1,18 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { closeModal as close } from '../../actions/modal';
 import { getModalState } from '../../reducers/selectors';
 
 const ESCAPE_KEY_CODE = 27;
 
-const Modal = ({ open, modalState, closeModal }) => {
-  if (!open) {
+const Modal = () => {
+  const modalState = useSelector(getModalState);
+  const dispatch = useDispatch();
+  const closeModal = () => dispatch(close());
+
+  if (!modalState?.open) {
     return null;
   }
 
@@ -48,27 +50,4 @@ const Modal = ({ open, modalState, closeModal }) => {
   );
 };
 
-Modal.propTypes = {
-  modalState: PropTypes.shape({
-    component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-    hasBackground: PropTypes.bool,
-  }).isRequired,
-  open: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  const modalState = getModalState(state);
-  return {
-    modalState,
-    open: modalState.open,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    closeModal: () => dispatch(close()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export default Modal;

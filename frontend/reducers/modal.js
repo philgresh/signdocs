@@ -1,5 +1,5 @@
 import { CLOSE_MODAL, OPEN_MODAL } from '../actions/modal';
-import { FIRST_SIGN_IN } from '../actions/session';
+import { FIRST_SIGN_IN, SIGNOUT_CURRENT_USER } from '../actions/session';
 import { DOC_UPLOAD } from '../actions/document';
 import FirstSignin from '../components/session/FirstSignin';
 import DocUpload from '../components/document/createEditDoc/DocUpload';
@@ -13,7 +13,6 @@ export default (state = initialState, { type, payload }) => {
   Object.freeze(state);
   const component = payload?.component || Spinner;
   const hasBackground = payload?.hasBackground ?? true;
-
   switch (type) {
     case CLOSE_MODAL:
       return initialState;
@@ -36,6 +35,9 @@ export default (state = initialState, { type, payload }) => {
         component: DocUpload,
         props: payload,
       };
+    }
+    case SIGNOUT_CURRENT_USER: {
+      return initialState;
     }
     default:
       return state;
