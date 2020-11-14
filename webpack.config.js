@@ -24,7 +24,17 @@ module.exports = {
         use: ['ts-loader'],
         exclude: /node_modules/,
       },
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'source-map-loader',
+      },
     ],
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
   },
   devtool: 'source-map',
   resolve: {
