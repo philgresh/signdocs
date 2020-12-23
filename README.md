@@ -20,14 +20,14 @@ Alternatively, users can draw their signature directly by using a mouse or track
 ### Document preparation
 After uploading a document and adding signatories, users can drag-and-drop content fields onto the document which will later be filled with signatories' personal information. This can be their signature or text, such as the current date or their name. The content fields are assigned to specific users, so only they can fill out that information. Once they've reviewed the document, signatories can simply click the Sign button and apply their signature, and the document owner will be notified.
 
-![Screen Shot 2020-08-28 at 10 11 02 AM](https://user-images.githubusercontent.com/46543327/91599711-9156e000-e91b-11ea-941c-d3d8eb1389b0.png)
+![Document Preparation](https://user-images.githubusercontent.com/46543327/103044360-130af300-4535-11eb-951b-101fc3b33a97.png)
 
 ## Stack used
 ### Backend
  - Ruby on Rails (5.2.3)
  - PostgreSQL DB
  - AWS S3 (document and image storage)
- - AWS Key Management Service (cryptographic public key repository)
+
  ### Frontend
  - React with Redux for local state management
  
