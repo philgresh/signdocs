@@ -133,7 +133,7 @@ const SessionForm = (props) => {
             required
           />
         </label>
-        <HelperText field="email" path="session.email" />
+        <HelperText field="email" path="session.password" />
         <PasswordFields
           isSignUp={isSignUp}
           handleChange={handleChange}

@@ -17,8 +17,8 @@ const PASSWORD_LENGTH_MIN = 6;
 //   4 # very unguessable: strong protection from offline slow-hash scenario. (guesses >= 10^10)
 
 const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
-  const setPasswordWarnings = (warnings) => {
-    receiveErrors({ password: warnings });
+  const setPasswordWarnings = (warnings = [], suggestions = []) => {
+    receiveErrors({ password: { warnings, suggestions } });
   };
 
   const handlePasswordQualityCheck = (pw) => {
@@ -27,16 +27,17 @@ const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
     const len = pw.length;
     const longEnough = len > PASSWORD_LENGTH_MIN;
     const strongEnough = score > PASSWORD_QUALITY_MIN;
+    console.log(pw, len, longEnough);
 
     if (len === 0) return setPasswordWarnings([]);
 
-    let warnings = [];
+    const warnings = [];
+    let suggestions = [];
     if (!longEnough) {
       warnings.push(`must be at least ${PASSWORD_LENGTH_MIN} characters long.`);
     }
-    if (!strongEnough && len < 12)
-      warnings = [...warnings, feedback.suggestions];
-    return setPasswordWarnings(warnings);
+    if (!strongEnough && len < 12) suggestions = feedback.suggestions;
+    return setPasswordWarnings(warnings, suggestions);
   };
 
   const handlePasswordChange = (e) => {
@@ -57,7 +58,13 @@ const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
           required
         />
       </label>
-      <HelperText field="password" path="session.password" />
+      <HelperText field="password" path="session.password.warnings" />
+      <HelperText
+        field="password"
+        path="session.password.suggestions"
+        prefix=""
+        errorClass="suggestion"
+      />
       <div className="password-helper-text" />
     </>
   );

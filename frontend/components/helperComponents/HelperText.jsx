@@ -4,27 +4,32 @@ import { connect } from 'react-redux';
 import { humanize } from '../../utils/general';
 import { getErrorsAt } from '../../reducers/selectors';
 
-function genErrorMessages(errors, fieldName) {
+function genErrorMessages(errors, fieldName, prefix) {
   let errorMessages = [];
+  let leadingString = `${fieldName}: `;
+  if (prefix !== null) {
+    leadingString = '';
+  }
   errors.forEach((err) => {
     if (err instanceof Array) {
       errorMessages = [...errorMessages, ...err];
     } else {
-      const message = `${fieldName}: ${err}`;
+      const message = `${leadingString}${err}`;
       errorMessages.push(message);
     }
   });
   return errorMessages;
 }
 
-const HelperText = ({ errors, field }) => {
-  if (!errors || !errors.length) return <div className="helper-text error" />;
+const HelperText = ({ errors, field, prefix, errorClass }) => {
+  const className = `helper-text ${errorClass}`;
+  if (!errors || !errors.length) return <div className={className} />;
   const fieldName = humanize(field);
 
-  const errorMessages = genErrorMessages(errors, fieldName);
+  const errorMessages = genErrorMessages(errors, fieldName, prefix);
 
   return (
-    <div className="helper-text error">
+    <div className={className}>
       {errorMessages.map((err) => (
         <p key={err}>{err}</p>
       ))}
@@ -37,6 +42,13 @@ HelperText.propTypes = {
   errors: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   ).isRequired,
+  prefix: PropTypes.string,
+  errorClass: PropTypes.string,
+};
+
+HelperText.defaultProps = {
+  prefix: null,
+  errorClass: 'error',
 };
 
 const mapStateToProps = (state, ownProps) => {
