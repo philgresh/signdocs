@@ -27,7 +27,6 @@ const PasswordFields = ({ handleChange, state, isSignUp, receiveErrors }) => {
     const len = pw.length;
     const longEnough = len > PASSWORD_LENGTH_MIN;
     const strongEnough = score > PASSWORD_QUALITY_MIN;
-    console.log(pw, len, longEnough);
 
     if (len === 0) return setPasswordWarnings([]);
 
