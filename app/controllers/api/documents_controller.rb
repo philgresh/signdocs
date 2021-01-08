@@ -9,6 +9,7 @@ class Api::DocumentsController < ApplicationController
   TEXTBOX_PADDING_LEFT = 8
 
   rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_params
+  before_action :require_logged_in
   before_action :require_owner_status, only: [:destroy, :update, :signedurl, :finalize]
   skip_before_action :verify_authenticity_token
 
@@ -96,81 +97,75 @@ class Api::DocumentsController < ApplicationController
   end
 
   def finalize
-    @document = @document || Document.find_by(id: params[:id])
-    if @document.nil?
-      render json: {
-               document: [["That document does not exist or has been deleted."]],
-             },
-             status: :not_found
-    else
-      @cfs = Hash.new { |h, k| h[k] = [] }
-      @document.content_fields.each do |cf|
-        @cfs[cf[:bbox]["page"].to_i] << cf
-      end
-      # Set up tempfiles
-      # Iterate over source pages
-      #   Write dest << source_contents
-      #   Write dest << contentfields
-      # Close dest
-      # Upload dest in place of source
-      # Delete both
-      # Send back URL of dest
+    @document ||= Document.find_by(id: params[:id])
 
-      source, dest, source_file = set_up_tempfiles(@document.file.blob)
-      dest_path = dest.path
-      source_path = source_file.path
-
-      doc = HexaPDF::Document.new
-      doc.fonts.add("Times")
-      SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.each do |font|
-        font_family, file = font.values_at(:font_family, :file)
-
-        doc.fonts.add(file)
-      end
-
-      source.pages.each.with_index do |page, i|
-        page_width = page.box.width
-        page_height = page.box.height
-
-        page_content = page.contents
-        canvas = doc.pages.add([0, 0, page_width, page_height]).canvas
-
-        # Duplicate source contents
-        form = doc.import(page.to_form_xobject)
-        canvas.xobject(form, at: [0, 0])
-
-        # Add content_fields
-        text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
-        sig_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "SignatureBlock" }
-
-        write_text_blocks_to_canvas(
-          canvas, text_blocks, page_width, page_height, doc.fonts
-        )
-        write_signature_blocks_to_canvas(
-          canvas, sig_blocks, page_width, page_height
-        )
-      end
-      doc.write(dest_path)
-
-      new_filename = "#{@document.file.filename.base}-final.#{@document.file.filename.extension}"
-
-      @document.final.attach(
-        io: File.open(dest_path),
-        filename: new_filename,
-        content_type: @document.file.content_type,
-      )
-
-      @document.save!
-      File.delete(dest_path) if File.exist?(dest_path)
-      File.delete(source_path) if File.exist?(source_path)
-
-      @users = @document.editors.where.not(email: "phil@gresham.dev")
-      @users = @users.reject(&:example_email)
-
-      FinalizeMailer.send_finalized_pdf(@users, @document).deliver if @users.size > 0
-
-      show
+    @cfs = Hash.new { |h, k| h[k] = [] }
+    @document.content_fields.each do |cf|
+      @cfs[cf[:bbox]["page"].to_i] << cf
     end
+    # Set up tempfiles
+    # Iterate over source pages
+    #   Write dest << source_contents
+    #   Write dest << contentfields
+    # Close dest
+    # Upload dest in place of source
+    # Delete both
+    # Send back URL of dest
+
+    source, dest, source_file = set_up_tempfiles(@document.file.blob)
+    dest_path = dest.path
+    source_path = source_file.path
+
+    doc = HexaPDF::Document.new
+    doc.fonts.add("Times")
+    SignatureBlock::SIGNATURE_STYLE_FONT_FAMILIES.each do |font|
+      font_family, file = font.values_at(:font_family, :file)
+
+      doc.fonts.add(file)
+    end
+
+    source.pages.each.with_index do |page, i|
+      page_width = page.box.width
+      page_height = page.box.height
+
+      page_content = page.contents
+      canvas = doc.pages.add([0, 0, page_width, page_height]).canvas
+
+      # Duplicate source contents
+      form = doc.import(page.to_form_xobject)
+      canvas.xobject(form, at: [0, 0])
+
+      # Add content_fields
+      text_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "TextBlock" }
+      sig_blocks = @cfs[i + 1].select { |cf| cf.contentable_type == "SignatureBlock" }
+
+      write_text_blocks_to_canvas(
+        canvas, text_blocks, page_width, page_height, doc.fonts
+      )
+      write_signature_blocks_to_canvas(
+        canvas, sig_blocks, page_width, page_height
+      )
+    end
+    doc.write(dest_path)
+
+    new_filename = "#{@document.file.filename.base}-final.#{@document.file.filename.extension}"
+
+    @document.final.attach(
+      io: File.open(dest_path),
+      filename: new_filename,
+      content_type: @document.file.content_type,
+    )
+
+    @document.save!
+    File.delete(dest_path) if File.exist?(dest_path)
+    File.delete(source_path) if File.exist?(source_path)
+
+    @users = @document.editors.where.not(email: "phil@gresham.dev")
+    @users = @users.reject(&:example_email)
+
+    FinalizeMailer.send_finalized_pdf(@users, @document).deliver if @users.size > 0
+
+    show
   end
 
   def destroy
@@ -213,14 +208,24 @@ class Api::DocumentsController < ApplicationController
   end
 
   def require_owner_status
+    @current_user ||= current_user
     @document ||= Document.find(params[:id])
-    if @document.owner != current_user
-      render json: { document: ["You must be an owner to do that."] }, status: :unauthorized
+
+    if @document.nil?
+      render json: {
+               document: [["That document does not exist or has been deleted."]],
+             },
+             status: :not_found
+    elsif @document.owner != @current_user
+      render json: { document: ["You must be an owner to do that."] },
+        status: :unauthorized
     end
   end
 
   def require_editor_status
+    @current_user ||= current_user
     @document ||= Document.find(params[:id])
+
     if !@document.editors.include?(current_user)
       render json: { document: ["You must be an editor to do that."] }, status: :unauthorized
     end

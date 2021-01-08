@@ -22,7 +22,8 @@ module AuthConcern
   end
 
   def require_logged_in
-    unless current_user
+    @current_user ||= current_user
+    unless @current_user
       render json: { base: ["invalid credentials"] }, status: 401
     end
   end
