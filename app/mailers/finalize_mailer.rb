@@ -21,14 +21,12 @@ class FinalizeMailer < ApplicationMailer
     mail.from = Email.new(email: "phil@gresham.dev", name: "Phil Gresham")
     mail.asm = ASM.new(group_id: sendgrid_asm_id)
 
-    mail.add_attachment(attach_resume)
     mail.add_attachment(attach_final(doc.final))
     mail.template_id = sendgrid_template_id
 
     @users.each.with_index do |user, i|
       personalization = Personalization.new
       personalization.add_to(Email.new(email: user[:email], name: user[:full_name]))
-      personalization.add_cc(Email.new(email: "phil@gresham.dev", name: "Phil Gresham")) if i == 0
       personalization.subject = "Your finalized document from SignDocs"
       personalization.add_dynamic_template_data({
         :user => user,
