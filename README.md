@@ -3,7 +3,7 @@
 [Overview](#overview) | [Features](features) | [Stack](#stack-used) | [Wiki](https://github.com/philgresh/signdocs/wiki) | [Styling](#styling)
 
 ## Overview
-**[SignDocs](https://signdocs.herokuapp.com/)** allows users to digitally sign documents, send those documents to others for signature, and track who has not yet signed. A user can create a digital representation of their signature by either using a selection of fonts or by using a trackpad/mouse. To prepare a document for signatures, users can upload a PDF or Word document and then drag and drop different types of fields onto the document for their signatories to fill out. They can then route the document directly to their signatories' email and track completion.
+**SignDocs** allows users to digitally sign documents, send those documents to others for signature, and track who has not yet signed. A user can create a digital representation of their signature by either using a selection of fonts or by using a trackpad/mouse. To prepare a document for signatures, users can upload a PDF or Word document and then drag and drop different types of fields onto the document for their signatories to fill out. They can then route the document directly to their signatories' email and track completion.
 
 ## Features
 ### Signature development
